@@ -91,7 +91,7 @@ The maximum LTV depends on the collateral asset and market parameters:
 - **BTC and ETH**: Up to 91% LTV
 - **Yield-bearing and low-volatility tokens** (like sDAI or sUSDe): Up to 98% LTV
 
-The exact maximum LTV for each market is determined by the number of bands and band width factor used when the market was created. More bands generally allow for higher LTV, but with a wider liquidation protection range.
+The exact maximum LTV for each market is determined by the number of bands and band width factor used when the market was created. Fewer bands generally allow for higher LTV, while more bands generally provide greater safety by spreading liquidation over a wider range.
 
 ### Can I change the number of bands after opening a loan?
 
