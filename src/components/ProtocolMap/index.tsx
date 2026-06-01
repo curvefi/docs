@@ -11,7 +11,6 @@ import {
   type Node,
   type NodeTypes,
   type EdgeTypes,
-  type NodeChange,
   type Connection,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
@@ -59,7 +58,7 @@ const edgeTypes: EdgeTypes = {
 
 const BAR_COLORS = ['#e74c3c', '#e67e22', '#f1c40f', '#2ecc71', '#3498db', '#9b59b6', '#1abc9c', '#e84393']
 
-function buildNodesForTab(tabId: string) {
+function buildNodesForTab(tabId: string): Node<ProtocolNodeData>[] {
   const tab = tabs.find(t => t.id === tabId)!
   const isOverview = tab.nodeIds.size === 0
 
@@ -480,7 +479,7 @@ function FlowCanvas({ defaultTab = 'fees' }: ProtocolMapCanvasProps) {
     return () => { if (simRef.current) cancelAnimationFrame(simRef.current) }
   }, [activeTab, simPlaying])
 
-  const handleNodesChange = useCallback((changes: NodeChange[]) => {
+  const handleNodesChange = useCallback((changes: Parameters<typeof onNodesChange>[0]) => {
     onNodesChange(changes)
   }, [onNodesChange])
 
