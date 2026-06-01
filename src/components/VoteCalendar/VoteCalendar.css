@@ -223,10 +223,10 @@
    (`.vc-bar-hover` is toggled in JS by matching vote id). */
 .vc-bar:hover,
 .vc-bar-hover {
-  filter: brightness(0.9);
-  /* Solid ink ring + stronger offset shadow makes the hovered vote (and all of
-     its segments across rows) clearly pop above neighbouring bars. */
-  box-shadow: 0 0 0 2px var(--vc-ink), 3px 3px 0 rgba(0, 0, 0, 0.4);
+  filter: brightness(0.82);
+  /* Thick solid ink ring + deep offset shadow makes the hovered vote (and all
+     of its segments across rows) pop strongly above neighbouring bars. */
+  box-shadow: 0 0 0 3px var(--vc-ink), 4px 4px 0 rgba(0, 0, 0, 0.45);
   border-color: var(--vc-ink);
   z-index: 2;
 }
