@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import deploymentsData from '@site/static/deployments.json';
 import styles from './styles.module.css';
 import type { DeploymentEntry } from './types';

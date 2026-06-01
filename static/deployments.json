@@ -1,5 +1,5 @@
 {
-  "_instructions": "This is the source of truth for deployments.json. After editing this file, run 'npm run sync-deployments' to sync it to src/data/deployments.json and static/deployments.json",
+  "_instructions": "Source of truth for the Contract Deployments pages. Edit this file directly, then validate JSON and run the site build.",
   "_explorers": {
     "ethereum": "https://etherscan.io/address/",
     "arbitrum": "https://arbiscan.io/address/",

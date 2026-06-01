@@ -10,7 +10,6 @@ yarn build          # Build static site to build/
 yarn serve          # Serve the built site locally
 yarn clear          # Clear Docusaurus cache
 yarn typecheck      # TypeScript type checking
-yarn sync-deployments  # Sync docs/deployments.json to src/data/ and static/
 ```
 
 No test suite exists in this repo. Use `yarn build` to validate changes (catches broken links, bad imports, MDX errors). The build config uses `onBrokenLinks: 'warn'` and `onBrokenMarkdownLinks: 'warn'`, so broken links show as warnings rather than build failures.
@@ -45,7 +44,7 @@ Doc files are `.md` (not `.mdx`), but MDX features (JSX, imports) are still supp
 
 ### Deployments Data
 
-`docs/deployments.json` is the **source of truth** for contract addresses. After editing it, run `yarn sync-deployments` to propagate changes to `src/data/deployments.json` and `static/deployments.json`. All three must stay in sync.
+`static/deployments.json` is the **source of truth** for contract addresses. Edit it directly, then validate JSON and run `yarn build`. The user and developer deployment pages both render this file through `src/components/DeploymentFilter`.
 
 ### Markdown Features
 
@@ -315,4 +314,4 @@ Most contract pages include these sections at the bottom:
 
 - All public/external functions in the ABI should be documented
 - The ABI JSON block should match the actual contract ABI
-- Cross-reference `docs/deployments.json` for deployment addresses
+- Cross-reference `static/deployments.json` for deployment addresses
