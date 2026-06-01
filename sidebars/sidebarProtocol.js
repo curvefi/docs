@@ -56,6 +56,10 @@ export default {
                 },
                 {
                     type: 'doc',
+                    id: 'pool/guides/enable-big-blocks-hyperevm',
+                },
+                {
+                    type: 'doc',
                     id: 'pool/post-deployment',
                 },
             ],
