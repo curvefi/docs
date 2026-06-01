@@ -6,6 +6,39 @@ import { formatNumber } from '@site/src/utils/formatters'
 /** Regular Curve proposals run for a fixed 7-day window. */
 export const VOTING_PERIOD = 604800 // 7 * 24 * 60 * 60
 
+/** Gauge weights finalize weekly. Curve's WEEK is 604800s and unix epoch 0 is a
+ *  Thursday, so an epoch boundary is exactly Thursday 00:00 UTC with no offset. */
+export const EPOCH_PERIOD = 604800
+
+/** Unix-seconds start (Thursday 00:00 UTC) of the epoch containing `tSec`. */
+export function epochStart(tSec: number): number {
+  return Math.floor(tSec / EPOCH_PERIOD) * EPOCH_PERIOD
+}
+
+/** Unix-seconds end of an epoch given its start. */
+export function epochEnd(epochStartSec: number): number {
+  return epochStartSec + EPOCH_PERIOD
+}
+
+export function epochStartObj(epochStartSec: number): Date {
+  return new Date(epochStartSec * 1000)
+}
+
+export function epochEndObj(epochStartSec: number): Date {
+  return new Date(epochEnd(epochStartSec) * 1000)
+}
+
+/** True when `nowSec` falls inside the epoch starting at `epochStartSec`. */
+export function isOngoingEpoch(epochStartSec: number, nowSec: number): boolean {
+  return nowSec >= epochStartSec && nowSec < epochStartSec + EPOCH_PERIOD
+}
+
+/** Sequential week index (weeks since the Thursday-aligned unix epoch), matching
+ *  Curve's on-chain WEEK numbering. Stable identifier for an epoch. */
+export function epochNumber(epochStartSec: number): number {
+  return Math.round(epochStartSec / EPOCH_PERIOD)
+}
+
 const WAD = 10n ** 18n
 
 /** Unix-seconds end of the voting window. */
@@ -85,6 +118,11 @@ export function formatVeCrv(scaled: string): string {
 
 export function formatPct(fraction: number): string {
   return `${(fraction * 100).toFixed(2)}%`
+}
+
+/** CRV emissions (already a human number) → compact k/M/B form. */
+export function formatEmissions(crv: number): string {
+  return formatNumber(crv)
 }
 
 export function shortAddress(addr: string | null): string {
