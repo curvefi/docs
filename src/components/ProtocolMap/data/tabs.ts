@@ -57,6 +57,14 @@ export const tabs: TabConfig[] = [
     },
   },
   {
+    // Vote Calendar lives on its own page (/vote-calendar), not in the flow
+    // graph — no nodes. The topbar routes to it via TAB_ROUTES below.
+    id: 'votes',
+    label: 'Vote Calendar',
+    nodeIds: new Set(),
+    positions: {},
+  },
+  {
     id: 'governance',
     label: 'veCRV',
     nodeIds: new Set([
@@ -132,3 +140,15 @@ export const tabs: TabConfig[] = [
     positions: {}, // uses graph.ts defaults
   },
 ]
+
+// Tabs that are live vs coming soon (shared by the ProtocolMap topbar and the
+// Vote Calendar page topbar).
+export const ENABLED_TABS = new Set(['fees', 'emissions', 'votes'])
+
+// Map tab IDs to their page URLs for navigation.
+export const TAB_ROUTES: Record<string, string> = {
+  fees: '/fee-architecture',
+  governance: '/governance',
+  emissions: '/emissions',
+  votes: '/vote-calendar',
+}

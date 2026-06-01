@@ -1,0 +1,472 @@
+/* Governance Vote Calendar — retro aesthetic matching the Visualizations pages
+   (ProtocolMap): #a5a4ce canvas, monospace, sharp corners, framed panels, hard
+   offset shadows, 3D buttons. Event chips are kept calm/compact so busy months
+   stay readable. Palette aligned to ProtocolMap category colours. */
+
+.vc-page {
+  /* status accents (saturated — legend dots, badges) */
+  --vc-active: #eab308;   /* amber — voting live now            */
+  --vc-passed: #3465a4;   /* blue  — approved, pending execution */
+  --vc-failed: #e5484d;   /* red   — rejected                   */
+  --vc-executed: #22c55e; /* green — executed / done            */
+  --vc-ink: #1a1a2e;
+  --vc-line: rgba(26, 26, 46, 0.16);
+
+  min-height: 100vh;
+  background: #a5a4ce;
+  color: var(--vc-ink);
+  font-family: System, 'Courier New', monospace;
+}
+
+/* Shared Visualizations top bar — mirrors ProtocolMap's retro identity.
+   `.protocol-map-back/-tabs/-tab` are reused from ProtocolMap.css (imported in
+   the component) so the tabs are identical. */
+.vc-topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background: #3465a4;
+  border-bottom: 3px double white;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+  font-family: System, monospace;
+}
+
+.vc-root {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 1.75rem 1rem 4rem;
+}
+
+/* --- Header --- */
+.vc-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+}
+.vc-title {
+  font-family: System, 'Courier New', monospace;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0 0 0.3rem;
+  padding-left: 0.6rem;
+  border-left: 6px solid #3465a4;
+  line-height: 1.1;
+  color: var(--vc-ink);
+}
+.vc-subtitle {
+  margin: 0;
+  padding-left: 0.6rem;
+  color: #2a2a3c;
+  font-size: 0.82rem;
+}
+.vc-subtitle strong {
+  color: #9a4400;
+}
+
+.vc-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.vc-nav-btn,
+.vc-today-btn {
+  background: silver;
+  border: 2px outset silver;
+  border-radius: 0;
+  color: black;
+  font-family: System, monospace;
+  font-weight: bold;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+.vc-nav-btn:active:not(:disabled),
+.vc-today-btn:active:not(:disabled) {
+  border-style: inset;
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+.vc-nav-btn:disabled,
+.vc-today-btn:disabled {
+  color: #888;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.vc-nav-month {
+  min-width: 9.5rem;
+  text-align: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+/* --- Legend --- */
+.vc-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 3px double rgba(26, 26, 46, 0.35);
+  font-size: 0.78rem;
+  font-weight: bold;
+  color: #2a2a3c;
+}
+.vc-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.vc-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  display: inline-block;
+  border: 1px solid rgba(0, 0, 0, 0.55);
+}
+.vc-dot.vc-status-active { background: var(--vc-active); }
+.vc-dot.vc-status-passed { background: var(--vc-passed); }
+.vc-dot.vc-status-failed { background: var(--vc-failed); }
+.vc-dot.vc-status-executed { background: var(--vc-executed); }
+
+/* --- Calendar grid (framed like a large node) --- */
+.vc-calendar {
+  border: 2px solid #fff;
+  border-radius: 0;
+  background: #eef0f8;
+  box-shadow: 0 0 0 3px #3465a4, 9px 9px 0 rgba(0, 0, 0, 0.4);
+  margin: 4px 3px 8px;
+  overflow: hidden;
+}
+.vc-weekdays,
+.vc-daynums {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.vc-weekday {
+  padding: 0.4rem 0.6rem;
+  font-size: 0.72rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff;
+  background: #3465a4;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+.vc-weekday:last-child {
+  border-right: none;
+}
+.vc-week {
+  border-top: 1px solid rgba(26, 26, 46, 0.45);
+}
+.vc-daynum {
+  padding: 0.3rem 0.55rem 0;
+  font-size: 0.76rem;
+  font-weight: bold;
+  color: #3a3a52;
+  background: #fbfbff;
+  border-left: 1px solid var(--vc-line);
+  min-height: 1.6rem;
+}
+.vc-daynum:first-child {
+  border-left: none;
+}
+.vc-daynum.vc-outside {
+  background: #e2e2ee;
+}
+.vc-daynum.vc-outside span {
+  color: #a6a6bc;
+}
+.vc-daynum.vc-today span {
+  background: var(--vc-active);
+  color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  padding: 0.05rem 0.4rem;
+  font-weight: 800;
+}
+
+/* --- Event chips (calm tinted fills, neutral border, slim) --- */
+.vc-bars {
+  display: grid;
+  grid-auto-rows: 1.3rem;
+  gap: 3px;
+  padding: 4px 4px 6px;
+  background: #fbfbff;
+}
+.vc-bar {
+  border: 1px solid rgba(26, 26, 46, 0.4);
+  border-radius: 0;
+  padding: 0 0.45rem;
+  font-family: System, 'Courier New', monospace;
+  font-size: 0.71rem;
+  font-weight: bold;
+  line-height: 1.2rem;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  min-width: 0;
+  transition: filter 0.1s, box-shadow 0.1s;
+}
+.vc-bar-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+/* Highlight every segment of a vote together, even across week rows
+   (`.vc-bar-hover` is toggled in JS by matching vote id). */
+.vc-bar:hover,
+.vc-bar-hover {
+  filter: brightness(0.9);
+  /* Solid ink ring + stronger offset shadow makes the hovered vote (and all of
+     its segments across rows) clearly pop above neighbouring bars. */
+  box-shadow: 0 0 0 2px var(--vc-ink), 3px 3px 0 rgba(0, 0, 0, 0.4);
+  border-color: var(--vc-ink);
+  z-index: 2;
+}
+
+/* Continuation indicators: a pointed (chevron) edge means the vote flows in
+   from / out to an adjacent row — a square edge marks the real start/end.
+   Removes the "everything starts on the 1st" misread. */
+.vc-clip-left {
+  clip-path: polygon(7px 0, 100% 0, 100% 100%, 7px 100%, 0 50%);
+  border-left: none;
+  padding-left: 0.7rem;
+}
+.vc-clip-right {
+  clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 50%, calc(100% - 7px) 100%, 0 100%);
+  border-right: none;
+  padding-right: 0.7rem;
+}
+.vc-clip-left.vc-clip-right {
+  clip-path: polygon(7px 0, calc(100% - 7px) 0, 100% 50%, calc(100% - 7px) 100%, 7px 100%, 0 50%);
+}
+
+/* Saturated status fills — identical to the legend dots (--vc-* vars) so the
+   legend and the bars read as the same colour. White text on the darker fills,
+   dark text on green where white would be too low-contrast. */
+.vc-bar.vc-status-active {
+  background: var(--vc-active);   /* amber — dark text for contrast */
+  color: #4a3a00;
+  border-color: #a88a06;
+}
+.vc-bar.vc-status-passed {
+  background: var(--vc-passed);   /* blue */
+  color: #fff;
+  border-color: #244a79;
+}
+.vc-bar.vc-status-failed {
+  background: var(--vc-failed);   /* red */
+  color: #fff;
+  border-color: #b5363a;
+}
+.vc-bar.vc-status-executed {
+  background: var(--vc-executed); /* green — dark text for contrast */
+  color: #08331a;
+  border-color: #178a44;
+}
+
+.vc-overflow {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #4a4a66;
+  padding: 0 0.45rem;
+  align-self: center;
+}
+
+/* --- Messages --- */
+.vc-message {
+  padding: 2rem;
+  text-align: center;
+  font-weight: bold;
+  color: #2a2a3c;
+}
+.vc-message.vc-error {
+  color: var(--vc-failed);
+}
+
+/* --- Detail modal (retro window: full black frame + blue title bar + red X) --- */
+.vc-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(40, 40, 70, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+.vc-modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #ececf6;
+  border: 2px solid var(--vc-ink);
+  border-radius: 0;
+  width: 100%;
+  max-width: 560px;
+  max-height: 85vh;
+  overflow: hidden;
+  box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.45);
+  font-family: System, 'Courier New', monospace;
+}
+.vc-modal-titlebar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #3465a4;
+  color: #fff;
+  border-bottom: 2px solid var(--vc-ink);
+  padding: 3px 4px 3px 10px;
+}
+.vc-modal-titlebar-text {
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+}
+.vc-modal-close {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #5a0d0d;
+  border-radius: 0;
+  background: #d23030;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.vc-modal-close:hover {
+  background: #e64545;
+}
+.vc-modal-close:active {
+  transform: translateY(1px);
+}
+.vc-modal-body {
+  overflow-y: auto;
+  padding: 1.2rem 1.4rem 1.4rem;
+}
+.vc-modal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.vc-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.12rem 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 0;
+  color: #fff;
+}
+.vc-badge.vc-status-active { background: var(--vc-active); color: #4a3a00; }
+.vc-badge.vc-status-passed { background: var(--vc-passed); }
+.vc-badge.vc-status-failed { background: var(--vc-failed); }
+.vc-badge.vc-status-executed { background: var(--vc-executed); color: #08331a; }
+.vc-modal-desc {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0 0 1rem;
+  word-break: break-word;
+}
+.vc-modal-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
+  font-size: 0.82rem;
+  margin-bottom: 1rem;
+}
+.vc-modal-meta > div {
+  display: flex;
+  flex-direction: column;
+}
+.vc-modal-meta a {
+  color: #1d4e89;
+  font-weight: bold;
+}
+.vc-meta-key {
+  font-size: 0.68rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #5a5a70;
+}
+.vc-tally {
+  margin-bottom: 1rem;
+  border-top: 1px dashed rgba(0, 0, 0, 0.3);
+  padding-top: 0.6rem;
+}
+.vc-tally-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.86rem;
+  padding: 0.15rem 0;
+}
+.vc-tally-for { color: #1f8a3a; font-weight: 800; }
+.vc-tally-against { color: var(--vc-failed); font-weight: 800; }
+
+.vc-progress {
+  margin-bottom: 0.85rem;
+}
+.vc-progress-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+.vc-met { color: #1f8a3a; }
+.vc-unmet { color: #5a5a70; }
+.vc-progress-track {
+  position: relative;
+  height: 0.7rem;
+  background: silver;
+  border: 2px inset silver;
+}
+.vc-progress-fill {
+  height: 100%;
+}
+/* Literal colours so "met = green / unmet = blue" stays fixed regardless of
+   the status palette above. */
+.vc-fill-met { background: #22c55e; }
+.vc-fill-unmet { background: #3465a4; }
+.vc-progress-threshold {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--vc-ink);
+}
+
+.vc-modal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed rgba(0, 0, 0, 0.3);
+  font-size: 0.82rem;
+  font-weight: bold;
+}
+.vc-modal-links a {
+  color: #1d4e89;
+}
+
+@media (max-width: 700px) {
+  .vc-bar-label { font-size: 0.65rem; }
+  .vc-modal-meta { grid-template-columns: 1fr; }
+}

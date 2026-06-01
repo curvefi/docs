@@ -17,7 +17,7 @@ import {
 import '@xyflow/react/dist/style.css'
 
 import { initialNodes, initialEdges, type ProtocolNodeData } from './data/graph'
-import { tabs } from './data/tabs'
+import { tabs, ENABLED_TABS, TAB_ROUTES } from './data/tabs'
 import ContractNode from './nodes/ContractNode'
 import SystemNode from './nodes/SystemNode'
 import TokenNode from './nodes/TokenNode'
@@ -304,16 +304,6 @@ function buildEmissionsDynamic(snapshotWeights: number[]) {
   return { nodes, edges }
 }
 
-// Tabs that are live vs coming soon
-const ENABLED_TABS = new Set(['fees', 'emissions'])
-
-// Map tab IDs to their page URLs for navigation
-const TAB_ROUTES: Record<string, string> = {
-  fees: '/fee-architecture',
-  governance: '/governance',
-  emissions: '/emissions',
-}
-
 interface ProtocolMapCanvasProps {
   defaultTab?: string
 }
@@ -570,20 +560,16 @@ function FlowCanvas({ defaultTab = 'fees' }: ProtocolMapCanvasProps) {
           ← Docs
         </a>
 
-        {/* Tab buttons */}
+        {/* Tab buttons — only live tabs are shown */}
         <div className="protocol-map-tabs">
-          {tabs.map(tab => {
-            const enabled = ENABLED_TABS.has(tab.id)
+          {tabs.filter(tab => ENABLED_TABS.has(tab.id)).map(tab => {
             const active = activeTab === tab.id
             return (
               <button
                 key={tab.id}
-                onClick={() => enabled && switchTab(tab.id)}
-                className={`protocol-map-tab ${!enabled ? 'protocol-map-tab-disabled' : ''}`}
-                style={{
-                  background: active ? '#e67e00' : enabled ? '#3465a4' : 'rgba(52,101,164,0.4)',
-                }}
-                title={!enabled ? 'Coming soon' : undefined}
+                onClick={() => switchTab(tab.id)}
+                className="protocol-map-tab"
+                style={{ background: active ? '#e67e00' : '#3465a4' }}
               >
                 {tab.label}
               </button>
