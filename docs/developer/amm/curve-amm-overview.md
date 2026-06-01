@@ -4,7 +4,7 @@ import DocCard, { DocCardGrid } from '@site/src/components/DocCard'
 
 Curve's Automated Market Maker (AMM) is built around two core invariants — **StableSwap** for assets that trade near parity, and **CryptoSwap** for volatile asset pairs. Both algorithms have gone through multiple iterations, with the current generation ("-NG") contracts offering significant gas optimizations, built-in LP tokens, and improved oracle support.
 
-For the mathematical foundations, see the [StableSwap whitepaper](../assets/pdf/whitepaper_stableswap.pdf) and the [CryptoSwap whitepaper](../assets/pdf/whitepaper_cryptoswap.pdf).
+For the mathematical foundations, see the [StableSwap whitepaper](/pdf/whitepapers/whitepaper_stableswap.pdf) and the [CryptoSwap whitepaper](/pdf/whitepapers/whitepaper_cryptoswap.pdf).
 
 ---
 

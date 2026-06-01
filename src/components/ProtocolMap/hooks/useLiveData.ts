@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { createPublicClient, http, fallback, formatUnits, type PublicClient } from 'viem'
+import { createPublicClient, http, fallback, formatUnits } from 'viem'
 import { mainnet } from 'viem/chains'
 import { addresses } from '../data/contracts'
 
-const client: PublicClient = createPublicClient({
+const client = createPublicClient({
   chain: mainnet,
   transport: fallback([
     http('https://ethereum-rpc.publicnode.com/'),
@@ -13,6 +13,9 @@ const client: PublicClient = createPublicClient({
   ]),
   batch: { multicall: true },
 })
+
+const readContract = <T = unknown>(parameters: unknown) =>
+  client.readContract(parameters as never) as Promise<T>
 
 const REWARDS_HANDLER = '0xE8d1E2531761406Af1615A6764B0d5fF52736F56' as const
 const FEE_SPLITTER = '0x2dFd89449faff8a532790667baB21cF733C064f2' as const
@@ -75,7 +78,7 @@ export function useLiveData(): LiveData {
           '0x52f541764e6e90eebc5c21ff570de0e2d63766b6': 'stakedao',
           '0xf147b8125d2ef93fb6965db97d6746952a133934': 'yearn',
         }
-        const lockersPromise = globalThis.fetch('https://prices.curve.finance/v1/dao/lockers/10')
+        const lockersPromise: Promise<Partial<Record<'convex' | 'stakedao' | 'yearn', LockerInfo>>> = globalThis.fetch('https://prices.curve.finance/v1/dao/lockers/10')
           .then(r => r.json())
           .then(d => {
             const result: Partial<Record<'convex' | 'stakedao' | 'yearn', LockerInfo>> = {}
@@ -101,52 +104,52 @@ export function useLiveData(): LiveData {
           .then(r => r.json())
           .then(d => ({ supply: d?.supply as number | undefined, apy: d?.proj_apy as number | undefined }))
         const results = await Promise.allSettled([
-          client.readContract({ address: addresses.crv, abi: erc20Abi, functionName: 'totalSupply' }),
+          readContract({ address: addresses.crv, abi: erc20Abi, functionName: 'totalSupply' }),
           crvusdApiPromise,
-          client.readContract({ address: addresses.vecrv, abi: erc20Abi, functionName: 'totalSupply' }),
-          client.readContract({
+          readContract({ address: addresses.vecrv, abi: erc20Abi, functionName: 'totalSupply' }),
+          readContract({
             address: addresses.scrvusd,
             abi: [{ name: 'totalAssets', inputs: [], outputs: [{ type: 'uint256' }], stateMutability: 'view', type: 'function' }] as const,
             functionName: 'totalAssets',
           }),
-          client.readContract({
+          readContract({
             address: addresses.gaugeController,
             abi: [{ name: 'n_gauges', inputs: [], outputs: [{ type: 'int128' }], stateMutability: 'view', type: 'function' }] as const,
             functionName: 'n_gauges',
           }),
-          client.readContract({
+          readContract({
             address: addresses.minter,
             abi: [{ name: 'rate', inputs: [], outputs: [{ type: 'uint256' }], stateMutability: 'view', type: 'function' }] as const,
             functionName: 'rate',
           }),
           // Treasury crvUSD balance
-          client.readContract({
+          readContract({
             address: addresses.crvusd,
             abi: [{ name: 'balanceOf', inputs: [{ type: 'address' }], outputs: [{ type: 'uint256' }], stateMutability: 'view', type: 'function' }] as const,
             functionName: 'balanceOf',
             args: [addresses.treasury],
           }),
           // RewardsHandler dynamic weight
-          client.readContract({
+          readContract({
             address: REWARDS_HANDLER,
             abi: [{ name: 'weight', inputs: [], outputs: [{ type: 'uint256' }], stateMutability: 'view', type: 'function' }] as const,
             functionName: 'weight',
           }),
           // RewardsHandler minimum weight
-          client.readContract({
+          readContract({
             address: REWARDS_HANDLER,
             abi: [{ name: 'minimum_weight', inputs: [], outputs: [{ type: 'uint256' }], stateMutability: 'view', type: 'function' }] as const,
             functionName: 'minimum_weight',
           }),
           // FeeSplitter receiver 0 (RewardsHandler) — cap weight
-          client.readContract({
+          readContract({
             address: FEE_SPLITTER,
             abi: [{ name: 'receivers', inputs: [{ type: 'uint256' }], outputs: [{ type: 'address' }, { type: 'uint256' }], stateMutability: 'view', type: 'function' }] as const,
             functionName: 'receivers',
             args: [0n],
           }),
           // StablecoinLens: crvUSD circulating supply (controller debt only)
-          client.readContract({
+          readContract({
             address: STABLECOIN_LENS,
             abi: [{ name: 'circulating_supply', inputs: [], outputs: [{ type: 'uint256' }], stateMutability: 'view', type: 'function' }] as const,
             functionName: 'circulating_supply',
@@ -154,13 +157,13 @@ export function useLiveData(): LiveData {
           // scrvUSD savings statistics (supply + APY)
           scrvusdStatsPromise,
           // veCRV: total CRV locked (supply() on VotingEscrow)
-          client.readContract({
+          readContract({
             address: addresses.vecrv,
             abi: [{ name: 'supply', inputs: [], outputs: [{ type: 'uint256' }], stateMutability: 'view', type: 'function' }] as const,
             functionName: 'supply',
           }),
           // vlCVX totalSupply
-          client.readContract({
+          readContract({
             address: '0x72a19342e8F1838460eBFCCEf09F6585e32db86E',
             abi: erc20Abi,
             functionName: 'totalSupply',
@@ -197,7 +200,7 @@ export function useLiveData(): LiveData {
         let allocatorDistributorWeight: number | undefined
         try {
           const nReceiversAbi = [{ name: 'n_receivers', inputs: [], outputs: [{ type: 'uint256' }], stateMutability: 'view', type: 'function' }] as const
-          const nReceivers = await client.readContract({ address: FEE_ALLOCATOR, abi: nReceiversAbi, functionName: 'n_receivers' })
+          const nReceivers = await readContract({ address: FEE_ALLOCATOR, abi: nReceiversAbi, functionName: 'n_receivers' })
           const n = Number(nReceivers)
           if (n > 0) {
             const receiversAbi = [{ name: 'receivers', inputs: [{ type: 'uint256' }], outputs: [{ type: 'address' }], stateMutability: 'view', type: 'function' }] as const
@@ -205,18 +208,18 @@ export function useLiveData(): LiveData {
             const distWeightAbi = [{ name: 'distributor_weight', inputs: [], outputs: [{ type: 'uint256' }], stateMutability: 'view', type: 'function' }] as const
             // Fetch all receiver addresses + distributor_weight in one batch
             const addrCalls = Array.from({ length: n }, (_, i) =>
-              client.readContract({ address: FEE_ALLOCATOR, abi: receiversAbi, functionName: 'receivers', args: [BigInt(i)] })
+              readContract({ address: FEE_ALLOCATOR, abi: receiversAbi, functionName: 'receivers', args: [BigInt(i)] })
             )
             const [addrResults, distWeight] = await Promise.all([
               Promise.allSettled(addrCalls),
-              client.readContract({ address: FEE_ALLOCATOR, abi: distWeightAbi, functionName: 'distributor_weight' }).catch(() => null),
+              readContract({ address: FEE_ALLOCATOR, abi: distWeightAbi, functionName: 'distributor_weight' }).catch(() => null),
             ])
             const addrs = addrResults
               .filter((r): r is PromiseFulfilledResult<`0x${string}`> => r.status === 'fulfilled')
               .map(r => r.value as string)
             // Fetch weights for each address
             const weightResults = await Promise.allSettled(
-              addrs.map(addr => client.readContract({ address: FEE_ALLOCATOR, abi: weightsAbi, functionName: 'receiver_weights', args: [addr as `0x${string}`] }))
+              addrs.map(addr => readContract({ address: FEE_ALLOCATOR, abi: weightsAbi, functionName: 'receiver_weights', args: [addr as `0x${string}`] }))
             )
             allocatorReceivers = addrs.map((addr, i) => ({
               address: addr,
