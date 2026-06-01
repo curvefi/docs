@@ -126,7 +126,13 @@
         "views": "0x07CdEBF81977E111B08C126DEFA07818d0045b80",
         "factory": "0x98EE851a00abeE0d95D08cF4CA2BdCE32aeaAF7F",
         "amm-implementation": "0x934791f7F391727db92BFF94cd789c4623d14c52",
-        "gauge-implementation": "0x38D9BdA812da2C68dFC6aDE85A7F7a54E77F8325",
+        "gauge-implementation": "0x38D9BdA812da2C68dFC6aDE85A7F7a54E77F8325"
+      },
+      "fxswap": {
+        "math": "0xBfDdF58Cb6ef84e115fF47c10e49A80B2653EA13",
+        "views": "0x1D788b7AB488bAF5E6c3609cF7f9C9b940C4C867",
+        "factory": "0x98EE851a00abeE0d95D08cF4CA2BdCE32aeaAF7F",
+        "amm-implementation": "0x94D8e42c786C090bC5378D205C5C531D6247BC3D",
         "donation-streamer": "0x2b786BB995978CC2242C567Ae62fd617b0eBC828",
         "stream-executor": "0x4a8Cc5Cb8f7242be9944E1313793c2E5411c462A"
       },
@@ -488,6 +494,12 @@
         "factory": "0xc9Fe0C63Af9A39402e8a5514f9c43Af0322b665F",
         "amm-implementation": "0x934791f7F391727db92BFF94cd789c4623d14c52"
       },
+      "fxswap": {
+        "math": "0x6eE54BABC0573879d821b0964ea794BF0DBb25e8",
+        "views": "0xC6A535CE48049C219Bc62dd739219108a51294C6",
+        "factory": "0xc9Fe0C63Af9A39402e8a5514f9c43Af0322b665F",
+        "amm-implementation": "0x5B7dA0f56dD31df86eD34FC0b02d6BC62d4E3925"
+      },
       "tricrypto": {
         "math": "0x5373E1B9f2781099f6796DFe5D68DE59ac2F18E3",
         "views": "0x05d4E2Ed7216A204e5FB4e3F5187eCfaa5eF3Ef7",
@@ -571,6 +583,12 @@
         "views": "0x07CdEBF81977E111B08C126DEFA07818d0045b80",
         "factory": "0x98EE851a00abeE0d95D08cF4CA2BdCE32aeaAF7F",
         "amm-implementation": "0x934791f7F391727db92BFF94cd789c4623d14c52"
+      },  
+      "fxswap": {
+        "math": "0xB9EA065629A44A73f9E7e9f99bf962992A560eb8",
+        "views": "0xF2E81011C13bA558076b8fd5247913e98C1cFf06",
+        "factory": "0x98EE851a00abeE0d95D08cF4CA2BdCE32aeaAF7F",
+        "amm-implementation": "0x85C44766d26616E581aa090f1Dc69abAc46A84D6"
       },
       "tricrypto": {
         "math": "",
@@ -1031,6 +1049,12 @@
         "views": "0x07CdEBF81977E111B08C126DEFA07818d0045b80",
         "factory": "0x98EE851a00abeE0d95D08cF4CA2BdCE32aeaAF7F",
         "amm-implementation": "0x934791f7F391727db92BFF94cd789c4623d14c52"
+      },
+      "fxswap": {
+        "math": "0x206871A7C8F01Ea4DFe6c632131B5330cF629C21",
+        "views": "0x7Da608576681c7ad4D3aC1B5F913E7b66018fe15",
+        "factory": "0x98EE851a00abeE0d95D08cF4CA2BdCE32aeaAF7F",
+        "amm-implementation": "0x81147a0b418fB870259feD359d0956ce85C16286"
       },
       "tricrypto": {
         "math": "0xff02cbd91f57a778bab7218da562594a680b8b61",
@@ -1777,7 +1801,13 @@
         "math": "0x1Fd8Af16DC4BEBd950521308D55d0543b6cDF4A1",
         "views": "0x07CdEBF81977E111B08C126DEFA07818d0045b80",
         "factory": "0x98EE851a00abeE0d95D08cF4CA2BdCE32aeaAF7F",
-        "amm-implementation": "0x934791f7F391727db92BFF94cd789c4623d14c52",
+        "amm-implementation": "0x934791f7F391727db92BFF94cd789c4623d14c52"
+      },
+      "fxswap": {
+        "math": "0x59f1C56176E98d506Bb400578DFFc63CbbA2c072",
+        "views": "0x832732f5aFA15DbD74541Aa093a98B2aA36eEa69",
+        "factory": "0x98EE851a00abeE0d95D08cF4CA2BdCE32aeaAF7F",
+        "amm-implementation": "0xf823F26E359fBE1d3cB0ff1534B24846aC02A0Bb",
         "donation-streamer": "0x2b786BB995978CC2242C567Ae62fd617b0eBC828",
         "stream-executor": "0x4a8Cc5Cb8f7242be9944E1313793c2E5411c462A"
       },
