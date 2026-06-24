@@ -6,7 +6,7 @@ Curve Finance prioritizes the security of its protocols and user funds above all
 
 :::github[Security Contact & Disclosure Reports]
 
-For security-related inquiries and vulnerability reports: security@curve.fi
+For security-related inquiries and vulnerability reports: security@curve.finance
 
 Security audits and disclosure reports are available on [GitHub](https://github.com/curvefi/security-incident-reports)
 
