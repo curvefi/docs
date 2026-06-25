@@ -68,7 +68,17 @@ A market with bad debt has a solvency shortfall, meaning total recoverable asset
 
 This is why a market can remain visible and partially operational while still limiting lender withdrawals.
 
-A solvency level below 100% does not always mean a shortfall is permanently irrecoverable. Recovery can still depend on later collateral values, liquidation outcomes, and broader market conditions.
+## Can a Market Recover Bad Debt?
+
+Sometimes, yes.
+
+A market with bad debt is below full solvency, but that does not always mean the shortfall is permanently irrecoverable. Recovery can still depend on later collateral values, liquidation outcomes, borrower actions, and broader market conditions.
+
+For example, if collateral prices recover, positions that were previously unprofitable may become economically recoverable again. In those cases, market solvency can improve over time.
+
+This does not mean recovery is guaranteed. Some shortfalls may remain unresolved, and the pace or extent of recovery can vary depending on the market.
+
+Users should therefore understand a solvency level below 100% as a sign of current shortfall, not necessarily a final outcome.
 
 ## Does Bad Debt Affect All Llamalend Markets?
 
