@@ -162,6 +162,7 @@
       "leverage-zap-1inch": "0x3294514B78Df4Bb90132567fcf8E5e99f390B687",
       "leverage-zap-odos": "0xc5898606bdb494a994578453b92e7910a90aa873",
       "leverage-zap-odos-v3": "0xC8E8430dc7Cb23C32543329acCC68c9055C23e18",
+      "leverage-zap-v2": "0xE1834AF57923059B4306B468013262D73F344D4E",
       "pegkeepers": {
         "pegkeeper-regulator": "0x36a04CAffc681fa179558B2Aaba30395CDdd855f",
         "usdc": "0x9201da0D97CaAAff53f01B2fB56767C7072dE340",
@@ -177,7 +178,8 @@
       "gauge-implementation": "0x79D584d2D49eC8CE8Ea379d69364b700bd35874D",
       "pool-price-oracle-implementation": "0xC455e6c7936C2382f04306D329ABc5d36444D3F8",
       "monetary-policy-implementation": "0x4863c6dF17dD59311B7f67E694DD835ADC87f2d3",
-      "leverage-zap-odos-v3": "0xC8E8430dc7Cb23C32543329acCC68c9055C23e18"
+      "leverage-zap-odos-v3": "0xC8E8430dc7Cb23C32543329acCC68c9055C23e18",
+      "leverage-zap-v2": "0x19010d0f5D5a88aC609B568c91057679eed643d3"
     },
     "scrvusd": {
       "vault": "0x0655977FEb2f289A4aB78af67BAB0d17aAb84367",
@@ -273,7 +275,8 @@
       "pool-price-oracle-implementation": "0x57390a776A2312eF8BFc25e8624483303Dd8DfF8",
       "monetary-policy-implementation": "0x0b3536245faDABCF091778C4289caEbDc2c8f5C1",
       "odos-leverage-zap": "0xb7b240cfa985306563a301bc417bc9715059a117",
-      "odos-leverage-zap-v3": "0xFE02553d3Ba4c3f39F36a4632F91404DF94b9AE2"
+      "odos-leverage-zap-v3": "0xFE02553d3Ba4c3f39F36a4632F91404DF94b9AE2",
+      "leverage-zap-v2": "0x227d2f40E3a66C0344D8Af373b4d48A8744d6560"
     },
     "fast-bridge": {
       "fast-bridge-l2": "0x1f2af270029d028400265ce1dd0919ba8780dae1",
@@ -982,7 +985,8 @@
       "pool-price-oracle-implementation": "0x0cD5A1e9E19Af1f1b910Ac3C3452A16B2B37155b",
       "monetary-policy-implementation": "0x86D347cE5f1E6f7Ef4Da00FB7c8d31fBD16996F0",
       "llamalend-leverage-zap": "0x37c5ab57af7100bdc9b668d766e193ccbf6614fd",
-      "odos-leverage-zap-v3": "0x3294514B78Df4Bb90132567fcf8E5e99f390B687"
+      "odos-leverage-zap-v3": "0x3294514B78Df4Bb90132567fcf8E5e99f390B687",
+      "leverage-zap-v2": "0xA7a4bb50AF91f90b6fEb3388E7f8286aF45b299B"
     },
     "fast-bridge": {
       "fast-bridge-l2": "0x3fe593e651cd0b383ad36b75f4159f30bb0631a6",
@@ -1583,7 +1587,8 @@
       "pool-price-oracle-implementation": "0x227c9AD884e0E32a698FB38ba0511eE36fA92b7d",
       "monetary-policy-implementation": "0xa2294769e9CFA9Fd029030F7be94E2602821677B",
       "llamalend-leverage-zap": "0x273e44B9a1841857d9360e8792bB59f9e1FfE9Da",
-      "odos-leverage-zap-v3": "0xBFab8ebc836E1c4D81837798FC076D219C9a1855"
+      "odos-leverage-zap-v3": "0xBFab8ebc836E1c4D81837798FC076D219C9a1855",
+      "leverage-zap-v2": "0x56C526b0159a258887e0d79ec3a80dfb940d0cD7"
     },
     "fast-bridge": {
       "fast-bridge-l2": "0xd16d5ec345dd86fb63c6a9c43c517210f1027914",
@@ -1914,7 +1919,8 @@
       "pool-price-oracle-implementation": "0x271eA597a95aF4f20FA61B0D77cB38E2fBBe8Ed9",
       "monetary-policy-implementation": "0xDa39894132ADC64E7d3B5Ca20B85C9bfb2b494db",
       "llamalend-leverage-zap": "0x5552b631e2aD801fAa129Aacf4B701071cC9D1f7",
-      "odos-leverage-zap-v3": "0x0fE38dCC905eC14F6099a83Ac5C93BF2601300CF"
+      "odos-leverage-zap-v3": "0x0fE38dCC905eC14F6099a83Ac5C93BF2601300CF",
+      "leverage-zap-v2": "0xEfadDdE5B43917CcC738AdE6962295A0B343f7CE"
     }
   },
   "stable": {
