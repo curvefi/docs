@@ -5,7 +5,7 @@ sidebar_label: Boosting Rewards
 ---
 
 import ThemedImage from '@theme/ThemedImage';
-import ButtonGrid from '@site/src/components/ButtonGrid';
+import BoostCalculator from '@site/src/components/BoostCalculator';
 
 # Boosting CRV Rewards
 
@@ -13,7 +13,17 @@ import ButtonGrid from '@site/src/components/ButtonGrid';
 This guide assumes you have already provided liquidity and are currently staking LP tokens on the DAO gauge. If you haven't done this yet, see our [DEX liquidity provision guide](../dex/liquidity.md) or [Llamalend supplying guide](../llamalend/supplying.md).
 :::
 
-One of the main incentives for holding CRV is the ability to boost rewards on provided liquidity. By locking CRV for veCRV, you not only gain voting power in the DAO and revenue share, but also earn a boost of up to **2.5x** on your liquidity rewards across Curve pools and lending markets.
+Locking CRV into veCRV can improve the return profile of a Curve position in several ways. The boost calculator at the bottom of this article helps estimate the CRV reward boost for a specific gauge, while also showing an estimated crvUSD revenue share based on recent veCRV holder revenue.
+
+## What Locking CRV Unlocks
+
+Locking CRV gives users three protocol-level benefits:
+
+- **Boosted CRV rewards:** veCRV can increase CRV rewards on staked LP positions by up to **2.5x**, depending on the gauge and the user's share of veCRV.
+- **crvUSD revenue share:** veCRV holders receive a share of crvUSD protocol revenue. The calculator estimates this using recent DefiLlama holders-revenue data.
+- **Governance and gauge voting power:** veCRV gives voting power in Curve DAO governance and gauge weight votes, which influence where CRV emissions are directed.
+
+These benefits are related but separate. A user can use veCRV to boost liquidity rewards in a gauge and still receive protocol revenue share from veCRV ownership.
 
 ## How Rewards Are Displayed
 
@@ -34,16 +44,15 @@ In Curve's interface, rewards are always displayed as a range showing the differ
 Only **CRV rewards** are boosted by veCRV. External reward tokens (like tokens from other protocols) are distributed solely based on your liquidity share and are not affected by veCRV holdings.
 :::
 
-## Step 1: Calculate Required veCRV
+## Step 1: Review Required veCRV
 
 The first step to getting rewards boosted is to determine how much veCRV you need. Each gauge has different requirements, meaning some pools are easier to boost than others. This depends on:
+
 - The amount of veCRV others have locked
-- The total value locked (TVL) in the gauge
-- Your own liquidity position
+- The total value staked in the gauge
+- Your future share of staked LP tokens in that gauge
 
-Use the [boost calculator](https://dao-old.curve.finance/minter/calc) to determine your specific requirements:
-
-<ButtonGrid buttonKeys={['boostCalculator']} />
+Use the calculator below to compare how much veCRV you have, or plan to lock, against the amount needed for maximum boost.
 
 ## Step 2: Lock CRV for veCRV
 
@@ -78,22 +87,28 @@ Boosts are only updated when you make a withdrawal, deposit, or claim from a liq
 
 Your boost multiplier can be between 1 and 2.5.  This means if you have a 2.5x boost and deposit \$10,000, your rewards are calculated as if you deposited $25,000.  It depends on the following factors:
 
-    * **Your veCRV balance:** More veCRV means a higher potential boost.
-    * **The amount of liquidity you provide:** Your boost is calculated relative to your liquidity.
-    * **The total veCRV and liquidity in the gauge:** The boost mechanism balances your veCRV power against everyone else's in the Pool or Lending market's gauge.
+- **Your veCRV balance:** More veCRV means a higher potential boost.
+- **Your future share of staked LP tokens in the gauge:** Your boost is calculated relative to the share of gauge-staked liquidity your position will represent after staking.
+- **The total veCRV and staked liquidity in the gauge:** The boost mechanism balances your veCRV power against everyone else's staked LP tokens in the Pool or Lending market's gauge.
 
 By boosting, you're essentially getting a larger share of the new CRV tokens distributed. This incentivizes users to lock CRV, which in turn strengthens the Curve DAO's governance and promotes long-term alignment with the protocol.
 
 ### The Boost Formula
 
 $$
-B = \min\left(2.5, 0.4 + 2.5 \times \frac{\text{veCRV}_\text{user}}{\text{veCRV}_\text{total}} \times \frac{\text{Value}_\text{pool}}{\text{Value}_\text{user}}\right)
+B = \min\left(2.5, 1 + 1.5 \times \frac{\frac{\text{veCRV}_\text{user}}{\text{veCRV}_\text{total}}}{\frac{\text{Value}_\text{user}}{\text{Value}_\text{gauge}}}\right)
 $$
 
 **Formula Variables:**
 
 - **$B$** = Your rewards boost (capped at 2.5x maximum)
 - **$\text{Value}_\text{user}$** = Your deposited value in USD
-- **$\text{Value}_\text{pool}$** = Total value in the pool's reward gauge in USD
+- **$\text{Value}_\text{gauge}$** = Future total value staked in the reward gauge in USD, including your deposit if it is a new position
 - **$\text{veCRV}_\text{user}$** = Your veCRV amount (vote weight)
-- **$\text{veCRV}_\text{total}$** = Total veCRV in the system ([check current amount](https://dao-old.curve.finance/minter/calc))
+- **$\text{veCRV}_\text{total}$** = Total veCRV in the system
+
+## Estimate Your Boost And Revenue Share
+
+Use this calculator to estimate the boost for a specific pool gauge before connecting a wallet. It compares your share of all veCRV with your future share of the selected gauge's staked LP tokens. It also estimates crvUSD revenue share from recent DefiLlama holders revenue. This revenue estimate is not guaranteed yield.
+
+<BoostCalculator />
