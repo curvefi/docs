@@ -38,7 +38,7 @@
     "xdc": "https://xdcscan.io/address/",
     "blast": "https://blastscan.io/address/",
     "mode": "https://explorer.mode.network/address/",
-    "robinhood": "https://robinhoodchain.blockscout.com/"
+    "robinhood": "https://robinhoodchain.blockscout.com/address/"
   },
   "ethereum": {
     "tokens": {
