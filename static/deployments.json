@@ -1591,6 +1591,14 @@
       "odos-leverage-zap-v3": "0xBFab8ebc836E1c4D81837798FC076D219C9a1855",
       "leverage-zap-v2": "0x56C526b0159a258887e0d79ec3a80dfb940d0cD7"
     },
+    "llamalend-v2": {
+      "lending-factory": "0x5F94073E3f51c1FFf92ffc6b4B06b7Af193B3640",
+      "amm-implementation": "0xa6E2E6A65059B3D0aCfEAfa9B42C0f9241Fc103D",
+      "controller-implementation": "0x8637402cCd776A3991e04576DD24e00d9009550E",
+      "vault-implementation": "0x9dEe3FcCEa37902F843e6E9c4AF0f158b192F749",
+      "configurator": "0xd36c590531cAF5F620C57Faf5827Ce8E7f6E5Bec",
+      "leverage-zap-v2": "0xdbeBDaE6f2D47B553B984E4091693824cf38584a"
+    },
     "fast-bridge": {
       "fast-bridge-l2": "0xd16d5ec345dd86fb63c6a9c43c517210f1027914",
       "l2-messenger-lz": "0x7a1f2f99b65f6c3b2413648c86c0326cff8d8837"
