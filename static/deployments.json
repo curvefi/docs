@@ -595,11 +595,11 @@
         "amm-implementation": "0x85C44766d26616E581aa090f1Dc69abAc46A84D6"
       },
       "tricrypto": {
-        "math": "",
-        "views": "",
-        "factory": "",
-        "amm-native-disable-implementation": "",
-        "amm-native-enable-implementationd": ""
+        "math": "0x0cE651Df1418a1fBA98517483102E042533Ade05",
+        "views": "0x645E12f3cf5504C8a08e01706e79d3D0f32EcE15",
+        "factory": "0x38f8D93406fA2d9924DcFcB67dB5B0521Fb20F7D",
+        "amm-native-disable-implementation": "0x6A8cbed756804B16E05E741eDaBd5cB544AE21bf",
+        "amm-native-enable-implementationd": "0xc6C09471Ee39C7E30a067952FcC89c8922f9Ab53"
       },
       "router & zap": {
         "router": "0xA72C85C258A81761433B4e8da60505Fe3Dd551CC",
