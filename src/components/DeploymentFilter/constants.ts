@@ -5,7 +5,7 @@ export const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
   'x-gov': 'Crosschain Governance',
   'crvusd': 'Curve Stablecoin',
   'scrvusd': 'Savings crvUSD',
-  'llamalend': 'Curve Lending',
+  'llamalend': 'Llamalend V1',
   'tokens': 'Tokens',
   'core': 'Core',
   'gauges': 'Gauges',
