@@ -35,7 +35,7 @@
     "taiko": "https://taikoscan.io/address/",
     "unichain": "https://uniscan.xyz/address/",
     "x-layer": "https://web3.okx.com/explorer/x-layer/address/",
-    "xdc": "https://xdcscan.io/address/",
+    "xdc": "https://xdcscan.com/address/",
     "blast": "https://blastscan.io/address/",
     "mode": "https://explorer.mode.network/address/",
     "robinhood": "https://robinhoodchain.blockscout.com/address/"
@@ -2305,7 +2305,7 @@
       "ownership-admin": "0x764d32CAc199394eB30BBcDcf26e1dd446A58532",
       "parameter-admin": "0xD6043e0abF6C6A9995fe0062CBACe2B324B46B4D",
       "emergency-admin": "0xad7c0463DF7AEfee3Fa9771fd5d6ff122380E20F",
-      "vault": "0x988d1037e9608B21050A8EFba0c6C45e01A3Bce7",
+      "vault": "0xBaF6cacFfFb6D57d548F0FAff486E9884a0D1747",
       "agent": "0x55a1C26CE60490A15Bdd6bD73De4F6346525e01e",
       "verifier": "0xC772063cE3e622B458B706Dd2e36309418A1aE42"
     },
