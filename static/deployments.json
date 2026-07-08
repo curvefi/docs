@@ -6,7 +6,6 @@
     "polygon": "https://polygonscan.com/address/",
     "base": "https://basescan.org/address/",
     "avalanche": "https://snowscan.xyz/address/",
-    "corn": "https://maizenet-explorer.usecorn.com/address/",
     "fantom": "https://ftmscan.com/address/",
     "binance-smart-chain": "https://bscscan.com/address/",
     "bsc": "https://bscscan.com/address/",
@@ -680,75 +679,6 @@
         "crypto-calc-zap": "0xA72C85C258A81761433B4e8da60505Fe3Dd551CC",
         "deposit-and-stake-zap": "",
         "meta-zap-ng": "0x3f445D38E820c010a7A6E33c5F80cBEBE6930f61"
-      }
-    }
-  },
-  "corn": {
-    "tokens": {
-      "crv": "0x1b3757d5EE281Eaf6a9c8E5D9b8488b4475Aa955",
-      "vecrv": "",
-      "crvUSD": "0xEAEdD2B1b3F0fEC6388A4d6b2fE500B59Fd9f755",
-      "scrvUSD": ""
-    },
-    "x-gov": {
-      "l1-broadcaster": "0x7BA33456EC00812C6B6BB6C1C3dfF579c34CC2cc",
-      "l2-relayer": "0x5bcA7dDF1bcccB2eE8e46c56bfc9d3CDC77262bC",
-      "ownership-agent": "0x2641ed8034CE92f57377F88852E95eB97AeFDf3a",
-      "parameter-agent": "0x4f172B31Da98bc3806aeB98C22525d43304bfea2",
-      "emergency-agent": "0xb0261f64E512322EfB35E92C353301eC36b9712B",
-      "vault": "0x13DFF1809D1E9ddf9Ac901F47817B7F45220A846",
-      "agent": "0xe35A879E5EfB4F1Bb7F70dCF3250f2e19f096bd8",
-      "verifier": "0xE5De15A9C9bBedb4F5EC13B131E61245f2983A69"
-    },
-    "x-dao": {},
-    "curve-block-oracle": {
-      "l1-broadcaster": "0x7BA33456EC00812C6B6BB6C1C3dfF579c34CC2cc",
-      "block-oracle": "0xb10cface69821Ff7b245Cf5f28f3e714fDbd86b8",
-      "header-verifier": "0xB10CDEC0DE69c88a47c280a97A5AEcA8b0b83385",
-      "lz-block-relay": "0xFacEFeeD696BFC0ebe7EaD3FFBb9a56290d31752"
-    },
-    "gauges": {
-      "child-gauge-factory": "0x87FE17697D0f14A222e8bEf386a0860eCffDD617"
-    },
-    "vecrv": {
-      "oracle": "0x3d8EADb739D1Ef95dd53D718e4810721837c69c1",
-      "verifier": "0x6a2691068C7CbdA03292Ba0f9c77A25F658bAeF5",
-      "delegation-verifier": "0xc2cD391ABc3C4A9F7ac21917c2E9acfd817c01Bc"
-    },
-    "fees": {
-      "fee-receiver": "0x506F594ceb4E33F5161139bAe3Ee911014df9f7f"
-    },
-    "integrations": {
-      "address-provider": "0xd2002373543Ce3527023C75e7518C274A51ce712",
-      "meta-registry": "0x686bdb3D24Bc6F3ED89ed3d3B659765c54aC78B4",
-      "rate-provider": "0xC1b393EfEF38140662b91441C6710Aa704973228"
-    },
-    "amm": {
-      "stableswap": {
-        "math": "0xa7Ba18EeFcD9513230987eC2faB6711AF5AbD9c2",
-        "views": "0x7C2085419BE6a04f4ad88ea91bC9F5C6E6C463D8",
-        "factory": "0xd7E72f3615aa65b92A4DBdC211E296a35512988B",
-        "plain-amm-implementation": "0x604388Bb1159AFd21eB5191cE22b4DeCdEE2Ae22",
-        "meta-amm-implementation": "0x06452f9c013fc37169B57Eab8F50A7A48c9198A3"
-      },
-      "twocrypto": {
-        "math": "0x1A83348F9cCFD3Fe1A8C0adBa580Ac4e267Fe495",
-        "views": "0xc9Fe0C63Af9A39402e8a5514f9c43Af0322b665F",
-        "factory": "0x5Ea9DD3b6f042A34Df818C6c1324BC5A7c61427a",
-        "amm-implementation": "0x166c4084Ad2434E8F2425C64dabFE6875A0D45c5"
-      },
-      "tricrypto": {
-        "math": "0x635742dCC8313DCf8c904206037d962c042EAfBd",
-        "views": "0x5702BDB1Ec244704E3cBBaAE11a0275aE5b07499",
-        "factory": "0x7Ca46A636b02D4aBC66883D7FF164bDE506DC66a",
-        "implementation": "0x046207cB759F527b6c10C2D61DBaca45513685CC"
-      },
-      "router & zap": {
-        "router": "0xe61Fb97Ef6eBFBa12B36Ffd7be785c1F5A2DE66b",
-        "stable-calc-zap": "",
-        "crypto-calc-zap": "",
-        "deposit-and-stake-zap": "0x0c59d36b23f809f8b6C7cb4c8C590a0AC103baEf",
-        "meta-zap-ng": "0x3d6cB2F6DcF47CDd9C13E4e3beAe9af041d8796a"
       }
     }
   },
