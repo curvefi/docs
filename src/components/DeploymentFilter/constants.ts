@@ -6,6 +6,7 @@ export const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
   'crvusd': 'Curve Stablecoin',
   'scrvusd': 'Savings crvUSD',
   'llamalend': 'Llamalend V1',
+  'llamalend-v2': 'Llamalend V2',
   'tokens': 'Tokens',
   'core': 'Core',
   'gauges': 'Gauges',
