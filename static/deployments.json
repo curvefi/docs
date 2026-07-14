@@ -242,7 +242,11 @@
       "delegation-verifier": "0x820945D1E5759a57874846371F22b56b73c6AE85"
     },
     "fees": {
-      "fee-receiver": "0xd4F94D0aaa640BBb72b5EEc2D85F6D114D81a88E"
+      "fee-receiver": "0xd4F94D0aaa640BBb72b5EEc2D85F6D114D81a88E",
+      "fee-collector": "0x68E7F1e30E0BC195B19C0441Cdb34c0eD513F8Dd",
+      "hooker": "0x7DFA49E4F5A6dEB21B1964Bf520Eeaaf1D965c24",
+      "cowswap-burner": "0xd48503022B2fBBa4ADF5A78F56B988Be57d84C91",
+      "arbitrum-fee-bridger": "0x8A5a5299f35614Ac558AA290C2d5856EDeC1B5Ad"
     },
     "integrations": {
       "address-provider": "0x5ffe7FB82894076ECB99A30D6A32e969e6e35E98",
@@ -487,7 +491,11 @@
       "delegation-verifier": "0xAeB976BB02b5c36DcD57372a3B18326BfA4983C8"
     },
     "fees": {
-      "fee-receiver": "0xe8269B33E47761f552E1a3070119560d5fa8bBD6"
+      "fee-receiver": "0xe8269B33E47761f552E1a3070119560d5fa8bBD6",
+      "fee-collector": "0x56Ba5C600db7524c5Ec253567f8821AaadfCdbEA",
+      "hooker": "0x7150ba598bA7341b7232AD6A13Fd90D759407cC8",
+      "cowswap-burner": "0x9c0f9f476b50CF07e704c070366C1aDBF39F264E",
+      "base-fee-bridger": "0x2Fb9ef510f1c52fdfDf84dfa8EEa72E431B7651D"
     },
     "integrations": {
       "address-provider": "0x5ffe7FB82894076ECB99A30D6A32e969e6e35E98",
@@ -2340,7 +2348,8 @@
       "lz-block-relay": ""
     },
     "gauges": {
-      "child-gauge-factory": "0x41D2c5128A7241EC1f7CE346B162C347C19548B7"
+      "child-gauge-factory": "0x41D2c5128A7241EC1f7CE346B162C347C19548B7",
+      "child-gauge-implementation": "0xbb8A5E91295131Ce07B6Bfe301C49bcD925A2902"
     },
     "vecrv": {
       "oracle": "",
