@@ -95,6 +95,8 @@
     },
     "gauges": {
       "gauge-controller": "0x2F50D538606Fa9EDD2B11E2446BEb18C9D5846bB",
+      "gauge-factory": "0x64e1a69732fAC63F6790b3d8a34C5D713cC623E6",
+      "gauge-implementation": "0x19FeB8099eD22B18A7eF8386c507216874748aE5"
       "root-gauge-factory": "0x306A45a1478A000dC701A6e1f7a569afb8D9DCD6"
     },
     "fees": {
