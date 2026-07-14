@@ -464,7 +464,7 @@
       "emergency-dao-multisig": "0x6d447e544D01a59cb0774763bf15526574CffFeD"
     },
     "x-gov": {
-      "l1-broadcaster": "0x7BA33456EC00812C6B6BB6C1C3dfF579c34CC2cc",
+      "l1-broadcaster": "0xCb843280C5037ACfA67b8D4aDC71484ceD7C48C9",
       "l2-relayer": "0xCb843280C5037ACfA67b8D4aDC71484ceD7C48C9",
       "ownership-agent": "0x2c163fe0f079d138b9c04f780d735289344C8B80",
       "parameter-agent": "0x7Ea4B72f04D8B02994F4EdB171Ce5F56eEdF457F",
