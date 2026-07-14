@@ -181,6 +181,15 @@
       "leverage-zap-odos-v3": "0xC8E8430dc7Cb23C32543329acCC68c9055C23e18",
       "leverage-zap-v2": "0x19010d0f5D5a88aC609B568c91057679eed643d3"
     },
+    "llamalend-v2": {
+      "lending-factory": "0x8f6B56EC5ddF1F2691a1059f1D3cd97Ac9EaB0bd",
+      "amm-blueprint": "0xc8AC252738E1Ece3f69CF77649C266c4E893cf41",
+      "controller-blueprint": "0x47b6dF6494aD62474cDF365B90a56C648778A75d",
+      "controller-view-blueprint": "0x7259efD886e3A717a9206C604E0156E720871B2C",
+      "vault-blueprint": "0x2c3822264dcbd18d910C7834b1De8A70f368375b",
+      "configurator": "0x6065858d0eF0AA240DFdf6f1A0B2ae34B41f49bC",
+      "leverage-zap-v2": "0x5D847c892891B503c3483D3Abbc2a23774279b85"
+    },
     "scrvusd": {
       "vault": "0x0655977FEb2f289A4aB78af67BAB0d17aAb84367",
       "rewards-handler": "0xe8d1e2531761406af1615a6764b0d5ff52736f56",
@@ -1523,9 +1532,9 @@
     },
     "llamalend-v2": {
       "lending-factory": "0x5F94073E3f51c1FFf92ffc6b4B06b7Af193B3640",
-      "amm-implementation": "0xa6E2E6A65059B3D0aCfEAfa9B42C0f9241Fc103D",
-      "controller-implementation": "0x8637402cCd776A3991e04576DD24e00d9009550E",
-      "vault-implementation": "0x9dEe3FcCEa37902F843e6E9c4AF0f158b192F749",
+      "amm-blueprint": "0xa6E2E6A65059B3D0aCfEAfa9B42C0f9241Fc103D",
+      "controller-blueprint": "0x8637402cCd776A3991e04576DD24e00d9009550E",
+      "vault-blueprint": "0x9dEe3FcCEa37902F843e6E9c4AF0f158b192F749",
       "configurator": "0xd36c590531cAF5F620C57Faf5827Ce8E7f6E5Bec",
       "leverage-zap-v2": "0xdbeBDaE6f2D47B553B984E4091693824cf38584a"
     },
