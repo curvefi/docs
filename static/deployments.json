@@ -169,7 +169,8 @@
         "pegkeeper-regulator": "0x36a04CAffc681fa179558B2Aaba30395CDdd855f",
         "usdc": "0x9201da0D97CaAAff53f01B2fB56767C7072dE340",
         "usdt": "0xFb726F57d251aB5C731E5C64eD4F5F94351eF9F3",
-        "pyUSD": "0x3fA20eAa107DE08B38a8734063D605d5842fe09C"
+        "pyUSD": "0x3fA20eAa107DE08B38a8734063D605d5842fe09C",
+        "frxUSD": "0x338Cb2D827112d989A861cDe87CD9FfD913A1f9D"
       }
     },
     "llamalend": {
@@ -440,6 +441,14 @@
         "views": "0x07CdEBF81977E111B08C126DEFA07818d0045b80",
         "factory": "0x98EE851a00abeE0d95D08cF4CA2BdCE32aeaAF7F",
         "amm-implementation": "0x934791f7F391727db92BFF94cd789c4623d14c52"
+      },
+      "fxswap": {
+        "math": "0xFC687EFAFED297b765eDEcF8179c32195597C2df",
+        "views": "0x845b942DeEF9BC20a39A8b34B23e8c33aC2921BF",
+        "factory": "0x98EE851a00abeE0d95D08cF4CA2BdCE32aeaAF7F",
+        "amm-implementation": "0x8271e06E5887FE5ba05234f5315c19f3Ec90E8aD",
+        "donation-streamer": "",
+        "stream-executor": ""
       },
       "tricrypto": {
         "math": "0x505d666E4DD174DcDD7FA090ed95554486d2Be44",
