@@ -2,7 +2,8 @@
 
 The `GaugeFactory` contract is used to deploy liquidity gauges for Curve pools on the Ethereum mainnet. Once a liquidity gauge is deployed, it can be added to the `GaugeController` via DAO voting. If successful, the gauge becomes eligible to receive CRV emissions, allowing users to stake their LP tokens to earn CRV rewards.
 
-:::vyper[GaugeFactory.vy]
+:::vyper[`GaugeFactory.vy`]
+
 The source code for the `GaugeFactory.vy` contract can be found on [GitHub](https://github.com/curvefi/curve_gauge_factory/blob/main/contracts/GaugeFactory.vy). The contract is written using [Vyper](https://github.com/vyperlang/vyper) version `0.3.10`.
 
 The contract is deployed on :logos-ethereum: Ethereum at [`0x64e1a69732fAC63F6790b3d8a34C5D713cC623E6`](https://etherscan.io/address/0x64e1a69732fAC63F6790b3d8a34C5D713cC623E6).
