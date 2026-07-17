@@ -63,6 +63,7 @@ export default {
                     label: 'Liquidity Gauges',
                     items: [
                         { type: 'doc', id: 'gauges/gauges/overview', label: 'Overview' },
+                        { type: 'doc', id: 'gauges/gauges/gauge-factory', label: 'GaugeFactory'},
                         { type: 'doc', id: 'gauges/gauges/liquidity-gauge-v6', label: 'LiquidityGaugeV6' },
                     ],
                 },
