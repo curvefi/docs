@@ -8,9 +8,27 @@ v2 rewrites the core contracts in **Vyper 0.4.3**, leveraging its new **module s
 
 :::github[GitHub]
 
-Source code is available on [GitHub](https://github.com/curvefi/curve-stablecoin). Deployment addresses will be added once contracts are finalized and deployed.
+Source code is available on [GitHub](https://github.com/curvefi/curve-stablecoin). The addresses below are taken from the documentation repository's current [`main` deployment registry](https://github.com/curvefi/docs/blob/main/static/deployments.json), not from the legacy LlamaLend registry.
 
 :::
+
+---
+
+## Deployments
+
+The registry currently lists LlamaLend v2 deployments on Ethereum and Optimism. Addresses are chain-specific; do not reuse an address on another network.
+
+| Contract | Ethereum | Optimism |
+| --- | --- | --- |
+| LendFactory | [`0x8f6B…B0bd`](https://etherscan.io/address/0x8f6B56EC5ddF1F2691a1059f1D3cd97Ac9EaB0bd) | [`0x5F94…3640`](https://optimistic.etherscan.io/address/0x5F94073E3f51c1FFf92ffc6b4B06b7Af193B3640) |
+| AMM blueprint | [`0xc8AC…cf41`](https://etherscan.io/address/0xc8AC252738E1Ece3f69CF77649C266c4E893cf41) | [`0xa6E2…103D`](https://optimistic.etherscan.io/address/0xa6E2E6A65059B3D0aCfEAfa9B42C0f9241Fc103D) |
+| LendController blueprint | [`0x47b6…A75d`](https://etherscan.io/address/0x47b6dF6494aD62474cDF365B90a56C648778A75d) | [`0x8637…550E`](https://optimistic.etherscan.io/address/0x8637402cCd776A3991e04576DD24e00d9009550E) |
+| LendControllerView blueprint | [`0x7259…B2C`](https://etherscan.io/address/0x7259efD886e3A717a9206C604E0156E720871B2C) | — |
+| Vault blueprint | [`0x2c38…375b`](https://etherscan.io/address/0x2c3822264dcbd18d910C7834b1De8A70f368375b) | [`0x9dEe…F749`](https://optimistic.etherscan.io/address/0x9dEe3FcCEa37902F843e6E9c4AF0f158b192F749) |
+| Configurator | [`0x6065…49bC`](https://etherscan.io/address/0x6065858d0eF0AA240DFdf6f1A0B2ae34B41f49bC) | [`0xd36c…5Bec`](https://optimistic.etherscan.io/address/0xd36c590531cAF5F620C57Faf5827Ce8E7f6E5Bec) |
+| LeverageZap | [`0x5D84…b85`](https://etherscan.io/address/0x5D847c892891B503c3483D3Abbc2a23774279b85) | [`0xdbeB…584a`](https://optimistic.etherscan.io/address/0xdbeBDaE6f2D47B553B984E4091693824cf38584a) |
+
+On 2026-07-20, read-only RPC checks confirmed that both listed factories have code and return `version() = "2.0.0"`. The Ethereum factory reported two markets and Optimism reported three. Examples in this reference use Ethereum market `0` resolved from that factory: Vault `0x2b5a321c3cb1f33e1abecd047c2649d0b4c47eba`, Controller `0xc77d97cf01737eb7ace46cab7cd9f60ec51a40c0`, AMM `0xbf6f64b741164c26023f97faaea8e02453c27442`, and ControllerView `0xcda563f85388e621e7d810387e5afdac5d395e2b`.
 
 ---
 
@@ -72,8 +90,8 @@ The [LendControllerView](./lend-controller-view.md) is a stateless helper that c
 
 ## New Features
 
-- **Any token as borrowed asset** — crvUSD is no longer the only allowed borrowable token. Any ERC20-compliant token can be used to create a lending market.
-- **Admin fees on lending markets** — in v1, admin fees on lending markets were hardcoded to zero — all interest went to vault depositors. v2 makes them configurable per market via `set_admin_percentage()`, up to a maximum of 50%. The fee is not set automatically; it must be explicitly configured by the DAO for each market. This works well in combination with the default borrow cap of zero: the DAO can ensure any new market has an appropriate admin fee before activating it. The fee receiver is also configurable per market via the factory, which opens up the possibility for the DAO to direct admin fees to different recipients — for example, splitting revenue between the DAO and asset issuers or market curators.
+- **Any token pair** — lending markets are no longer required to include crvUSD as either the borrowed or collateral asset. Any ERC20-compliant token pair can be used to create a lending market.
+- **Admin fees on lending markets** — v2 makes the per-market admin percentage configurable through the configurator's `configure_lend()` call. The factory can also set a controller-specific fee receiver, allowing revenue to be directed to a DAO, asset issuer, or curator.
 - **Exit soft liquidation via repay** — calling `repay()` with `shrink=True` allows users to exit soft-liquidation by cutting the converted part of their position. `tokens_to_shrink()` indicates how many additional borrowed tokens are required (can be 0).
 - **Per-operation health previews** — dedicated preview functions (`create_loan_health_preview`, `borrow_more_health_preview`, `add_collateral_health_preview`, `remove_collateral_health_preview`, `repay_health_preview`, `liquidate_health_preview`) replace the single `health_calculator()` from v1.
 - **Merged extended methods** — all `*_extended` functions (e.g., `create_loan_extended`) have been merged into their base counterparts using Vyper keyword arguments, simplifying the ABI.
@@ -85,7 +103,7 @@ The [LendControllerView](./lend-controller-view.md) is a stateless helper that c
 ## Security Improvements
 
 - **Vault balance accounting** — the ERC4626 Vault's internal accounting has been reworked. In v1, the balance value could be inflated, enabling the exploit vector behind the Resupply hack. The new accounting prevents this and makes it easier to build protocols on top of Llamalend.
-- **Borrow caps** — per-market `borrow_cap`, adjustable by the DAO via `set_borrow_cap()`. Defaults to zero, meaning market creation requires a DAO vote to activate — ensuring proper review before a market can accept borrowers.
+- **Borrow caps** — per-market `borrow_cap`, configured through `configure_lend()`. It defaults to zero, so a new market cannot accept borrowing until its authorized configurator raises the cap.
 - **Supply caps** — per-vault deposit limits (`max_supply`), configurable by the DAO. Limits the total assets that can be deposited by lenders, capping the market's exposure on both the lending and borrowing side.
 - **Settable price oracle** — in v1, the price oracle was fixed at deployment, leading people to build proxy contracts as workarounds. v2 enshrines oracle upgradability at the protocol level with `set_price_oracle()` (DAO-gated).
 - **Pausable factory** — the LendFactory can be paused via Snekmate's `pausable` module, preventing new market creation in emergencies while existing markets continue to operate normally.

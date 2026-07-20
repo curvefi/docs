@@ -133,7 +133,8 @@ factory = Contract(factory_address)
 
 n = factory.market_count()
 for i in range(n):
-    vault_addr = factory.vaults(i)
+    market = factory.markets(i)
+    vault_addr = market.vault
     vault = Contract(vault_addr)
     print(f"Market {i}: {vault.name()}, APR: {vault.lend_apr() / 1e16:.2f}%")
 ```
