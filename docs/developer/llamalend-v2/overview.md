@@ -8,7 +8,7 @@ v2 rewrites the core contracts in **Vyper 0.4.3**, leveraging its new **module s
 
 :::github[GitHub]
 
-Source code is available on [GitHub](https://github.com/curvefi/curve-stablecoin). The addresses below are taken from the documentation repository's current [`main` deployment registry](https://github.com/curvefi/docs/blob/main/static/deployments.json), not from the legacy LlamaLend registry.
+Source code is available on [GitHub](https://github.com/curvefi/curve-stablecoin). The addresses below are recorded separately from the legacy LlamaLend deployments in the documentation repository's [`static/deployments.json`](https://github.com/curvefi/docs/blob/main/static/deployments.json).
 
 :::
 
@@ -23,12 +23,12 @@ The registry currently lists LlamaLend v2 deployments on Ethereum and Optimism. 
 | LendFactory | [`0x8f6B…B0bd`](https://etherscan.io/address/0x8f6B56EC5ddF1F2691a1059f1D3cd97Ac9EaB0bd) | [`0x5F94…3640`](https://optimistic.etherscan.io/address/0x5F94073E3f51c1FFf92ffc6b4B06b7Af193B3640) |
 | AMM blueprint | [`0xc8AC…cf41`](https://etherscan.io/address/0xc8AC252738E1Ece3f69CF77649C266c4E893cf41) | [`0xa6E2…103D`](https://optimistic.etherscan.io/address/0xa6E2E6A65059B3D0aCfEAfa9B42C0f9241Fc103D) |
 | LendController blueprint | [`0x47b6…A75d`](https://etherscan.io/address/0x47b6dF6494aD62474cDF365B90a56C648778A75d) | [`0x8637…550E`](https://optimistic.etherscan.io/address/0x8637402cCd776A3991e04576DD24e00d9009550E) |
-| LendControllerView blueprint | [`0x7259…B2C`](https://etherscan.io/address/0x7259efD886e3A717a9206C604E0156E720871B2C) | — |
+| LendControllerView blueprint | [`0x7259…B2C`](https://etherscan.io/address/0x7259efD886e3A717a9206C604E0156E720871B2C) | [`0xc780…f0e0`](https://optimistic.etherscan.io/address/0xc78005eB53Fa2E914f9E26373a8B05D8cA10f0e0) |
 | Vault blueprint | [`0x2c38…375b`](https://etherscan.io/address/0x2c3822264dcbd18d910C7834b1De8A70f368375b) | [`0x9dEe…F749`](https://optimistic.etherscan.io/address/0x9dEe3FcCEa37902F843e6E9c4AF0f158b192F749) |
 | Configurator | [`0x6065…49bC`](https://etherscan.io/address/0x6065858d0eF0AA240DFdf6f1A0B2ae34B41f49bC) | [`0xd36c…5Bec`](https://optimistic.etherscan.io/address/0xd36c590531cAF5F620C57Faf5827Ce8E7f6E5Bec) |
 | LeverageZap | [`0x5D84…b85`](https://etherscan.io/address/0x5D847c892891B503c3483D3Abbc2a23774279b85) | [`0xdbeB…584a`](https://optimistic.etherscan.io/address/0xdbeBDaE6f2D47B553B984E4091693824cf38584a) |
 
-On 2026-07-20, read-only RPC checks confirmed that both listed factories have code and return `version() = "2.0.0"`. The Ethereum factory reported two markets and Optimism reported three. Examples in this reference use Ethereum market `0` resolved from that factory: Vault `0x2b5a321c3cb1f33e1abecd047c2649d0b4c47eba`, Controller `0xc77d97cf01737eb7ace46cab7cd9f60ec51a40c0`, AMM `0xbf6f64b741164c26023f97faaea8e02453c27442`, and ControllerView `0xcda563f85388e621e7d810387e5afdac5d395e2b`.
+On 2026-07-22, read-only RPC checks confirmed that both listed factories and Configurators have code and that the factories return `version() = "2.0.0"`. The Ethereum factory reported two markets and Optimism reported three; their blueprint getters also matched the addresses above. Examples in this reference use Ethereum market `0` resolved from that factory: Vault `0x2b5a321c3cb1f33e1abecd047c2649d0b4c47eba`, Controller `0xc77d97cf01737eb7ace46cab7cd9f60ec51a40c0`, AMM `0xbf6f64b741164c26023f97faaea8e02453c27442`, and ControllerView `0xcda563f85388e621e7d810387e5afdac5d395e2b`.
 
 ---
 
@@ -95,7 +95,7 @@ The [Configurator](./configurator.md) is the permissioned administrative entry p
 
 ## New Features
 
-- **Any token pair** — lending markets are no longer required to include crvUSD as either the borrowed or collateral asset. Any ERC20-compliant token pair can be used to create a lending market.
+- **Flexible token pairs** — lending markets are no longer required to include crvUSD as either the borrowed or collateral asset. The pair must satisfy the factory's token metadata, decimal, transfer, and parameter requirements.
 - **Admin fees on lending markets** — v2 makes the per-market admin percentage configurable through the configurator's `configure_lend()` call. The factory can also set a controller-specific fee receiver, allowing revenue to be directed to a DAO, asset issuer, or curator.
 - **Exit soft liquidation via repay** — calling `repay()` with `shrink=True` allows users to exit soft-liquidation by cutting the converted part of their position. `tokens_to_shrink()` indicates how many additional borrowed tokens are required (can be 0).
 - **Per-operation health previews** — dedicated preview functions (`create_loan_health_preview`, `borrow_more_health_preview`, `add_collateral_health_preview`, `remove_collateral_health_preview`, `repay_health_preview`, `liquidate_health_preview`) replace the single `health_calculator()` from v1.
@@ -109,7 +109,7 @@ The [Configurator](./configurator.md) is the permissioned administrative entry p
 
 - **Vault balance accounting** — the ERC4626 Vault's internal accounting has been reworked. In v1, the balance value could be inflated, enabling the exploit vector behind the Resupply hack. The new accounting prevents this and makes it easier to build protocols on top of Llamalend.
 - **Borrow caps** — per-market `borrow_cap`, configured through `configure_lend()`. It defaults to zero, so a new market cannot accept borrowing until its authorized configurator raises the cap.
-- **Supply caps** — per-vault deposit limits (`max_supply`), configurable by the DAO. Limits the total assets that can be deposited by lenders, capping the market's exposure on both the lending and borrowing side.
+- **Supply caps** — per-vault deposit limits (`maxSupply`), configurable by the factory owner. `max(uint256)` is unlimited and `0` disables new deposits.
 - **Settable price oracle** — in v1, the price oracle was fixed at deployment, leading people to build proxy contracts as workarounds. v2 enshrines oracle upgradability at the protocol level with `set_price_oracle()` (DAO-gated).
 - **Pausable factory** — the LendFactory can be paused via Snekmate's `pausable` module, preventing new market creation in emergencies while existing markets continue to operate normally.
 - **NonReentrancy by default** — the Vyper 0.4.2 compiler flag `# pragma nonreentrancy on` makes all methods and public getters nonreentrant by default, removing the risk of forgetting a `@nonreentrant` decorator.
@@ -165,7 +165,7 @@ Factory contract that **deploys new lending markets** from blueprints. Each mark
   </DocCard>
   <DocCard title="Vault" icon="vyper" link="./vault" linkText="Vault.vy">
 
-**ERC4626 vault** where lenders deposit the borrowed token to earn yield. Interest accrues through rising `pricePerShare`. Supports supply caps and dead shares protection against inflation attacks.
+**ERC4626 vault** where lenders deposit the borrowed token to earn yield. Interest accrues through rising `pricePerShare`. Supports supply caps and virtual-share protection against inflation attacks.
 
   </DocCard>
   <DocCard title="LendController" icon="vyper" link="./lend-controller" linkText="LendController.vy">

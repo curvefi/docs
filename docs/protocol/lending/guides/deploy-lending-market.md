@@ -1,108 +1,121 @@
 ---
 id: deploy-lending-market
-title: Deploying a LlamaLend v1 Market (Legacy)
-sidebar_label: Deploying a v1 Market (Legacy)
+title: Deploying a LlamaLend v2 Market
+sidebar_label: Deploy a Market
 ---
 
-import ThemedImage from '@theme/ThemedImage';
+LlamaLend v2 markets are deployed permissionlessly through the `LendFactory`. A successful deployment creates and registers a Vault, LendController, and AMM for one isolated token pair.
 
-:::warning
-This is historical documentation for **LlamaLend v1**. V1 markets are being phased out and **no new v1 markets will be deployed**. Its factories, `create_from_pool` flow, and crvUSD-pair requirement do not apply to v2. Any new market must use the [v2 LendFactory](/developer/llamalend-v2/lend-factory) and [Configurator](/developer/llamalend-v2/configurator) references.
+:::warning[Deployment is not activation]
+
+New Controllers start with a borrow cap of zero. Deploying a market does not enable borrowing or give the deployer administrative rights. Coordinate with the Configurator administrator before deployment if the market is intended to become active.
+
 :::
 
-The following describes the historical v1 deployment flow. Do not use it to deploy a market; new markets must use LlamaLend v2.
+## Supported Deployments
 
-**Important**: You can only deploy lending markets if one of the tokens is crvUSD (either as the borrowable token or as the collateral token).
+The verified LlamaLend v2 factories currently report version `2.0.0` on **Ethereum** and **Optimism**. Addresses are chain-specific. Use the [LlamaLend v2 deployment table](/developer/llamalend-v2/overview#deployments) as the canonical address reference and verify the selected factory's `version()` before sending a transaction.
+
+Do not use an address from another network or a deprecated factory.
 
 ## Requirements
 
-**Data that the v1 deployment flow required:**
+Prepare and independently review:
 
-- Token addresses of the collateral and borrowable tokens
-- Simulated parameters (A, fee, loan_discount, liquidation_discount)
-- Minimum and maximum borrow rates (defaults to 0.5% and 50% if not set)
-- Price oracle contract
-- Name for the lending market
+- borrowed-token and collateral-token addresses;
+- an initialized price oracle implementing `price()` and `price_w()`;
+- an initialized monetary-policy contract;
+- simulated `A`, AMM fee, loan discount, and liquidation discount;
+- an initial Vault supply limit in raw borrowed-token units;
+- a plan for the Configurator administrator to set the borrow cap and any other post-deployment parameters;
+- initial lender liquidity, monitoring, and incident-response ownership.
 
-For more information on how to acquire this information, see: [Oracles & Parameters](../oracles-and-parameters.md).
+See [Oracles & Parameters](../oracles-and-parameters.md) before constructing the transaction.
 
-## Historical deployment via Etherscan
+## The `create()` Call
 
-This guide assumes you have all the required data from the [Requirements](#requirements) section ready.
+The v2 factory exposes one market-creation function:
 
-The v1 factory contracts were deployed on the following chains:
+```solidity
+create(
+  address borrowed_token,
+  address collateral_token,
+  uint256 A,
+  uint256 fee,
+  uint256 loan_discount,
+  uint256 liquidation_discount,
+  address price_oracle,
+  address monetary_policy,
+  uint256 supply_limit
+) returns (address[3])
+```
 
-- **Ethereum**: [0xeA6876DDE9e3467564acBeE1Ed5bac88783205E0](https://etherscan.io/address/0xeA6876DDE9e3467564acBeE1Ed5bac88783205E0#writeContract#F1)
-- **Arbitrum**: [0xcaEC110C784c9DF37240a8Ce096D352A75922DeA](https://arbiscan.io/address/0xcaEC110C784c9DF37240a8Ce096D352A75922DeA#writeContract)
-- **Fraxtal**: [0xf3c9bdab17b7016fbe3b77d17b1602a7db93ac66](https://fraxscan.com/address/0xf3c9bdab17b7016fbe3b77d17b1602a7db93ac66#writeContract)
-- **Optimism**: [0x5EA8f3D674C70b020586933A0a5b250734798BeF](https://optimistic.etherscan.io/address/0x5EA8f3D674C70b020586933A0a5b250734798BeF#writeContract)
-- **Sonic**: [0x30D1859DaD5A52aE03B6e259d1b48c4b12933993](https://sonicscan.org/address/0x30D1859DaD5A52aE03B6e259d1b48c4b12933993#writeContract)
+The returned array is ordered as:
 
-## Historical deployment methods
+```text
+[vault, controller, amm]
+```
 
-The v1 factory offered two deployment methods:
+The transaction also emits `NewVault`, which contains the market index, token pair, deployed contract addresses, oracle, and monetary policy.
 
-1. **`create_from_pool` function**: Use this when both tokens exist in the same Curve liquidity pool with a suitable oracle. The factory will automatically use the pool's EMA oracle, eliminating the need for an external oracle.
+### Units
 
-2. **`create` function**: Use this when you need a custom price oracle, such as when a token has a Curve pool but is priced against USDC instead of crvUSD.
+- `A` is an unscaled integer.
+- `fee`, `loan_discount`, and `liquidation_discount` use WAD precision: `10^18 = 100%`.
+- `supply_limit` uses the borrowed token's native decimals.
+- Pass `max(uint256)` for no supply cap. Passing `0` prevents deposits.
 
-**Recommendation**: The `create_from_pool` function is the easiest approach. For example, if a protocol wants to create a lending market for their governance token, they should first create a TOKEN/crvUSD liquidity pool, which will provide the necessary oracle.
+Never enter display-formatted decimals directly into a contract field. Convert amounts to integers using the relevant token decimals first.
 
-### create_from_pool
+## Deployment Steps
 
-This function can be used when both tokens are in the same Curve liquidity pool with a reliable oracle (stableswap-ng, twocrypto-ng, or tricrypto-ng).
+### 1. Select and Verify the Factory
 
-<figure>
-<ThemedImage
-    alt="`create_from_pool` function interface"
-    sources={{
-        light: require('@site/static/img/protocol/deploy-lending/create-from-pool-light.png').default,
-        dark: require('@site/static/img/protocol/deploy-lending/create-from-pool-dark.png').default,
-    }}
-    style={{ width: '800px', display: 'block', margin: '0 auto' }}
-/>
-</figure>
+Choose the factory for the transaction's chain from the canonical deployment table. Confirm that the address has bytecode and that `version()` returns the expected v2 version.
 
-**Required inputs:**
+### 2. Validate External Contracts
 
-- **borrowed_token**: Token address of the borrowable token
-- **collateral_token**: Token address of the collateral token
-- **A**: Value obtained from [simulations](../oracles-and-parameters.md#a-fee-loan--and-liquidation-discount)
-- **fee**: Value obtained from [simulations](../oracles-and-parameters.md#a-fee-loan--and-liquidation-discount)
-- **loan_discount**: Value obtained from [simulations](../oracles-and-parameters.md#a-fee-loan--and-liquidation-discount)
-- **liquidation_discount**: Value obtained from [simulations](../oracles-and-parameters.md#a-fee-loan--and-liquidation-discount)
-- **pool**: Curve liquidity pool contract address containing both tokens
-- **name**: Name of the market (see [naming conventions](../oracles-and-parameters.md#name))
-- **min_borrow_rate**: Minimum borrow rate (see [rate parameters](../oracles-and-parameters.md#borrow-rate-parameters))
-- **max_borrow_rate**: Maximum borrow rate (see [rate parameters](../oracles-and-parameters.md#borrow-rate-parameters))
+Check the token metadata, oracle output, and monetary-policy behavior. The factory will reject identical tokens, unsupported decimal precision, an invalid `A`, invalid discount ordering, or an oracle whose initial `price()` and `price_w()` values are zero or unequal.
 
+### 3. Encode Integer Parameters
 
-### create
+Convert token amounts and WAD-scaled percentages without floating-point arithmetic. Review every address and integer with a second person or automated deployment manifest.
 
-This function can be used when the collateral token's oracle cannot be obtained from an existing Curve pool.
+### 4. Simulate the Call
 
-<figure>
-<ThemedImage
-    alt="`create` function interface"
-    sources={{
-        light: require('@site/static/img/protocol/deploy-lending/create-light.png').default,
-        dark: require('@site/static/img/protocol/deploy-lending/create-dark.png').default,
-    }}
-    style={{ width: '800px', display: 'block', margin: '0 auto' }}
-/>
-</figure>
+Simulate `create()` from the intended account against a current fork or RPC state. A simulation should confirm contract validation and the returned address ordering, but it does not prove that the economic configuration is safe.
 
-**Required inputs:**
+### 5. Submit `create()`
 
-The inputs are the same as the `create_from_pool` method above, except that instead of providing a pool contract address, you provide a custom price oracle (which must have a `price()` function to comply with the ABI):
+Call the factory through a verified block-explorer interface, deployment script, or contract client. Preserve the transaction hash and decoded inputs as the market's deployment record.
 
-- **borrowed_token**: Token address of the borrowable token
-- **collateral_token**: Token address of the collateral token
-- **A**: Value obtained from [simulations](../oracles-and-parameters.md#a-fee-loan--and-liquidation-discount)
-- **fee**: Value obtained from [simulations](../oracles-and-parameters.md#a-fee-loan--and-liquidation-discount)
-- **loan_discount**: Value obtained from [simulations](../oracles-and-parameters.md#a-fee-loan--and-liquidation-discount)
-- **liquidation_discount**: Value obtained from [simulations](../oracles-and-parameters.md#a-fee-loan--and-liquidation-discount)
-- **price_oracle**: Custom price oracle contract address (must have `price()` function)
-- **name**: Name of the market (see [naming conventions](../oracles-and-parameters.md#name))
-- **min_borrow_rate**: Minimum borrow rate (see [rate parameters](../oracles-and-parameters.md#borrow-rate-parameters))
-- **max_borrow_rate**: Maximum borrow rate (see [rate parameters](../oracles-and-parameters.md#borrow-rate-parameters))
+### 6. Verify Registration
+
+After confirmation:
+
+1. Decode `NewVault` from the receipt.
+2. Confirm the three returned addresses have bytecode.
+3. Read the new entry from `LendFactory.markets(index)`.
+4. Confirm the Vault, Controller, and AMM point to the intended tokens, oracle, and monetary policy.
+5. Confirm `controller.borrow_cap()` is zero before activation.
+
+## Activate the Market
+
+The Configurator's default administrator may assign a custom administrator for the new Controller. The default or assigned administrator can then set the borrow cap and other authorized parameters.
+
+A market is ready for borrowers only after:
+
+- the borrow cap is intentionally raised above zero;
+- the Vault has enough available borrowed-token liquidity;
+- the oracle and monetary policy are operating as expected;
+- frontend and monitoring systems recognize the new market;
+- ownership and emergency procedures are documented.
+
+Continue with [Post-Deployment & Integration](../post-deployment.md).
+
+## Low-Level References
+
+- [LendFactory contract reference](/developer/llamalend-v2/lend-factory)
+- [Configurator contract reference](/developer/llamalend-v2/configurator)
+- [Vault contract reference](/developer/llamalend-v2/vault)
+- [LendController contract reference](/developer/llamalend-v2/lend-controller)

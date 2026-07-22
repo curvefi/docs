@@ -174,8 +174,8 @@ export const ALL_GUIDES = {
     link: '/protocol/pool/guides/deploy-fxswap',
   },
   deployLendingMarket: {
-    title: 'How to Deploy a Lending Market',
-    description: 'Learn how to deploy a Llamalend lending market.',
+    title: 'Deploy a LlamaLend v2 Market',
+    description: 'Prepare, deploy, verify, and activate a LlamaLend v2 market.',
     image: '',
     link: '/protocol/lending/guides/deploy-lending-market',
   },
@@ -186,8 +186,8 @@ export const ALL_GUIDES = {
     link: '/protocol/pool/overview',
   },
   LendingMarkets: {
-    title: 'Learn About Lending Markets',
-    description: 'Learn about Llamalend lending markets and how they work.',
+    title: 'Build with LlamaLend v2',
+    description: 'Understand, deploy, and integrate isolated LlamaLend v2 markets.',
     image: '',
     link: '/protocol/lending/overview',
   },
@@ -198,8 +198,8 @@ export const ALL_GUIDES = {
     link: '/protocol/gauge/overview',
   },
   LendingOraclesAndParameters: {
-    title: 'Learn About Lending Oracles and Parameters',
-    description: 'Learn about Llamalend oracles and parameters and how they work.',
+    title: 'LlamaLend v2 Oracles & Parameters',
+    description: 'Prepare the oracle, monetary policy, caps, and risk parameters for a v2 market.',
     image: '',
     link: '/protocol/lending/oracles-and-parameters',
   },

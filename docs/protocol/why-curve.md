@@ -61,12 +61,18 @@ Why Curve over other protocols? Because Curve is your swiss army knife providing
 - **Fully Onchain Built-in Oracles** - liquidity pools on Curve come with built-in EMA oracles; no need to pay extra for centralized, issue-prone oracles.
 - **Routing Integration from Day 1** - liquidity pools are automatically picked up by leading aggregators like 1inch, CowSwap, and Paraswap.
 
-### Llamalend
-A permissionless lending system built on crvUSD, enabling sophisticated borrowing and lending strategies:
+### LlamaLend v2
+A permissionless, isolated-market lending system for any ERC-20 pair, enabling sophisticated borrowing and lending strategies:
 
 - **Liquidation Protections** - a new and novel liquidation mechanism which gives users more time and flexibility to react when things go south.
 - **Isolated markets** - each lending market is isolated to keep risks as minimal as possible and allow for precise risk management.
 - **High LTV ratios** - some of the highest loan-to-value ratios in DeFi.
+
+:::info
+
+LlamaLend v1 (LL1) is deprecated. New lending markets should use LlamaLend v2 (LL2).
+
+:::
 
 
 ### Gauges & Incentives

@@ -1,89 +1,92 @@
 ---
 id: oracles-and-parameters
-title: LlamaLend v1 Oracles & Parameters (Legacy)
-sidebar_label: v1 Oracles & Parameters (Legacy)
+title: LlamaLend v2 Oracles & Parameters
+sidebar_label: Oracles & Parameters
 ---
 
-import SemiLogChart from '@site/src/components/SemiLogChart';
+A LlamaLend v2 market combines independently supplied contracts and risk parameters. Deployment is permissionless, but that does not make every configuration safe. Validate the token pair, oracle, monetary policy, and liquidation assumptions together before creating a market.
 
-:::warning
+:::warning[Risk review required]
 
-This guide documents **LlamaLend v1** oracle and parameter assumptions, including crvUSD-denominated collateral oracles. LlamaLend v2 allows any ERC-20 pair; its contract configuration is documented in the [v2 Configurator reference](/developer/llamalend-v2/configurator).
+There is no universal safe parameter set. Model the assets' volatility, market depth, oracle failure modes, and expected utilization, and independently review every custom oracle or monetary policy before deployment.
 
 :::
 
-When deploying a Llamalend lending market, two critical components must be carefully configured: **price oracles** and **market parameters**. These form the foundation for a secure, efficient, and profitable lending market.
+## Token Pair
 
-For Llamalend's liquidation engine to work optimally, the system requires a smooth price oracle for the collateral asset. **Spot oracles are not recommended** as they can cause significant losses due to price jumps during liquidations. Proper parameter selection is equally important for market security and efficiency.
+Each market has two distinct assets:
 
-:::info
-**Parameter paralysis and oracle confusion?** Don't let uncertainty hold you back! The [LlamaRisk](https://www.llamarisk.com/) wizards are here to save the day!
+- **Borrowed token:** deposited by lenders and received by borrowers.
+- **Collateral token:** deposited by borrowers to secure their debt.
 
-Jump into their <a href="https://t.me/llamarisk" target="_blank" rel="noopener noreferrer">Telegram</a> and let them work their risk management magic. From oracles to liquidation thresholds, they've got your back!
-:::
+The pair does not need to contain crvUSD. The factory does, however, rely on ERC-20 metadata and precision conversions:
 
-## Oracles
+- the token addresses must be different;
+- both tokens must expose `decimals()`, and the deployed factory supports decimals from 0 through 18;
+- the Vault also reads the borrowed token's `symbol()` when it is initialized;
+- transfer-tax, rebasing, callback, or otherwise non-standard token behavior is not guaranteed to work safely and must be tested explicitly.
 
-LlamaLend v1 markets require smooth (exponential moving average) oracles to price the collateral asset. Spot oracles do not work well as the liquidation mechanism requires smooth price feeds to ensure maximum efficiency. The easiest way to obtain this is through deploying a **liquidity pool** on Curve, which already comes with built-in oracles that can be used for lending markets.
+## Price Oracle
 
-Every Curve pool includes a direct built-in oracle that can be used for lending markets, provided the pool has sufficient TVL. Curve offers pools for all sorts of assets. Learn more here: [Curve Liquidity Pool Oracles](../pool/compare-amm.md#built-in-price-oracles).
+The oracle reports the price of one unit of collateral in units of the borrowed token, multiplied by `10^18`. It must implement:
 
-:::important
-**Critical**: The collateral asset oracle must be priced against **crvUSD**, not other stablecoins. If the Curve pool contains crvUSD (e.g., ETH/crvUSD), the oracle can be used directly. If the pool doesn't contain crvUSD (e.g., ETH/USDC), the oracle must be chained with a USDC/crvUSD oracle to create an ETH/crvUSD price feed.
-:::
+```vyper
+def price() -> uint256: view
+def price_w() -> uint256: nonpayable
+```
 
-For assets without suitable Curve pools, you can deploy custom oracles using the [custom oracle deployment guide](https://paragraph.com/@curvefi/llamalend_market_deploy#h-deploying-a-custom-priceoracle-contract). If this sounds complicated, the Curve team is happy to help with deployment - simply reach out on Telegram.
+When a market is created, the factory calls both functions and requires the returned prices to be equal and nonzero. The oracle should also be robust against manipulation, stale data, abrupt discontinuities, and failures in any underlying liquidity source.
 
-:::tip-green
-Llamalend price oracles are particularly complex due to the requirements of the liquidation engine (smooth EMA feeds, crvUSD-denominated pricing, etc.). Swiss Stake, the service provider developing Curve's technology, offers consulting services to guide protocols in the design and integration of these oracles, and thorough audits of client-implemented oracle solutions to ensure correctness and security. Inquiries: [inquiries@curve.finance](mailto:inquiries@curve.finance).
-:::
+A Curve pool oracle can be one input to an oracle design, but the v2 factory does not automatically derive an oracle from a pool. The address passed to `create()` must already be a complete, initialized oracle implementing the required interface.
 
-## Parameters
+The authorized Configurator administrator can later replace the oracle through a deviation-checked update. Upgradability helps respond to changing conditions, but it also makes the market's administration and monitoring model part of the risk assessment.
 
-Parameter selection when creating a new lending market is the foundation for an optimally working liquidation engine and secure lending market. The process of finding optimal parameters requires a thorough analysis of historical price data for the collateral asset.
+## Monetary Policy
 
-### A, fee, loan- and liquidation discount
+The monetary-policy contract determines the market's borrow rate. It is passed to the factory at deployment and is queried through the Controller as debt and utilization change.
 
-The following parameters need to be simulated and set at market deployment:
-- **Band width factor (A)**: Determines the range of prices where liquidations can occur
-- **Fee**: Fee for exchanging tokens inside the AMM (LLAMMA)
-- **Liquidation discount**: Price discount applied during liquidations
-- **Loan discount**: Collateral discount for loan-to-value calculations
+LlamaLend v2 does not take minimum and maximum rates directly in `LendFactory.create()`. Those rules belong to the selected monetary-policy implementation. Confirm its rate units, bounds, initialization, and behavior under low and high utilization before using it.
 
-A dedicated GitHub repository was set up for running these simulations: [LLAMMA Simulator](https://github.com/curvefi/llamma-simulator). An in-depth explainer can be found here: [Parameter Analysis Guide](https://paragraph.com/@curvefi/llamma-simulator).
+## Deployment-Time Parameters
 
-### Borrow Rate Parameters
+| Parameter | Units and contract constraints | Effect |
+| --- | --- | --- |
+| `borrowed_token` | ERC-20 address | Asset supplied to the Vault and borrowed from the market. |
+| `collateral_token` | Different ERC-20 address | Asset securing borrower debt. |
+| `A` | Integer from 2 to 10,000 | Controls LLAMMA band width; larger values create narrower bands. |
+| `fee` | WAD-scaled, where `10^18 = 100%` | Swap fee charged inside the AMM. Its allowed range also depends on `A`. |
+| `loan_discount` | WAD-scaled and less than `10^18` | Discount used when calculating maximum borrowing power. |
+| `liquidation_discount` | WAD-scaled, greater than zero and less than `loan_discount` | Discount used for hard-liquidation calculations. |
+| `price_oracle` | Initialized contract address | Supplies the collateral price in borrowed-token units. |
+| `monetary_policy` | Initialized contract address | Supplies the per-second borrow rate used by the market. |
+| `supply_limit` | Raw borrowed-token units | Maximum assets the Vault accepts. `max(uint256)` means unlimited; `0` disables deposits. |
 
-Each lending market requires configurable minimum and maximum borrow rate values that adjust dynamically based on market utilization. The interest rate model ensures efficient capital allocation by charging:
+The factory and AMM reject invalid combinations, but passing contract validation is not a substitute for economic analysis.
 
-- **Minimum rate** when utilization is 0% (no borrowing activity)
-- **Maximum rate** when utilization reaches 100% (fully utilized market)
-- **Semi-Logarithmic scaling** between these bounds based on current utilization
+## Post-Deployment Parameters
 
-Rates are bounded by system constants: `MIN_RATE` at 1% and `MAX_RATE` at 1000%.
+The following settings are not controlled by the account that happens to deploy the market:
 
-**Optimal Rate Configuration:**
-Most markets target approximately 80% utilization as the optimal point where competitive market rates should be charged. This provides lenders with sufficient buffer to withdraw assets while maintaining healthy utilization levels.
+| Setting | Initial behavior | Who can change it? |
+| --- | --- | --- |
+| **Borrow cap** | Starts at `0`, which prevents new debt | Configurator default admin or the Controller's assigned custom admin |
+| **Admin percentage** | Starts at `0` | Configurator default admin or assigned custom admin |
+| **Supply limit** | Set from `supply_limit`; `max(uint256)` leaves it unlimited | LendFactory owner, directly through the Vault |
+| **Discounts, monetary policy, oracle, and AMM fee** | Set from deployment inputs | Configurator default admin or assigned custom admin |
+| **Fee receiver** | Factory default unless a Controller-specific receiver is set | LendFactory owner |
 
-For example, if the current market rate for borrowing crvUSD is 10%, configure minimum and maximum rates so that the 80% utilization point equals 10%. This ensures lenders can exit positions without facing fully utilized markets.
+Values representing token amounts use the relevant token's native decimals. Percentages and discounts use WAD precision unless the referenced contract states otherwise.
 
-**Rate Calculation:**
-Borrow rates are calculated per second and must be converted from annual percentage rates (APR) using this formula:
+## Review Checklist
 
-$$
-APR = \frac{rate}{10^{18}} \times (60 \times 60 \times 24 \times 365)
-$$
+Before deployment, document:
 
-**Example**: To achieve 1% APR, set the rate parameter to `317097919`.
+1. The intended lender, borrower, and liquidation use cases.
+2. Token behavior and decimal compatibility.
+3. Oracle pricing direction, precision, update path, and failure handling.
+4. Monetary-policy behavior across the expected utilization range.
+5. Simulated `A`, fee, discounts, and liquidation outcomes using v2-compatible tooling.
+6. Initial and emergency supply and borrow caps.
+7. The administrator, fee receiver, monitoring owner, and activation process.
 
-
-## Name
-
-The market name can be chosen freely. While the UI currently doesn't use the name variable from the contract for display, it's still good practice to give it a clear, understandable name.
-
-**Naming Convention**: Usually follows the pattern of the collateral token name appended by the market direction (long/short).
-
-**Examples**:
-
-- **ETH-long**: ETH as collateral token, crvUSD as borrowable token
-- **BTC-short**: crvUSD as collateral token, BTC as borrowable token
+For exact ABI details and enforced bounds, use the [LendFactory](/developer/llamalend-v2/lend-factory) and [Configurator](/developer/llamalend-v2/configurator) references.
