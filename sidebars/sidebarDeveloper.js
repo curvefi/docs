@@ -416,10 +416,26 @@ export default {
             ],
         },
 
-        // --- Llamalend v1 (legacy; no new markets) ---
+        // --- Llamalend v2 ---
         {
             type: 'category',
-            label: 'Llamalend v1 (legacy; no new markets)',
+            label: 'Llamalend v2',
+            items: [
+                { type: 'doc', id: 'llamalend-v2/overview', label: 'Overview' },
+                { type: 'doc', id: 'llamalend-v2/lend-factory', label: 'LendFactory' },
+                { type: 'doc', id: 'llamalend-v2/vault', label: 'Vault' },
+                { type: 'doc', id: 'llamalend-v2/lend-controller', label: 'LendController' },
+                { type: 'doc', id: 'llamalend-v2/lend-controller-view', label: 'LendControllerView' },
+                { type: 'doc', id: 'llamalend-v2/configurator', label: 'Configurator' },
+                { type: 'doc', id: 'llamalend-v2/amm', label: 'AMM (LLAMMA)' },
+                { type: 'doc', id: 'llamalend-v2/integration-guide', label: 'Integration Guide' },
+            ],
+        },
+
+        // --- Llamalend v1 (legacy) ---
+        {
+            type: 'category',
+            label: 'Llamalend v1',
             items: [
                 { type: 'doc', id: 'lending/overview', label: 'Overview' },
                 { type: 'doc', id: 'lending/contracts/oneway-factory', label: 'OneWay Lending Factory' },
@@ -445,22 +461,6 @@ export default {
                         { type: 'doc', id: 'lending/contracts/secondary-mp', label: 'Secondary Monetary Policy' },
                     ],
                 },
-            ],
-        },
-
-        // --- Llamalend v2 ---
-        {
-            type: 'category',
-            label: 'Llamalend v2',
-            items: [
-                { type: 'doc', id: 'llamalend-v2/overview', label: 'Overview' },
-                { type: 'doc', id: 'llamalend-v2/lend-factory', label: 'LendFactory' },
-                { type: 'doc', id: 'llamalend-v2/vault', label: 'Vault' },
-                { type: 'doc', id: 'llamalend-v2/lend-controller', label: 'LendController' },
-                { type: 'doc', id: 'llamalend-v2/lend-controller-view', label: 'LendControllerView' },
-                { type: 'doc', id: 'llamalend-v2/configurator', label: 'Configurator' },
-                { type: 'doc', id: 'llamalend-v2/amm', label: 'AMM (LLAMMA)' },
-                { type: 'doc', id: 'llamalend-v2/integration-guide', label: 'Integration Guide' },
             ],
         },
 

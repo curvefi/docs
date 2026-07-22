@@ -7,6 +7,12 @@ Additionally, Curve has launched its own stablecoin, **crvUSD**, and **Curve Len
 
 This documentation outlines the technical implementation of the core Curve protocol and related smart contracts. It may be useful for contributors to the Curve codebase, third-party integrators, or technically proficient users of the protocol.
 
+:::warning[LlamaLend v1 is deprecated]
+
+LlamaLend v1 markets are being phased out and no new v1 markets will be deployed. Use [LlamaLend v2](./llamalend-v2/overview.md) for all new markets and integrations.
+
+:::
+
 :::tip[Resources for Non-Technical Users]
 
 Non-technical users might prefer the **[User Docs](/user/introduction)** site as it offers more general insights and information.
