@@ -416,10 +416,10 @@ export default {
             ],
         },
 
-        // --- Llamalend ---
+        // --- Llamalend v1 (legacy; no new markets) ---
         {
             type: 'category',
-            label: 'Llamalend',
+            label: 'Llamalend v1 (legacy; no new markets)',
             items: [
                 { type: 'doc', id: 'lending/overview', label: 'Overview' },
                 { type: 'doc', id: 'lending/contracts/oneway-factory', label: 'OneWay Lending Factory' },

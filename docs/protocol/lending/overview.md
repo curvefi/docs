@@ -6,9 +6,9 @@ sidebar_label: Overview
 
 import GuideCardGrid from '@site/src/components/GuideCardGrid';
 
-Curve's lending infrastructure, **Llamalend**, is a decentralized, permissionless lending system that enables protocols and asset issuers to create lending markets for their tokens. It facilitates lending and borrowing between users while providing powerful tools for asset proliferation and ecosystem growth.
+Curve's lending infrastructure, **LlamaLend v2**, is a decentralized, permissionless lending system that enables protocols and asset issuers to create isolated markets for any ERC-20 token pair. It facilitates lending and borrowing between users while providing powerful tools for asset proliferation and ecosystem growth.
 
-**Borrowers** can leverage Llamalend for yield farming, leverage trading, or obtaining working capital without selling collateral. **Lenders** earn interest while contributing to market liquidity across diverse asset pairs with different risk profiles.
+**Borrowers** can use LlamaLend v2 for yield farming, leverage trading, or obtaining working capital without selling collateral. **Lenders** earn interest while contributing to market liquidity across diverse asset pairs with different risk profiles.
 
 To get started quickly, check these out:
 
@@ -18,17 +18,23 @@ To get started quickly, check these out:
 
 Llamalend operates on an **isolated market** model where each lending market has a single collateral token and a single borrowable token. All lending markets are completely independent from each other, preventing cross-contamination and allowing for precise risk management per asset pair.
 
-Every lending market must include **crvUSD** as either the collateral asset or the borrowable asset. This design ensures deep integration with Curve's stablecoin ecosystem while maintaining market isolation. For example, a market could have ETH as collateral and crvUSD as borrowable, or crvUSD as collateral and USDC as borrowable.
+LlamaLend v2 markets can use **any ERC-20 pair**. For example, a market can use ETH as collateral and USDC as the borrowed asset. This preserves market isolation without requiring crvUSD in the pair.
 
 - **Gauges for Vaults** - Lending vaults are fully compatible with Curve's gauge system, meaning lending vaults can receive gauge weights and therefore future CRV emissions to attract more supply to the market
 - **Fully Permissionless** - Deploy lending markets instantly without DAO approvals
 - **Isolated Markets** - Each market operates independently with its own risk parameters, preventing cross-contamination
-- **crvUSD Integration** - Deep integration with Curve's stablecoin ecosystem
+- **Flexible pairs** - Any ERC-20 asset can be collateral or the borrowed asset
 - **Customizable Risk Management** - Tailored liquidation thresholds and interest rate models per asset pair
 
 ## How Markets are Deployed
 
-Deploying Llamalend markets is fully permissionless through a dedicated Factory contract. Anyone can create lending markets for any token pair, with the only requirement being that one of the tokens must be crvUSD. This ensures deep integration with Curve's stablecoin ecosystem while maintaining market isolation.
+Deploying LlamaLend v2 markets is permissionless through the `LendFactory`. Anyone can create an isolated lending market for any ERC-20 pair, subject to the factory's parameter validation and the market's initial borrow cap of zero. An authorized Configurator must raise that cap before borrowing can begin.
+
+:::info[Versioned deployment guides]
+
+The linked deployment and oracle guides below are retained as historical **LlamaLend v1** documentation. V1 markets are being phased out and **no new v1 markets will be deployed**. Any new market must use the [LlamaLend v2 LendFactory reference](/developer/llamalend-v2/lend-factory) and [Configurator reference](/developer/llamalend-v2/configurator).
+
+:::
 
 ## How It Works
 

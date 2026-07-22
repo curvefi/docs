@@ -9,7 +9,7 @@ Each market deploys its own AMM from a blueprint contract. Source code is availa
 :::
 
 :::info[Contract Versions]
-The AMM (LLAMMA) contract is shared across all Controller versions. Unlike the Controller, the AMM API has remained stable — the same contract is used by both crvUSD mint markets and Llamalend markets. For version details, see the [crvUSD Overview](./overview.md#controller--amm-versions).
+The AMM (LLAMMA) contract is shared across all Controller versions. Unlike the Controller, the AMM API has remained stable — the same contract is used by both crvUSD mint markets and LlamaLend v1 markets. LlamaLend v2 uses a separately deployed AMM implementation; see the [v2 AMM reference](../llamalend-v2/amm.md).
 :::
 
 :::info Getting familiar with LLAMMA

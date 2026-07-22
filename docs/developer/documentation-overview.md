@@ -41,9 +41,14 @@ Over-collateralized USD stablecoin powered by a unique liquidating algorithm ([L
 Savings version of crvUSD. An ERC-4626 compliant Vault that earns yield from crvUSD interest fees, with cross-chain oracle support.
 
   </DocCard>
-  <DocCard title="Llamalend" link="./lending/overview" linkText="Getting started">
+  <DocCard title="LlamaLend v2" link="./llamalend-v2/overview" linkText="Getting started">
 
-Permissionless lending markets to borrow or lend crvUSD against any asset with a proper oracle. Powered by Curve's unique liquidation algorithm, [LLAMMA](./crvusd/amm.md).
+Permissionless isolated lending markets for any ERC-20 pair, with ERC-4626 vaults, a LendFactory, Configurator, and LLAMMA soft liquidations.
+
+  </DocCard>
+  <DocCard title="LlamaLend v1 (legacy)" link="./lending/overview" linkText="Legacy reference">
+
+Historical reference for the earlier crvUSD-paired lending contracts. Use the v2 reference for new integrations.
 
   </DocCard>
   <DocCard title="Fees" link="./fees/overview" linkText="Getting started">

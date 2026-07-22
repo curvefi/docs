@@ -1,22 +1,22 @@
 ---
 id: deploy-lending-market
-title: Deploying a Lending Market
-sidebar_label: Deploying a Lending Market
+title: Deploying a LlamaLend v1 Market (Legacy)
+sidebar_label: Deploying a v1 Market (Legacy)
 ---
 
 import ThemedImage from '@theme/ThemedImage';
 
-:::important
-**Deployments Paused**: Currently the Curve team has paused new deployments for any further lending markets, as we await the release of Llamalend v2 in the coming months.
+:::warning
+This is historical documentation for **LlamaLend v1**. V1 markets are being phased out and **no new v1 markets will be deployed**. Its factories, `create_from_pool` flow, and crvUSD-pair requirement do not apply to v2. Any new market must use the [v2 LendFactory](/developer/llamalend-v2/lend-factory) and [Configurator](/developer/llamalend-v2/configurator) references.
 :::
 
-Currently, there's no UI for deploying lending markets, but you can deploy via Etherscan or contact the Curve team, who are happy to help deploy lending markets with the correct oracles and parameters.
+The following describes the historical v1 deployment flow. Do not use it to deploy a market; new markets must use LlamaLend v2.
 
 **Important**: You can only deploy lending markets if one of the tokens is crvUSD (either as the borrowable token or as the collateral token).
 
 ## Requirements
 
-**Data needed when deploying a new lending market:**
+**Data that the v1 deployment flow required:**
 
 - Token addresses of the collateral and borrowable tokens
 - Simulated parameters (A, fee, loan_discount, liquidation_discount)
@@ -26,11 +26,11 @@ Currently, there's no UI for deploying lending markets, but you can deploy via E
 
 For more information on how to acquire this information, see: [Oracles & Parameters](../oracles-and-parameters.md).
 
-## Deploying via Etherscan
+## Historical deployment via Etherscan
 
 This guide assumes you have all the required data from the [Requirements](#requirements) section ready.
 
-First, locate the appropriate Factory contract on Etherscan for your target chain. Currently, Llamalend is deployed on the following chains:
+The v1 factory contracts were deployed on the following chains:
 
 - **Ethereum**: [0xeA6876DDE9e3467564acBeE1Ed5bac88783205E0](https://etherscan.io/address/0xeA6876DDE9e3467564acBeE1Ed5bac88783205E0#writeContract#F1)
 - **Arbitrum**: [0xcaEC110C784c9DF37240a8Ce096D352A75922DeA](https://arbiscan.io/address/0xcaEC110C784c9DF37240a8Ce096D352A75922DeA#writeContract)
@@ -38,9 +38,9 @@ First, locate the appropriate Factory contract on Etherscan for your target chai
 - **Optimism**: [0x5EA8f3D674C70b020586933A0a5b250734798BeF](https://optimistic.etherscan.io/address/0x5EA8f3D674C70b020586933A0a5b250734798BeF#writeContract)
 - **Sonic**: [0x30D1859DaD5A52aE03B6e259d1b48c4b12933993](https://sonicscan.org/address/0x30D1859DaD5A52aE03B6e259d1b48c4b12933993#writeContract)
 
-## Deployment Methods
+## Historical deployment methods
 
-There are two deployment methods available:
+The v1 factory offered two deployment methods:
 
 1. **`create_from_pool` function**: Use this when both tokens exist in the same Curve liquidity pool with a suitable oracle. The factory will automatically use the pool's EMA oracle, eliminating the need for an external oracle.
 

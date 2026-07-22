@@ -76,7 +76,7 @@ The `FlashLender.vy` contract allows users to take out a flash loan for `crvUSD`
 
 ## Controller & AMM Versions
 
-The crvUSD mint markets use several iterations of the Controller and AMM (LLAMMA) contracts. Each version was deployed as a new **blueprint** — existing markets are not affected when a new implementation is set. Llamalend later adopted the V3 blueprint, so all Llamalend markets share the same Controller/AMM version as the latest crvUSD markets.
+The crvUSD mint markets use several iterations of the Controller and AMM (LLAMMA) contracts. Each version was deployed as a new **blueprint** — existing markets are not affected when a new implementation is set. **LlamaLend v1** adopted the V3 blueprint, so its markets share the same Controller/AMM version as the latest crvUSD markets. LlamaLend v2 uses a separate Vyper 0.4.3 modular architecture.
 
 ### Version Matrix
 
@@ -87,7 +87,7 @@ The crvUSD mint markets use several iterations of the Controller and AMM (LLAMMA
 | **V3** | 0.3.10 | `0xe3e...415` ([Etherscan](https://etherscan.io/address/0xe3e3Fb7E9f48d26817b7210C9bD6B22744790415)) | `0x2B7...e9` ([Etherscan](https://etherscan.io/address/0x2B7e624bdb839975d56D8428d9f6A4cf1160D3e9)) | [b0240d8](https://github.com/curvefi/curve-stablecoin/tree/b0240d844c9e60fdab78b481a556a187ceee3721) |
 
 :::info
-V3 is the **current blueprint** set on the Controller Factory. It is also the version used by all [Llamalend](../lending/overview.md) markets.
+V3 is the **current blueprint** set on the Controller Factory. It is also the version used by [LlamaLend v1](../lending/overview.md) markets; see [LlamaLend v2](../llamalend-v2/overview.md) for the newer lending architecture.
 :::
 
 ### Market → Version Mapping
@@ -113,13 +113,13 @@ V3 is the **current blueprint** set on the Controller Factory. It is also the ve
 
 #### V2 → V3
 
-V3 is a significant upgrade that was developed alongside Llamalend. The same blueprint is shared by crvUSD mint markets and all Llamalend lending markets.
+V3 is a significant upgrade that was developed alongside LlamaLend v1. The same blueprint is shared by crvUSD mint markets and LlamaLend v1 lending markets.
 
 - **Compiler upgrade**: Vyper 0.3.9 → 0.3.10.
 - **Delegated loan creation**: `create_loan`, `borrow_more`, `repay`, and `liquidate` accept an optional `_for` parameter, allowing approved operators to manage loans on behalf of users. See [`approve`](./controller.md#approve).
 - **Extra health buffer**: Users can set [`extra_health`](./controller.md#extra_health) via [`set_extra_health`](./controller.md#set_extra_health), adding a health buffer when entering soft liquidation.
 - **Extended borrow**: New [`borrow_more_extended`](./controller.md#borrow_more_extended) function supporting callback-based leverage.
-- **Arbitrary-decimal tokens**: The Controller now handles tokens with any number of decimals (not just 18), with rounding adjusted in favor of existing borrowers. This was necessary for Llamalend's flexible token support.
-- **`collect_fees()` disabled for lending**: In Llamalend markets, admin fees are zero and all interest goes to vault depositors.
+- **Arbitrary-decimal tokens**: The Controller now handles tokens with any number of decimals (not just 18), with rounding adjusted in favor of existing borrowers. This was necessary for LlamaLend v1's flexible token support.
+- **`collect_fees()` disabled for lending**: In LlamaLend v1 markets, admin fees are zero and all interest goes to vault depositors. LlamaLend v2 has separately configurable admin percentages.
 - **Native ETH transfers removed**: Automatic ETH wrapping is permanently disabled for safety.
-- **`check_lock` / `save_rate`**: New external helpers used by the Vault contract in Llamalend.
+- **`check_lock` / `save_rate`**: New external helpers used by the Vault contract in LlamaLend v1.
