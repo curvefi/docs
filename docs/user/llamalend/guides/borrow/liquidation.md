@@ -6,10 +6,14 @@ sidebar_label: Loan in Liquidation
 
 import ThemedImage from '@theme/ThemedImage';
 
-If your loan enters liquidation protection, you have more time and flexibility to act. You have two main options:
+If your loan enters liquidation protection, LLAMMA's gradual conversions can give you more time to act than liquidation at one specific price. The conversions also reduce collateral value and health, even while price is recovering.
+
+For most users, the recommended response is to close or reset the position. Keeping it open is an aggressive strategy for users who understand LLAMMA, monitor health continuously, and accept the risk of hard liquidation.
+
+You have two main options:
 
 - **Close your loan**: Stop further losses by closing the position
-- **Keep your loan open**: Monitor your health closely to avoid reaching 0%
+- **Keep your loan open**: Accept continuing conversion losses and monitor health closely to avoid reaching 0%
 
 ## Close Your Loan
 
@@ -27,13 +31,19 @@ You can only get out of liquidation protection by:
 1. **Repay the full loan and create a new one**
 2. **Wait for price recovery**: If the collateral price moves above or below the liquidation range, you'll exit liquidation protection
 
+:::info[LlamaLend v2 reset]
+
+LlamaLend v2 adds a repay-and-shrink path that can cut the converted part and reset a position out of liquidation protection. This reset is not available in LlamaLend v1.
+
+:::
+
 :::warning Monitor Your Health
-Watch your health closely - if it reaches 0%, your loan will be fully liquidated.
+Watch your health closely—even an appreciating collateral price can coincide with falling health while conversions continue. If health reaches 0%, your loan will be fully liquidated.
 :::
 
 ## Keep Your Loan Open
 
-If you choose to keep your position open, monitor your loan health closely to avoid reaching 0%.
+Keeping a position open in liquidation protection is high risk. Repeated movement through the bands compounds conversion losses, so monitor health continuously and be prepared to repay or close.
 
 Use the [Llamalend Telegram bot](https://news.curve.fi/llamalend-telegram-bot/) to track your loan health and receive alerts.
 

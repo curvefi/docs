@@ -83,7 +83,7 @@ The [LendFactory](./lend-factory.md) deploys new markets from blueprint contract
 
 **Borrowers** interact with the LendController to create loans, add/remove collateral, borrow more, or repay. The controller enforces borrow caps and manages the debt accounting.
 
-**Collateral** is held in the AMM (LLAMMA), distributed across price bands. As the collateral price drops toward the liquidation range, the AMM gradually converts collateral to the borrowed token — this is **soft liquidation**. If the price recovers, the conversion reverses (**de-liquidation**). If a borrower's health drops below zero, anyone can call `liquidate()` on the controller to close the position.
+**Collateral** is held in the AMM (LLAMMA), distributed across price bands. As the collateral price drops toward the liquidation range, the AMM gradually converts collateral to the borrowed token — this is **soft liquidation**. A price recovery can reverse the direction of conversion (**de-liquidation**), but it does not reverse the losses from earlier exchanges. Every conversion can erode collateral value and health, and a position whose health drops below zero can be closed through `liquidate()`.
 
 The [LendControllerView](./lend-controller-view.md) is a stateless helper that computes health previews, max borrowable amounts (respecting borrow caps), and other read-only calculations.
 
@@ -97,7 +97,7 @@ The [Configurator](./configurator.md) is the permissioned administrative entry p
 
 - **Flexible token pairs** — lending markets are no longer required to include crvUSD as either the borrowed or collateral asset. The pair must satisfy the factory's token metadata, decimal, transfer, and parameter requirements.
 - **Admin fees on lending markets** — v2 makes the per-market admin percentage configurable through the configurator's `configure_lend()` call. The factory can also set a controller-specific fee receiver, allowing revenue to be directed to a DAO, asset issuer, or curator.
-- **Exit soft liquidation via repay** — calling `repay()` with `shrink=True` allows users to exit soft-liquidation by cutting the converted part of their position. `tokens_to_shrink()` indicates how many additional borrowed tokens are required (can be 0).
+- **Reset a soft-liquidated position via repay** — calling `repay()` with `shrink=True` allows users to exit soft liquidation by cutting the converted part of their position. `tokens_to_shrink()` indicates how many additional borrowed tokens are required (can be 0). This v2 path limits further exposure to band conversions; it does not recover losses already incurred.
 - **Per-operation health previews** — dedicated preview functions (`create_loan_health_preview`, `borrow_more_health_preview`, `add_collateral_health_preview`, `remove_collateral_health_preview`, `repay_health_preview`, `liquidate_health_preview`) replace the single `health_calculator()` from v1.
 - **Merged extended methods** — all `*_extended` functions (e.g., `create_loan_extended`) have been merged into their base counterparts using Vyper keyword arguments, simplifying the ABI.
 
@@ -108,7 +108,7 @@ The [Configurator](./configurator.md) is the permissioned administrative entry p
 ## Security Improvements
 
 - **Vault balance accounting** — the ERC4626 Vault's internal accounting has been reworked. In v1, the balance value could be inflated, enabling the exploit vector behind the Resupply hack. The new accounting prevents this and makes it easier to build protocols on top of Llamalend.
-- **Borrow caps** — per-market `borrow_cap`, configured through `configure_lend()`. It defaults to zero, so a new market cannot accept borrowing until its authorized configurator raises the cap.
+- **Borrow caps** — per-market `borrow_cap`, configured through `configure_lend()`. It defaults to zero. The current Ethereum and Optimism Configurators are administered by Curve DAO ownership agents, so activation requires a DAO ownership vote unless the DAO assigns a controller-specific administrator.
 - **Supply caps** — per-vault deposit limits (`maxSupply`), configurable by the factory owner. `max(uint256)` is unlimited and `0` disables new deposits.
 - **Settable price oracle** — in v1, the price oracle was fixed at deployment, leading people to build proxy contracts as workarounds. v2 enshrines oracle upgradability at the protocol level with `set_price_oracle()` (DAO-gated).
 - **Pausable factory** — the LendFactory can be paused via Snekmate's `pausable` module, preventing new market creation in emergencies while existing markets continue to operate normally.
@@ -185,7 +185,7 @@ The **borrower-facing contract** for each market. Wraps the core `controller.vy`
   </DocCard>
   <DocCard title="AMM (LLAMMA)" icon="vyper" link="./amm" linkText="AMM.vy">
 
-The **Lending-Liquidating AMM** that holds collateral in discretized price bands. Performs soft liquidation by gradually converting collateral as prices drop, and de-liquidation when prices recover.
+The **Lending-Liquidating AMM** that holds collateral in discretized price bands. It converts collateral gradually as prices move through the bands. The direction can reverse during a recovery, but conversion losses do not.
 
   </DocCard>
 </DocCardGrid>

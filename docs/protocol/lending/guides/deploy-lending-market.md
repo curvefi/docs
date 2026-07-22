@@ -8,13 +8,13 @@ LlamaLend v2 markets are deployed permissionlessly through the `LendFactory`. A 
 
 :::warning[Deployment is not activation]
 
-New Controllers start with a borrow cap of zero. Deploying a market does not enable borrowing or give the deployer administrative rights. Coordinate with the Configurator administrator before deployment if the market is intended to become active.
+New Controllers start with a borrow cap of zero. Deploying a market does not enable borrowing or give the deployer administrative rights. The deployed Configurators are administered by Curve DAO ownership agents, so activation requires a DAO ownership vote unless the DAO assigns a controller-specific administrator.
 
 :::
 
 ## Supported Deployments
 
-The verified LlamaLend v2 factories currently report version `2.0.0` on **Ethereum** and **Optimism**. Addresses are chain-specific. Use the [LlamaLend v2 deployment table](/developer/llamalend-v2/overview#deployments) as the canonical address reference and verify the selected factory's `version()` before sending a transaction.
+LlamaLend v2 is currently deployed only on **Ethereum** and **Optimism**. Both verified factories report version `2.0.0`. Addresses are chain-specific: use the [LlamaLend v2 deployment table](/developer/llamalend-v2/overview#deployments) as the canonical reference and verify the selected factory's `version()` before sending a transaction.
 
 Do not use an address from another network or a deprecated factory.
 
@@ -27,10 +27,16 @@ Prepare and independently review:
 - an initialized monetary-policy contract;
 - simulated `A`, AMM fee, loan discount, and liquidation discount;
 - an initial Vault supply limit in raw borrowed-token units;
-- a plan for the Configurator administrator to set the borrow cap and any other post-deployment parameters;
+- a Curve DAO ownership proposal for the initial borrow cap and any other post-deployment parameters, or for assigning a controller-specific administrator;
 - initial lender liquidity, monitoring, and incident-response ownership.
 
 See [Oracles & Parameters](../oracles-and-parameters.md) before constructing the transaction.
+
+:::info[Need help?]
+
+For help reviewing an oracle, parameter set, deployment, or governance proposal, contact **SwissStake** through Curve's [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).
+
+:::
 
 ## The `create()` Call
 
@@ -67,29 +73,19 @@ The transaction also emits `NewVault`, which contains the market index, token pa
 
 Never enter display-formatted decimals directly into a contract field. Convert amounts to integers using the relevant token decimals first.
 
-## Deployment Steps
+## Deploy and Verify
 
-### 1. Select and Verify the Factory
+This section assumes familiarity with contract deployment, integer encoding, transaction simulation, and receipt decoding.
 
-Choose the factory for the transaction's chain from the canonical deployment table. Confirm that the address has bytecode and that `version()` returns the expected v2 version.
+### 1. Prepare the Deployment
 
-### 2. Validate External Contracts
+Choose the factory for the transaction's chain and confirm its bytecode and `version()`. Validate the token metadata, oracle, and monetary policy, then encode all token amounts and WAD-scaled parameters as integers. The factory rejects identical tokens, unsupported decimal precision, invalid `A` or discount ordering, and an oracle whose initial `price()` and `price_w()` values are zero or unequal.
 
-Check the token metadata, oracle output, and monetary-policy behavior. The factory will reject identical tokens, unsupported decimal precision, an invalid `A`, invalid discount ordering, or an oracle whose initial `price()` and `price_w()` values are zero or unequal.
+### 2. Simulate and Submit `create()`
 
-### 3. Encode Integer Parameters
+Simulate `create()` from the intended account against current fork or RPC state. Review the decoded calldata and expected `[vault, controller, amm]` return order, then submit through a deployment script or contract client. Preserve the transaction hash and deployment manifest. Passing contract validation does not prove the economic configuration is safe.
 
-Convert token amounts and WAD-scaled percentages without floating-point arithmetic. Review every address and integer with a second person or automated deployment manifest.
-
-### 4. Simulate the Call
-
-Simulate `create()` from the intended account against a current fork or RPC state. A simulation should confirm contract validation and the returned address ordering, but it does not prove that the economic configuration is safe.
-
-### 5. Submit `create()`
-
-Call the factory through a verified block-explorer interface, deployment script, or contract client. Preserve the transaction hash and decoded inputs as the market's deployment record.
-
-### 6. Verify Registration
+### 3. Verify the Registered Market
 
 After confirmation:
 
@@ -101,11 +97,11 @@ After confirmation:
 
 ## Activate the Market
 
-The Configurator's default administrator may assign a custom administrator for the new Controller. The default or assigned administrator can then set the borrow cap and other authorized parameters.
+On both current deployments, the Configurator's default administrator is a Curve DAO ownership agent. Submit a DAO ownership vote that calls `Configurator.set_borrow_cap(controller, cap)`. The proposal may also call `set_custom_admin(controller, admin)` if the DAO intends to delegate later parameter management for that market. On Optimism, the passed DAO action is executed through Curve's cross-chain governance path.
 
 A market is ready for borrowers only after:
 
-- the borrow cap is intentionally raised above zero;
+- the DAO vote has passed and executed, and the borrow cap is confirmed above zero;
 - the Vault has enough available borrowed-token liquidity;
 - the oracle and monetary policy are operating as expected;
 - frontend and monitoring systems recognize the new market;

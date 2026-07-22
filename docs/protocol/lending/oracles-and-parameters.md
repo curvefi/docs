@@ -39,7 +39,7 @@ When a market is created, the factory calls both functions and requires the retu
 
 A Curve pool oracle can be one input to an oracle design, but the v2 factory does not automatically derive an oracle from a pool. The address passed to `create()` must already be a complete, initialized oracle implementing the required interface.
 
-The authorized Configurator administrator can later replace the oracle through a deviation-checked update. Upgradability helps respond to changing conditions, but it also makes the market's administration and monitoring model part of the risk assessment.
+The Configurator can later replace the oracle through a deviation-checked update. On the current deployments, this requires a Curve DAO ownership vote unless the DAO has assigned a controller-specific administrator. Upgradability helps respond to changing conditions, but it also makes the market's administration and monitoring model part of the risk assessment.
 
 ## Monetary Policy
 
@@ -69,10 +69,10 @@ The following settings are not controlled by the account that happens to deploy 
 
 | Setting | Initial behavior | Who can change it? |
 | --- | --- | --- |
-| **Borrow cap** | Starts at `0`, which prevents new debt | Configurator default admin or the Controller's assigned custom admin |
-| **Admin percentage** | Starts at `0` | Configurator default admin or assigned custom admin |
+| **Borrow cap** | Starts at `0`, which prevents new debt | Curve DAO ownership agent by default; a controller-specific admin only after DAO assignment |
+| **Admin percentage** | Starts at `0` | Curve DAO ownership agent by default; assigned custom admin if configured |
 | **Supply limit** | Set from `supply_limit`; `max(uint256)` leaves it unlimited | LendFactory owner, directly through the Vault |
-| **Discounts, monetary policy, oracle, and AMM fee** | Set from deployment inputs | Configurator default admin or assigned custom admin |
+| **Discounts, monetary policy, oracle, and AMM fee** | Set from deployment inputs | Curve DAO ownership agent by default; assigned custom admin if configured |
 | **Fee receiver** | Factory default unless a Controller-specific receiver is set | LendFactory owner |
 
 Values representing token amounts use the relevant token's native decimals. Percentages and discounts use WAD precision unless the referenced contract states otherwise.
@@ -87,6 +87,6 @@ Before deployment, document:
 4. Monetary-policy behavior across the expected utilization range.
 5. Simulated `A`, fee, discounts, and liquidation outcomes using v2-compatible tooling.
 6. Initial and emergency supply and borrow caps.
-7. The administrator, fee receiver, monitoring owner, and activation process.
+7. The DAO proposal, any delegated administrator, fee receiver, monitoring owner, and activation process.
 
 For exact ABI details and enforced bounds, use the [LendFactory](/developer/llamalend-v2/lend-factory) and [Configurator](/developer/llamalend-v2/configurator) references.
