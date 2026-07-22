@@ -41,7 +41,7 @@ After setting up these two secrets, the notebook can successfully be run directl
 
 ## Notebook List
 
-### Curve Lending
+### LlamaLend v1 (legacy)
 
 | Contract | Description | Link |
 | :-------: | ----------- | :-----: |

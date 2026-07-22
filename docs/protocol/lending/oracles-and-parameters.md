@@ -1,10 +1,16 @@
 ---
 id: oracles-and-parameters
-title: Oracles & Parameters
-sidebar_label: Oracles & Parameters
+title: LlamaLend v1 Oracles & Parameters (Legacy)
+sidebar_label: v1 Oracles & Parameters (Legacy)
 ---
 
 import SemiLogChart from '@site/src/components/SemiLogChart';
+
+:::warning
+
+This guide documents **LlamaLend v1** oracle and parameter assumptions, including crvUSD-denominated collateral oracles. LlamaLend v2 allows any ERC-20 pair; its contract configuration is documented in the [v2 Configurator reference](/developer/llamalend-v2/configurator).
+
+:::
 
 When deploying a Llamalend lending market, two critical components must be carefully configured: **price oracles** and **market parameters**. These form the foundation for a secure, efficient, and profitable lending market.
 
@@ -18,7 +24,7 @@ Jump into their <a href="https://t.me/llamarisk" target="_blank" rel="noopener n
 
 ## Oracles
 
-Llamalend markets require smooth (exponential moving average) oracles to price the collateral asset. Spot oracles do not work well as the liquidation mechanism of Llamalend requires smooth price feeds to ensure maximum efficiency. The easiest way to obtain this is through deploying a **liquidity pool** on Curve, which already comes with built-in oracles that can be used for lending markets.
+LlamaLend v1 markets require smooth (exponential moving average) oracles to price the collateral asset. Spot oracles do not work well as the liquidation mechanism requires smooth price feeds to ensure maximum efficiency. The easiest way to obtain this is through deploying a **liquidity pool** on Curve, which already comes with built-in oracles that can be used for lending markets.
 
 Every Curve pool includes a direct built-in oracle that can be used for lending markets, provided the pool has sufficient TVL. Curve offers pools for all sorts of assets. Learn more here: [Curve Liquidity Pool Oracles](../pool/compare-amm.md#built-in-price-oracles).
 

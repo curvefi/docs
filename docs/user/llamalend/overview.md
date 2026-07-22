@@ -9,7 +9,13 @@ import BadgeGrid from '@site/src/components/BadgeGrid'
 import ThemedImage from '@theme/ThemedImage';
 import GhostPosts from '@site/src/components/GhostPosts';
 
-Llamalend is Curve's non-custodial lending infrastructure allowing users to borrow crvUSD against their crypto assets or lend crvUSD to markets. The infrastructure is fully built on crvUSD and therefore each market has to contain crvUSD as a token (either as the borrow token or the collateral token).
+:::info[Version note]
+
+This user guide currently describes **LlamaLend v1** markets. V1 markets are being phased out and **no new v1 markets will be deployed**. V1 markets require crvUSD as either the borrow or collateral token. [LlamaLend v2](/developer/llamalend-v2/overview) supports any ERC-20 pair and is required for all new markets.
+
+:::
+
+LlamaLend v1 is Curve's non-custodial lending infrastructure allowing users to borrow crvUSD against their crypto assets or lend crvUSD to markets. Each v1 market contains crvUSD as either the borrow token or the collateral token.
 
 There are two distinct ways to use Llamalend:
 

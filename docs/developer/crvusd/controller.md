@@ -15,13 +15,13 @@ Each market deploys its own Controller from a blueprint contract. Source code is
 :::
 
 :::info[Contract Versions]
-This page documents **Controller V3** (Vyper 0.3.10), the current blueprint used for new crvUSD mint markets and all Llamalend markets. Where the API differs from earlier versions, both implementations are shown in tabs.
+This page documents **Controller V3** (Vyper 0.3.10), the current blueprint used for new crvUSD mint markets and **LlamaLend v1** markets. LlamaLend v2 uses a separate Vyper 0.4.3 `LendController`; see the [v2 reference](../llamalend-v2/lend-controller.md). Where the API differs from earlier versions, both implementations are shown in tabs.
 
 | Version | Vyper | Markets |
 |---------|-------|---------|
 | V1 | 0.3.7 | sfrxETH (v1), wstETH, WBTC, WETH |
 | V2 | 0.3.9 | sfrxETH (v2), tBTC |
-| **V3** | **0.3.10** | **weETH, cbBTC, LBTC + all Llamalend** |
+| **V3** | **0.3.10** | **weETH, cbBTC, LBTC + LlamaLend v1** |
 
 For full version details, see the [crvUSD Overview](./overview.md#controller--amm-versions).
 :::
@@ -36,9 +36,9 @@ For full version details, see the [crvUSD Overview](./overview.md#controller--am
 Minting crvUSD is only possible with whitelisted collateral approved by the DAO. Users provide collateral, which is deposited into LLAMMA according to the number of bands chosen. crvUSD is **backed by the assets provided as collateral**. The system does not actually mint crvUSD — tokens are "pre-minted" to the Controller from which they can be borrowed.
 
   </DocCard>
-  <DocCard title="Curve Lending Markets" icon="vyper" link="../lending/overview" linkText="Lending Overview">
+  <DocCard title="LlamaLend v1 Markets" icon="vyper" link="../lending/overview" linkText="Legacy reference">
 
-In lending markets, any token composition is possible as long as one of the assets is crvUSD. Unlike the minting system, borrowed assets are **not minted but provided by lenders** who deposit into an [ERC-4626 Vault](../lending/contracts/vault.md), where they earn interest.
+In LlamaLend v1 markets, one asset must be crvUSD. Unlike the minting system, borrowed assets are **not minted but provided by lenders** who deposit into an [ERC-4626 Vault](../lending/contracts/vault.md), where they earn interest. LlamaLend v2 supports any ERC-20 pair.
 
   </DocCard>
 </DocCardGrid>
@@ -59,7 +59,7 @@ $$LTV = 100\% - \text{loan\_discount} - 100 \cdot \frac{N}{2 \cdot A}$$
 
 :::info[V3 Only — Extra Health Buffer]
 
-Controller V3 allows users to set [`extra_health`](#extra_health) via [`set_extra_health`](#set_extra_health) before creating a loan. This adds a health buffer when entering soft liquidation. Available in weETH, cbBTC, LBTC markets and all Llamalend markets.
+Controller V3 allows users to set [`extra_health`](#extra_health) via [`set_extra_health`](#set_extra_health) before creating a loan. This adds a health buffer when entering soft liquidation. Available in weETH, cbBTC, LBTC markets and LlamaLend v1 markets.
 
 :::
 
@@ -870,7 +870,7 @@ def deposit_range(user: address, amount: uint256, n1: int256, n2: int256):
 
 :::info[V3 Only]
 
-Introduced in Controller V3 (Vyper 0.3.10). Available in weETH, cbBTC, LBTC markets and all Llamalend markets.
+Introduced in Controller V3 (Vyper 0.3.10). Available in weETH, cbBTC, LBTC markets and LlamaLend v1 markets.
 
 :::
 
@@ -912,7 +912,7 @@ extra_health: public(HashMap[address, uint256])
 
 :::info[V3 Only]
 
-Introduced in Controller V3 (Vyper 0.3.10). Available in weETH, cbBTC, LBTC markets and all Llamalend markets.
+Introduced in Controller V3 (Vyper 0.3.10). Available in weETH, cbBTC, LBTC markets and LlamaLend v1 markets.
 
 :::
 
@@ -960,7 +960,7 @@ def set_extra_health(_value: uint256):
 
 :::info[V3 Only]
 
-Introduced in Controller V3 (Vyper 0.3.10). Available in weETH, cbBTC, LBTC markets and all Llamalend markets.
+Introduced in Controller V3 (Vyper 0.3.10). Available in weETH, cbBTC, LBTC markets and LlamaLend v1 markets.
 
 :::
 
@@ -1001,7 +1001,7 @@ False
 
 :::info[V3 Only]
 
-Introduced in Controller V3 (Vyper 0.3.10). Available in weETH, cbBTC, LBTC markets and all Llamalend markets.
+Introduced in Controller V3 (Vyper 0.3.10). Available in weETH, cbBTC, LBTC markets and LlamaLend v1 markets.
 
 :::
 

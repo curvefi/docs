@@ -1,6 +1,13 @@
 import DocCard, { DocCardGrid } from '@site/src/components/DocCard'
 
 # Monetary Policies: Overview
+
+:::warning
+
+These are LlamaLend v1 monetary-policy contracts. LlamaLend v2 markets configure a policy through the [Configurator](../../llamalend-v2/configurator.md).
+
+:::
+
 Lending markets use monetary policies to determine interest rates. Each market has its own policy contract.
 
 *Currently, there are two different kinds of policy contracts in use:*

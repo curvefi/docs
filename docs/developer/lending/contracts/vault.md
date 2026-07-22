@@ -1,5 +1,11 @@
 # Vault
 
+:::warning
+
+This page documents the LlamaLend v1 Vault. For the v2 ERC-4626 implementation, see the [LlamaLend v2 Vault reference](../../llamalend-v2/vault.md).
+
+:::
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 

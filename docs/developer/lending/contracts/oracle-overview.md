@@ -1,6 +1,13 @@
 import DocCard, { DocCardGrid } from '@site/src/components/DocCard'
 
 # Lending Oracles: Overview
+
+:::warning
+
+These oracle contracts are documented for LlamaLend v1. For LlamaLend v2 market configuration, see the [Configurator](../../llamalend-v2/configurator.md).
+
+:::
+
 *There are two main contracts for lending oracles:*
 
 <DocCardGrid>

@@ -7,6 +7,12 @@ Additionally, Curve has launched its own stablecoin, **crvUSD**, and **Curve Len
 
 This documentation outlines the technical implementation of the core Curve protocol and related smart contracts. It may be useful for contributors to the Curve codebase, third-party integrators, or technically proficient users of the protocol.
 
+:::warning[LlamaLend v1 is deprecated]
+
+LlamaLend v1 markets are being phased out and no new v1 markets will be deployed. Use [LlamaLend v2](./llamalend-v2/overview.md) for all new markets and integrations.
+
+:::
+
 :::tip[Resources for Non-Technical Users]
 
 Non-technical users might prefer the **[User Docs](/user/introduction)** site as it offers more general insights and information.
@@ -41,9 +47,14 @@ Over-collateralized USD stablecoin powered by a unique liquidating algorithm ([L
 Savings version of crvUSD. An ERC-4626 compliant Vault that earns yield from crvUSD interest fees, with cross-chain oracle support.
 
   </DocCard>
-  <DocCard title="Llamalend" link="./lending/overview" linkText="Getting started">
+  <DocCard title="LlamaLend v2" link="./llamalend-v2/overview" linkText="Getting started">
 
-Permissionless lending markets to borrow or lend crvUSD against any asset with a proper oracle. Powered by Curve's unique liquidation algorithm, [LLAMMA](./crvusd/amm.md).
+Permissionless isolated lending markets for any ERC-20 pair, with ERC-4626 vaults, a LendFactory, Configurator, and LLAMMA soft liquidations.
+
+  </DocCard>
+  <DocCard title="LlamaLend v1 (legacy)" link="./lending/overview" linkText="Legacy reference">
+
+Historical reference for the earlier crvUSD-paired lending contracts. Use the v2 reference for new integrations.
 
   </DocCard>
   <DocCard title="Fees" link="./fees/overview" linkText="Getting started">

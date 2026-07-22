@@ -1,5 +1,12 @@
-# Curve Lending: Overview
-Curve lending allows the **creation of permissionless lending/borrowing markets to borrow crvUSD against any token, or to borrow any token against crvUSD in an isolated mode**, powered by **LLAMMA** for soft-liquidations. All markets are **isolated** from each other and do not intertwine.
+# LlamaLend v1: Legacy Overview
+
+:::warning
+
+This section documents **LlamaLend v1** contracts, including the crvUSD-pair requirement and the Vyper 0.3.x Controller/AMM design. LlamaLend v1 markets are being phased out: **no new v1 markets will be deployed**. Any new market must use [LlamaLend v2](../llamalend-v2/overview.md).
+
+:::
+
+LlamaLend v1 allowed the **creation of permissionless lending/borrowing markets to borrow crvUSD against any token, or to borrow any token against crvUSD in an isolated mode**, powered by **LLAMMA** for soft-liquidations. Existing markets are **isolated** from each other and do not intertwine.
 
 The **borrowable liquidity is provided by willing lenders**through [Vaults](./contracts/vault.md), which are [ERC4626](https://ethereum.org/en/developers/docs/standards/tokens/erc-4626/) contracts with some additional methods for convenience.
 

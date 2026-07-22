@@ -66,7 +66,7 @@ export default {
         },
         {
             type: 'category',
-            label: 'Lending Markets (Llamalend)',
+            label: 'Lending Markets (LlamaLend)',
             items: [
                 {
                     type: 'doc',

@@ -1,4 +1,11 @@
 # Building Leverage
+
+:::warning
+
+This page covers LlamaLend v1 leverage integrations. Validate v2 compatibility against the [LlamaLend v2 contracts](../../llamalend-v2/overview.md) before reusing a zap or callback flow.
+
+:::
+
 There are multiple ways on how to create automated leverage for lending markets:
 
 - v1: using the [Curve Pools](../../crvusd/leverage/leverage-zap.md)

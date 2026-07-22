@@ -1,10 +1,16 @@
 ---
 id: post-deployment
-title: Post Deployment
-sidebar_label: Post Deployment
+title: LlamaLend v1 Post Deployment (Legacy)
+sidebar_label: v1 Post Deployment (Legacy)
 ---
 
 import GuideCardGrid from '@site/src/components/GuideCardGrid';
+
+:::warning
+
+This operational guide applies to **LlamaLend v1** markets. For LlamaLend v2 market contracts and permissions, use the [v2 LendFactory](/developer/llamalend-v2/lend-factory) and [Configurator](/developer/llamalend-v2/configurator) references.
+
+:::
 
 After deploying a lending market, there are a few important steps to ensure it’s visible in the UI, functional, and capable of attracting liquidity and rewards.
 

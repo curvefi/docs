@@ -1,5 +1,11 @@
 # OneWay Lending Factory
 
+:::warning
+
+This is the LlamaLend v1 factory. For new LlamaLend v2 markets, use the [LendFactory reference](../../llamalend-v2/lend-factory.md).
+
+:::
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 

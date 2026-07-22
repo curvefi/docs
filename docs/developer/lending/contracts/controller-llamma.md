@@ -2,13 +2,19 @@ import DocCard, { DocCardGrid } from '@site/src/components/DocCard'
 
 # LLAMMA and Controller
 
+:::warning
+
+This page documents the LlamaLend v1 Controller V3 and AMM contracts. For LlamaLend v2, use the [LendController](../../llamalend-v2/lend-controller.md) and [AMM](../../llamalend-v2/amm.md) references.
+
+:::
+
 :::vyper[`AMM.vy` & `Controller.vy`]
 
 The source code for both contracts, `AMM.vy` and `Controller.vy`, can be found on [GitHub](https://github.com/curvefi/curve-stablecoin/tree/master/curve_stablecoin). The contracts are written using [Vyper](https://github.com/vyperlang/vyper) version `0.3.10`.
 
 :::
 
-Llamalend uses **Controller V3** — the same blueprint that powers the latest crvUSD mint markets (weETH, cbBTC, LBTC). The Controller and AMM contracts originated in the crvUSD system and were extended for lending use. For a full version history including the evolution from crvUSD V1 through V3, see the [crvUSD Overview](../../crvusd/overview.md#controller--amm-versions).
+LlamaLend v1 uses **Controller V3** — the same blueprint that powers the latest crvUSD mint markets (weETH, cbBTC, LBTC). The Controller and AMM contracts originated in the crvUSD system and were extended for lending use. For a full version history including the evolution from crvUSD V1 through V3, see the [crvUSD Overview](../../crvusd/overview.md#controller--amm-versions).
 
 Because Curve Lending operates very similarly to the system for minting crvUSD, both `Controller.vy` and `AMM.vy` can be used for lending markets. To ensure full compatibility with both systems, **several modifications were made in V3**:
 
