@@ -62,6 +62,9 @@ graph TB
     Factory -- "deploys" --> C
     Factory -- "deploys" --> AMM
 
+    Configurator["Configurator"] -- "configures" --> C
+    Configurator -- "configures" --> AMM
+
     V -- "transfers borrowed tokens" --> C
     C -- "manages collateral in" --> AMM
     C -- "delegates view calls" --> CV
@@ -83,6 +86,8 @@ The [LendFactory](./lend-factory.md) deploys new markets from blueprint contract
 **Collateral** is held in the AMM (LLAMMA), distributed across price bands. As the collateral price drops toward the liquidation range, the AMM gradually converts collateral to the borrowed token — this is **soft liquidation**. If the price recovers, the conversion reverses (**de-liquidation**). If a borrower's health drops below zero, anyone can call `liquidate()` on the controller to close the position.
 
 The [LendControllerView](./lend-controller-view.md) is a stateless helper that computes health previews, max borrowable amounts (respecting borrow caps), and other read-only calculations.
+
+The [Configurator](./configurator.md) is the permissioned administrative entry point for controller, AMM, monetary-policy, oracle, and lending-market settings.
 
 
 ---
@@ -171,6 +176,11 @@ The **borrower-facing contract** for each market. Wraps the core `controller.vy`
   <DocCard title="LendControllerView" icon="vyper" link="./lend-controller-view" linkText="LendControllerView.vy">
 
 **Stateless view helper** that computes cap-aware max borrowable amounts, health previews, and user state queries. Delegates most logic to the base `ControllerView`.
+
+  </DocCard>
+  <DocCard title="Configurator" icon="vyper" link="./configurator" linkText="Configurator.vy">
+
+**Permissioned market administration** for controllers and AMMs. Sets per-market administrators, borrow caps, interest allocation, oracle, fee, callback, policy, and view configuration.
 
   </DocCard>
   <DocCard title="AMM (LLAMMA)" icon="vyper" link="./amm" linkText="AMM.vy">
