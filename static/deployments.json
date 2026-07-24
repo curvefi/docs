@@ -218,7 +218,7 @@
       "emergency-dao-multisig": "0x6d447e544D01a59cb0774763bf15526574CffFeD"
     },
     "x-gov": {
-      "l1-broadcaster": "0x7BA33456EC00812C6B6BB6C1C3dfF579c34CC2cc",
+      "l1-broadcaster": "0xb7b0FF38E0A01D798B5cd395BbA6Ddb56A323830",
       "l2-relayer": "0xb7b0FF38E0A01D798B5cd395BbA6Ddb56A323830",
       "ownership-agent": "0x452030a5D962d37D97A9D65487663cD5fd9C2B32",
       "parameter-agent": "0x5ccbB27FB594c5cF6aC0670bbcb360c0072F6839",
@@ -877,7 +877,7 @@
       "emergency-dao-multisig": "0x6d447e544D01a59cb0774763bf15526574CffFeD"
     },
     "x-gov": {
-      "l1-broadcaster": "0x7BA33456EC00812C6B6BB6C1C3dfF579c34CC2cc",
+      "l1-broadcaster": "0xE0fE4416214e95F0C67Dc044AAf1E63d6972e0b9",
       "l2-relayer": "0x7BE6BD57A319A7180f71552E58c9d32Da32b6f96",
       "ownership-agent": "0x4BbdFEd5696b3a8F6B3813506b5389959C5CDC57",
       "parameter-agent": "0x61E0521A1FA8CA2f544ab6b7B7e89059e5b361FF",
@@ -1479,7 +1479,7 @@
       "emergency-dao-multisig": "0x6d447e544D01a59cb0774763bf15526574CffFeD"
     },
     "x-gov": {
-      "l1-broadcaster": "0x7BA33456EC00812C6B6BB6C1C3dfF579c34CC2cc",
+      "l1-broadcaster": "0x8e1e5001C7B8920196c7E3EdF2BCf47B2B6153ff",
       "l2-relayer": "0x8e1e5001C7B8920196c7E3EdF2BCf47B2B6153ff",
       "ownership-agent": "0x28c4A1Fa47EEE9226F8dE7D6AF0a41C62Ca98267",
       "parameter-agent": "0xE7F2B72E94d1c2497150c24EA8D65aFFf1027b9b",
