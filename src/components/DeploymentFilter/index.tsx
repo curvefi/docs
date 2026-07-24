@@ -34,7 +34,11 @@ const getExplorerUrls = (data: any): Record<string, string> => {
   return (data._explorers || {}) as Record<string, string>;
 };
 
-function flattenDeployments(data: any): DeploymentEntry[] {
+const getAddressOrigins = (data: any): Record<string, string> => {
+  return (data._addressOrigins || {}) as Record<string, string>;
+};
+
+function flattenDeployments(data: any, addressOrigins: Record<string, string>): DeploymentEntry[] {
   const entries: DeploymentEntry[] = [];
 
   function traverse(obj: any, chain: string, category: string, subcategory: string = '', path: string = '') {
@@ -44,6 +48,7 @@ function flattenDeployments(data: any): DeploymentEntry[] {
       const currentPath = path ? `${path}.${key}` : key;
 
       if (typeof value === 'string') {
+        if (!value.trim()) continue;
         entries.push({
           chain,
           category,
@@ -51,6 +56,7 @@ function flattenDeployments(data: any): DeploymentEntry[] {
           name: key,
           address: value,
           path: currentPath,
+          originChain: addressOrigins[currentPath],
         });
       } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
         const allValuesAreStrings = Object.values(value).every(v => typeof v === 'string');
@@ -133,7 +139,8 @@ export default function DeploymentFilter(): React.ReactNode {
   };
 
   const explorerUrls = useMemo(() => getExplorerUrls(deploymentsData), []);
-  const allDeployments = useMemo(() => flattenDeployments(deploymentsData), []);
+  const addressOrigins = useMemo(() => getAddressOrigins(deploymentsData), []);
+  const allDeployments = useMemo(() => flattenDeployments(deploymentsData, addressOrigins), [addressOrigins]);
 
   const chains = useMemo(() => {
     const chainSet = new Set(allDeployments.map(d => d.chain));
@@ -158,8 +165,8 @@ export default function DeploymentFilter(): React.ReactNode {
     setTimeout(() => setCopiedAddress(null), 2000);
   };
 
-  const getExplorerUrl = (chain: string, address: string): string | null => {
-    const explorerBase = explorerUrls[chain.toLowerCase()];
+  const getExplorerUrl = (chain: string, address: string, originChain?: string): string | null => {
+    const explorerBase = explorerUrls[(originChain || chain).toLowerCase()];
     if (!explorerBase) return null;
     return `${explorerBase}${address}`;
   };
@@ -224,7 +231,7 @@ export default function DeploymentFilter(): React.ReactNode {
               </thead>
               <tbody>
                 {filteredDeployments.map((deployment, index) => {
-                  const explorerUrl = getExplorerUrl(deployment.chain, deployment.address);
+                  const explorerUrl = getExplorerUrl(deployment.chain, deployment.address, deployment.originChain);
                   return (
                     <tr key={`${deployment.chain}-${deployment.path}-${index}`}>
                       <td>

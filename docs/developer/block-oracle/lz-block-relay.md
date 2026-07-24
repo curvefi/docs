@@ -8,7 +8,7 @@ Operating in two modes — **read-enabled** (which can request and broadcast blo
 
 The source code for the `LZBlockRelay.vy` contract can be found on [GitHub](https://github.com/curvefi/blockhash-oracle/blob/main/contracts/messengers/LZBlockRelay.vy). The contract is written using [Vyper](https://github.com/vyperlang/vyper) version `0.4.3`.
 
-The contract is deployed on all supported chains at `0xFacEFeeD696BFC0ebe7EaD3FFBb9a56290d31752`.
+The contract is deployed on all supported chains at `0xfacefeed69e0eb9dB6Ad8Cb0883fC45Df7561Dc2`.
 
 <ContractABI>
 
@@ -132,7 +132,7 @@ def _setPeer(_eid: uint32, _peer: bytes32):
 <Example>
 
 ```shell
->>> LZBlockRelay.set_read_config(True, 30101, 30101, '0xb10CfacE69cc0B7F1AE0Dc8E6aD186914f6e7EEA')
+>>> LZBlockRelay.set_read_config(True, 30101, 30101, '0xb10cface00696B1390875DB2a0113B3ab99752a4')
 ```
 
 </Example>
@@ -196,7 +196,7 @@ def _check_owner():
 <Example>
 
 ```shell
->>> LZBlockRelay.set_block_oracle('0xb10cface69821Ff7b245Cf5f28f3e714fDbd86b8')
+>>> LZBlockRelay.set_block_oracle('0xb10cface698eBbEeda6Fd1aC3e1687a8a3f5c5Df')
 ```
 
 </Example>
@@ -577,7 +577,7 @@ def _setPeer(_eid: uint32, _peer: bytes32):
 <Example>
 
 ```shell
->>> LZBlockRelay.set_peers([30110, 30111], ['0xFacEFeeD696BFC0ebe7EaD3FFBb9a56290d31752', '0xFacEFeeD696BFC0ebe7EaD3FFBb9a56290d31752'])
+>>> LZBlockRelay.set_peers([30110, 30111], ['0xfacefeed69e0eb9dB6Ad8Cb0883fC45Df7561Dc2', '0xfacefeed69e0eb9dB6Ad8Cb0883fC45Df7561Dc2'])
 ```
 
 </Example>
@@ -733,7 +733,7 @@ def isComposeMsgSender(
 <Example>
 
 ```shell
->>> LZBlockRelay.isComposeMsgSender(origin, message, '0xFacEFeeD696BFC0ebe7EaD3FFBb9a56290d31752')
+>>> LZBlockRelay.isComposeMsgSender(origin, message, '0xfacefeed69e0eb9dB6Ad8Cb0883fC45Df7561Dc2')
 True
 ```
 
@@ -1654,7 +1654,7 @@ mainnet_block_view: public(address)
 
 ```shell
 >>> LZBlockRelay.mainnet_block_view()
-'0xb10CfacE69cc0B7F1AE0Dc8E6aD186914f6e7EEA'
+'0xb10cface00696B1390875DB2a0113B3ab99752a4'
 ```
 
 </Example>
@@ -1680,7 +1680,7 @@ block_oracle: public(IBlockOracle)
 
 ```shell
 >>> LZBlockRelay.block_oracle()
-'0xb10cface69821Ff7b245Cf5f28f3e714fDbd86b8'
+'0xb10cface698eBbEeda6Fd1aC3e1687a8a3f5c5Df'
 ```
 
 </Example>

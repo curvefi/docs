@@ -8,7 +8,7 @@ This contract is called off-chain via LayerZero's `lzRead` functionality.
 
 The source code for the `MainnetBlockView.vy` contract can be found on [GitHub](https://github.com/curvefi/blockhash-oracle/blob/main/contracts/MainnetBlockView.vy). The contract is written using [Vyper](https://github.com/vyperlang/vyper) version `0.4.3`.
 
-The contract is deployed on :logos-ethereum: Ethereum at [`0xb10CfacE69cc0B7F1AE0Dc8E6aD186914f6e7EEA`](https://etherscan.io/address/0xb10CfacE69cc0B7F1AE0Dc8E6aD186914f6e7EEA).
+The contract is deployed on :logos-ethereum: Ethereum at [`0xb10cface00696B1390875DB2a0113B3ab99752a4`](https://etherscan.io/address/0xb10cface00696B1390875DB2a0113B3ab99752a4).
 
 <ContractABI>
 
@@ -215,7 +215,7 @@ def _get_history_storage(block_number: uint256) -> bytes32:
 Get the default block hash (65 blocks ago):
 
 <ContractCall
-  address="0xb10CfacE69cc0B7F1AE0Dc8E6aD186914f6e7EEA"
+  address="0xb10cface00696B1390875DB2a0113B3ab99752a4"
   abi={["function get_blockhash() view returns (uint256, bytes32)"]}
   method="get_blockhash"
   contractName="MainnetBlockView"
