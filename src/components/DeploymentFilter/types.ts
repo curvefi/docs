@@ -5,4 +5,5 @@ export interface DeploymentEntry {
   name: string;
   address: string;
   path: string;
+  originChain?: string;
 }

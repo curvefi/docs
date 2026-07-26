@@ -6,7 +6,7 @@ The `HeaderVerifier` contract decodes RLP-encoded Ethereum block headers and for
 
 The source code for the `HeaderVerifier.vy` contract can be found on [GitHub](https://github.com/curvefi/blockhash-oracle/blob/main/contracts/HeaderVerifier.vy). The contract is written using [Vyper](https://github.com/vyperlang/vyper) version `0.4.3`.
 
-The contract is deployed on all supported chains at `0xB10CDEC0DE69c88a47c280a97A5AEcA8b0b83385`.
+The contract is deployed on all supported chains at `0xb10CdEc0dE69a227307053bEbBFd80864B71ec27`.
 
 <ContractABI>
 
@@ -266,7 +266,6 @@ def _read_rlp_number(encoded: Bytes[BLOCK_HEADER_SIZE], pos: uint256) -> (uint25
 ```
 
 </Example>
-
 ::::
 
 
@@ -338,7 +337,7 @@ def submit_block_header(_header_data: bh_rlp.BlockHeader):
 <Example>
 
 ```shell
->>> HeaderVerifier.submit_block_header('0xb10cface69821Ff7b245Cf5f28f3e714fDbd86b8', rlp_encoded_header)
+>>> HeaderVerifier.submit_block_header('0xb10cface698eBbEeda6Fd1aC3e1687a8a3f5c5Df', rlp_encoded_header)
 ```
 
 </Example>

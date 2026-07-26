@@ -6,7 +6,7 @@ The `BlockOracle` contract is a decentralized block hash oracle which implements
 
 The source code for the `BlockOracle.vy` contract can be found on [GitHub](https://github.com/curvefi/blockhash-oracle/blob/main/contracts/BlockOracle.vy). The contract is written using [Vyper](https://github.com/vyperlang/vyper) version `0.4.3`.
 
-The contract is deployed on all supported chains at `0xb10cface69821Ff7b245Cf5f28f3e714fDbd86b8`.
+The contract is deployed on all supported chains at `0xb10cface698eBbEeda6Fd1aC3e1687a8a3f5c5Df`.
 
 <ContractABI>
 
@@ -214,7 +214,7 @@ def get_all_committers() -> DynArray[address, MAX_COMMITTERS]:
 
 ```shell
 >>> BlockOracle.get_all_committers()
-['0xFacEFeeD696BFC0ebe7EaD3FFBb9a56290d31752']
+['0xfacefeed69e0eb9dB6Ad8Cb0883fC45Df7561Dc2']
 ```
 
 </Example>
@@ -247,7 +247,7 @@ This example returns the committer at index 0.
 
 ```shell
 >>> BlockOracle.committers(0)
-'0xFacEFeeD696BFC0ebe7EaD3FFBb9a56290d31752'
+'0xfacefeed69e0eb9dB6Ad8Cb0883fC45Df7561Dc2'
 ```
 
 </Example>
@@ -276,7 +276,7 @@ is_committer: public(HashMap[address, bool])
 <Example>
 
 ```shell
->>> BlockOracle.is_committer('0xFacEFeeD696BFC0ebe7EaD3FFBb9a56290d31752')
+>>> BlockOracle.is_committer('0xfacefeed69e0eb9dB6Ad8Cb0883fC45Df7561Dc2')
 True
 ```
 
@@ -476,7 +476,7 @@ committer_votes: public(
 <Example>
 
 ```shell
->>> BlockOracle.committer_votes('0xFacEFeeD696BFC0ebe7EaD3FFBb9a56290d31752', 22788903)
+>>> BlockOracle.committer_votes('0xfacefeed69e0eb9dB6Ad8Cb0883fC45Df7561Dc2', 22788903)
 '0xc215221221dd6673ae7ed2e50f47f6d020034657bb4a08010b5677a1f9d06d6d'
 ```
 
@@ -975,7 +975,7 @@ header_verifier: public(address)  # address of the header verifier
 
 ```shell
 >>> BlockOracle.header_verifier()
-'0xB10CDEC0DE69c88a47c280a97A5AEcA8b0b83385'
+'0xb10CdEc0dE69a227307053bEbBFd80864B71ec27'
 ```
 
 </Example>
