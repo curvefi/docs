@@ -18,7 +18,7 @@ While final decisions are made through governance, the DAO historically prioriti
 
 ## Step 1: Post a Governance Forum Proposal (Recommended)
 
-Before submitting an on-chain vote, it's good practice to post a proposal on the <a href="https://gov.curve.fi/" target="_blank" rel="noopener noreferrer">Curve Governance Forum</a>. This allows the community and veCRV holders to review your request and ask questions.
+Before submitting an on-chain vote, it's good practice to post a proposal on the <a href="https://gov.curve.finance/" target="_blank" rel="noopener noreferrer">Curve Governance Forum</a>. This allows the community and veCRV holders to review your request and ask questions.
 
 The post should include:
 
@@ -32,16 +32,24 @@ This step is not required, but it increases transparency and support — especia
 
 ## Step 2: Submit an On-Chain Vote
 
-Once your gauge is deployed and you've shared your proposal, go to the <a href="https://dao.curve.fi/gauge-factory" target="_blank" rel="noopener noreferrer">Gauge Factory UI</a> to start the DAO approval process.
+Once your gauge is deployed and you've shared your proposal, go to the <a href="https://www.curve.finance/dao/ethereum/gauges" target="_blank" rel="noopener noreferrer">Curve Governance UI</a> to start the DAO approval process by clicking the `Create Gauge Vote` button.
 
 To submit a whitelisting vote:
 
 - Connect your wallet
 - Enter your deployed gauge address
+- Enter a description text
+- Enter your pinata JWT
 - Sign and confirm the transaction
 
 :::info
 To actually create an on-chain vote for the Curve DAO to vote on, you will need 2,500 veCRV. If you don't have any, feel free to reach out in public channels. There are more than enough people willing to create a proposal for you.
+:::
+
+:::warning
+The vote description is uploaded to IPFS via Pinata. You need a Pinata API key to proceed. <a href="https://docs.pinata.cloud/account-management/api-keys" target="_blank" rel="noopener noreferrer">Here's an explanation on how to create one</a>.
+
+IMPORTANT: You must enable the "pinFileToIPFS" legacy endpoint when creating your API key, otherwise it will not work.
 :::
 
 After a few minutes, your proposal will appear on the <a href="https://www.curve.fi/dao/ethereum/proposals/" target="_blank" rel="noopener noreferrer">Curve DAO proposals page</a>, where veCRV holders can vote **yes** or **no**.
