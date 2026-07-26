@@ -1284,9 +1284,9 @@
     "x-gov": {
       "l1-broadcaster": "0x7BA33456EC00812C6B6BB6C1C3dfF579c34CC2cc",
       "vault": "0x193110Ce1542d7371e1515BD6A2E470fDefc310D",
-      "ownership-admin": "0xabc336d4C71ad275695744d32DdB1d8266Db1cbF",
-      "parameter-admin": "0xabc336d4C71ad275695744d32DdB1d8266Db1cbF",
-      "emergency-admin": "0xabc336d4C71ad275695744d32DdB1d8266Db1cbF"
+      "ownership-agent": "",
+      "parameter-agent": "",
+      "emergency-agent": ""
     },
     "x-dao": {},
     "curve-block-oracle": {
@@ -1771,9 +1771,9 @@
     "tokens": {},
     "x-gov": {
       "vault": "0x193110Ce1542d7371e1515BD6A2E470fDefc310D",
-      "ownership-admin": "0xabc336d4C71ad275695744d32DdB1d8266Db1cbF",
-      "parameter-admin": "0xabc336d4C71ad275695744d32DdB1d8266Db1cbF",
-      "emergency-admin": "0xabc336d4C71ad275695744d32DdB1d8266Db1cbF"
+      "ownership-agent": "",
+      "parameter-agent": "",
+      "emergency-agent": ""
     },
     "x-dao": {},
     "curve-block-oracle": {},
@@ -1956,9 +1956,9 @@
     },
     "x-gov": {
       "vault": "0xf3A431008396df8A8b2DF492C913706BDB0874ef",
-      "ownership-admin": "0xabc336d4C71ad275695744d32DdB1d8266Db1cbF",
-      "parameter-admin": "0xabc336d4C71ad275695744d32DdB1d8266Db1cbF",
-      "emergency-admin": "0xabc336d4C71ad275695744d32DdB1d8266Db1cbF"
+      "ownership-agent": "",
+      "parameter-agent": "",
+      "emergency-agent": ""
     },
     "x-dao": {},
     "curve-block-oracle": {

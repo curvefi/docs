@@ -15,8 +15,14 @@ for (const [path, chain] of Object.entries(requiredOrigins)) {
 
 function visit(value, path = []) {
   if (typeof value === 'string') {
-    if (!value) failures.push(`Empty deployment record at ${path.join('.')}`);
-    else if (!isAddress(value)) failures.push(`Invalid EIP-55 address at ${path.join('.')}: ${value}`);
+    // Governance roles may be intentionally unset before their x-gov contracts deploy.
+    if (!value) {
+      if (!['ownership-agent', 'parameter-agent', 'emergency-agent'].includes(path.at(-1))) {
+        failures.push(`Empty deployment record at ${path.join('.')}`);
+      }
+      return;
+    }
+    if (!isAddress(value)) failures.push(`Invalid EIP-55 address at ${path.join('.')}: ${value}`);
     else {
       try { getAddress(value); } catch { failures.push(`Invalid checksum at ${path.join('.')}: ${value}`); }
     }
