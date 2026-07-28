@@ -5,8 +5,11 @@ sidebar_label: Community Fund & Treasury
 ---
 
 import TokenBalance from '@site/src/components/LiveComponents/TokenBalance';
+import TokenBalances from '@site/src/components/LiveComponents/TokenBalances';
 import CrvLogo from '@site/static/img/logos/crv.png';
 import CrvusdLogo from '@site/static/img/logos/crvusd.png';
+import SfrxusdLogo from '@site/static/img/logos/sfrxusd.png';
+import SdolaLogo from '@site/static/img/logos/sdola.png';
 
 ## Community Fund
 
@@ -34,10 +37,26 @@ In comparison to the community fund, assets do not require a one-year vesting pe
 
 The Treasury is deployed on Ethereum at [`0x6508ef65b0bd57eabd0f1d52685a70433b2d290b`](https://etherscan.io/address/0x6508ef65b0bd57eabd0f1d52685a70433b2d290b).
 
-<TokenBalance
-  tokenAddress="0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E"
+<TokenBalances
   holderAddress="0x6508eF65b0Bd57eaBD0f1D52685A70433B2d290B"
-  tokenName="crvUSD"
-  logo={CrvusdLogo}
-  priceApiUrl="https://prices.curve.finance/v1/usd_price/ethereum/0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E"
+  tokens={[
+    {
+      tokenAddress: '0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E',
+      tokenName: 'crvUSD',
+      logo: CrvusdLogo,
+      priceApiUrl: 'https://prices.curve.finance/v1/usd_price/ethereum/0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E',
+    },
+    {
+      tokenAddress: '0xcf62F905562626CfcDD2261162a51fd02Fc9c5b6',
+      tokenName: 'sfrxUSD',
+      logo: SfrxusdLogo,
+      priceApiUrl: 'https://prices.curve.finance/v1/usd_price/ethereum/0xcf62F905562626CfcDD2261162a51fd02Fc9c5b6',
+    },
+    {
+      tokenAddress: '0xb45ad160634c528Cc3D2926d9807104FA3157305',
+      tokenName: 'sDOLA',
+      logo: SdolaLogo,
+      priceApiUrl: 'https://prices.curve.finance/v1/usd_price/ethereum/0xb45ad160634c528Cc3D2926d9807104FA3157305',
+    },
+  ]}
 />
