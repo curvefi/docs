@@ -1,6 +1,6 @@
 # AMM (LLAMMA)
 
-The `AMM` contract implements **LLAMMA** — the Lending-Liquidating AMM Algorithm. It holds borrower collateral distributed across discretized **price bands** and performs **soft liquidation**: as the collateral price drops into a borrower's band range, the AMM gradually converts their collateral to the borrowed token. If the price recovers, the process reverses (**de-liquidation**).
+The `AMM` contract implements **LLAMMA** — the Lending-Liquidating AMM Algorithm. It holds borrower collateral distributed across discretized **price bands** and performs **soft liquidation**: as the collateral price drops into a borrower's band range, the AMM gradually converts their collateral to the borrowed token. If the price recovers, the direction of conversion can reverse (**de-liquidation**), but AMM fees and arbitrage losses already incurred do not reverse. Repeated conversion can reduce collateral value and health until the position becomes hard-liquidatable.
 
 The AMM also serves as a regular DEX — arbitrageurs can swap between the collateral and borrowed tokens, which is the mechanism that drives soft liquidation.
 
@@ -8,7 +8,7 @@ Each lending market has its own AMM instance. The associated [LendController](./
 
 :::vyper[`AMM.vy`]
 
-The source code for the `AMM.vy` contract can be found on [GitHub](https://github.com/curvefi/curve-stablecoin/blob/master/curve_stablecoin/AMM.vy). The contract is written in [Vyper](https://vyperlang.org/) version `0.4.3`.
+The source code for the lending `AMM.vy` contract is [pinned on GitHub](https://github.com/curvefi/curve-stablecoin/blob/0d726b110555e9506f5bec7e4b04eaac7b2a7986/curve_stablecoin/AMM.vy). The contract is written in [Vyper](https://vyperlang.org/) version `0.4.3`.
 
 *Deployment addresses will be added once contracts are finalized.*
 

@@ -36,7 +36,7 @@ There are two distinct ways to use Llamalend:
 
 Llamalend combines several key features:
 
-- **Liquidation Protection:** By borrowing on Curve, users benefit from built-in liquidation protection, giving users more peace of mind when borrowing and potentially more time to repay loans when markets crash.
+- **Liquidation Protection:** LLAMMA converts collateral gradually instead of liquidating at one specific price, potentially giving borrowers more time to act. The conversions incur losses and can still end in full liquidation.
 - **Highest LTV across DeFi:** Allows borrowing up to 91% LTV against BTC and ETH and up to 98% against yield-bearing and low-volatility tokens like sDAI or sUSDe. Perfect for looping.
 - **Isolated Markets:** All markets are isolated, one-way markets where each market only has one collateral token and one borrowable token. This design eliminates risk of contamination through depegged assets, keeps risk contained within each market, and makes it easier to understand your exposure. Unlike some other protocols where risks can spread across multiple assets, Llamalend's isolation ensures that problems in one market don't affect others. Collateral is not re-hypothecated.
 - **Permissionless Markets**: No gatekeeping. Everyone can deploy lending markets.

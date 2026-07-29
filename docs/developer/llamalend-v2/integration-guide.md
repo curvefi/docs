@@ -57,7 +57,7 @@ Each vault has a DAO-configurable `max_supply` that limits total deposits. Integ
 - **`maxDeposit(receiver)`** — returns the maximum assets depositable, accounting for the supply cap
 - **`maxMint(receiver)`** — returns the maximum shares mintable, accounting for the supply cap
 
-If `max_supply` is set to `0`, there is no cap (unlimited deposits). Deposits that would push `totalSupply` above the cap will revert.
+If `maxSupply` is `max(uint256)`, deposits are unlimited. A value of `0` disables new deposits. Deposits that would push total managed assets above a finite cap will revert.
 
 ```vyper
 # Check remaining capacity before depositing
@@ -70,11 +70,11 @@ extcall vault.deposit(amount, msg.sender)
 ---
 
 
-## Dead Shares
+## Virtual Shares
 
-On initialization, the vault mints 1000 shares to the zero address. This is a standard defense against [ERC4626 inflation attacks](https://docs.openzeppelin.com/contracts/5.x/erc4626#inflation-attack), where an attacker front-runs the first depositor to manipulate `pricePerShare` and steal funds.
+The vault includes 1000 virtual shares in its conversion math. This is a defense against [ERC4626 inflation attacks](https://docs.openzeppelin.com/contracts/5.x/erc4626#inflation-attack), where an attacker front-runs the first depositor to manipulate the share price.
 
-Because of this, `pricePerShare` does not start at exactly `1e18` — it starts marginally above it. For most integrations this difference is negligible, but protocols that assume a fresh vault has a 1:1 asset-to-share ratio should account for the offset.
+These shares are not minted to the zero address and are not included in `totalSupply`. A fresh Vault therefore does not begin with a 1:1 asset-to-share ratio. Integrations must use the conversion and preview functions instead of assuming one.
 
 ```vyper
 # Use convertToShares / convertToAssets instead of assuming 1:1

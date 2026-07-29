@@ -12,14 +12,14 @@ import GuideCardGrid from '@site/src/components/GuideCardGrid';
 
 Borrowing on Llamalend allows users to access liquidity while maintaining exposure to their crypto assets. Instead of selling their holdings, users can use them as collateral to borrow crvUSD or other assets. Users borrowing on Llamalend benefit from:
 
-- **Liquidation Protection**: If a user's loan health becomes very low, Llamalend automatically starts protecting their position by gradually converting their volatile collateral into stable crvUSD. This creates a safety buffer that reduces their exposure to price volatility
+- **Liquidation Protection**: LLAMMA gradually converts collateral instead of liquidating at one specific price, which can give users more time to react. Each conversion can reduce collateral value and health, so it does not guarantee protection from full liquidation
 - **Maintain Exposure**: Keep crypto positions while accessing liquidity. Users don't have to sell their assets to get cash, preserving their potential upside
 - **Leverage**: Use borrowed funds to increase market exposure or invest in additional opportunities
 - **No Opening/Closing Fees**: Users just pay the interest rate while the loan remains open
 - **No Minimum Loan Amounts**: Users can open a loan for any amount, there's no minimum
 
 :::info
-The liquidation protection is a very unique and novel feature and integral to understand when using Llamalend. For detailed information about liquidation protection and loan health monitoring, see [Liquidation Protection & Loan Health](/user/llamalend/guides/borrow/liquidation).
+Liquidation protection is integral to understand before using Llamalend. Most users should treat entry into the range as a signal to close or reset their position rather than remain there. For detailed information about losses and loan health monitoring, see [Liquidation Protection & Loan Health](/user/llamalend/guides/borrow/liquidation).
 :::
 
 <GuideCardGrid guideKeys={['howToOpenAndCloseLoan', 'howToManageLoan', 'whatToDoIfLoanInLiquidation']} />

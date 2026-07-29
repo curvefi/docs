@@ -4,7 +4,7 @@ The `Vault` is an **ERC4626-compliant vault** where lenders deposit the borrowed
 
 The vault's `pricePerShare` increases over time as borrowers pay interest. It implements the full ERC20 and ERC4626 interfaces, with additional Curve-specific methods for APR reporting and supply limits.
 
-The vault uses a **dead shares** mechanism (minting 1000 shares to the zero address on initialization) to protect against ERC4626 inflation attacks.
+The vault includes **1000 virtual shares** in its conversion math to protect against ERC4626 inflation attacks. They are not minted to the zero address and are not included in `totalSupply`.
 
 :::vyper[`Vault.vy`]
 
@@ -1254,7 +1254,7 @@ Sets the maximum supply cap for the vault. When set, deposits that would push `t
 
 | Input | Type | Description |
 | --- | --- | --- |
-| `_max_supply` | `uint256` | New maximum supply cap (0 = unlimited) |
+| `_max_supply` | `uint256` | New maximum supply cap in asset units (`0` disables deposits; `max(uint256)` is unlimited) |
 
 Emits: `SetMaxSupply` event.
 
@@ -1283,7 +1283,7 @@ def set_max_supply(_max_supply: uint256):
 ```ts
 const contract = new Contract('0x2b5a321c3cb1f33e1abecd047c2649d0b4c47eba', VaultAbi, signer)
 const tx = await contract.set_max_supply(
-  /* _max_supply: uint256 */ 0n,
+  /* _max_supply: uint256 — this example disables new deposits */ 0n,
 )
 await tx.wait()
 ```

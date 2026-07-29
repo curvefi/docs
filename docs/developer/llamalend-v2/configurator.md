@@ -8,7 +8,7 @@ Each Configurator has a `default_admin`. The default administrator can assign a 
 
 The implementation is [`Configurator.vy` at `0d726b1`](https://github.com/curvefi/curve-stablecoin/blob/0d726b110555e9506f5bec7e4b04eaac7b2a7986/curve_stablecoin/Configurator.vy), written in Vyper `0.4.3`.
 
-The deployment registry lists the Configurator at [`0x6065858d0eF0AA240DFdf6f1A0B2ae34B41f49bC`](https://etherscan.io/address/0x6065858d0eF0AA240DFdf6f1A0B2ae34B41f49bC) on Ethereum and [`0xd36c590531cAF5F620C57Faf5827Ce8E7f6E5Bec`](https://optimistic.etherscan.io/address/0xd36c590531cAF5F620C57Faf5827Ce8E7f6E5Bec) on Optimism. A read-only Ethereum RPC check confirmed deployed code and a nonzero `default_admin`.
+The deployment registry lists the Configurator at [`0x6065858d0eF0AA240DFdf6f1A0B2ae34B41f49bC`](https://etherscan.io/address/0x6065858d0eF0AA240DFdf6f1A0B2ae34B41f49bC) on Ethereum and [`0xd36c590531cAF5F620C57Faf5827Ce8E7f6E5Bec`](https://optimistic.etherscan.io/address/0xd36c590531cAF5F620C57Faf5827Ce8E7f6E5Bec) on Optimism. Read-only RPC checks on July 22, 2026 returned Curve's Ethereum Ownership Agent (`0x4090…9968`) and Optimism ownership agent (`0x28c4…8267`) as their respective `default_admin` values. Consequently, activating a newly deployed market requires a Curve DAO ownership vote unless that vote assigns a controller-specific administrator.
 
 :::
 
@@ -247,7 +247,7 @@ await tx.wait()
 
 ::::description[`Configurator.set_borrow_cap(_controller: address, _borrow_cap: uint256)`]
 
-Sets a lending controller's borrow cap in units of its borrowed token. A new lending market starts with a borrow cap of zero, so borrowing remains disabled until an authorized administrator raises it.
+Sets a lending controller's borrow cap in units of its borrowed token. A new lending market starts with a borrow cap of zero. On the current deployments, raising it requires a Curve DAO ownership vote unless the DAO has assigned a controller-specific administrator.
 
 <SourceCode>
 

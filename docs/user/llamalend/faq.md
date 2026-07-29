@@ -12,14 +12,14 @@ import ThemedVideo from '@site/src/components/ThemedVideo';
 
 Before diving into the details, here are the essential concepts you need to understand:
 
-**Liquidation Protection Range**: A price zone where your loan enters protection mode. If your collateral price falls into this range, the system automatically starts protecting your position.
+**Liquidation Protection Range**: A price zone where LLAMMA begins gradually converting the position's collateral. This avoids liquidation at one specific price but introduces conversion losses.
 
 **Health**: The most critical metric - represents how much buffer you have before full liquidation. Health decreases from price drops, conversion losses, and interest. When health reaches 0%, your loan is fully liquidated.
 
 **Bands**: Small price ranges that make up your liquidation protection range. More bands = wider range = lower risk but lower LTV. Fewer bands = narrower range = higher risk but higher LTV.
 
 **Liquidation Protection vs Full Liquidation**: 
-- **Liquidation Protection** = Your loan is being protected, you can still repay debt, position can recover
+- **Liquidation Protection** = Your loan remains open and you can still repay debt, but conversions are already reducing collateral value and can still lead to full liquidation
 - **Full Liquidation** = Your loan is closed, collateral used to repay debt, position cannot be recovered
 
 **Key Rule**: Monitor your health constantly. Health can decrease even when prices are rising if you're in liquidation protection due to conversion losses.
@@ -118,12 +118,12 @@ Under the right conditions, yes. First, the user has full influence on the initi
 
 ### How Does Liquidation Protection work?
 
-Liquidation protection is a mechanism which protects the collateral of your loan. Once a loan enters the [liquidation protection range](#what-is-the-liquidation-protection-range), the loan enters liquidation protection. In this price range, the system automatically converts your volatile collateral asset into stable crvUSD tokens when prices go down. This reduces the collateral exposure of the loan when collateral prices decline and preserves the total value of the collateral (minus some [losses](#what-are-the-losses-during-liquidation-protection)). If the price of the collateral asset goes up again, the system automatically converts back the previously obtained crvUSD back into the original collateral asset to restore the initial collateral composition.
+Once a loan enters the [liquidation protection range](#what-is-the-liquidation-protection-range), LLAMMA automatically converts the volatile collateral asset into stable crvUSD as prices move down through the bands. This reduces volatile-asset exposure and avoids liquidation at one specific price. If price rises, the direction of conversion can reverse, but the losses from earlier conversions remain and health can continue falling while the position is still in range.
 
-TLDR: The system kind of derisks your collateral position on the way down and restores your exposure on the way up.
+TLDR: LLAMMA changes the position's exposure gradually and can give you more time to react, but it does not make the position safe or restore conversion losses.
 
 :::example
-**Example:** Price of ETH is at \$3000 and liquidation protection range is between \$2000 and \$1500. ETH price now drops below \$2000 all the way to \$1750 and therefore enters liquidation protection range. The system now starts converting ETH into crvUSD. As the price moves through different bands, a portion of your collateralized ETH will be converted into crvUSD (the exact percentage depends on how far the price moves through your bands). Your loan is now backed by a mix of ETH and crvUSD which reduces the exposure to the volatile asset. Now, the price of ETH recovers and goes back to \$2000. In that case, the system automatically converts the crvUSD back into ETH. Once you exit liquidation protection once ETH goes above \$2000, your loan will be fully collateralized by ETH again.
+**Example:** Price of ETH is at \$3000 and the liquidation protection range is between \$2000 and \$1500. If ETH falls to \$1750, LLAMMA begins converting ETH into crvUSD across the position's bands. If ETH later returns above \$2000, LLAMMA can convert the crvUSD side back toward ETH. The resulting position contains less collateral value than it would have without the intervening conversions, and repeated movement through the bands can continue reducing health.
 :::
 
 ### When Does a Loan Enter Liquidation Protection?
@@ -146,7 +146,7 @@ A loan enters liquidation protection once the price of the collateral asset fall
 **Liquidation Protection** occurs when the collateral price falls into the liquidation protection range. During this phase:
 - Your collateral is automatically converted between volatile assets and stable crvUSD to protect your position
 - You cannot add/remove collateral or borrow more, but you can repay debt
-- Your loan remains active and can recover if prices improve
+- Your loan remains active, but a price recovery does not undo conversion losses
 - Health can still decrease due to losses from conversions and interest
 
 **Full Liquidation** occurs when your loan's health reaches 0%. At this point:
@@ -155,7 +155,7 @@ A loan enters liquidation protection once the price of the collateral asset fall
 - Any remaining collateral (if any) is returned to you
 - You cannot recover the position - you would need to open a new loan
 
-The key difference is that liquidation protection is a protective mechanism that gives you time and flexibility, while full liquidation is the final closure of your loan.
+The key difference is that liquidation protection keeps the loan open and may give you time to act, while full liquidation closes it. Liquidation protection can still progress to full liquidation.
 
 ### What Can Users Do When Their Loan is in Liquidation Protection?
 
@@ -181,9 +181,13 @@ Repaying partial debt while in liquidation protection will:
 
 The only way to exit liquidation protection is to fully repay all debt and close the loan, or wait for the collateral price to rise above your liquidation protection range.
 
+:::info[LlamaLend v2]
+LlamaLend v2 additionally supports a repay-and-shrink reset that cuts the converted part and exits liquidation protection. The full-repay-or-wait restriction applies to LlamaLend v1.
+:::
+
 ### Why Are Actions Restricted in Liquidation Protection Mode?
 
-Users are not able to add or remove collateral because the loan is already in liquidation protection and the collateral is currently being protected through Llamalend. The nature of the system does not allow any collateral actions when the position is in liquidation range, as this is a unique situation where the collateral is being actively protected.
+Users cannot add or remove collateral while LLAMMA is actively converting the position inside its liquidation range. Collateral actions are restricted because the collateral composition is changing through AMM trades.
 
 ### How to get out of liquidation protection
 
@@ -198,10 +202,8 @@ Once in liquidation protection, there are only two ways to get out:
 
 Reminder: collateral actions are prohibited in liquidation protection so adding more collateral to your loan is not an option.
 
-:::info Recovery and Time Flexibility
-**Important Understanding**: If prices recover while users are in liquidation protection, they can theoretically return to their original state (minus some losses due to the liquidation protection process). The system gives users more time to act because there's no instant liquidation, but there's actually no need to act at all.
-
-**Key Point**: Users can theoretically stay in liquidation protection forever as long as they ensure their health stays above 0. The system will continue protecting their position automatically, and if market conditions improve, their position can recover without any manual intervention.
+:::warning Staying in Liquidation Protection
+The absence of liquidation at one specific price gives users time to act; it is not a reason to remain passive. Repeated conversions can reduce collateral value and health until the position is fully liquidated, including while the collateral price is rising. Most users should close or reset the position. Staying in range should be reserved for users who understand LLAMMA and monitor health continuously.
 :::
 
 <figure>
@@ -211,7 +213,7 @@ Reminder: collateral actions are prohibited in liquidation protection so adding 
       light: require('@site/static/img/user/llamalend/liq-prot-recover-light.mp4').default,
       dark: require('@site/static/img/user/llamalend/liq-prot-recover-dark.mp4').default,
     }}
-    style={{ minWidth: '550px', width: '75%', display: 'block', margin: '0 auto' }}
+    style={{ width: '550px', maxWidth: '100%', display: 'block', margin: '0 auto' }}
   />
 </figure>
 
@@ -251,7 +253,7 @@ Technically, arbitrageurs might not act if gas costs are very high and they prio
 
 ### What happens if the price goes below the liquidation protection range?
 
-If the price goes lower than the Liquidation Protection range with positive health and fully converted collateral, users are completely safe from further price declines. While underneath the range, health will only decline from debt increasing from interest on the loan.
+If price moves below the Liquidation Protection range while health remains positive and collateral is fully converted, further price declines do not cause additional band conversions. The position is not completely safe: interest continues increasing debt, and health can eventually reach 0.
 
 If users get here, it's normally best to repay the loan and reopen it, because there is a very high chance of liquidation from collateral conversion losses if they go back up through the Liquidation Protection range.
 
@@ -262,7 +264,7 @@ If users get here, it's normally best to repay the loan and reopen it, because t
       light: require('@site/static/img/user/llamalend/liq-prot-under-range-light.mp4').default,
       dark: require('@site/static/img/user/llamalend/liq-prot-under-range-dark.mp4').default,
     }}
-    style={{ minWidth: '550px', width: '75%', display: 'block', margin: '0 auto' }}
+    style={{ width: '550px', maxWidth: '100%', display: 'block', margin: '0 auto' }}
   />
 </figure>
 
@@ -477,7 +479,7 @@ Check out this article for more information on how to set up the Telegram Bot: [
 
 ### What happens underneath the Liquidation Protection Range?
 
-If the price goes lower than the Liquidation Protection range with positive health and fully converted collateral, users are completely safe from further price declines. While underneath the range, health will only decline from debt increasing from interest on the loan.
+If price moves below the Liquidation Protection range while health remains positive and collateral is fully converted, further price declines do not cause additional band conversions. The position is not completely safe: interest continues increasing debt, and health can eventually reach 0.
 
 <figure>
   <ThemedVideo
@@ -486,7 +488,7 @@ If the price goes lower than the Liquidation Protection range with positive heal
       light: require('@site/static/img/user/llamalend/liq-prot-under-range-light.mp4').default,
       dark: require('@site/static/img/user/llamalend/liq-prot-under-range-dark.mp4').default,
     }}
-    style={{ minWidth: '550px', width: '75%', display: 'block', margin: '0 auto' }}
+    style={{ width: '550px', maxWidth: '100%', display: 'block', margin: '0 auto' }}
   />
 </figure>
 
