@@ -20,6 +20,12 @@ The `LendController` exports most of its functions from the `controller.vy` modu
 
 :::
 
+:::info[Extra health availability]
+
+`set_extra_health` and `extra_health` are available on all LlamaLend v2 markets deployed from the documented v2 `LendController` blueprints on Ethereum and Optimism. These methods are separate from the legacy Controller API: see the [Controller V3 reference](../crvusd/controller.md#set_extra_health) for crvUSD and LlamaLend v1 availability.
+
+:::
+
 
 ---
 
@@ -465,6 +471,79 @@ await tx.wait()
 
 ---
 
+
+## Extra Health
+
+An extra-health setting increases the loan discount used when a new loan is positioned, providing a buffer to the health at which the position enters soft liquidation. Set it before calling `create_loan` for the same borrower.
+
+### `set_extra_health`
+
+::::description[`LendController.set_extra_health(_value: uint256)`]
+
+Sets the caller's extra-health value. `_value` is a 1e18-scaled addition to `loan_discount`: for example, `10^16` represents 1%. The value must be strictly less than `10^18`; pass `0` to clear the setting.
+
+Emits: `SetExtraHealth(user, health)`.
+
+<SourceCode>
+
+Excerpt from [`controller.vy`](https://github.com/curvefi/curve-stablecoin/blob/master/curve_stablecoin/controller.vy):
+
+```vyper
+@external
+def set_extra_health(_value: uint256):
+    """
+    @notice Add a little bit more to loan_discount to start SL with health higher than usual
+    @param _value 1e18-based addition to loan_discount
+    """
+    assert _value < WAD, "extra_health too high"
+    self.extra_health[msg.sender] = _value
+    log IController.SetExtraHealth(user=msg.sender, health=_value)
+```
+
+</SourceCode>
+
+<Example>
+
+```ts
+const tx = await contract.set_extra_health(
+  parseUnits("0.01", 18), // 1% extra health
+)
+await tx.wait()
+```
+
+</Example>
+
+::::
+
+### `extra_health`
+
+::::description[`LendController.extra_health(_user: address) -> uint256: view`]
+
+Returns the extra-health value set for `_user`, expressed as a 1e18-scaled addition to `loan_discount`. A return value of `0` means no extra-health buffer is configured.
+
+| Input | Type | Description |
+| --- | --- | --- |
+| `_user` | `address` | Borrower address |
+
+Returns: extra-health value (`uint256`).
+
+<SourceCode>
+
+`extra_health` is a public mapping in [`controller.vy`](https://github.com/curvefi/curve-stablecoin/blob/master/curve_stablecoin/controller.vy), and is exported by [`LendController.vy`](https://github.com/curvefi/curve-stablecoin/blob/master/curve_stablecoin/lending/LendController.vy).
+
+</SourceCode>
+
+<Example>
+
+```ts
+const extraHealth = await contract.extra_health(
+  /* _user: address */ "0x0000000000000000000000000000000000000000",
+)
+```
+
+</Example>
+
+::::
 
 ## Loan Info
 
