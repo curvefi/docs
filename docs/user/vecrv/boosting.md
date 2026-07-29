@@ -89,7 +89,7 @@ Your boost multiplier can be between 1 and 2.5.  This means if you have a 2.5x b
 
 - **Your veCRV balance:** More veCRV means a higher potential boost.
 - **Your future share of staked LP tokens in the gauge:** Your boost is calculated relative to the share of gauge-staked liquidity your position will represent after staking.
-- **The total veCRV and staked liquidity in the gauge:** The boost mechanism balances your veCRV power against everyone else's staked LP tokens in the Pool or Lending market's gauge.
+- **The voting supply and staked liquidity in the gauge:** The boost mechanism balances your voting power against everyone else's staked LP tokens in the Pool or Lending market's gauge. Ethereum gauges use Ethereum veCRV; L2 gauges use their chain's veCRV oracle.
 
 By boosting, you're essentially getting a larger share of the new CRV tokens distributed. This incentivizes users to lock CRV, which in turn strengthens the Curve DAO's governance and promotes long-term alignment with the protocol.
 
@@ -105,10 +105,10 @@ $$
 - **$\text{Value}_\text{user}$** = Your deposited value in USD
 - **$\text{Value}_\text{gauge}$** = Future total value staked in the reward gauge in USD, including your deposit if it is a new position
 - **$\text{veCRV}_\text{user}$** = Your veCRV amount (vote weight)
-- **$\text{veCRV}_\text{total}$** = Total veCRV in the system
+- **$\text{veCRV}_\text{total}$** = Voting supply used by the selected gauge (Ethereum veCRV on Ethereum, or the L2 veCRV oracle on a supported L2)
 
 ## Estimate Your Boost And Revenue Share
 
-Use this calculator to estimate the boost for a specific pool gauge before connecting a wallet. It compares your share of all veCRV with your future share of the selected gauge's staked LP tokens. It also estimates crvUSD revenue share from recent DefiLlama holders revenue. This revenue estimate is not guaranteed yield.
+Use this calculator to estimate the boost for a specific pool gauge before connecting a wallet. It compares your share of the selected gauge's voting supply with your future share of its staked LP tokens. L2 estimates use the selected chain's veCRV oracle, which may take time to reflect a new Ethereum CRV lock. The crvUSD revenue-share estimate always uses Ethereum veCRV and recent DefiLlama holders revenue; it is not guaranteed yield.
 
 <BoostCalculator />

@@ -6,9 +6,46 @@ const GAUGES_URL = 'https://prices.curve.finance/v1/dao/gauges/overview';
 const CRV_PRICE_URL = 'https://prices.curve.finance/v1/usd_price/ethereum/0xD533a949740bb3306d119CC777fa900bA034cd52';
 const VECRV_LOCKERS_URL = 'https://prices.curve.finance/v1/dao/lockers/1000';
 const DEFILLAMA_HOLDERS_REVENUE_URL = 'https://api.llama.fi/summary/fees/crv-usd?dataType=dailyHoldersRevenue';
-const RPC_URL = 'https://ethereum-rpc.publicnode.com/';
 const VECRV_ADDRESS = '0x5f3b5DfEb7B28CDbD7FAba78963EE202a494e2A2';
 const MULTICALL3_ADDRESS = '0xcA11bde05977b3631167028862bE2a173976CA11';
+
+const CHAIN_CONFIG = {
+  ethereum: {
+    id: 1,
+    label: 'Ethereum',
+    poolsApiSlug: 'ethereum',
+    rpcUrl: 'https://ethereum-rpc.publicnode.com/',
+    explorerUrl: 'https://etherscan.io',
+  },
+  arbitrum: {
+    id: 42161,
+    label: 'Arbitrum',
+    poolsApiSlug: 'arbitrum',
+    rpcUrl: 'https://arbitrum-one-rpc.publicnode.com/',
+    explorerUrl: 'https://arbiscan.io',
+  },
+  fraxtal: {
+    id: 252,
+    label: 'Fraxtal',
+    poolsApiSlug: 'fraxtal',
+    rpcUrl: 'https://rpc.frax.com/',
+    explorerUrl: 'https://fraxscan.com',
+  },
+  optimism: {
+    id: 10,
+    label: 'Optimism',
+    poolsApiSlug: 'optimism',
+    rpcUrl: 'https://optimism-rpc.publicnode.com/',
+    explorerUrl: 'https://optimistic.etherscan.io',
+  },
+  base: {
+    id: 8453,
+    label: 'Base',
+    poolsApiSlug: 'base',
+    rpcUrl: 'https://base-rpc.publicnode.com/',
+    explorerUrl: 'https://basescan.org',
+  },
+};
 
 const MULTICALL3_ABI = [
   'function aggregate3((address target, bool allowFailure, bytes callData)[] calls) view returns ((bool success, bytes returnData)[])',
@@ -22,11 +59,12 @@ const VECRV_ABI = [
 const GAUGE_ABI = [
   'function balanceOf(address) view returns (uint256)',
   'function totalSupply() view returns (uint256)',
+  'function voting_escrow() view returns (address)',
 ];
 
 const DEFAULTS = {
   depositLpTokens: '',
-  depositValue: '10000',
+  depositValue: '',
   poolValue: '',
   totalVecrv: '',
   userVecrv: '',
@@ -40,6 +78,7 @@ const SORT_OPTIONS = {
   poolTvl: 'Pool TVL',
   poolAddress: 'Pool address',
   gaugeAddress: 'Gauge address',
+  network: 'Network',
   created: 'Creation date',
 };
 
@@ -90,7 +129,7 @@ function formatPercent(value, maximumFractionDigits = 4) {
 
 function shortAddress(address) {
   if (!address) return 'No address';
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+  return `${address.slice(0, 7)}...${address.slice(-5)}`;
 }
 
 function parseVecrvWeight(value) {
@@ -116,28 +155,52 @@ function getGaugeValueUpdates(gauge, currentValues) {
   };
 }
 
-function isEthereumGauge(gauge) {
-  const chain = gauge?.pool?.chain || gauge?.market?.chain || gauge?.side_chain;
-  if (!chain) return true;
-  return String(chain).toLowerCase() === 'ethereum';
+function getPoolLpTokenPrice(pool) {
+  const supply = pool?.totalSupply ? Number(ethers.formatEther(BigInt(pool.totalSupply))) : 0;
+  return supply > 0 ? toNumber(pool?.usdTotal) / supply : 0;
 }
 
-function normalizeGauge(gauge) {
-  const gaugeAddress = gauge?.effective_address || gauge?.address || '';
-  const tokenSymbols = Array.isArray(gauge?.tokens)
-    ? gauge.tokens.map((token) => token?.symbol).filter(Boolean).join(' / ')
+function overviewChain(gauge) {
+  return String(gauge?.pool?.chain || gauge?.market?.chain || gauge?.side_chain || gauge?.chain || '').toLowerCase();
+}
+
+function getOverviewKeys(gauge) {
+  const chain = overviewChain(gauge);
+  return [gauge?.effective_address, gauge?.address, gauge?.pool?.address, gauge?.pool_address, gauge?.lp_token]
+    .filter(Boolean)
+    .map((address) => `${chain}:${String(address).toLowerCase()}`);
+}
+
+function makeOverviewIndex(rawGauges) {
+  const index = new Map();
+  rawGauges.forEach((gauge) => {
+    getOverviewKeys(gauge).forEach((key) => index.set(key, gauge));
+  });
+  return index;
+}
+
+function normalizeGauge(pool, chain, overviewIndex) {
+  const overview = overviewIndex.get(`${chain}:${String(pool?.gaugeAddress || '').toLowerCase()}`)
+    || overviewIndex.get(`${chain}:${String(pool?.lpTokenAddress || '').toLowerCase()}`);
+  const gaugeAddress = pool?.gaugeAddress || overview?.effective_address || overview?.address || '';
+  const tokenSymbols = Array.isArray(pool?.coins)
+    ? pool.coins.map((token) => token?.symbol).filter(Boolean).join(' / ')
     : '';
-  const name = gauge?.pool?.name || gauge?.market?.name || gauge?.name || 'Curve gauge';
-  const lpTokenPrice = toNumber(gauge?.lp_token_price, 0);
-  const poolAddress = gauge?.pool?.address || gauge?.pool_address || gauge?.lp_token || '';
-  const poolTvl = toNumber(gauge?.pool?.usd_total || gauge?.pool?.tvl_usd || gauge?.pool?.tvl || gauge?.market?.usd_total, 0);
-  const createdAt = toTimestamp(gauge?.pool?.created_at || gauge?.pool?.creation_date || gauge?.created_at || gauge?.creation_date);
+  const name = pool?.name || overview?.pool?.name || overview?.market?.name || overview?.name || 'Curve gauge';
+  const lpTokenPrice = toNumber(overview?.lp_token_price, getPoolLpTokenPrice(pool));
+  const poolAddress = pool?.address || pool?.lpTokenAddress || overview?.pool?.address || overview?.pool_address || '';
+  const poolTvl = toNumber(pool?.usdTotal, toNumber(overview?.pool?.usd_total || overview?.pool?.tvl_usd || overview?.market?.usd_total));
+  const createdAt = toTimestamp(pool?.creationTs || overview?.pool?.created_at || overview?.pool?.creation_date || overview?.created_at);
 
   return {
-    id: gaugeAddress || gauge?.lp_token || name,
+    id: `${chain}:${gaugeAddress || poolAddress || name}`,
+    chain,
+    chainLabel: CHAIN_CONFIG[chain].label,
     address: gaugeAddress,
-    originalAddress: gauge?.address || '',
+    originalAddress: overview?.address || '',
     poolAddress,
+    lpTokenAddress: pool?.lpTokenAddress || poolAddress,
+    registryId: pool?.registryId || '',
     name,
     symbol: tokenSymbols,
     poolTvl,
@@ -145,8 +208,8 @@ function normalizeGauge(gauge) {
     gaugeSupply: 0,
     lpTokenPrice,
     createdAt,
-    crvAprBase: toNumber(gauge?.crv_apr_base, 0),
-    crvAprBoosted: toNumber(gauge?.crv_apr_boosted, 0),
+    crvAprBase: toNumber(pool?.gaugeCrvApy?.[0], toNumber(overview?.crv_apr_base, 0)),
+    crvAprBoosted: toNumber(pool?.gaugeCrvApy?.[1], toNumber(overview?.crv_apr_boosted, 0)),
   };
 }
 
@@ -162,7 +225,7 @@ function decodeBigint(iface, method, result) {
 }
 
 async function fetchTotalVecrv() {
-  const provider = new ethers.JsonRpcProvider(RPC_URL, 1, { staticNetwork: true });
+  const provider = new ethers.JsonRpcProvider(CHAIN_CONFIG.ethereum.rpcUrl, 1, { staticNetwork: true });
   const multicall = new ethers.Contract(MULTICALL3_ADDRESS, MULTICALL3_ABI, provider);
   const vecrvIface = new ethers.Interface(VECRV_ABI);
   const [result] = await multicall.aggregate3([
@@ -177,31 +240,41 @@ async function fetchTotalVecrv() {
 }
 
 async function fetchGaugeStakedTvls(gauges) {
-  const provider = new ethers.JsonRpcProvider(RPC_URL, 1, { staticNetwork: true });
-  const multicall = new ethers.Contract(MULTICALL3_ADDRESS, MULTICALL3_ABI, provider);
   const gaugeIface = new ethers.Interface(GAUGE_ABI);
   const chunkSize = 120;
   const enrichedGauges = [];
 
-  for (let index = 0; index < gauges.length; index += chunkSize) {
-    const chunk = gauges.slice(index, index + chunkSize);
-    const results = await multicall.aggregate3(chunk.map((gauge) => ({
-      target: gauge.address,
-      allowFailure: true,
-      callData: gaugeIface.encodeFunctionData('totalSupply'),
-    })));
+  await Promise.all(Object.keys(CHAIN_CONFIG).map(async (chain) => {
+    const chainGauges = gauges.filter((gauge) => gauge.chain === chain && ethers.isAddress(gauge.address));
+    if (!chainGauges.length) return;
 
-    enrichedGauges.push(...chunk.map((gauge, chunkIndex) => {
-      const gaugeSupply = Number(ethers.formatEther(decodeBigint(gaugeIface, 'totalSupply', results[chunkIndex]) || 0n));
-      const stakedTvl = gauge.lpTokenPrice > 0 && gaugeSupply > 0 ? gaugeSupply * gauge.lpTokenPrice : 0;
+    try {
+      const config = CHAIN_CONFIG[chain];
+      const provider = new ethers.JsonRpcProvider(config.rpcUrl, config.id, { staticNetwork: true });
+      const multicall = new ethers.Contract(MULTICALL3_ADDRESS, MULTICALL3_ABI, provider);
 
-      return {
-        ...gauge,
-        gaugeSupply,
-        stakedTvl,
-      };
-    }));
-  }
+      for (let index = 0; index < chainGauges.length; index += chunkSize) {
+        const chunk = chainGauges.slice(index, index + chunkSize);
+        const results = await multicall.aggregate3(chunk.map((gauge) => ({
+          target: gauge.address,
+          allowFailure: true,
+          callData: gaugeIface.encodeFunctionData('totalSupply'),
+        })));
+
+        enrichedGauges.push(...chunk.map((gauge, chunkIndex) => {
+          const gaugeSupply = Number(ethers.formatEther(decodeBigint(gaugeIface, 'totalSupply', results[chunkIndex]) || 0n));
+          return {
+            ...gauge,
+            gaugeSupply,
+            stakedTvl: gauge.lpTokenPrice > 0 && gaugeSupply > 0 ? gaugeSupply * gauge.lpTokenPrice : 0,
+          };
+        }));
+      }
+    } catch (error) {
+      // Preserve the pool API data and manual calculator inputs when one chain RPC is unavailable.
+      enrichedGauges.push(...chainGauges);
+    }
+  }));
 
   return enrichedGauges.sort((a, b) => b.stakedTvl - a.stakedTvl);
 }
@@ -222,7 +295,6 @@ async function fetchVecrvLeaderboard() {
 
 async function fetchVecrvRevenue() {
   const response = await fetchJson(DEFILLAMA_HOLDERS_REVENUE_URL);
-
   return {
     total7d: toNumber(response?.total7d),
     total30d: toNumber(response?.total30d),
@@ -248,10 +320,12 @@ export default function BoostCalculator() {
   const [leaderboardStatus, setLeaderboardStatus] = useState('loading');
   const [revenueData, setRevenueData] = useState(null);
   const [revenueStatus, setRevenueStatus] = useState('loading');
+  const [ethereumVotingSupply, setEthereumVotingSupply] = useState(0);
   const [positionMode, setPositionMode] = useState('new');
   const [showEmptyGauges, setShowEmptyGauges] = useState(false);
   const [isGaugePickerOpen, setIsGaugePickerOpen] = useState(false);
   const [selectedToken, setSelectedToken] = useState('');
+  const [selectedNetwork, setSelectedNetwork] = useState('');
   const [gaugeSort, setGaugeSort] = useState('stakedTvl');
   const [values, setValues] = useState(DEFAULTS);
 
@@ -260,62 +334,48 @@ export default function BoostCalculator() {
 
     async function loadCalculatorData() {
       try {
-        const [gaugesResponse, priceResponse, totalVecrvResponse] = await Promise.all([
+        const [gaugesResponse, priceResponse, totalVecrvResponse, ...poolResponses] = await Promise.all([
           fetchJson(GAUGES_URL),
           fetchJson(CRV_PRICE_URL).catch(() => null),
           fetchTotalVecrv().catch(() => null),
+          ...Object.values(CHAIN_CONFIG).map((chain) => fetchJson(`https://api.curve.finance/v1/getPools/all/${chain.poolsApiSlug}`).catch(() => null)),
         ]);
 
         if (ignore) return;
 
         const rawGauges = gaugesResponse?.data?.gauges || gaugesResponse?.gauges || [];
-        const activeGauges = rawGauges
-          .filter((gauge) => !gauge?.is_killed && isEthereumGauge(gauge) && (gauge?.effective_address || gauge?.address))
-          .map(normalizeGauge);
+        const overviewIndex = makeOverviewIndex(rawGauges);
+        const activeGauges = Object.keys(CHAIN_CONFIG).flatMap((chain, index) => {
+          const pools = poolResponses[index]?.data?.poolData || poolResponses[index]?.poolData || [];
+          return pools
+            .filter((pool) => pool?.gaugeAddress)
+            .map((pool) => normalizeGauge(pool, chain, overviewIndex))
+            .filter((gauge) => ethers.isAddress(gauge.address));
+        });
 
-        if (!activeGauges.length) throw new Error('No active Ethereum gauges found.');
+        if (!activeGauges.length) throw new Error('No active gauges found.');
 
         const gaugesWithStakedTvl = await fetchGaugeStakedTvls(activeGauges);
         if (ignore) return;
 
         setGauges(gaugesWithStakedTvl);
         setSelectedGaugeId(gaugesWithStakedTvl[0].id);
+        setEthereumVotingSupply(totalVecrvResponse || 0);
         setValues((current) => ({
           ...current,
           ...getGaugeValueUpdates(gaugesWithStakedTvl[0], current),
-          totalVecrv: totalVecrvResponse ? String(totalVecrvResponse) : current.totalVecrv,
+          totalVecrv: gaugesWithStakedTvl[0].chain === 'ethereum' && totalVecrvResponse ? String(totalVecrvResponse) : '',
         }));
         setCrvPrice(toNumber(priceResponse?.data?.usd_price, 0));
         setStatus('ready');
       } catch (error) {
         if (ignore) return;
         setStatus('fallback');
-        setNotice('Live staked gauge TVL is unavailable. You can still enter the value staked in the gauge and total veCRV manually.');
+        setNotice('Live gauge data is unavailable. You can still enter the value staked in the gauge and voting supply manually.');
       }
     }
 
     loadCalculatorData();
-    return () => {
-      ignore = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let ignore = false;
-
-    async function loadRevenueData() {
-      try {
-        const nextRevenueData = await fetchVecrvRevenue();
-        if (ignore) return;
-        setRevenueData(nextRevenueData);
-        setRevenueStatus(nextRevenueData.total7d || nextRevenueData.total30d ? 'ready' : 'unavailable');
-      } catch (error) {
-        if (ignore) return;
-        setRevenueStatus('unavailable');
-      }
-    }
-
-    loadRevenueData();
     return () => {
       ignore = true;
     };
@@ -332,6 +392,22 @@ export default function BoostCalculator() {
       document.body.style.overflow = previousOverflow;
     };
   }, [isGaugePickerOpen]);
+
+  useEffect(() => {
+    let ignore = false;
+
+    fetchVecrvRevenue()
+      .then((data) => {
+        if (ignore) return;
+        setRevenueData(data);
+        setRevenueStatus(data.total7d || data.total30d ? 'ready' : 'unavailable');
+      })
+      .catch(() => {
+        if (!ignore) setRevenueStatus('unavailable');
+      });
+
+    return () => { ignore = true; };
+  }, []);
 
   useEffect(() => {
     let ignore = false;
@@ -379,7 +455,9 @@ export default function BoostCalculator() {
       ? gauges
       : gauges.filter((gauge) => gauge.stakedTvl > 0);
     const token = selectedToken.trim().toLowerCase();
+    const network = selectedNetwork.trim().toLowerCase();
     const matchedGauges = availableGauges.filter((gauge) => {
+      if (network && gauge.chain !== network) return false;
       const matchesToken = token
         ? getGaugeTokens(gauge).some((gaugeToken) => gaugeToken.toLowerCase() === token)
         : true;
@@ -388,6 +466,7 @@ export default function BoostCalculator() {
 
       const searchable = [
         gauge.name,
+        gauge.chainLabel,
         gauge.symbol,
         gauge.address,
         gauge.originalAddress,
@@ -401,13 +480,14 @@ export default function BoostCalculator() {
 
     return [...matchedGauges].sort((a, b) => {
       if (gaugeSort === 'name') return a.name.localeCompare(b.name);
+      if (gaugeSort === 'network') return a.chainLabel.localeCompare(b.chainLabel) || b.stakedTvl - a.stakedTvl;
       if (gaugeSort === 'poolTvl') return (b.poolTvl || b.stakedTvl) - (a.poolTvl || a.stakedTvl);
       if (gaugeSort === 'poolAddress') return (a.poolAddress || '').localeCompare(b.poolAddress || '');
       if (gaugeSort === 'gaugeAddress') return (a.address || '').localeCompare(b.address || '');
       if (gaugeSort === 'created') return (b.createdAt || 0) - (a.createdAt || 0) || b.stakedTvl - a.stakedTvl;
       return b.stakedTvl - a.stakedTvl;
     });
-  }, [gauges, gaugeSort, poolSearch, selectedToken, showEmptyGauges]);
+  }, [gauges, gaugeSort, poolSearch, selectedNetwork, selectedToken, showEmptyGauges]);
 
   useEffect(() => {
     if (!filteredGauges.length || filteredGauges.some((gauge) => gauge.id === selectedGaugeId)) return;
@@ -419,8 +499,9 @@ export default function BoostCalculator() {
     setValues((current) => ({
       ...current,
       ...getGaugeValueUpdates(nextGauge, current),
+      totalVecrv: nextGauge.chain === 'ethereum' ? String(ethereumVotingSupply || '') : '',
     }));
-  }, [filteredGauges, selectedGaugeId]);
+  }, [ethereumVotingSupply, filteredGauges, selectedGaugeId]);
 
   const lockYears = Math.min(Math.max(toNumber(values.lockYears, 4), 0.01), 4);
   const depositLpTokens = toNumber(values.depositLpTokens);
@@ -437,6 +518,10 @@ export default function BoostCalculator() {
     : toNumber(values.crvAmount) * (lockYears / 4);
   const futureTotalVecrv = mode === 'crv' ? totalVecrv + userVecrv : totalVecrv;
   const vecrvShare = futureTotalVecrv > 0 ? userVecrv / futureTotalVecrv : 0;
+  const revenueUserVecrv = mode === 'crv' ? userVecrv : addressData?.ethereumVecrv ?? userVecrv;
+  const revenueTotalVecrv = addressData?.ethereumTotalVecrv || ethereumVotingSupply;
+  const futureRevenueTotalVecrv = mode === 'crv' ? revenueTotalVecrv + revenueUserVecrv : revenueTotalVecrv;
+  const revenueVecrvShare = futureRevenueTotalVecrv > 0 ? revenueUserVecrv / futureRevenueTotalVecrv : 0;
   const futureGaugeShare = futureStakedGaugeTvl > 0 ? depositValue / futureStakedGaugeTvl : 0;
   const leaderboardMatch = addressData?.address
     ? leaderboard.find((holder) => holder.address === addressData.address.toLowerCase())
@@ -449,11 +534,17 @@ export default function BoostCalculator() {
     && leaderboard.length > 0
     && estimatedLeaderboardRank > leaderboard.length;
 
-  const boost = futureGaugeShare > 0 && totalVecrv > 0
+  const hasDeposit = depositValue > 0;
+  const hasBoostInputs = hasDeposit && futureStakedGaugeTvl > 0 && totalVecrv > 0;
+  const boost = hasBoostInputs
     ? Math.min(2.5, Math.max(1, 1 + 1.5 * (vecrvShare / futureGaugeShare)))
     : 1;
-  const minVecrv = futureGaugeShare > 0 && totalVecrv > 0
-    ? totalVecrv * futureGaugeShare
+  // `totalVecrv` includes an existing position's veCRV balance. To reach 2.5x,
+  // the user's balance must equal their gauge share of the resulting veCRV supply.
+  const otherVecrv = Math.max(totalVecrv - (mode === 'vecrv' ? userVecrv : 0), 0);
+  const maxBoostIsUnreachable = hasBoostInputs && futureGaugeShare >= 1 && otherVecrv > 0;
+  const minVecrv = hasBoostInputs && futureGaugeShare > 0 && futureGaugeShare < 1
+    ? (futureGaugeShare * otherVecrv) / (1 - futureGaugeShare)
     : 0;
   const effectiveDeposit = depositValue * boost;
   const remainingVecrv = Math.max(minVecrv - userVecrv, 0);
@@ -461,9 +552,10 @@ export default function BoostCalculator() {
   const remainingCrvForMaxBoost = lockYears > 0 ? remainingVecrv / (lockYears / 4) : 0;
   const crvInputCost = mode === 'crv' && crvPrice > 0 ? toNumber(values.crvAmount) * crvPrice : 0;
   const crvForMaxBoostCost = crvPrice > 0 ? crvForMaxBoost * crvPrice : 0;
-  const weeklyRevenueEstimate = revenueData?.total7d ? vecrvShare * revenueData.total7d : 0;
-  const monthlyRevenueEstimate = revenueData?.total30d ? vecrvShare * revenueData.total30d : 0;
+  const weeklyRevenueEstimate = revenueData?.total7d ? revenueVecrvShare * revenueData.total7d : 0;
+  const monthlyRevenueEstimate = revenueData?.total30d ? revenueVecrvShare * revenueData.total30d : 0;
   const hasRevenueData = revenueStatus === 'ready';
+  const automaticBoostUnavailable = selectedGauge?.chain !== 'ethereum' && addressData?.oracleUnavailable;
 
   function updateValue(key, value) {
     setValues((current) => ({ ...current, [key]: value }));
@@ -512,6 +604,7 @@ export default function BoostCalculator() {
     setValues((current) => ({
       ...current,
       ...getGaugeValueUpdates(nextGauge, current),
+      totalVecrv: nextGauge?.chain === 'ethereum' ? String(ethereumVotingSupply || '') : '',
     }));
   }
 
@@ -524,7 +617,7 @@ export default function BoostCalculator() {
     }
 
     if (!ethers.isAddress(address.trim())) {
-      setAddressError('Enter a valid Ethereum address.');
+      setAddressError('Enter a valid EVM address.');
       return;
     }
 
@@ -533,22 +626,13 @@ export default function BoostCalculator() {
 
     try {
       const userAddress = ethers.getAddress(address.trim());
-      const provider = new ethers.JsonRpcProvider(RPC_URL, 1, { staticNetwork: true });
+      const config = CHAIN_CONFIG[selectedGauge.chain];
+      const provider = new ethers.JsonRpcProvider(config.rpcUrl, config.id, { staticNetwork: true });
       const multicall = new ethers.Contract(MULTICALL3_ADDRESS, MULTICALL3_ABI, provider);
       const vecrvIface = new ethers.Interface(VECRV_ABI);
       const gaugeIface = new ethers.Interface(GAUGE_ABI);
 
-      const results = await multicall.aggregate3([
-        {
-          target: VECRV_ADDRESS,
-          allowFailure: false,
-          callData: vecrvIface.encodeFunctionData('totalSupply'),
-        },
-        {
-          target: VECRV_ADDRESS,
-          allowFailure: false,
-          callData: vecrvIface.encodeFunctionData('balanceOf', [userAddress]),
-        },
+      const gaugeResults = await multicall.aggregate3([
         {
           target: selectedGauge.address,
           allowFailure: true,
@@ -559,12 +643,59 @@ export default function BoostCalculator() {
           allowFailure: true,
           callData: gaugeIface.encodeFunctionData('totalSupply'),
         },
+        {
+          target: selectedGauge.address,
+          allowFailure: true,
+          callData: gaugeIface.encodeFunctionData('voting_escrow'),
+        },
       ]);
 
-      const nextTotalVecrv = Number(ethers.formatEther(decodeBigint(vecrvIface, 'totalSupply', results[0]) || 0n));
-      const nextUserVecrv = Number(ethers.formatEther(decodeBigint(vecrvIface, 'balanceOf', results[1]) || 0n));
-      const gaugeBalance = Number(ethers.formatEther(decodeBigint(gaugeIface, 'balanceOf', results[2]) || 0n));
-      const gaugeSupply = Number(ethers.formatEther(decodeBigint(gaugeIface, 'totalSupply', results[3]) || 0n));
+      const gaugeBalance = Number(ethers.formatEther(decodeBigint(gaugeIface, 'balanceOf', gaugeResults[0]) || 0n));
+      const gaugeSupply = Number(ethers.formatEther(decodeBigint(gaugeIface, 'totalSupply', gaugeResults[1]) || 0n));
+      const oracleAddress = gaugeResults[2]?.success && gaugeResults[2].returnData !== '0x'
+        ? gaugeIface.decodeFunctionResult('voting_escrow', gaugeResults[2].returnData)[0]
+        : '';
+      let nextTotalVecrv = 0;
+      let nextUserVecrv = 0;
+      let oracleUnavailable = false;
+
+      if (selectedGauge.chain === 'ethereum') {
+        const vecrvResults = await multicall.aggregate3([
+          { target: VECRV_ADDRESS, allowFailure: false, callData: vecrvIface.encodeFunctionData('totalSupply') },
+          { target: VECRV_ADDRESS, allowFailure: false, callData: vecrvIface.encodeFunctionData('balanceOf', [userAddress]) },
+        ]);
+        nextTotalVecrv = Number(ethers.formatEther(decodeBigint(vecrvIface, 'totalSupply', vecrvResults[0]) || 0n));
+        nextUserVecrv = Number(ethers.formatEther(decodeBigint(vecrvIface, 'balanceOf', vecrvResults[1]) || 0n));
+      } else if (ethers.isAddress(oracleAddress) && oracleAddress !== ethers.ZeroAddress) {
+        const oracleResults = await multicall.aggregate3([
+          { target: oracleAddress, allowFailure: true, callData: vecrvIface.encodeFunctionData('totalSupply') },
+          { target: oracleAddress, allowFailure: true, callData: vecrvIface.encodeFunctionData('balanceOf', [userAddress]) },
+        ]);
+        nextTotalVecrv = Number(ethers.formatEther(decodeBigint(vecrvIface, 'totalSupply', oracleResults[0]) || 0n));
+        nextUserVecrv = Number(ethers.formatEther(decodeBigint(vecrvIface, 'balanceOf', oracleResults[1]) || 0n));
+        oracleUnavailable = !nextTotalVecrv;
+      } else {
+        oracleUnavailable = true;
+      }
+
+      const ethereumProvider = selectedGauge.chain === 'ethereum'
+        ? provider
+        : new ethers.JsonRpcProvider(CHAIN_CONFIG.ethereum.rpcUrl, 1, { staticNetwork: true });
+      const ethereumMulticall = selectedGauge.chain === 'ethereum'
+        ? multicall
+        : new ethers.Contract(MULTICALL3_ADDRESS, MULTICALL3_ABI, ethereumProvider);
+      const ethereumResults = selectedGauge.chain === 'ethereum'
+        ? null
+        : await ethereumMulticall.aggregate3([
+          { target: VECRV_ADDRESS, allowFailure: true, callData: vecrvIface.encodeFunctionData('totalSupply') },
+          { target: VECRV_ADDRESS, allowFailure: true, callData: vecrvIface.encodeFunctionData('balanceOf', [userAddress]) },
+        ]);
+      const ethereumTotalVecrv = selectedGauge.chain === 'ethereum'
+        ? nextTotalVecrv
+        : Number(ethers.formatEther(decodeBigint(vecrvIface, 'totalSupply', ethereumResults[0]) || 0n));
+      const ethereumUserVecrv = selectedGauge.chain === 'ethereum'
+        ? nextUserVecrv
+        : Number(ethers.formatEther(decodeBigint(vecrvIface, 'balanceOf', ethereumResults[1]) || 0n));
       const depositUsd = selectedGauge.lpTokenPrice > 0 ? gaugeBalance * selectedGauge.lpTokenPrice : 0;
       const gaugeTvl = selectedGauge.lpTokenPrice > 0 && gaugeSupply > 0
         ? gaugeSupply * selectedGauge.lpTokenPrice
@@ -577,10 +708,11 @@ export default function BoostCalculator() {
       )));
       setMode('vecrv');
       setPositionMode('current');
+      if (ethereumTotalVecrv) setEthereumVotingSupply(ethereumTotalVecrv);
       setValues((current) => ({
         ...current,
         userVecrv: String(nextUserVecrv),
-        totalVecrv: nextTotalVecrv ? String(nextTotalVecrv) : current.totalVecrv,
+        totalVecrv: nextTotalVecrv ? String(nextTotalVecrv) : '',
         depositLpTokens: String(gaugeBalance),
         depositValue: selectedGauge.lpTokenPrice > 0 ? String(depositUsd.toFixed(2)) : current.depositValue,
         poolValue: String(Math.round(gaugeTvl || 0)),
@@ -588,6 +720,10 @@ export default function BoostCalculator() {
       setAddressData({
         address: userAddress,
         vecrv: nextUserVecrv,
+        ethereumVecrv: ethereumUserVecrv,
+        ethereumTotalVecrv,
+        votingEscrow: selectedGauge.chain === 'ethereum' ? VECRV_ADDRESS : oracleAddress,
+        oracleUnavailable,
         gaugeBalance,
         gaugeSupply,
         depositUsd,
@@ -596,7 +732,7 @@ export default function BoostCalculator() {
       setAddressStatus('ready');
     } catch (error) {
       setAddressStatus('error');
-      setAddressError('Could not load this address from the public Ethereum RPC. You can still enter values manually.');
+      setAddressError(`Could not load this address from the public ${selectedGauge.chainLabel} RPC. You can still enter values manually.`);
     }
   }
 
@@ -629,7 +765,8 @@ export default function BoostCalculator() {
               >
                 <span className={styles.selectorMain}>
                   <strong>{selectedGauge?.name || 'Select a gauge'}</strong>
-                  <small>{selectedGauge?.symbol || 'Search active Ethereum gauges'}</small>
+                  <small>{selectedGauge?.symbol || 'Search active gauges across supported networks'}</small>
+                  {selectedGauge ? <small>Network {selectedGauge.chainLabel}</small> : null}
                   {selectedGauge?.poolAddress ? (
                     <>
                       <small>Pool {shortAddress(selectedGauge.poolAddress)}</small>
@@ -653,6 +790,10 @@ export default function BoostCalculator() {
                 </span>
                 <span>{isGaugePickerOpen ? 'Close' : 'Select'}</span>
               </button>
+
+              {selectedGauge?.chain && selectedGauge.chain !== 'ethereum' ? (
+                <p className={styles.notice}>L2 boost estimates use the selected chain’s veCRV oracle. New CRV locks may need the cross-chain oracle update before they affect L2 boost.</p>
+              ) : null}
 
               {isGaugePickerOpen ? (
                 <>
@@ -703,6 +844,15 @@ export default function BoostCalculator() {
 
                     <div className={styles.pickerControls}>
                       <label>
+                        <span className={styles.label}>Network filter</span>
+                        <select className={styles.input} value={selectedNetwork} onChange={(event) => setSelectedNetwork(event.target.value)}>
+                          <option value="">All supported networks</option>
+                          {Object.entries(CHAIN_CONFIG).map(([chain, config]) => (
+                            <option key={chain} value={chain}>{config.label}</option>
+                          ))}
+                        </select>
+                      </label>
+                      <label>
                         <span className={styles.label}>Token filter</span>
                         <select
                           className={styles.input}
@@ -741,6 +891,7 @@ export default function BoostCalculator() {
 
                     <div className={styles.gaugeTableHeader}>
                       <button type="button" aria-pressed={gaugeSort === 'name'} onClick={() => setGaugeSort('name')}>Pool</button>
+                      <button type="button" aria-pressed={gaugeSort === 'network'} onClick={() => setGaugeSort('network')}>Network</button>
                       <button type="button" aria-pressed={gaugeSort === 'poolTvl'} onClick={() => setGaugeSort('poolTvl')}>Pool TVL</button>
                       <button type="button" aria-pressed={gaugeSort === 'poolAddress'} onClick={() => setGaugeSort('poolAddress')}>Pool address</button>
                       <button type="button" aria-pressed={gaugeSort === 'gaugeAddress'} onClick={() => setGaugeSort('gaugeAddress')}>Gauge address</button>
@@ -762,16 +913,20 @@ export default function BoostCalculator() {
                         </span>
                         <span className={styles.gaugeMeta}>
                           <span>
+                            <small>Network</small>
+                            <strong>{gauge.chainLabel}</strong>
+                          </span>
+                          <span>
                             <small>Pool TVL</small>
                             <strong>{formatUsd(gauge.poolTvl || gauge.stakedTvl)}</strong>
                           </span>
                             <span>
                               <small>Pool address</small>
-                              <strong>{gauge.poolAddress || 'Unavailable'}</strong>
+                              <strong>{gauge.poolAddress ? shortAddress(gauge.poolAddress) : 'Unavailable'}</strong>
                             </span>
                             <span>
                               <small>Gauge address</small>
-                              <strong>{gauge.address}</strong>
+                              <strong>{shortAddress(gauge.address)}</strong>
                             </span>
                           </span>
                         </button>
@@ -786,6 +941,10 @@ export default function BoostCalculator() {
               <summary>Gauge contract details</summary>
               <div className={styles.detailsStrip}>
                 <div className={styles.detailItem}>
+                  <span>Network</span>
+                  <strong>{selectedGauge?.chainLabel || 'No gauge selected'}</strong>
+                </div>
+                <div className={styles.detailItem}>
                   <span>Gauge address</span>
                   <strong>{selectedGauge?.address || 'No gauge selected'}</strong>
                 </div>
@@ -796,6 +955,10 @@ export default function BoostCalculator() {
                 <div className={styles.detailItem}>
                   <span>Gauge supply</span>
                   <strong>{formatAmount(selectedGauge?.gaugeSupply || 0)}</strong>
+                </div>
+                <div className={styles.detailItem}>
+                  <span>VotingEscrow source</span>
+                  <strong>{addressData?.votingEscrow || (selectedGauge?.chain === 'ethereum' ? VECRV_ADDRESS : 'Load an address to read oracle')}</strong>
                 </div>
                 <div className={styles.detailItem}>
                   <span>LP token price</span>
@@ -839,8 +1002,10 @@ export default function BoostCalculator() {
               </div>
               <p className={addressError ? styles.errorText : styles.fieldHint}>
                 {addressError || (addressData
-                  ? `Loaded ${shortAddress(addressData.address)}: ${formatAmount(addressData.vecrv)} veCRV and ${formatUsd(addressData.depositUsd)} in this gauge.`
-                  : 'Optional. Uses one multicall to load veCRV, staked LP balance, gauge supply, and total veCRV.')}
+                  ? (addressData.oracleUnavailable
+                    ? `Loaded ${shortAddress(addressData.address)} and the gauge position, but this L2 voting oracle is unavailable or has zero supply. Enter voting values manually to estimate boost.`
+                    : `Loaded ${shortAddress(addressData.address)}: ${formatAmount(addressData.vecrv)} voting balance and ${formatUsd(addressData.depositUsd)} in this gauge.`)
+                  : 'Optional. Loads your staked LP balance, gauge supply, and the voting supply used by this gauge.')}
               </p>
             </form>
 
@@ -900,7 +1065,7 @@ export default function BoostCalculator() {
                     <p className={styles.fieldHint}>Current USD value staked in this gauge, not total pool liquidity.</p>
                   </div>
                   <div className={styles.field}>
-                    <label className={styles.label} htmlFor="boost-total-vecrv">Total veCRV</label>
+                    <label className={styles.label} htmlFor="boost-total-vecrv">Voting supply used by this gauge</label>
                     <input
                       id="boost-total-vecrv"
                       className={styles.input}
@@ -910,7 +1075,7 @@ export default function BoostCalculator() {
                       value={values.totalVecrv}
                       onChange={(event) => updateValue('totalVecrv', event.target.value)}
                     />
-                    <p className={styles.fieldHint}>System-wide veCRV denominator.</p>
+                    <p className={styles.fieldHint}>{selectedGauge?.chain === 'ethereum' ? 'Ethereum VotingEscrow supply denominator.' : 'Selected chain L2 VotingEscrow Oracle supply denominator.'}</p>
                   </div>
                 </div>
                 <div className={styles.fieldWide}>
@@ -1056,16 +1221,18 @@ export default function BoostCalculator() {
           <div className={styles.stepHeader}>
             <span className={styles.stepNumber}>4</span>
             <div>
-              <h4>Review locking benefits</h4>
-              <p>Boost uses your veCRV share and future gauge LP share. Revenue share uses your share of all veCRV.</p>
+              <h4>Review your boost</h4>
+              <p>Boost compares your share of this gauge’s voting supply with your future share of its staked LP tokens. Revenue share always uses Ethereum veCRV.</p>
             </div>
           </div>
 
           <div className={styles.heroMetric}>
-            <span className={styles.heroLabel}>Estimated boost</span>
-            <strong className={styles.heroValue}>{boost.toFixed(2)}x</strong>
+            <span className={styles.heroLabel}>{automaticBoostUnavailable ? 'Manual boost estimate' : 'Estimated boost'}</span>
+            <strong className={styles.heroValue}>{hasBoostInputs ? `${boost.toFixed(2)}x` : '—'}</strong>
             <span className={styles.heroMeta}>
-              {formatUsd(effectiveDeposit)} effective deposit from {formatUsd(depositValue)}.
+              {hasBoostInputs
+                ? `${formatUsd(effectiveDeposit)} effective deposit from ${formatUsd(depositValue)}.`
+                : 'Enter an LP token amount or deposit value to calculate your boost.'}
             </span>
           </div>
 
@@ -1073,28 +1240,40 @@ export default function BoostCalculator() {
             <strong>Estimated crvUSD revenue share</strong>
             <span>
               {hasRevenueData
-                ? `${formatUsd(weeklyRevenueEstimate, 2)} over 7 days and ${formatUsd(monthlyRevenueEstimate, 2)} over 30 days, based on recent DefiLlama holders revenue.`
-                : `Revenue data is unavailable right now. Your estimated veCRV share is ${formatPercent(vecrvShare, 5)}.`}
+                ? `${formatUsd(weeklyRevenueEstimate, 2)} over 7 days and ${formatUsd(monthlyRevenueEstimate, 2)} over 30 days, based on recent holders revenue and your Ethereum veCRV share.`
+                : `Revenue data is unavailable right now. Your estimated Ethereum veCRV share is ${formatPercent(revenueVecrvShare, 5)}.`}
             </span>
           </div>
 
           <div className={styles.nextStep}>
-            <strong>{remainingVecrv > 0 ? `${formatAmount(remainingVecrv)} more veCRV for max boost` : 'Enough veCRV for max boost'}</strong>
+            <strong>
+              {!hasBoostInputs
+                ? 'Enter a deposit amount to calculate max boost'
+                : maxBoostIsUnreachable
+                  ? '2.5x boost cannot be reached for this position'
+                  : remainingVecrv > 0
+                    ? `${formatAmount(remainingVecrv)} more veCRV for 2.5x boost`
+                    : 'Enough veCRV for 2.5x boost'}
+            </strong>
             <span>
-              {remainingVecrv > 0 && crvPrice
-                ? `About ${formatUsd(remainingCrvForMaxBoost * crvPrice, 2)} of CRV at a ${lockYears.toFixed(2)} year lock.`
-                : `Max boost target is ${formatAmount(minVecrv)} veCRV.`}
+              {!hasBoostInputs
+                ? 'The required veCRV depends on the share of the gauge that your deposit represents.'
+                : maxBoostIsUnreachable
+                  ? 'This deposit would be the entire staked gauge. Because other veCRV exists, its voting share cannot reach 100%; reduce the position or use the estimated boost below.'
+                  : remainingVecrv > 0 && crvPrice
+                    ? `About ${formatUsd(remainingCrvForMaxBoost * crvPrice, 2)} of CRV at a ${lockYears.toFixed(2)} year lock.`
+                    : `The 2.5x target requires ${formatAmount(minVecrv)} veCRV.`}
             </span>
           </div>
 
           <div className={styles.resultStats}>
             <div>
-              <span>veCRV share</span>
-              <strong>{formatPercent(vecrvShare, 5)}</strong>
+              <span>Gauge voting share</span>
+              <strong>{hasBoostInputs ? formatPercent(vecrvShare, 5) : '—'}</strong>
             </div>
             <div>
-              <span>CRV for max boost</span>
-              <strong>{formatAmount(crvForMaxBoost)}</strong>
+              <span>CRV for 2.5x boost</span>
+              <strong>{hasBoostInputs && !maxBoostIsUnreachable ? formatAmount(crvForMaxBoost) : '—'}</strong>
             </div>
           </div>
 
@@ -1102,15 +1281,14 @@ export default function BoostCalculator() {
             Lock CRV
           </a>
           <div className={styles.linkRow}>
-            <a href="/user/vecrv/revenue">Learn about revenue share</a>
             <a href="/user/vecrv/how-to-lock">How locking works</a>
           </div>
 
           <details className={styles.advancedDetails}>
-            <summary>Boost and revenue breakdown</summary>
+            <summary>Boost breakdown</summary>
             <div className={styles.supportGrid}>
               <div className={styles.metric}>
-                <span className={styles.metricLabel}>veCRV share</span>
+                <span className={styles.metricLabel}>Gauge voting share</span>
                 <strong className={styles.metricValue}>{formatPercent(vecrvShare, 5)}</strong>
                 <span className={styles.metricSubtext}>{formatAmount(userVecrv)} / {formatAmount(futureTotalVecrv)} veCRV</span>
               </div>
@@ -1120,46 +1298,21 @@ export default function BoostCalculator() {
                 <span className={styles.metricSubtext}>{formatUsd(depositValue)} / {formatUsd(futureStakedGaugeTvl)} future staked TVL</span>
               </div>
               <div className={styles.metric}>
-                <span className={styles.metricLabel}>Estimated weekly revenue</span>
-                <strong className={styles.metricValue}>{hasRevenueData ? formatUsd(weeklyRevenueEstimate, 2) : 'Unavailable'}</strong>
+                <span className={styles.metricLabel}>veCRV for 2.5x boost</span>
+                <strong className={styles.metricValue}>{hasBoostInputs && !maxBoostIsUnreachable ? formatAmount(minVecrv) : 'Unavailable'}</strong>
                 <span className={styles.metricSubtext}>
-                  {revenueData?.total7d ? `${formatUsd(revenueData.total7d, 0)} recent 7 day holders revenue` : 'Uses veCRV share when revenue data loads'}
+                  {hasBoostInputs && !maxBoostIsUnreachable ? `${formatAmount(remainingVecrv)} more veCRV needed` : 'Enter a supported deposit amount'}
                 </span>
               </div>
               <div className={styles.metric}>
-                <span className={styles.metricLabel}>Estimated monthly revenue</span>
-                <strong className={styles.metricValue}>{hasRevenueData ? formatUsd(monthlyRevenueEstimate, 2) : 'Unavailable'}</strong>
+                <span className={styles.metricLabel}>CRV for 2.5x boost</span>
+                <strong className={styles.metricValue}>{hasBoostInputs && !maxBoostIsUnreachable ? formatAmount(crvForMaxBoost) : 'Unavailable'}</strong>
                 <span className={styles.metricSubtext}>
-                  {revenueData?.total30d ? `${formatUsd(revenueData.total30d, 0)} recent 30 day holders revenue` : 'Not a guaranteed yield'}
+                  {hasBoostInputs && !maxBoostIsUnreachable
+                    ? (crvPrice ? `${formatUsd(crvForMaxBoostCost, 2)} at ${lockYears.toFixed(2)} years` : `At ${lockYears.toFixed(2)} years`)
+                    : 'Not available for this position'}
                 </span>
               </div>
-              <div className={styles.metric}>
-                <span className={styles.metricLabel}>veCRV for max boost</span>
-                <strong className={styles.metricValue}>{formatAmount(minVecrv)}</strong>
-                <span className={styles.metricSubtext}>{formatAmount(remainingVecrv)} more veCRV needed</span>
-              </div>
-              <div className={styles.metric}>
-                <span className={styles.metricLabel}>CRV for max boost</span>
-                <strong className={styles.metricValue}>{formatAmount(crvForMaxBoost)}</strong>
-                <span className={styles.metricSubtext}>
-                  {crvPrice ? `${formatUsd(crvForMaxBoostCost, 2)} at ${lockYears.toFixed(2)} years` : `At ${lockYears.toFixed(2)} years`}
-                </span>
-              </div>
-            </div>
-          </details>
-
-          <details className={styles.advancedDetails}>
-            <summary>Revenue estimate source</summary>
-            <div className={styles.detailsContent}>
-              <p>
-                Revenue estimate uses DefiLlama crvUSD holders revenue. It applies your future veCRV share to recent 7 day and 30 day holders revenue totals, so it is an estimate and not guaranteed yield.
-              </p>
-              <p className={styles.formulaText}>
-                estimated revenue = future veCRV share * recent crvUSD holders revenue
-              </p>
-              <p>
-                DefiLlama adapter source: <a href="https://github.com/DefiLlama/dimension-adapters/blob/master/fees/crv-usd.ts" target="_blank" rel="noreferrer">crvUSD Fees To veCRV Holders</a>.
-              </p>
             </div>
           </details>
 
