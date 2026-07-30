@@ -1,11 +1,21 @@
 ---
 title: Integrating FXSwap
-sidebar_label: Integration Guide
+sidebar_label: Integrating Swaps
 ---
 
 # Integrating FXSwap
 
 FXSwap keeps the common two-coin Curve routing surface: `coins`, `get_dy`, `get_dx`, `exchange`, `exchange_received`, and `TokenExchange`. The important integration work is identifying the implementation correctly, preserving raw token units, and choosing the correct token-transfer flow.
+
+Use this integration model:
+
+1. **Discover** registered pool addresses.
+2. **Identify** the deployed implementation and supported version.
+3. **Read** coin order, token decimals, and live pool state.
+4. **Quote** the intended direction and amount.
+5. **Simulate** the complete transaction against recent state.
+6. **Execute** with explicit slippage and atomic token movement.
+7. **Verify** the return value and emitted events.
 
 ## 1. Discover and identify pools
 
@@ -91,6 +101,13 @@ The pool has no exact-output swap method. A router implements exact output by es
 
 ## 4. Execute safely
 
+| Method | Input movement | Output receiver | Primary use |
+| --- | --- | --- | --- |
+| `exchange` | Pool pulls `dx` from `msg.sender` | Caller or explicit `receiver` | Direct integrations and approved router calls |
+| `exchange_received` | Caller transfers `dx` before the call | Caller or explicit `receiver` | Routers that already custody input and can make both actions atomic |
+
+Both methods return the raw output amount and emit `TokenExchange`. The event's indexed `buyer` is `msg.sender`; it does not identify an explicit output receiver.
+
 ### Approval flow: `exchange`
 
 `exchange` pulls `dx` from `msg.sender`.
@@ -136,11 +153,48 @@ FXSwap pool methods are nonpayable and operate on ERC-20 tokens. Wrap native cur
 
 - `fee()` returns the current dynamic fee at **1e10 precision**.
 - `mid_fee()` and `out_fee()` are the configured bounds, also at 1e10 precision.
-- A quote can become stale when balances, the oracle, or `price_scale` changes.
+- `get_dy` calculates against the pool state of the call. A quote can become stale when balances, oracle state, or `price_scale` changes before execution.
 - A swap can trigger oracle updates, recentering, and the burn of available refuel shares. This is expected and does not change the swap ABI.
 - Never submit `min_dy = 0` for user trades.
 
 For multi-pool routes, simulate the full route against the intended block state. Apply protection to the final user outcome as well as any per-hop limits required by the router.
+
+### Defensive failure handling
+
+Treat a revert as a failed route, not as evidence that the pool is unusable. Common causes include:
+
+- unsupported, equal, or out-of-range coin indices;
+- insufficient input-token allowance or balance;
+- a token transfer that returns an unexpected value or amount;
+- input not already present for `exchange_received`;
+- output below `min_dy`;
+- arithmetic or invariant guards reached after pool state changed.
+
+Requote and re-simulate rather than automatically widening slippage. Set a transaction deadline in the router or calling contract because the pool methods do not accept one.
+
+## Searcher and arbitrage considerations
+
+FXSwap depends on arbitrage to connect the pool with external price discovery. Searchers should evaluate the executable trade against live state rather than interpreting a single getter as a guaranteed opportunity.
+
+| Signal | Interpretation |
+| --- | --- |
+| `last_prices()` | Most recently observed normalized pool price; explicitly unsafe as a manipulation-resistant oracle |
+| `price_oracle()` | Exponential moving-average target derived from prior observed prices |
+| `price_scale()` | Current center of concentrated pool liquidity |
+| External reference price | Offchain or onchain market input chosen by the searcher; not supplied by FXSwap |
+| `fee()` | Current dynamic fee at 1e10 precision |
+
+A state-changing swap can update `last_prices`, advance the exponential moving average once per block, and evaluate whether `price_scale` should move. A profitable opportunity can therefore alter the state used by another transaction in the same block.
+
+For each candidate:
+
+1. Read balances, the three price getters, fee parameters, and the intended quote from the same recent block.
+2. Compare against an external executable price that includes market depth and settlement costs.
+3. Simulate the exact calldata, receiver, token movements, and ordering.
+4. Include gas, priority fees, token wrapping, and downstream settlement in profitability.
+5. Re-evaluate after any competing pool transaction or parameter change.
+
+Do not infer available depth or direction from `price_oracle() - price_scale()` alone. Dynamic fees, invariant shape, balances, refuel availability, and the proposed trade size all affect execution and whether recentering is accepted.
 
 ## Events and indexing
 
@@ -166,6 +220,7 @@ event TokenExchange(
 - Use `uint256` indices and raw token units.
 - Quote with `get_dy`; treat `get_dx` as an iterative estimate.
 - Set a non-zero output floor and deadline at the router or transaction layer.
+- Requote or invalidate cached quotes after relevant balance, oracle, `price_scale`, or parameter changes.
 - Keep pre-transfer and `exchange_received` in one atomic call.
 - Simulate unusual token behavior and the entire multi-hop route.
 - Decode `TokenExchange` by pool address and versioned ABI.

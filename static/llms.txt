@@ -41,9 +41,11 @@
 - [Twocrypto-NG](https://docs.curve.finance/developer/amm/twocrypto-ng/overview): Next-gen two-asset crypto pool contracts
 - [FXSwap](https://docs.curve.finance/developer/amm/fxswap/overview): Variable-price two-asset pools with oracle-guided recentering and refuels
 - [Integrating FXSwap](https://docs.curve.finance/developer/amm/fxswap/integration): Discovery, quoting, swap execution, routing safety, and events
+- [Building on FXSwap](https://docs.curve.finance/developer/amm/fxswap/building): LP accounting, valuation, oracle limitations, and protocol monitoring
 - [FXSwap Mechanism & Parameters](https://docs.curve.finance/developer/amm/fxswap/mechanism): External price discovery, recentering budgets, parameter interactions, and simulation
 - [FXSwap Pool Reference](https://docs.curve.finance/developer/amm/fxswap/reference): Complete deployed pool interface and version boundaries
-- [FXSwap Refuels](https://docs.curve.finance/developer/amm/fxswap/refuels): Refuel accounting, unlocks, protection, depletion, and automation
+- [FXSwap Refuels](https://docs.curve.finance/developer/amm/fxswap/refuels): Refuel accounting, unlocks, protection, and depletion
+- [FXSwap Refuel Automation](https://docs.curve.finance/developer/amm/fxswap/automation): Stream custody, execution, rewards, failure recovery, and indexing
 - [Tricrypto-NG](https://docs.curve.finance/developer/amm/tricrypto-ng/overview): Next-gen three-asset crypto pool contracts
 - [Pool Factory](https://docs.curve.finance/developer/amm/pool-factory/overview): Deploying new pools via factory contracts
 - [crvUSD Contracts](https://docs.curve.finance/developer/crvusd/overview): crvUSD smart contract reference

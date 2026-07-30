@@ -155,24 +155,20 @@ export default {
                     label: 'FXSwap',
                     items: [
                         { type: 'doc', id: 'amm/fxswap/overview', label: 'Overview' },
-                        { type: 'doc', id: 'amm/fxswap/integration', label: 'Integration Guide' },
-                        {
-                            type: 'category',
-                            label: 'Pools',
-                            items: [
-                                { type: 'doc', id: 'amm/fxswap/mechanism', label: 'Mechanism & Parameters' },
-                                { type: 'doc', id: 'amm/fxswap/reference', label: 'Pool Reference' },
-                            ],
-                        },
+                        { type: 'doc', id: 'amm/fxswap/integration', label: 'Integrating Swaps' },
+                        { type: 'doc', id: 'amm/fxswap/building', label: 'Building on FXSwap' },
+                        { type: 'doc', id: 'amm/fxswap/mechanism', label: 'Mechanism & Parameters' },
                         { type: 'doc', id: 'amm/fxswap/refuels', label: 'Refuels' },
                         {
                             type: 'category',
                             label: 'Automation',
+                            link: { type: 'doc', id: 'amm/fxswap/automation' },
                             items: [
                                 { type: 'doc', id: 'amm/fxswap/donation-streamer', label: 'DonationStreamer' },
                                 { type: 'doc', id: 'amm/fxswap/stream-executor', label: 'StreamExecutor' },
                             ],
                         },
+                        { type: 'doc', id: 'amm/fxswap/reference', label: 'Pool Contract Reference' },
                     ],
                 },
                 {

@@ -35,6 +35,25 @@ The pool maintains three related prices:
 
 Each expresses the price of `coins(1)` in `coins(0)` units. A state-changing pool operation can update the oracle and, when the contract's conditions are satisfied, move `price_scale` toward `price_oracle`.
 
+The deployed implementation evaluates `tweak_price` after swaps, liquidity additions, fixed-out withdrawals, and one-coin withdrawals. A call does not guarantee a recenter. The contract first updates price and profit state, then checks the oracle distance, configured step, profit threshold, and available refuel support before accepting a new `price_scale`.
+
+The invariant concentrates liquidity around `price_scale` with amplification `A`. Unlike ordinary Twocrypto, the reviewed FXSwap invariant does not use `gamma` to shape a CryptoSwap curve; `gamma()` remains in the ABI for compatibility. Higher concentration can improve execution near the center but raises sensitivity to movement away from it and can increase the budget required to recenter.
+
+The deployed source makes the state transition boundary explicit:
+
+```vyper
+def tweak_price(
+    A_gamma: uint256[2],
+    _xp: uint256[N_COINS],
+    D: uint256,
+) -> uint256:
+    """
+    Updates price_oracle, last_price and conditionally adjusts
+    price_scale. This is called whenever there is an unbalanced
+    liquidity operation.
+    """
+```
+
 Refuels do not set an external price and do not force a rebalance. They help pay the cost when the pool's normal recentering logic moves concentrated liquidity. Read [Refuels](./refuels.md) for unlocking, protection, burn priority, and depletion.
 
 The general exponential moving-average behavior is shared with Twocrypto-NG, but the invariant and recentering budget are not identical. Do not infer FXSwap behavior from the [Twocrypto oracle reference](../twocrypto-ng/pools/oracles.md) without checking the deployed FXSwap version.
@@ -47,6 +66,24 @@ Moving concentrated liquidity can reduce the pool's measured profit. FXSwap can 
 2. the pool's normal profit buffer when more funding is required.
 
 This makes refuels a spendable market-liquidity budget, not recoverable principal. A protocol can observe the outstanding shares and public unlock parameters, but the deployed `v2.1.0d` interface does not expose separate getters for the exact locked, unlocked, protected, and immediately burnable amounts.
+
+## Dynamic fees
+
+The swap fee moves between `mid_fee()` and `out_fee()` according to the pool's normalized balance. `fee_gamma()` controls the transition. A more balanced pool receives a fee nearer `mid_fee`; increasing imbalance moves the fee toward `out_fee`.
+
+The deployed calculation uses the normalized `xp` balances, not raw token balances:
+
+```vyper
+# balance indicator: 1e18 when balanced, toward 0 when imbalanced
+B = PRECISION * N_COINS**N_COINS * xp[0] // B * xp[1] // B
+
+# fee_gamma shapes the transition between the bounds
+B = fee_gamma * B // (fee_gamma * B // 10**18 + 10**18 - B)
+
+return (mid_fee * B + out_fee * (10**18 - B)) // 10**18
+```
+
+This excerpt names unpacked values for readability; the deployed contract stores the three fee parameters in `packed_fee_params`. Applications should call `fee()` or `fee_calc(xp)` rather than reimplementing the packed-state logic unless exact reproduction is required and versioned.
 
 ## Parameter interactions
 
@@ -64,6 +101,27 @@ Parameters must be selected together. Raising concentration without providing en
 | Refuel schedule | Token amounts and seconds | Supplies the finite external budget | Must be evaluated against volatility, concentration, fees, and expected flow |
 
 `gamma()` remains in the ABI for compatibility but is unused by the reviewed FXSwap invariant.
+
+### Mutable parameters
+
+The factory admin can:
+
+- ramp `A` through `ramp_A_gamma` and stop a ramp;
+- update `mid_fee`, `out_fee`, `fee_gamma`, `allowed_extra_profit`, `adjustment_step`, and `ma_time` together through `apply_new_parameters`;
+- update refuel duration and protection parameters;
+- update `admin_fee`, `VIEW()`, and `MATH()`.
+
+After a parameter event, applications should invalidate cached fee and recentering configuration, re-read the target pool, and reassess quotes, monitoring thresholds, withdrawal assumptions, and refuel demand. Index `NewParameters`, `RampAgamma`, `StopRampA`, `SetDonationDuration`, `SetDonationProtection`, `SetAdminFee`, and `SetPeriphery`.
+
+## Separate facts from model inputs
+
+| Category | Examples | Interpretation |
+| --- | --- | --- |
+| Onchain getters | `A`, fees, `ma_time`, `price_oracle`, `price_scale`, refuel state | Current deployed pool state at a specific block |
+| Simulation inputs | Assumed refuel or boost rate, parameter search ranges, historical replay window | Choices made by the model; not necessarily onchain getters or future settings |
+| Offchain market assumptions | External depth, reference prices, arbitrage costs, organic flow, gas | Inputs outside the pool that must be sourced and stress-tested |
+
+Do not present a simulation input as a deployed default or an offchain assumption as a contract guarantee.
 
 :::warning[Do not copy example parameters]
 

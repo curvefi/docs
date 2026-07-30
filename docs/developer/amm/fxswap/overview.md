@@ -32,14 +32,13 @@ Review the [deployed pool reference](./reference.md#deployed-version-and-source)
 
 :::
 
-## Choose the right Curve AMM
+## Where FXSwap fits
 
 | Market | Prefer | Why |
 | --- | --- | --- |
 | Assets expected to stay near a fixed ratio | [Stableswap-NG](../stableswap-ng/overview.md) | Concentration around a fixed or rate-provider-adjusted peg |
 | Two volatile assets where the Curve pool supports primary price discovery | [Twocrypto-NG](../twocrypto-ng/overview.md) | CryptoSwap invariant and self-funded recentering |
 | Two externally priced assets that need passive concentrated liquidity | **FXSwap** | Variable-price StableSwap concentration and a configurable recentering budget |
-| Three volatile assets | [Tricrypto-NG](../tricrypto-ng/overview.md) | Three-coin CryptoSwap |
 
 FXSwap is not a general replacement for CryptoSwap. A pair is a poor fit when it lacks a reliable external reference market, arbitrage cannot keep the pool connected to that market, or no sustainable budget exists for the desired concentration and recentering frequency.
 
@@ -51,25 +50,19 @@ Recentering has a cost. FXSwap first burns refuel shares that have unlocked and 
 
 `gamma()` remains in the deployed ABI for Twocrypto compatibility, but the FXSwap invariant does not use it. Read [Mechanism and Parameter Design](./mechanism.md) for the interactions between concentration, fees, oracle smoothing, refuel budgets, and external market depth.
 
-## Start by role
+## Find what you need
 
-<DocCardGrid>
-  <DocCard title="Route aggregators" link="./integration" linkText="Integrate swaps">
+FXSwap documentation covers the work of market operators and capital managers, trade-execution integrators, protocol builders, and researchers or infrastructure providers. The pages are organized by task so teams with overlapping responsibilities share the same source of truth.
 
-Discover pools, verify the FXSwap interface, quote exact-input and exact-output routes, execute safely, and index swap events.
-
-  </DocCard>
-  <DocCard title="Protocol teams" link="./mechanism" linkText="Design a market">
-
-Decide whether FXSwap suits a pair, evaluate parameter interactions, budget refuels, and plan monitoring.
-
-  </DocCard>
-  <DocCard title="Contract researchers" link="./reference" linkText="Read the interface">
-
-Review the complete deployed `v2.1.0d` public surface, units, guards, events, and the boundary with newer development versions.
-
-  </DocCard>
-</DocCardGrid>
+| If you need to… | Start with |
+| --- | --- |
+| Quote or execute swaps | [Integrating Swaps](./integration.md) |
+| Search for arbitrage opportunities | [Integrating Swaps → Searcher and arbitrage considerations](./integration.md#searcher-and-arbitrage-considerations) |
+| Build a vault, strategy, or protocol | [Building on FXSwap](./building.md) |
+| Understand recentering and parameters | [Mechanism & Parameters](./mechanism.md) |
+| Fund the recentering buffer | [Refuels](./refuels.md) |
+| Schedule recurring refuels | [Automation](./automation.md) |
+| Index or inspect deployed contracts | [Pool Contract Reference](./reference.md) |
 
 ## FXSwap infrastructure
 
@@ -89,12 +82,17 @@ FXSwap pools use the Twocrypto factory infrastructure. Integrators must identify
 FXSwap retains compatible periphery interfaces. Read `VIEW()` and `MATH()` from the target pool because these addresses can change.
 
   </DocCard>
+  <DocCard title="Building on FXSwap" link="./building" linkText="Composition Guide">
+
+Account for LP supply, value positions, interpret pool state, and monitor integrations that hold or use FXSwap liquidity.
+
+  </DocCard>
   <DocCard title="Refuels" link="./refuels" linkText="Refuel Lifecycle">
 
 Refuels supply a finite, transparent buffer that unlocks over time and can be burned when the pool recenters.
 
   </DocCard>
-  <DocCard title="Automation" link="./donation-streamer" linkText="DonationStreamer">
+  <DocCard title="Automation" link="./automation" linkText="Automation Overview">
 
 Permissionless automation contracts can schedule recurring refuels and reward executors that submit due periods.
 
@@ -111,6 +109,12 @@ Permissionless automation contracts can schedule recurring refuels and reward ex
 | ZCHF | [`0x027B…2ca9`](https://etherscan.io/address/0x027B40F5917FCd0eac57d7015e120096A5F92ca9#code) | crvUSD / ZCHF |
 
 Pool parameters are mutable. Read the target pool rather than copying values from an example.
+
+:::warning[Deployed and future interfaces]
+
+The deployed `v2.1.0d` pools use `set_donation_duration` and `set_donation_protection_params`. Later development designs add policy, allowlist, and `set_donation_parameters` interfaces that are not callable on the pools documented here. Treat a future version as a separate implementation until its deployed bytecode and ABI are verified.
+
+:::
 
 ## Evidence and further reading
 

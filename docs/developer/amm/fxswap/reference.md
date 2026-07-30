@@ -1,13 +1,13 @@
 ---
 title: FXSwap Pool Reference
-sidebar_label: Pool Reference
+sidebar_label: Pool Contract Reference
 ---
 
 # FXSwap Pool Reference
 
 This reference covers the verified public ABI of deployed FXSwap `v2.1.0d` pools. Unless stated otherwise, amounts are raw token or LP-token units, indices are `uint256`, and the only valid coin indices are `0` and `1`.
 
-For transaction sequencing and examples, start with [Integrating FXSwap](./integration.md). For recentering and parameter interactions, see [Mechanism and Parameter Design](./mechanism.md). For the refuel lifecycle, see [Refuels](./refuels.md).
+For transaction sequencing and examples, start with [Integrating FXSwap](./integration.md). Protocols holding LP positions should read [Building on FXSwap](./building.md). For recentering and parameter interactions, see [Mechanism and Parameter Design](./mechanism.md). For the refuel lifecycle, see [FXSwap Refuels](./refuels.md).
 
 ## Deployed version and source
 
@@ -22,6 +22,105 @@ The live pool currently returns Views [`0x3504…D31f`](https://etherscan.io/add
 :::
 
 Many swap and LP-token methods retain Twocrypto-compatible behavior. This page inventories every deployed FXSwap entry point and explains the semantic differences. The [Twocrypto pool reference](../twocrypto-ng/pools/twocrypto.md) provides longer source walkthroughs for behavior that is genuinely shared; deployed FXSwap behavior remains authoritative.
+
+All entries on this page are available in deployed `v2.1.0d` unless a version boundary says otherwise. View methods have no caller restriction. State-changing user methods are permissionless and nonpayable; token allowance, balance, index, receiver, cap, invariant, and slippage guards still apply. The [Admin controls](#admin-controls) table identifies the factory-admin-only methods. Event names are listed with the state-changing method or group and defined in [Events](#events).
+
+## FXSwap-specific source walkthroughs
+
+These focused excerpts come from the verified deployed source identified above. They cover behavior that differs materially from ordinary Twocrypto without repeating shared ERC-20 and swap logic.
+
+### Refuel creation and supply accounting
+
+The refuel overload calculates shares, enforces the zero receiver and configured cap, then increases aggregate supply without minting an account balance:
+
+```vyper
+if donation:
+    assert receiver == empty(address), "nonzero receiver"
+    new_donation_shares: uint256 = self.donation_shares + d_token
+    assert (
+        new_donation_shares * PRECISION // (token_supply + d_token)
+        <= self.donation_shares_max_ratio
+    ), "donation above cap!"
+
+    self.donation_shares = new_donation_shares
+    self.totalSupply += d_token
+    log Donation(donor=msg.sender, token_amounts=amounts_received)
+```
+
+The deployed user-owned-supply getter is therefore:
+
+```vyper
+@external
+@view
+def user_supply() -> uint256:
+    return self.totalSupply - self.donation_shares
+```
+
+### Unlocking and protection
+
+The internal availability calculation linearly unlocks the outstanding shares, then damps them while protection remains active:
+
+```vyper
+elapsed: uint256 = block.timestamp - self.last_donation_release_ts
+unlocked_shares: uint256 = min(
+    donation_shares,
+    donation_shares * elapsed // self.donation_duration
+)
+
+protection_factor: uint256 = 0
+expiry: uint256 = self.donation_protection_expiry_ts
+if expiry > block.timestamp:
+    protection_factor = min(
+        (expiry - block.timestamp) * PRECISION
+        // self.donation_protection_period,
+        PRECISION,
+    )
+
+return unlocked_shares * (PRECISION - protection_factor) // PRECISION
+```
+
+Regular LP additions can extend the protection expiry in proportion to their relative size, capped at one configured protection period. Overlapping refuels instead shift `last_donation_release_ts` to preserve shares already unlocked. See [FXSwap Refuels](./refuels.md) for the complete lifecycle and the limits of public state inspection.
+
+### Recenter, burn, and depletion
+
+The pool only proposes a new center when the normalized distance between `price_oracle` and `price_scale` exceeds the effective adjustment step:
+
+```vyper
+adjustment_step: uint256 = max(rebalancing_params[1], norm // 5)
+if norm > adjustment_step:
+    p_new: uint256 = (
+        price_scale * (norm - adjustment_step)
+        + adjustment_step * price_oracle
+    ) // norm
+```
+
+It calculates the virtual price at `p_new` and finds the smallest available refuel-share burn that can restore the permitted target, capped by currently available shares:
+
+```vyper
+tweaked_supply: uint256 = 10**18 * new_xcp // goal_vp
+donation_shares_to_burn = min(
+    total_supply - tweaked_supply,
+    donation_shares,
+)
+new_virtual_price = (
+    10**18 * new_xcp
+    // (total_supply - donation_shares_to_burn)
+)
+```
+
+The new `price_scale` is stored only if the post-burn virtual price remains above the contract's acceptance thresholds. A burn reduces both `donation_shares` and `totalSupply` and shifts the release timestamp to preserve the remaining unlock state.
+
+### Dynamic-fee calculation
+
+`_fee(xp)` builds a normalized balance indicator that is 1e18 near balance and tends toward zero with imbalance. `fee_gamma` shapes that indicator, then the contract interpolates between the 1e10-precision bounds:
+
+```vyper
+B = PRECISION * N_COINS**N_COINS * xp[0] // B * xp[1] // B
+B = fee_gamma * B // (fee_gamma * B // 10**18 + 10**18 - B)
+return (mid_fee * B + out_fee * (10**18 - B)) // 10**18
+```
+
+The names in this shortened excerpt correspond to the values unpacked from `packed_fee_params`. Use `fee()` for current pool state and `fee_calc(xp)` only with correctly normalized balances.
 
 ## Swaps and quotes
 

@@ -1,9 +1,9 @@
 ---
-title: Refuels and Automation
+title: FXSwap Refuels
 sidebar_label: Refuels
 ---
 
-# Refuels and Automation
+# FXSwap Refuels
 
 A refuel is liquidity added to a finite rebalancing buffer without giving the provider a withdrawable LP position. The pool records the resulting shares in `donation_shares`, unlocks them over time, and burns the available portion as it subsidizes price-scale recentering. This is why **refuel** is the product term: the buffer is supplied for a specific job and can be depleted as the pool performs that job.
 
@@ -12,6 +12,17 @@ A refuel is liquidity added to a finite rebalancing buffer without giving the pr
 Use **refuel** in interfaces and explanations. The immutable deployed ABI uses the earlier `donation_*` names, the `Donation` event, and a `donation` flag; those names appear here only when documenting the contract.
 
 :::
+
+The accounting consequences are:
+
+| Question | Answer |
+| --- | --- |
+| Who owns refuel shares? | No account. They are tracked in aggregate by `donation_shares()` |
+| Can they be transferred or withdrawn? | No |
+| Why does `totalSupply()` increase? | Refuel shares participate in the pool's virtual-price and recentering accounting |
+| What is `user_supply()`? | `totalSupply() - donation_shares()` |
+| Can public getters reveal the exact amount burnable now? | No; the deployed interface does not expose every internal release/protection component |
+| What happens when the budget is exhausted? | Recentering can use the permitted normal profit buffer, but receives no further subsidy from refuel shares |
 
 ## Why a protocol refuels
 
@@ -34,7 +45,7 @@ flowchart LR
     G --> H["Regular LP balances unchanged"]
 ```
 
-## Add a refuel
+## 1. Create a refuel
 
 Call the four-argument overload:
 
@@ -49,6 +60,8 @@ add_liquidity(
 
 Set `donation = true` and `receiver = address(0)`. The pool pulls both tokens from the caller, so approve each non-zero token amount first. At least one amount must be non-zero.
 
+## 2. Mint refuel shares
+
 The return value is the number of refuel shares created. Those shares increase `totalSupply()` and `donation_shares()` but are not assigned to an address. `user_supply()` returns:
 
 ```text
@@ -57,15 +70,13 @@ totalSupply() - donation_shares()
 
 Use a meaningful `min_mint_amount`; a refuel is still exposed to pool-state changes before inclusion. This path charges the contract's minimal noise fee rather than the ordinary imbalance fee.
 
-## Unlock lifecycle
+## 3. Lock and unlock
 
 New shares begin locked and release linearly over `donation_duration()` seconds. The contract records the release schedule with `last_donation_release_ts()`.
 
-When a second refuel arrives before the first has fully unlocked, the pool first accounts for the already released portion, adds the new shares to the remaining locked balance, and starts the combined remainder on a new linear schedule. A new refuel does not relock shares that were already released.
-
 There is no public getter for the exact internal “available now” bucket. Consumers should display the public schedule and protection state without pretending that `donation_shares()` is immediately burnable.
 
-## Protection damping
+## 4. Apply protection rules
 
 Liquidity additions can open or extend a protection window. During that window, the amount of unlocked refuel liquidity available to recentering is damped. This reduces the value of depositing liquidity immediately before a state change and extracting the refuel subsidy.
 
@@ -80,7 +91,13 @@ Read these values from each pool:
 
 These are governance parameters, not universal constants. For example, reviewed live pools used different protection periods and thresholds while both used a seven-day refuel duration.
 
-## Recentering and burn priority
+## 5. Determine availability
+
+Internally, the pool first calculates time-unlocked shares, then applies a linear protection damping factor while the protection window is active. The resulting value is the maximum refuel amount available to the current recentering evaluation.
+
+`donation_shares()` reports the total outstanding shares, including locked or protected shares. `last_donation_release_ts()` and the protection getters let an observer describe the schedule, but the public ABI does not expose the exact internal burnable value. Indexers should not manufacture an “available now” field without reproducing the deployed version's state transition logic and block timestamp.
+
+## 6. Burn and deplete refuels
 
 State-changing pool operations may update the oracle and attempt to move `price_scale` toward it. When a move would otherwise reduce LP virtual price:
 
@@ -91,7 +108,20 @@ State-changing pool operations may update the oracle and attempt to move `price_
 
 Burning decreases both `donation_shares()` and `totalSupply()`. It does not debit an LP's `balanceOf`. Refuels subsidize recentering; they do not guarantee a fixed price, a specific rebalance time, or loss-free LP returns.
 
-## Caps and failure conditions
+When no available refuel shares remain, the pool can only accept a recentering move that satisfies its normal profit constraints. The pool continues to quote and trade; an exhausted refuel budget does not itself pause swaps.
+
+## 7. Combine overlapping refuels
+
+When a second refuel arrives before the first has fully unlocked, the pool:
+
+1. calculates how much of the prior total has already unlocked without protection;
+2. adds the newly minted shares to the outstanding total;
+3. shifts `last_donation_release_ts` so the previously unlocked amount remains unlocked; and
+4. releases the combined remainder over `donation_duration()`.
+
+A new refuel does not relock shares that were already released. Because the schedule is merged, the public state does not preserve a separate unlock record for each direct refuel.
+
+## 8. Enforce caps and failure conditions
 
 A refuel reverts when:
 
@@ -103,7 +133,7 @@ A refuel reverts when:
 
 Admin setters additionally require factory-admin authorization. Duration, period, threshold, and maximum-share ratio must be positive; `admin_fee` cannot exceed the contract maximum.
 
-## Inspect refuel state
+## 9. Inspect state
 
 ```ts
 const refuelAbi = parseAbi([
@@ -121,11 +151,16 @@ const refuelAbi = parseAbi([
 
 Label `donation_shares` as **refuel shares**, not token value. Convert it to a value only with a clearly stated valuation method and block number.
 
-## Automate recurring refuels
+## 10. Index events and accounting
 
-Protocols can deposit directly on their own schedule or use the permissionless automation contracts:
+Creating a refuel emits the immutable `Donation(address indexed donor, uint256[2] token_amounts)` event and also emits `AddLiquidity`. Use **refuel provider** in product displays while decoding the indexed `donor` field exactly.
 
-- [DonationStreamer](./donation-streamer.md) escrows token amounts and executor rewards, then releases equal scheduled refuels.
-- [StreamExecutor](./stream-executor.md) batches due streams for keeper-style execution.
+Track refuel accounting as transitions rather than token custody owned by `donor`:
 
-Automation adds its own token approvals, schedule, cancellation, and executor-reward considerations. It does not bypass the pool's refuel cap, unlock schedule, or protection rules.
+- creation increases `donation_shares()` and `totalSupply()`;
+- time and protection change internal availability without transferring LP tokens;
+- recentering burns shares and reduces both aggregate values;
+- no `Transfer` event assigns refuel shares to the provider;
+- pool events do not expose the exact number of shares burned by each recentering.
+
+For recurring funding, continue to [Automation](./automation.md). Automation adds custody, schedule, cancellation, and executor-reward behavior but does not bypass the pool's cap, unlock schedule, or protection rules.
