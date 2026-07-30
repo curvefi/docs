@@ -62,22 +62,22 @@ You can see from the video above that if refuels are available, they are used fi
 
 ## Recommended Assets
 
-Because FXSwap pools utilize donations to maintain efficiency, they are best suited for **highly liquid assets with lower relative volatility**.
+Because FXSwap pools can use refuels to maintain efficiency, they are best suited for **highly liquid assets with lower relative volatility**.
 
 It is generally not recommended to use FXSwap for primary price discovery. For example, YieldBasis utilizes FXSwap for its `BTC/crvUSD` pools (established assets tracking external prices), but uses a standard Cryptoswap pool for `YB/crvUSD` (the primary market for its governance token).
 
 ## Refuels
 
-Refuels are LP tokens deposited into the pool specifically to subsidize rebalancing. The core premise is that liquidity is deepest when it's balanced, therefore, more balanced liquidity attracts higher volumes and profits for LPs; therefore, Refuels are an expense that is offset by higher aggregate returns for LPs.  
+Refuels are assets added to a finite pool buffer specifically to subsidize rebalancing. The contract accounts for them as refuel shares, but does not assign those shares to the provider. As shares unlock, the pool can burn them to help move liquidity toward the external market price.
 
-Refuels are similar to market making fees, however instead of requiring trusting a third party, refuels are completely transparent for your team and LPs, keeping the pool balanced, and trustlessly optimizing liquidity depth and slippage for traders of your asset.
+Protocols can treat refuels as a transparent market-liquidity budget: the balance, unlock schedule, and depletion are visible on-chain. The provider receives no direct claim or guaranteed return. The potential benefit is indirect—a better-centered pool may offer tighter execution, attract more routing, and improve the market for the provider's asset.
 
 **Key Mechanics:**
 
 - **Open Access:** Refuels can be added by anyone.
-- **Vesting Period:** Deposits are initially locked and unlock linearly over a set duration (default is 7 days, configurable via `donation_duration`) to prevent immediate depletion.
-- **Priority Usage:** Unlocked Refuels are the "first line of defense." They are consumed to recenter liquidity before the protocol taps into LP trading fees. This ensures the pool offers optimal swap rates faster, generating more volume and profits.
-- **Efficiency:** The introduction of Refuels allows the pool to trigger rebalances on smaller price movements, keeping the peg tighter than standard pools.
+- **Unlock Period:** Refuel shares are initially locked and unlock linearly over a set duration (default is 7 days, configurable via `donation_duration`) to prevent immediate depletion.
+- **Priority Usage:** Unlocked refuel shares are available to be burned first when recentering needs a subsidy. Unlocking makes shares available; only a rebalance burns and depletes them.
+- **Finite Buffer:** Refuel shares can decline to zero as the pool uses them. Refuels do not guarantee a fixed price, volume, or LP return.
 
 ### How much do Refuels cost?
 
@@ -96,7 +96,7 @@ Three main factors influence the cost of Refuels:
 - **Refuels Consumed:** ~$10k / day
 - **LP Returns (Net):** ~$43k / day (~12% APY)
 
-In this scenario, Refuels represent only **3.6% of TVL per year** (approx. 23% of total rebalancing costs), while enabling deep liquidity that created massive fee generation. This feeds into the FXSwap liquidity cycle:
+In this scenario, refuels represent **3.6% of TVL per year** (approximately 23% of the reported rebalancing costs). This feeds into the FXSwap liquidity cycle:
 
 <figure>
   <ThemedImage
@@ -117,7 +117,7 @@ In this scenario, Refuels represent only **3.6% of TVL per year** (approx. 23% o
 
 ### How Can I Refuel a Pool?
 
-Refuels are deposited via the standard `add_liquidity` function. A community UI is available at: [crvhub.com/refuel](https://crvhub.com/refuel)
+Refuels are added through the standard `add_liquidity` function using the deployed `donation = true` flag. A community UI is available at [crvhub.com/refuel](https://crvhub.com/refuel).
 
 To set up **recurring automated refuels**, use the [**Donation Streamer**](./guides/donation-streamer.md) — deposit tokens once and have them streamed into the pool on a schedule.
 
@@ -127,14 +127,14 @@ Yes. FXSwap pools track the total refuel amount within an unlock period (default
 
 **Example** (with 7 day unlock time):
 
-1.  **Day 0:** A \$700 refuel is added, unlock rate: \$100/day.
-2.  **Day 3:** \$300 has been consumed; \$400 remains.
-3.  **Day 3:** A new \$1400 refuel is added.
+1. **Day 0:** A \$700 refuel is added, with an initial unlock rate of \$100 per day.
+2. **Day 3:** \$300 has unlocked and \$400 remains locked. If no recentering has burned shares, the full \$700 is still outstanding.
+3. **Day 3:** A new \$1,400 refuel is added.
 
-    -  **New Total:** The total refuels for this period is now \$700 (old) + \$1400 (new) = \$2100.
-    -  **New Rate:** The total of \$2100 unlocked over 7 days is a rate of \$300/day, this is the new rate.
-    -  **New State:** Total remaining is \$400 (old) + \$1400 (new) = \$1800.
-7.  **Day 4-9:** The \$1800 remaining refuels unlock at a rate of \$300/day.
+    - **New Total:** \$2,100 of refuel shares are outstanding.
+    - **Preserved Availability:** The \$300 that had already unlocked remains unlocked.
+    - **New Schedule:** The remaining \$1,800 unlocks over the next six days, an effective rate of \$300 per day.
+4. **Days 4–9:** More shares become available according to the new schedule. Any available shares burned during rebalancing reduce the outstanding refuel balance separately.
 
 ### Can I use FXSwap without Refuels, or use Refuels only as a last resort instead of a Cryptoswap pool?
 

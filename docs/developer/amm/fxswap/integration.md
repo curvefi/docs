@@ -31,7 +31,7 @@ const fxswapReadAbi = parseAbi([
 ])
 
 const pool = getAddress('0xD9FF8396554A0d18B2CFbeC53e1979b7ecCe8373')
-const [version, coin0, coin1, donationShares] = await Promise.all([
+const [version, coin0, coin1, refuelShares] = await Promise.all([
   publicClient.readContract({ address: pool, abi: fxswapReadAbi, functionName: 'version' }),
   publicClient.readContract({ address: pool, abi: fxswapReadAbi, functionName: 'coins', args: [0n] }),
   publicClient.readContract({ address: pool, abi: fxswapReadAbi, functionName: 'coins', args: [1n] }),

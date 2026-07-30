@@ -7,7 +7,7 @@ sidebar_label: Pool Reference
 
 This reference covers the verified public ABI of deployed FXSwap `v2.1.0d` pools. Unless stated otherwise, amounts are raw token or LP-token units, indices are `uint256`, and the only valid coin indices are `0` and `1`.
 
-For integration sequencing and examples, start with [Integrating FXSwap](./integration.md). For the donation state machine, see [Refuels](./refuels.md).
+For integration sequencing and examples, start with [Integrating FXSwap](./integration.md). For the refuel lifecycle, see [Refuels](./refuels.md).
 
 ## Swaps and quotes
 
@@ -48,7 +48,7 @@ All `amounts` and `min_amounts` arrays have length two.
 | --- | --- | --- |
 | `donation_shares()` | `uint256` | Total outstanding refuel shares |
 | `user_supply()` | `uint256` | `totalSupply - donation_shares` |
-| `donation_shares_max_ratio()` | `uint256` | Maximum donation ratio, 1e18 precision |
+| `donation_shares_max_ratio()` | `uint256` | Maximum refuel-share ratio, 1e18 precision |
 | `donation_duration()` | `uint256` | Linear unlock duration, seconds |
 | `last_donation_release_ts()` | `uint256` | Release-schedule timestamp |
 | `donation_protection_expiry_ts()` | `uint256` | Active protection expiry, Unix seconds |
@@ -140,7 +140,7 @@ These methods call the pool's factory-admin check and are not public integration
 | --- | --- |
 | `TokenExchange` | buyer, sold/bought indices and amounts, fee, price scale |
 | `AddLiquidity` | provider, receiver, amounts, fee, supply, price scale |
-| `Donation` | indexed donor and two raw token amounts |
+| `Donation` | Emitted when a refuel is added; contains the indexed provider in `donor` and two raw token amounts |
 | `RemoveLiquidity` | provider, amounts, supply |
 | `RemoveLiquidityOne` | provider, LP amount, index, coin amount, approximate fee, price scale |
 | `RemoveLiquidityImbalance` | provider, LP amount, amounts, approximate fee, price scale |

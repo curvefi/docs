@@ -3,13 +3,19 @@ import TabItem from '@theme/TabItem';
 
 # DonationStreamer
 
-The `DonationStreamer` contract enables permissionless, scheduled refuels for FXSwap pools. Donors deposit tokens and ETH rewards upfront to create "streams" that distribute donations over multiple periods. Anyone can execute due streams and earn ETH bounties for doing so.
+The `DonationStreamer` contract enables permissionless, scheduled refuels for FXSwap pools. Refuel providers deposit tokens and ETH rewards upfront to create streams that add refuels over multiple periods. Anyone can execute due streams and earn ETH bounties for doing so.
 
-This contract is fully permissionless — there is no admin or owner. Once a stream is created, it can only be cancelled by the original donor.
+This contract is fully permissionless — there is no admin or owner. Once a stream is created, it can only be cancelled by its creator, stored in the `donor` field.
 
 A frontend for creating, viewing, and executing streams is available at [curvefi.github.io/refuel-automation](https://curvefi.github.io/refuel-automation/).
 
-For background on how pool-level donations work, see [Refuels and Automation](./refuels.md) and the [FXSwap Pool Reference](./reference.md).
+For background on how pool-level refuels work, see [Refuels and Automation](./refuels.md) and the [FXSwap Pool Reference](./reference.md).
+
+:::info[Contract naming]
+
+`DonationStreamer`, `DonationStream`, and `donor` are immutable deployed names. This page uses **refuel** for the mechanism and switches to the legacy names only for exact signatures, fields, events, and source excerpts.
+
+:::
 
 :::vyper[`DonationStreamer.vy`]
 
@@ -39,15 +45,15 @@ The contract is deployed at the same address on all chains (via CREATE3):
 ### `create_stream`
 ::::description[`DonationStreamer.create_stream(pool: address, coins: address[2], amounts: uint256[2], period_length: uint256, n_periods: uint256, reward_per_period: uint256) -> uint256`]
 
-Payable function to create a new donation stream for a pool. The caller deposits the full token amounts and ETH rewards upfront. Tokens are transferred into the contract and donated to the pool in equal portions over `n_periods`. The `coins` parameter must match the pool's coin configuration. Any excess ETH beyond the required `reward_per_period * n_periods` is refunded.
+Payable function to create a new refuel stream for a pool. The caller deposits the full token amounts and ETH rewards upfront. The contract adds the tokens to the pool's refuel buffer in portions over `n_periods`. The `coins` parameter must match the pool's coin configuration. Any excess ETH beyond the required `reward_per_period * n_periods` is refunded.
 
 | Input               | Type           | Description                                                |
 | ------------------- | -------------- | ---------------------------------------------------------- |
 | `pool`              | `address`      | Address of the target FXSwap pool                          |
 | `coins`             | `address[2]`   | Token addresses matching the pool's `coins(0)` and `coins(1)` |
-| `amounts`           | `uint256[2]`   | Total token amounts to donate across all periods           |
+| `amounts`           | `uint256[2]`   | Total token amounts to refuel across all periods           |
 | `period_length`     | `uint256`      | Duration of each period in seconds                         |
-| `n_periods`         | `uint256`      | Number of donation periods                                 |
+| `n_periods`         | `uint256`      | Number of refuel periods                                   |
 | `reward_per_period` | `uint256`      | ETH reward paid to the executor for each period            |
 
 Returns: the stream ID (`uint256`).
@@ -140,7 +146,7 @@ def create_stream(
 >>> DonationStreamer.create_stream(
 ...     pool,                      # FXSwap pool address
 ...     [coin0, coin1],            # pool coin addresses
-...     [1000e18, 500e18],         # total amounts to donate
+...     [1000e18, 500e18],         # total refuel amounts
 ...     86400,                     # period length: 1 day
 ...     7,                         # number of periods
 ...     0.001e18,                  # 0.001 ETH reward per period
@@ -159,11 +165,11 @@ def create_stream(
 
 :::guard[Guarded Method]
 
-This function can only be called by the original `donor` who created the stream.
+This function can only be called by the stream creator stored in `donor`.
 
 :::
 
-Cancels a stream and refunds all remaining tokens and ETH rewards to the donor. The stream storage is cleared after cancellation.
+Cancels a stream and refunds all remaining tokens and ETH rewards to its creator. The stream storage is cleared after cancellation.
 
 | Input       | Type      | Description                  |
 | ----------- | --------- | ---------------------------- |
@@ -227,7 +233,7 @@ def cancel_stream(stream_id: uint256):
 ### `execute`
 ::::description[`DonationStreamer.execute(stream_id: uint256) -> bool`]
 
-Executes a single stream if it has due periods. The function calculates how many periods are due, donates the proportional token amounts to the pool via `add_liquidity(donation=True)`, and pays the caller the corresponding ETH reward. If all periods are completed, the stream storage is cleared. Returns `False` if no periods are due.
+Executes a single stream if it has due periods. The function calculates how many periods are due, adds the proportional refuel amounts through `add_liquidity(donation=True)`, and pays the caller the corresponding ETH reward. If all periods are completed, the stream storage is cleared. Returns `False` if no periods are due.
 
 | Input       | Type      | Description                    |
 | ----------- | --------- | ------------------------------ |
@@ -578,15 +584,15 @@ The `DonationStream` struct contains the following fields:
 
 | Field                | Type           | Description                                              |
 | -------------------- | -------------- | -------------------------------------------------------- |
-| `donor`              | `address`      | Address of the stream creator                            |
+| `donor`              | `address`      | Address of the stream creator; legacy field name         |
 | `pool`               | `address`      | Target FXSwap pool address                               |
 | `coins`              | `address[2]`   | Token addresses for the pool                             |
-| `amounts_per_period` | `uint256[2]`   | Token amounts donated per period (truncated from total)  |
+| `amounts_per_period` | `uint256[2]`   | Token amounts added as refuel per period                 |
 | `period_length`      | `uint256`      | Duration of each period in seconds                       |
 | `reward_per_period`  | `uint256`      | ETH reward paid per period execution                     |
 | `next_ts`            | `uint256`      | Timestamp when the next period becomes due               |
 | `reward_remaining`   | `uint256`      | Total ETH rewards still to be paid out                   |
-| `amounts_remaining`  | `uint256[2]`   | Token amounts still to be donated                        |
+| `amounts_remaining`  | `uint256[2]`   | Token amounts still scheduled for refueling              |
 | `periods_remaining`  | `uint256`      | Number of periods left to execute                        |
 
 | Input  | Type      | Description   |

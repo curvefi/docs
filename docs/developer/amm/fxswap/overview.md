@@ -13,14 +13,14 @@ It combines:
 
 - **StableSwap-style concentration** around a variable `price_scale`;
 - an **exponential moving-average oracle** that guides gradual recentering;
-- **refuels**, external liquidity donations that can pay part of the recentering cost;
+- **refuels**, external liquidity buffers that pay part of the recentering cost and are depleted as the pool uses them;
 - passive, full-range LP positions and the familiar Curve swap interface.
 
-The result is a pool that route aggregators can treat much like a two-coin Curve pool while protocols can subsidize tighter liquidity without assigning capital to an active market maker. Deployed examples include the YieldBasis WBTC, cbBTC, and tBTC pools listed below.
+The result is a pool that route aggregators can treat much like a two-coin Curve pool while protocols can budget refuels as a transparent market-liquidity cost instead of assigning capital to an active market maker. Deployed examples include the YieldBasis WBTC, cbBTC, and tBTC pools listed below.
 
 :::info[Names used in this documentation]
 
-**FXSwap** is the product and pool family. **Refuel** is the user-facing name for its rebalancing subsidy. The deployed Vyper interface predates that name and uses `donation_*`, `Donation`, and a `donation` flag. In code, always use the deployed names.
+**FXSwap** is the product and pool family. A **refuel** is liquidity added to the pool's finite rebalancing buffer. Refuel shares unlock over time and are burned as the pool uses them to recenter liquidity. The deployed Vyper interface predates this product name and uses `donation_*`, the `Donation` event, and a `donation` flag. Use **refuel** in product-facing language and the deployed names only when referring to code.
 
 :::
 
