@@ -3,13 +3,13 @@ import TabItem from '@theme/TabItem';
 
 # DonationStreamer
 
-The `DonationStreamer` contract enables permissionless, scheduled donations to FXSwap (Twocrypto-NG) pools. Donors deposit tokens and ETH rewards upfront to create "streams" that distribute donations over multiple periods. Anyone can execute due streams and earn ETH bounties for doing so.
+The `DonationStreamer` contract enables permissionless, scheduled refuels for FXSwap pools. Donors deposit tokens and ETH rewards upfront to create "streams" that distribute donations over multiple periods. Anyone can execute due streams and earn ETH bounties for doing so.
 
 This contract is fully permissionless — there is no admin or owner. Once a stream is created, it can only be cancelled by the original donor.
 
 A frontend for creating, viewing, and executing streams is available at [curvefi.github.io/refuel-automation](https://curvefi.github.io/refuel-automation/).
 
-For background on how pool-level donations work, see the [Refuel Mechanism](./refuel.md) and [FXSwap Implementation](./fxswap.md) pages.
+For background on how pool-level donations work, see [Refuels and Automation](./refuels.md) and the [FXSwap Pool Reference](./reference.md).
 
 :::vyper[`DonationStreamer.vy`]
 

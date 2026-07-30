@@ -148,19 +148,22 @@ export default {
                                 { type: 'doc', id: 'amm/twocrypto-ng/utility-contracts/math', label: 'Math' },
                             ],
                         },
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'FXSwap',
+                    link: { type: 'doc', id: 'amm/fxswap/overview' },
+                    items: [
+                        { type: 'doc', id: 'amm/fxswap/integration', label: 'Integration Guide' },
+                        { type: 'doc', id: 'amm/fxswap/reference', label: 'Pool Reference' },
+                        { type: 'doc', id: 'amm/fxswap/refuels', label: 'Refuels' },
                         {
                             type: 'category',
-                            label: 'Implementations',
+                            label: 'Automation',
                             items: [
-                                {
-                                    type: 'category',
-                                    label: 'FXSwap',
-                                    link: { type: 'doc', id: 'amm/twocrypto-ng/implementations/fxswap' },
-                                    items: [
-                                        { type: 'doc', id: 'amm/twocrypto-ng/implementations/donation-streamer', label: 'DonationStreamer' },
-                                        { type: 'doc', id: 'amm/twocrypto-ng/implementations/stream-executor', label: 'StreamExecutor' },
-                                    ],
-                                },
+                                { type: 'doc', id: 'amm/fxswap/donation-streamer', label: 'DonationStreamer' },
+                                { type: 'doc', id: 'amm/fxswap/stream-executor', label: 'StreamExecutor' },
                             ],
                         },
                     ],
@@ -506,6 +509,7 @@ export default {
                     items: [
                         { type: 'doc', id: 'integration/stableswap-ng', label: 'Stableswap-NG' },
                         { type: 'doc', id: 'integration/twocrypto-ng', label: 'Twocrypto-NG' },
+                        { type: 'doc', id: 'amm/fxswap/integration', label: 'FXSwap' },
                         { type: 'doc', id: 'integration/tricrypto-ng', label: 'Tricrypto-NG' },
                         { type: 'doc', id: 'integration/llamma', label: 'LLAMMA' },
                     ],

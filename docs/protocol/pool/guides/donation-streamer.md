@@ -6,7 +6,7 @@ sidebar_label: "Automating Refuels"
 
 :::vyper[`DonationStreamer.vy`]
 
-The technical documentation for the `DonationStreamer.vy` contract can be found [here](/developer/amm/twocrypto-ng/implementations/donation-streamer). The contract is deployed at the same address on all supported chains:
+The technical documentation for the `DonationStreamer.vy` contract can be found [here](/developer/amm/fxswap/donation-streamer). The contract is deployed at the same address on all supported chains:
 
 - :logos-ethereum: Ethereum: [`0x2b786BB995978CC2242C567Ae62fd617b0eBC828`](https://etherscan.io/address/0x2b786BB995978CC2242C567Ae62fd617b0eBC828)
 - :logos-gnosis: Gnosis: [`0x2b786BB995978CC2242C567Ae62fd617b0eBC828`](https://gnosisscan.io/address/0x2b786BB995978CC2242C567Ae62fd617b0eBC828)
@@ -133,5 +133,5 @@ You can cancel your stream at any time to recover remaining tokens and unspent E
 ## Further Reading
 
 - [Understanding FXSwap — Refuels](../understanding-fxswap.md#refuels) — how refuels work and what they cost
-- [DonationStreamer Contract Reference](/developer/amm/twocrypto-ng/implementations/donation-streamer) — technical documentation for the smart contract
-- [FXSwap Implementation](/developer/amm/twocrypto-ng/implementations/fxswap) — how donations are handled at the pool level
+- [DonationStreamer Contract Reference](/developer/amm/fxswap/donation-streamer) — technical documentation for the smart contract
+- [FXSwap Refuels](/developer/amm/fxswap/refuels) — how donations are handled at the pool level

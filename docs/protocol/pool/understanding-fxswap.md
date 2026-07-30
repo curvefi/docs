@@ -10,6 +10,8 @@ import FXSwapDynamicFeeChart from '@site/src/components/Charts/FXSwapDynamicFee'
 
 FXSwap is a specialized Automated Market Maker (AMM) designed for uncorrelated but low-volatility asset pairs (such as Forex pairs `crvUSD` and `EURC`). It leverages the mathematical efficiency of [Stableswap](understanding-stableswap.md) within the dynamic rebalancing framework of [Cryptoswap](understanding-cryptoswap.md), along with some new innovations.
 
+For contract interfaces and integration guidance, see the [FXSwap developer documentation](/developer/amm/fxswap/overview).
+
 As with all Curve AMM pools, providing liquidity in FXSwap is completely passive. All liquidity is full-range (no active range management required), so anyone can participate easily.
 
 <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%' }}>
@@ -40,7 +42,7 @@ However, for asset pairs where price discovery is mostly happening elsewhere, (e
 FXSwap was created to provide efficient, fully passive forex-style liquidity on-chain. It achieves this by taking specific components from its predecessors:
 
 - **Stableswap Invariant:** To keep spreads tight, FXSwap utilizes the Stableswap invariant for pricing. This is ideal for assets where liquidity should remain highly concentrated near the current oracle price.
-- **Hybrid Rebalancing:** Like Cryptoswap, up to 50% of trading fees are used to rebalance liquidity. However, FXSwap introduces a **Refuelling mechanism**. Refuels act as an external buffer to cover rebalancing costs, protecting LP profitability and ensuring faster price alignment.
+- **Hybrid Rebalancing:** Like Cryptoswap, a pool-configured portion of trading profit supports rebalancing. However, FXSwap introduces a **Refuelling mechanism**. Refuels act as an external buffer to cover rebalancing costs, protecting LP profitability and enabling faster price alignment.
 - **Dynamic Fees:** The pool utilizes a dynamic fee model, increasing fees during periods of high volatility and imbalance to protect LPs and capture value.
 
 Let's look at how an FXSwap pool prioritizes these resources while moving liquidity:
@@ -83,7 +85,7 @@ Three main factors influence the cost of Refuels:
 
 1.  **Volatility:** Higher volatility requires more frequent rebalancing.
 2.  **Liquidity Concentration (`A`):** Higher `A` values create deeper liquidity, but increase the cost to move that liquidity when prices change.
-3.  **Swap Fees:** Higher volume generates more fees. Since 50% of fees are used for rebalancing, high-volume pools require fewer external Refuels.
+3.  **Swap Fees:** Higher volume generates more fees. A pool with more trading profit generally requires fewer external Refuels; the configured allocation must be read from that pool.
 
 **Case Study: YB Pools (BTC/crvUSD)**
 *Data analyzed for ~45 days after TVL reached $100M.*

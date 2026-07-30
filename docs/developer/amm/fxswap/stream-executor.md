@@ -1,6 +1,6 @@
 # StreamExecutor
 
-The `StreamExecutor` is a thin convenience contract that batch-executes all due donation streams in a single call and forwards the earned ETH rewards to the caller. It queries the [`DonationStreamer`](./donation-streamer.md) for due streams, executes them in chunks of 32, and sends the accumulated ETH balance to `msg.sender`.
+The `StreamExecutor` is a convenience contract that batch-executes all due donation streams in a single call and forwards the earned ETH rewards to the caller. It queries the [`DonationStreamer`](./donation-streamer.md) for due streams, executes them in chunks of 32, and sends the accumulated ETH balance to `msg.sender`.
 
 This contract is designed for keeper bots that want to claim all available rewards with a single transaction. Streams can also be executed via the [frontend UI](https://curvefi.github.io/refuel-automation/).
 
