@@ -163,4 +163,4 @@ Track refuel accounting as transitions rather than token custody owned by `donor
 - no `Transfer` event assigns refuel shares to the provider;
 - pool events do not expose the exact number of shares burned by each recentering.
 
-For recurring funding, continue to [Automation](./automation.md). Automation adds custody, schedule, cancellation, and executor-reward behavior but does not bypass the pool's cap, unlock schedule, or protection rules.
+For recurring funding, continue to [Automation](../automation/overview.md). Automation adds custody, schedule, cancellation, and executor-reward behavior but does not bypass the pool's cap, unlock schedule, or protection rules.

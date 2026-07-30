@@ -155,20 +155,41 @@ export default {
                     label: 'FXSwap',
                     items: [
                         { type: 'doc', id: 'amm/fxswap/overview', label: 'Overview' },
-                        { type: 'doc', id: 'amm/fxswap/integration', label: 'Integrating Swaps' },
-                        { type: 'doc', id: 'amm/fxswap/building', label: 'Building on FXSwap' },
-                        { type: 'doc', id: 'amm/fxswap/mechanism', label: 'Mechanism & Parameters' },
-                        { type: 'doc', id: 'amm/fxswap/refuels', label: 'Refuels' },
+                        {
+                            type: 'category',
+                            label: 'Guides',
+                            items: [
+                                { type: 'doc', id: 'amm/fxswap/guides/integration', label: 'Integrating Swaps' },
+                                { type: 'doc', id: 'amm/fxswap/guides/building', label: 'Building on FXSwap' },
+                            ],
+                        },
+                        {
+                            type: 'category',
+                            label: 'Pools',
+                            items: [
+                                { type: 'doc', id: 'amm/fxswap/pools/fxswap', label: 'FXSwap Pool' },
+                                { type: 'doc', id: 'amm/fxswap/pools/mechanism', label: 'Mechanism & Parameters' },
+                                { type: 'doc', id: 'amm/fxswap/pools/refuels', label: 'Refuels' },
+                            ],
+                        },
+                        { type: 'doc', id: 'amm/fxswap/pools/oracles', label: 'Oracles' },
+                        {
+                            type: 'category',
+                            label: 'Utility Contracts',
+                            items: [
+                                { type: 'doc', id: 'amm/fxswap/utility-contracts/views', label: 'Views' },
+                                { type: 'doc', id: 'amm/fxswap/utility-contracts/math', label: 'Math' },
+                            ],
+                        },
                         {
                             type: 'category',
                             label: 'Automation',
-                            link: { type: 'doc', id: 'amm/fxswap/automation' },
+                            link: { type: 'doc', id: 'amm/fxswap/automation/overview' },
                             items: [
-                                { type: 'doc', id: 'amm/fxswap/donation-streamer', label: 'DonationStreamer' },
-                                { type: 'doc', id: 'amm/fxswap/stream-executor', label: 'StreamExecutor' },
+                                { type: 'doc', id: 'amm/fxswap/automation/donation-streamer', label: 'DonationStreamer' },
+                                { type: 'doc', id: 'amm/fxswap/automation/stream-executor', label: 'StreamExecutor' },
                             ],
                         },
-                        { type: 'doc', id: 'amm/fxswap/reference', label: 'Pool Contract Reference' },
                     ],
                 },
                 {
@@ -512,7 +533,7 @@ export default {
                     items: [
                         { type: 'doc', id: 'integration/stableswap-ng', label: 'Stableswap-NG' },
                         { type: 'doc', id: 'integration/twocrypto-ng', label: 'Twocrypto-NG' },
-                        { type: 'link', href: '/developer/amm/fxswap/integration', label: 'FXSwap' },
+                        { type: 'link', href: '/developer/amm/fxswap/guides/integration', label: 'FXSwap' },
                         { type: 'doc', id: 'integration/tricrypto-ng', label: 'Tricrypto-NG' },
                         { type: 'doc', id: 'integration/llamma', label: 'LLAMMA' },
                     ],

@@ -4,7 +4,7 @@ The `StreamExecutor` is a convenience contract that batch-executes all due refue
 
 This contract is designed for keeper bots that want to claim all available rewards with a single transaction. Streams can also be executed via the [frontend UI](https://curvefi.github.io/refuel-automation/).
 
-Read the [automation overview](./automation.md) before operating a keeper. The caller bears gas and revert risk, and batching does not guarantee that a due stream is executable against current pool state.
+Read the [automation overview](./overview.md) before operating a keeper. The caller bears gas and revert risk, and batching does not guarantee that a due stream is executable against current pool state.
 
 :::vyper[`StreamExecutor.vy`]
 

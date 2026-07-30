@@ -40,12 +40,15 @@
 - [Stableswap-NG](https://docs.curve.finance/developer/amm/stableswap-ng/overview): Next-gen stableswap pool contracts and API
 - [Twocrypto-NG](https://docs.curve.finance/developer/amm/twocrypto-ng/overview): Next-gen two-asset crypto pool contracts
 - [FXSwap](https://docs.curve.finance/developer/amm/fxswap/overview): Variable-price two-asset pools with oracle-guided recentering and refuels
-- [Integrating FXSwap](https://docs.curve.finance/developer/amm/fxswap/integration): Discovery, quoting, swap execution, routing safety, and events
-- [Building on FXSwap](https://docs.curve.finance/developer/amm/fxswap/building): LP accounting, valuation, oracle limitations, and protocol monitoring
-- [FXSwap Mechanism & Parameters](https://docs.curve.finance/developer/amm/fxswap/mechanism): External price discovery, recentering budgets, parameter interactions, and simulation
-- [FXSwap Pool Reference](https://docs.curve.finance/developer/amm/fxswap/reference): Complete deployed pool interface and version boundaries
-- [FXSwap Refuels](https://docs.curve.finance/developer/amm/fxswap/refuels): Refuel accounting, unlocks, protection, and depletion
-- [FXSwap Refuel Automation](https://docs.curve.finance/developer/amm/fxswap/automation): Stream custody, execution, rewards, failure recovery, and indexing
+- [Integrating FXSwap](https://docs.curve.finance/developer/amm/fxswap/guides/integration): Discovery, quoting, swap execution, routing safety, and events
+- [Building on FXSwap](https://docs.curve.finance/developer/amm/fxswap/guides/building): LP accounting, valuation, oracle limitations, and protocol monitoring
+- [FXSwap Pool](https://docs.curve.finance/developer/amm/fxswap/pools/fxswap): Complete deployed pool interface and version boundaries
+- [FXSwap Mechanism & Parameters](https://docs.curve.finance/developer/amm/fxswap/pools/mechanism): External price discovery, recentering budgets, parameter interactions, and simulation
+- [FXSwap Refuels](https://docs.curve.finance/developer/amm/fxswap/pools/refuels): Refuel accounting, unlocks, protection, and depletion
+- [FXSwap Oracles](https://docs.curve.finance/developer/amm/fxswap/pools/oracles): Price direction, EMA updates, recentering, and safe-use boundaries
+- [FXSwap Views](https://docs.curve.finance/developer/amm/fxswap/utility-contracts/views): Swap and liquidity quotes plus fee breakdowns
+- [FXSwap Math](https://docs.curve.finance/developer/amm/fxswap/utility-contracts/math): StableSwap-style invariant and EMA math used by FXSwap
+- [FXSwap Refuel Automation](https://docs.curve.finance/developer/amm/fxswap/automation/overview): Stream custody, execution, rewards, failure recovery, and indexing
 - [Tricrypto-NG](https://docs.curve.finance/developer/amm/tricrypto-ng/overview): Next-gen three-asset crypto pool contracts
 - [Pool Factory](https://docs.curve.finance/developer/amm/pool-factory/overview): Deploying new pools via factory contracts
 - [crvUSD Contracts](https://docs.curve.finance/developer/crvusd/overview): crvUSD smart contract reference

@@ -9,7 +9,7 @@ This contract is fully permissionless — there is no admin or owner. Once a str
 
 A frontend for creating, viewing, and executing streams is available at [curvefi.github.io/refuel-automation](https://curvefi.github.io/refuel-automation/).
 
-Start with the [automation overview](./automation.md) for custody, permissions, execution risk, and indexing. For pool-level accounting, see [FXSwap Refuels](./refuels.md) and the [FXSwap Pool Reference](./reference.md).
+Start with the [automation overview](./overview.md) for custody, permissions, execution risk, and indexing. For pool-level accounting, see [FXSwap Refuels](../pools/refuels.md) and the [FXSwap Pool](../pools/fxswap.md).
 
 :::info[Contract naming]
 

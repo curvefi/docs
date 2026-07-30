@@ -106,4 +106,4 @@ Re-evaluate risk assumptions after a parameter change, prolonged imbalance, depl
 - Treat pool oracle getters as AMM state unless a separate oracle review proves suitability.
 - Test every deployment's tokens, parameters, liquidity, and monitoring thresholds independently.
 
-See [Mechanism & Parameters](./mechanism.md) for recentering behavior and the [Pool Contract Reference](./reference.md) for exact signatures, units, and events.
+See [Mechanism & Parameters](../pools/mechanism.md) for recentering behavior, [Oracles](../pools/oracles.md) for price-state boundaries, and the [FXSwap Pool](../pools/fxswap.md) for exact signatures, units, and events.

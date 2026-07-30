@@ -22,7 +22,7 @@ The distinguishing question is not volatility alone. FXSwap fits a market when t
 
 This section documents callable Ethereum pools reporting `version() == "v2.1.0d"`. The verified pool source was compiled with Vyper `0.4.3` and is closest to [`curvefi/twocrypto-ng@387fbe5`](https://github.com/curvefi/twocrypto-ng/commit/387fbe5f12473ef0e1f0c6a76bc38f1ca0da669d).
 
-Review the [deployed pool reference](./reference.md#deployed-version-and-source) for the exact source boundary and [Contract Deployments](../../deployments.md) for addresses.
+Review the [FXSwap Pool](./pools/fxswap.md#deployed-version-and-source) for the exact source boundary and [Contract Deployments](../../deployments.md) for addresses.
 
 :::
 
@@ -48,7 +48,7 @@ Swaps use a StableSwap invariant centered on `price_scale`. The pool records rec
 
 Recentering has a cost. FXSwap first burns refuel shares that have unlocked and passed the protection rules. If those shares are insufficient, the normal profit buffer provides the remainder. Regular LP balances are not burned.
 
-`gamma()` remains in the deployed ABI for Twocrypto compatibility, but the FXSwap invariant does not use it. Read [Mechanism and Parameter Design](./mechanism.md) for the interactions between concentration, fees, oracle smoothing, refuel budgets, and external market depth.
+`gamma()` remains in the deployed ABI for interface compatibility, but the FXSwap invariant does not use it. Read [Mechanism and Parameter Design](./pools/mechanism.md) for the interactions between concentration, fees, oracle smoothing, refuel budgets, and external market depth.
 
 ## Find what you need
 
@@ -56,48 +56,62 @@ FXSwap documentation covers the work of market operators and capital managers, t
 
 | If you need to… | Start with |
 | --- | --- |
-| Quote or execute swaps | [Integrating Swaps](./integration.md) |
-| Search for arbitrage opportunities | [Integrating Swaps → Searcher and arbitrage considerations](./integration.md#searcher-and-arbitrage-considerations) |
-| Build a vault, strategy, or protocol | [Building on FXSwap](./building.md) |
-| Understand recentering and parameters | [Mechanism & Parameters](./mechanism.md) |
-| Fund the recentering buffer | [Refuels](./refuels.md) |
-| Schedule recurring refuels | [Automation](./automation.md) |
-| Index or inspect deployed contracts | [Pool Contract Reference](./reference.md) |
+| Quote or execute swaps | [Integrating Swaps](./guides/integration.md) |
+| Search for arbitrage opportunities | [Searcher and arbitrage considerations](./guides/integration.md#searcher-and-arbitrage-considerations) |
+| Build a vault, strategy, or protocol | [Building on FXSwap](./guides/building.md) |
+| Understand recentering and parameters | [Mechanism & Parameters](./pools/mechanism.md) |
+| Interpret pool prices and oracle state | [Oracles](./pools/oracles.md) |
+| Fund the recentering buffer | [Refuels](./pools/refuels.md) |
+| Schedule recurring refuels | [Automation](./automation/overview.md) |
+| Inspect the deployed interface | [FXSwap Pool](./pools/fxswap.md) |
 
 ## FXSwap infrastructure
 
 <DocCardGrid>
-  <DocCard title="Pool Contract" icon="vyper" link="./reference" linkText="FXSwap Pool Reference">
+  <DocCard title="FXSwap Pool" icon="vyper" link="./pools/fxswap" linkText="FXSwap Pool">
 
 The two-coin AMM, LP token, oracle, fee logic, recentering state, and refuel accounting are exposed through one pool contract.
 
   </DocCard>
-  <DocCard title="Twocrypto Factory" icon="vyper" link="../factory/twocrypto-ng/overview" linkText="Factory Reference">
+  <DocCard title="Factory & Discovery" icon="vyper" link="#factory-and-pool-discovery" linkText="Identify FXSwap Pools">
 
-FXSwap pools use the Twocrypto factory infrastructure. Integrators must identify the deployed pool version explicitly because the factory does not reliably map historical pools to implementations.
-
-  </DocCard>
-  <DocCard title="Views and Math" link="../twocrypto-ng/utility-contracts/views" linkText="Shared Periphery">
-
-FXSwap retains compatible periphery interfaces. Read `VIEW()` and `MATH()` from the target pool because these addresses can change.
+FXSwap pools were deployed through shared two-coin factory infrastructure. Integrators must identify and allowlist the deployed pool version explicitly.
 
   </DocCard>
-  <DocCard title="Building on FXSwap" link="./building" linkText="Composition Guide">
+  <DocCard title="Price Oracles" link="./pools/oracles" linkText="FXSwap Oracles">
 
-Account for LP supply, value positions, interpret pool state, and monitor integrations that hold or use FXSwap liquidity.
-
-  </DocCard>
-  <DocCard title="Refuels" link="./refuels" linkText="Refuel Lifecycle">
-
-Refuels supply a finite, transparent buffer that unlocks over time and can be burned when the pool recenters.
+The pool's observed price, exponential moving average, and moving liquidity center.
 
   </DocCard>
-  <DocCard title="Automation" link="./automation" linkText="Automation Overview">
+  <DocCard title="Views Contract" icon="vyper" link="./utility-contracts/views" linkText="TwocryptoView.vy">
+
+Quote swaps and liquidity operations, estimate input requirements, and inspect fee components.
+
+  </DocCard>
+  <DocCard title="Math Contract" icon="vyper" link="./utility-contracts/math" linkText="StableswapMath.vy">
+
+The StableSwap-style invariant and EMA math used by the deployed FXSwap pool.
+
+  </DocCard>
+  <DocCard title="Refuel Automation" link="./automation/overview" linkText="Automation Overview">
 
 Permissionless automation contracts can schedule recurring refuels and reward executors that submit due periods.
 
   </DocCard>
 </DocCardGrid>
+
+## Factory and pool discovery
+
+The documented Ethereum pools were deployed through factory [`0x98EE…AF7F`](https://etherscan.io/address/0x98EE851a00abeE0d95D08cF4CA2BdCE32aeaAF7F). The pool exposes this address through `factory()`.
+
+The shared factory can enumerate pools and coin pairs, but its current implementation slots do not prove which historical implementation deployed a pool. A production integration should:
+
+1. discover candidate addresses from Curve's deployment references, API, or registry;
+2. verify `factory()`, `version()`, `coins(0)`, and `coins(1)`;
+3. allowlist the exact pool runtime code or a verified implementation version; and
+4. read `VIEW()` and `MATH()` from that pool.
+
+The factory's `find_pool_for_coins` result is not a best-route guarantee, and sharing a factory does not make a pool FXSwap. The [Twocrypto-NG factory reference](../factory/twocrypto-ng/overview.md) is optional reading for the shared factory's complete administrative and deployment API; nothing in the FXSwap integration path requires it.
 
 ## Representative deployed pools
 

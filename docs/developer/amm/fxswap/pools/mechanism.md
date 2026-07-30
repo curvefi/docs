@@ -7,7 +7,7 @@ sidebar_label: Mechanism & Parameters
 
 FXSwap concentrates passive, full-range liquidity around a moving `price_scale`. It is designed for two-asset markets whose primary price discovery happens outside the pool and whose liquidity can be recentered through arbitrage, trading profit, and a finite refuel budget.
 
-This page is for protocol teams evaluating or operating a market. Route aggregators can start with the [integration guide](./integration.md); contract researchers should use the [pool reference](./reference.md).
+This page is for protocol teams evaluating or operating a market. Route aggregators can start with the [integration guide](../guides/integration.md); contract researchers should use the [FXSwap Pool](./fxswap.md).
 
 ## When FXSwap fits
 
@@ -56,7 +56,7 @@ def tweak_price(
 
 Refuels do not set an external price and do not force a rebalance. They help pay the cost when the pool's normal recentering logic moves concentrated liquidity. Read [Refuels](./refuels.md) for unlocking, protection, burn priority, and depletion.
 
-The general exponential moving-average behavior is shared with Twocrypto-NG, but the invariant and recentering budget are not identical. Do not infer FXSwap behavior from the [Twocrypto oracle reference](../twocrypto-ng/pools/oracles.md) without checking the deployed FXSwap version.
+Read [FXSwap Oracles](./oracles.md) for the complete price direction, update cadence, EMA calculation, and safe integration boundary.
 
 ## The recentering budget
 
@@ -95,7 +95,7 @@ Parameters must be selected together. Raising concentration without providing en
 | `mid_fee()` | 1e10 | Lower dynamic-fee bound | Affects routine execution and fee income |
 | `out_fee()` | 1e10 | Upper dynamic-fee bound | Must remain low enough for useful rebalancing flow while charging adverse imbalance |
 | `fee_gamma()` | 1e18 | Shapes the transition between fee bounds | Changes how quickly fees rise with imbalance |
-| `ma_time()` | seconds | Controls oracle smoothing | Too slow can lag the external market; too fast can follow short-lived moves |
+| `ma_time()` | approximate half-life, seconds | Controls oracle smoothing | Too slow can lag the external market; too fast can follow short-lived moves |
 | `allowed_extra_profit()` | 1e18 | Profit buffer before recentering | Interacts with how readily the pool moves `price_scale` |
 | `adjustment_step()` | 1e18 | Minimum recentering step | Affects the size and frequency of adjustments |
 | Refuel schedule | Token amounts and seconds | Supplies the finite external budget | Must be evaluated against volatility, concentration, fees, and expected flow |
@@ -107,7 +107,7 @@ Parameters must be selected together. Raising concentration without providing en
 The factory admin can:
 
 - ramp `A` through `ramp_A_gamma` and stop a ramp;
-- update `mid_fee`, `out_fee`, `fee_gamma`, `allowed_extra_profit`, `adjustment_step`, and `ma_time` together through `apply_new_parameters`;
+- update `mid_fee`, `out_fee`, `fee_gamma`, `allowed_extra_profit`, `adjustment_step`, and the internal EMA exponent parameter together through `apply_new_parameters`;
 - update refuel duration and protection parameters;
 - update `admin_fee`, `VIEW()`, and `MATH()`.
 

@@ -87,7 +87,7 @@ Three main factors influence refuel demand:
 2.  **Liquidity Concentration (`A`):** Higher `A` values create deeper liquidity, but increase the cost to move that liquidity when prices change.
 3.  **Swap Fees:** Higher volume generates more fees. A pool with more trading profit generally requires fewer external Refuels; the configured allocation must be read from that pool.
 
-These factors interact with oracle smoothing, external market depth, and arbitrage costs. Protocol teams should backtest a proposed configuration instead of extrapolating a fixed percentage from another pool. See [Mechanism and Parameter Design](/developer/amm/fxswap/mechanism) and [FXSwap Simulations: Behind the Scenes](https://news.curve.finance/fxswap-simulations/) for the design workflow and its limitations.
+These factors interact with oracle smoothing, external market depth, and arbitrage costs. Protocol teams should backtest a proposed configuration instead of extrapolating a fixed percentage from another pool. See [Mechanism and Parameter Design](/developer/amm/fxswap/pools/mechanism) and [FXSwap Simulations: Behind the Scenes](https://news.curve.finance/fxswap-simulations/) for the design workflow and its limitations.
 
 The resulting liquidity cycle is:
 

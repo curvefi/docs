@@ -19,7 +19,7 @@ Use this integration model:
 
 ## 1. Discover and identify pools
 
-Use the [Curve API](../../integration/api/curve-api.md) or [MetaRegistry](../../integration/meta-registry.md) to discover registered pools. Do not use the API's generic `implementation` label as the only FXSwap classifier: an FXSwap pool may be described as a Twocrypto implementation.
+Use the [Curve API](../../../integration/api/curve-api.md) or [MetaRegistry](../../../integration/meta-registry.md) to discover registered pools. Do not use the API's generic `implementation` label as the only FXSwap classifier: an FXSwap pool may be described as a Twocrypto implementation.
 
 :::warning[Identify the implementation explicitly]
 
@@ -226,4 +226,4 @@ event TokenExchange(
 - Decode `TokenExchange` by pool address and versioned ABI.
 - Monitor implementation and periphery changes instead of assuming all FXSwap pools are identical forever.
 
-See the [complete pool interface](./reference.md) for overloads and getters.
+See the [FXSwap Pool](../pools/fxswap.md) for all overloads, getters, guards, and events. Quote helpers are documented locally under [Views](../utility-contracts/views.md).

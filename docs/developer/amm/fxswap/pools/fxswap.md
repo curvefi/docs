@@ -1,13 +1,13 @@
 ---
-title: FXSwap Pool Reference
-sidebar_label: Pool Contract Reference
+title: FXSwap Pool
+sidebar_label: FXSwap Pool
 ---
 
-# FXSwap Pool Reference
+# FXSwap Pool
 
 This reference covers the verified public ABI of deployed FXSwap `v2.1.0d` pools. Unless stated otherwise, amounts are raw token or LP-token units, indices are `uint256`, and the only valid coin indices are `0` and `1`.
 
-For transaction sequencing and examples, start with [Integrating FXSwap](./integration.md). Protocols holding LP positions should read [Building on FXSwap](./building.md). For recentering and parameter interactions, see [Mechanism and Parameter Design](./mechanism.md). For the refuel lifecycle, see [FXSwap Refuels](./refuels.md).
+For transaction sequencing and examples, start with [Integrating FXSwap](../guides/integration.md). Protocols holding LP positions should read [Building on FXSwap](../guides/building.md). For recentering and parameter interactions, see [Mechanism and Parameter Design](./mechanism.md). For the refuel lifecycle, see [FXSwap Refuels](./refuels.md).
 
 ## Deployed version and source
 
@@ -21,13 +21,13 @@ The live pool currently returns Views [`0x3504…D31f`](https://etherscan.io/add
 
 :::
 
-Many swap and LP-token methods retain Twocrypto-compatible behavior. This page inventories every deployed FXSwap entry point and explains the semantic differences. The [Twocrypto pool reference](../twocrypto-ng/pools/twocrypto.md) provides longer source walkthroughs for behavior that is genuinely shared; deployed FXSwap behavior remains authoritative.
+This page inventories every deployed FXSwap entry point. It documents the swap and LP-token methods locally even where their call shapes remain compatible with earlier two-coin pools, so an FXSwap integration does not depend on another AMM reference.
 
 All entries on this page are available in deployed `v2.1.0d` unless a version boundary says otherwise. View methods have no caller restriction. State-changing user methods are permissionless and nonpayable; token allowance, balance, index, receiver, cap, invariant, and slippage guards still apply. The [Admin controls](#admin-controls) table identifies the factory-admin-only methods. Event names are listed with the state-changing method or group and defined in [Events](#events).
 
 ## FXSwap-specific source walkthroughs
 
-These focused excerpts come from the verified deployed source identified above. They cover behavior that differs materially from ordinary Twocrypto without repeating shared ERC-20 and swap logic.
+These focused excerpts come from the verified deployed source identified above. They explain the refuel and recentering behavior that is unique to FXSwap; the complete public interface follows them.
 
 ### Refuel creation and supply accounting
 
@@ -122,7 +122,7 @@ return (mid_fee * B + out_fee * (10**18 - B)) // 10**18
 
 The names in this shortened excerpt correspond to the values unpacked from `packed_fee_params`. Use `fee()` for current pool state and `fee_calc(xp)` only with correctly normalized balances.
 
-## Swaps and quotes
+## Exchange Methods
 
 | Signature | Mutability | Returns | Behavior |
 | --- | --- | --- | --- |
@@ -138,24 +138,32 @@ The names in this shortened excerpt correspond to the values unpacked from `pack
 
 Successful swaps emit `TokenExchange`.
 
-## Liquidity
+### `exchange`
+
+`exchange` pulls `dx` from the caller with `transferFrom`, applies the current dynamic fee, checks that output is at least `min_dy`, and transfers raw `coins(j)` units to the receiver. The caller must approve the pool for `coins(i)`.
+
+The return value and `TokenExchange.tokens_bought` are the realized raw output amount. `TokenExchange.tokens_sold` records the amount actually received, which can differ from requested `dx` for unusual token behavior.
+
+### `exchange_received`
+
+`exchange_received` uses the surplus token balance already transferred to the pool instead of calling `transferFrom`. It accounts for the full observed surplus when that surplus is at least `dx`; the realized sold amount can therefore exceed the minimum declared `dx`.
+
+The transfer and call must be atomic. A separate transaction exposes the prefunded tokens to another caller, who can direct the output to their own receiver.
+
+### `get_dy` and `get_dx`
+
+`get_dy` is the normal exact-input quote and includes the dynamic fee. `get_dx` iteratively estimates the input for a target output; it does not provide an exact-output execution path. Both wrappers call the pool's current [Views contract](../utility-contracts/views.md).
+
+## Adding Liquidity
 
 | Signature | Mutability | Returns | Behavior |
 | --- | --- | --- | --- |
 | `add_liquidity(uint256[2] amounts, uint256 min_mint_amount)` | nonpayable | `uint256` | Mints LP tokens to caller |
 | `add_liquidity(uint256[2] amounts, uint256 min_mint_amount, address receiver)` | nonpayable | `uint256` | Mints LP tokens to `receiver` |
 | `add_liquidity(uint256[2] amounts, uint256 min_mint_amount, address receiver, bool donation)` | nonpayable | `uint256` | With `donation=true`, creates refuel shares rather than a user position |
-| `remove_liquidity(uint256 amount, uint256[2] min_amounts)` | nonpayable | `uint256[2]` | Proportional withdrawal to caller |
-| `remove_liquidity(uint256 amount, uint256[2] min_amounts, address receiver)` | nonpayable | `uint256[2]` | Proportional withdrawal to `receiver` |
-| `remove_liquidity_fixed_out(uint256 token_amount, uint256 i, uint256 amount_i, uint256 min_amount_j)` | nonpayable | `uint256` | Burns `token_amount`, withdraws exactly `amount_i` of coin `i`, and returns the coin `1-i` amount |
-| `remove_liquidity_fixed_out(uint256 token_amount, uint256 i, uint256 amount_i, uint256 min_amount_j, address receiver)` | nonpayable | `uint256` | Fixed-out withdrawal to `receiver` |
-| `remove_liquidity_one_coin(uint256 lp_token_amount, uint256 i, uint256 min_amount)` | nonpayable | `uint256` | Single-coin withdrawal to caller |
-| `remove_liquidity_one_coin(uint256 lp_token_amount, uint256 i, uint256 min_amount, address receiver)` | nonpayable | `uint256` | Single-coin withdrawal to `receiver` |
-| `calc_token_amount(uint256[2] amounts, bool deposit)` | view | `uint256` | Estimates LP tokens minted or burned, including fee |
-| `calc_withdraw_fixed_out(uint256 lp_token_amount, uint256 i, uint256 amount_i)` | view | `uint256` | Estimates coin `1-i` for a fixed-out withdrawal |
-| `calc_withdraw_one_coin(uint256 lp_token_amount, uint256 i)` | view | `uint256` | Estimates single-coin output |
+| `calc_token_amount(uint256[2] amounts, bool deposit)` | view | `uint256` | With `deposit=true`, estimates LP tokens minted, including fee |
 
-All amount arrays have length two. Liquidity additions require at least one non-zero amount and revert when nothing can be minted or the result is below `min_mint_amount`. Withdrawals enforce their corresponding minimum-output arrays or values.
+`amounts` is ordered as `[coins(0), coins(1)]` and uses raw token units. At least one amount must be non-zero. The call pulls both non-zero amounts from the caller, reverts if no shares can be created or the result is below `min_mint_amount`, and emits `AddLiquidity`.
 
 ### Refuel overload
 
@@ -169,6 +177,22 @@ The four-argument `add_liquidity` overload uses immutable contract terminology:
 | `donation` | Set to `true` to add a refuel |
 
 The return value is the number of refuel shares created. The call increases `totalSupply()` and `donation_shares()`, emits `Donation`, and does not increase any account's `balanceOf`. The refuel path applies its own cap, unlock, protection, and fee logic described in [Refuels](./refuels.md).
+
+## Removing Liquidity
+
+| Signature | Mutability | Returns | Behavior |
+| --- | --- | --- | --- |
+| `remove_liquidity(uint256 amount, uint256[2] min_amounts)` | nonpayable | `uint256[2]` | Proportional withdrawal to caller |
+| `remove_liquidity(uint256 amount, uint256[2] min_amounts, address receiver)` | nonpayable | `uint256[2]` | Proportional withdrawal to `receiver` |
+| `remove_liquidity_fixed_out(uint256 token_amount, uint256 i, uint256 amount_i, uint256 min_amount_j)` | nonpayable | `uint256` | Burns `token_amount`, withdraws exactly `amount_i` of coin `i`, and returns the coin `1-i` amount |
+| `remove_liquidity_fixed_out(uint256 token_amount, uint256 i, uint256 amount_i, uint256 min_amount_j, address receiver)` | nonpayable | `uint256` | Fixed-out withdrawal to `receiver` |
+| `remove_liquidity_one_coin(uint256 lp_token_amount, uint256 i, uint256 min_amount)` | nonpayable | `uint256` | Single-coin withdrawal to caller |
+| `remove_liquidity_one_coin(uint256 lp_token_amount, uint256 i, uint256 min_amount, address receiver)` | nonpayable | `uint256` | Single-coin withdrawal to `receiver` |
+| `calc_token_amount(uint256[2] amounts, bool deposit)` | view | `uint256` | With `deposit=false`, estimates LP tokens burned, including fee |
+| `calc_withdraw_fixed_out(uint256 lp_token_amount, uint256 i, uint256 amount_i)` | view | `uint256` | Estimates coin `1-i` for a fixed-out withdrawal |
+| `calc_withdraw_one_coin(uint256 lp_token_amount, uint256 i)` | view | `uint256` | Estimates single-coin output |
+
+All minimum amounts are raw token units. Proportional withdrawal emits `RemoveLiquidity`; fixed-out withdrawal emits `RemoveLiquidityImbalance`; one-coin withdrawal emits `RemoveLiquidityOne`.
 
 ## Refuel state
 
@@ -185,7 +209,7 @@ The return value is the number of refuel shares created. The call increases `tot
 
 There is no public getter that separates the exact locked, unlocked, protected, and immediately burnable shares.
 
-## Prices, oracle, fees, and calculations
+## Price Scaling and Oracles
 
 | Signature | Mutability | Returns | Unit / meaning |
 | --- | --- | --- | --- |
@@ -196,25 +220,40 @@ There is no public getter that separates the exact locked, unlocked, protected, 
 | `lp_price()` | view | `uint256` | LP-token price estimate, 1e18 |
 | `get_virtual_price()` | view | `uint256` | Current virtual-price calculation, 1e18 |
 | `virtual_price()` | view | `uint256` | Cached internal virtual price, 1e18 |
+| `ma_time()` | view | `uint256` | Approximate EMA half-life, seconds |
+
+All three price getters express the price of `coins(1)` in `coins(0)` with 1e18 precision. Read [FXSwap Oracles](./oracles.md) for update behavior, recentering, and manipulation boundaries.
+
+## Fees and Profits
+
+| Signature | Mutability | Returns | Unit / meaning |
+| --- | --- | --- | --- |
 | `fee()` | view | `uint256` | Current dynamic fee, 1e10 |
 | `mid_fee()` | view | `uint256` | Lower dynamic-fee bound, 1e10 |
 | `out_fee()` | view | `uint256` | Upper dynamic-fee bound, 1e10 |
 | `fee_gamma()` | view | `uint256` | Fee-transition parameter, 1e18 |
 | `admin_fee()` | view | `uint256` | Share of profit assigned to admin, 1e10 |
-| `allowed_extra_profit()` | view | `uint256` | Recentring profit buffer, 1e18 |
-| `adjustment_step()` | view | `uint256` | Minimum recentering step, 1e18 |
-| `ma_time()` | view | `uint256` | EMA smoothing parameter, seconds |
-| `A()` | view | `uint256` | Amplification parameter in contract precision |
-| `gamma()` | view | `uint256` | Compatibility value; unused by the FXSwap invariant |
-| `precisions()` | view | `uint256[2]` | Token precision multipliers |
 | `fee_calc(uint256[2] xp)` | view | `uint256` | Dynamic fee for normalized balances, 1e10 |
 | `calc_token_fee(uint256[2] amounts, uint256[2] xp)` | view | `uint256` | Liquidity fee calculation |
 | `calc_token_fee(uint256[2] amounts, uint256[2] xp, bool donation)` | view | `uint256` | Liquidity fee with explicit refuel flag |
 | `calc_token_fee(uint256[2] amounts, uint256[2] xp, bool donation, bool deposit)` | view | `uint256` | Liquidity fee with explicit refuel and deposit flags |
+| `xcp_profit()` | view | `uint256` | Current profit-accounting value, 1e18 |
+| `xcp_profit_a()` | view | `uint256` | Profit value at the prior admin claim, 1e18 |
 
 `xp` is the two-coin normalized balance vector, not the raw balances. For parameter interactions, see [Mechanism and Parameter Design](./mechanism.md).
 
-## LP-token surface
+## Parameters
+
+| Signature | Mutability | Returns | Unit / meaning |
+| --- | --- | --- | --- |
+| `A()` | view | `uint256` | Amplification parameter in contract precision |
+| `gamma()` | view | `uint256` | Compatibility value; unused by the FXSwap invariant |
+| `precisions()` | view | `uint256[2]` | Token precision multipliers |
+| `allowed_extra_profit()` | view | `uint256` | Recentring profit buffer, 1e18 |
+| `adjustment_step()` | view | `uint256` | Minimum recentering step, 1e18 |
+| `ma_time()` | view | `uint256` | Approximate EMA half-life, seconds |
+
+## LP Token Methods
 
 The pool is its own 18-decimal ERC-20 LP token:
 
@@ -233,7 +272,7 @@ The pool is its own 18-decimal ERC-20 LP token:
 
 `totalSupply()` includes refuel shares. Use `user_supply()` when an application needs the user-owned LP supply.
 
-## Configuration and state
+## Contract Info
 
 | Signature | Mutability | Returns | Meaning |
 | --- | --- | --- | --- |
@@ -245,8 +284,6 @@ The pool is its own 18-decimal ERC-20 LP token:
 | `MATH()` | view | `address` | Current Math contract |
 | `VIEW()` | view | `address` | Current Views contract |
 | `D()` | view | `uint256` | Cached invariant |
-| `xcp_profit()` | view | `uint256` | Current profit accounting value |
-| `xcp_profit_a()` | view | `uint256` | Profit value at the prior admin claim |
 | `initial_A_gamma()` | view | `uint256` | Packed ramp start |
 | `future_A_gamma()` | view | `uint256` | Packed ramp target |
 | `initial_A_gamma_time()` | view | `uint256` | Ramp start timestamp |
@@ -264,11 +301,13 @@ Every method below is nonpayable and checks the factory-provided admin:
 | --- | --- |
 | `ramp_A_gamma(uint256 future_A, uint256 future_gamma, uint256 future_time)` | Starts a bounded ramp lasting at least the contract minimum |
 | `stop_ramp_A_gamma()` | Stops an active ramp at current values |
-| `apply_new_parameters(uint256 mid_fee, uint256 out_fee, uint256 fee_gamma, uint256 allowed_extra_profit, uint256 adjustment_step, uint256 ma_time)` | Updates validated fee and recentering parameters |
+| `apply_new_parameters(uint256 mid_fee, uint256 out_fee, uint256 fee_gamma, uint256 allowed_extra_profit, uint256 adjustment_step, uint256 ma_exp_time)` | Updates validated fee and recentering parameters; the last argument is the internal EMA exponent denominator, approximately `half_life / ln(2)` |
 | `set_donation_duration(uint256 duration)` | Requires `duration > 0`; emits `SetDonationDuration` |
 | `set_donation_protection_params(uint256 period, uint256 threshold, uint256 max_shares_ratio)` | Requires positive values; ratios use 1e18 precision; emits `SetDonationProtection` |
 | `set_admin_fee(uint256 admin_fee)` | Requires a value at or below the contract maximum; 1e10 precision; emits `SetAdminFee` |
 | `set_periphery(address views, address math)` | Updates either or both periphery addresses; at least one must be non-zero; emits `SetPeriphery` |
+
+`apply_new_parameters` uses compatibility-preserving sentinel behavior: out-of-range values for an individual field retain that field's current value, while combinations such as `mid_fee > out_fee` still revert. Read the emitted `NewParameters` event or decoded getters after the transaction instead of assuming every requested value was applied. `NewParameters.ma_time` is the internal exponent parameter; `ma_time()` returns its approximate half-life in seconds.
 
 :::warning[Version boundary]
 
