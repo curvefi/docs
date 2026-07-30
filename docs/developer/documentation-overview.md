@@ -39,7 +39,7 @@ Implementation of StableSwap and CryptoSwap algorithms into on-chain exchange co
   </DocCard>
   <DocCard title="FXSwap" link="./amm/fxswap/overview" linkText="Build with FXSwap">
 
-Variable-price, two-asset liquidity for externally priced markets, with StableSwap-style concentration, oracle-guided recentering, and protocol-funded refuels.
+Variable-price, two-asset liquidity for markets whose primary price discovery happens elsewhere, with StableSwap-style concentration, oracle-guided recentering, and protocol-funded refuels.
 
   </DocCard>
   <DocCard title="crvUSD" icon="crvusd" link="./crvusd/overview" linkText="Getting started">

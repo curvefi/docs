@@ -23,7 +23,7 @@ Optimized 2-coin CryptoSwap pools for volatile asset pairs with auto-rebalancing
   </DocCard>
   <DocCard title="FXSwap" link="./fxswap/overview" linkText="FXSwap">
 
-Two-coin pools for externally priced, comparatively low-volatility markets. Combines variable-price StableSwap concentration, oracle-guided recentering, and optional refuels.
+Two-coin pools for markets whose primary price discovery happens elsewhere, from fiat FX to BTC/USD. Combines variable-price StableSwap concentration, oracle-guided recentering, and optional refuels.
 
   </DocCard>
   <DocCard title="Tricrypto-NG" link="./tricrypto-ng/overview" linkText="Tricrypto-NG">

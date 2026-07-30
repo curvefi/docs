@@ -3,7 +3,7 @@ title: Refuels and Automation
 sidebar_label: Refuels
 ---
 
-# Refuels and automation
+# Refuels and Automation
 
 A refuel is liquidity added to a finite rebalancing buffer without giving the provider a withdrawable LP position. The pool records the resulting shares in `donation_shares`, unlocks them over time, and burns the available portion as it subsidizes price-scale recentering. This is why **refuel** is the product term: the buffer is supplied for a specific job and can be depleted as the pool performs that job.
 
@@ -18,6 +18,8 @@ Use **refuel** in interfaces and explanations. The immutable deployed ABI uses t
 A refuel is a spendable liquidity budget, not recoverable principal. The provider receives no LP balance or direct claim on the tokens. Instead, the pool uses the buffer to help pay for recentering, which can support tighter execution and routing as the external market price moves.
 
 The economic benefit is indirect and not guaranteed: better-centered liquidity may attract more volume or improve the market for the provider's asset, while the refuel balance can decline to zero. Protocol teams should therefore model refuels as an operating cost, monitor their rate of depletion, and choose a schedule they can sustain.
+
+Use [Mechanism and Parameter Design](./mechanism.md) to evaluate refuel demand together with concentration, fees, oracle smoothing, volatility, and external market depth.
 
 ## Refuel lifecycle
 

@@ -7,16 +7,24 @@ import DocCard, { DocCardGrid } from '@site/src/components/DocCard'
 
 # FXSwap
 
-FXSwap is Curve's two-asset AMM for markets whose relative price changes, but whose primary price discovery happens elsewhere: foreign-exchange pairs, liquid wrappers of the same macro asset, and other highly liquid, comparatively low-volatility pairs.
+FXSwap is Curve's two-asset automated market maker (AMM) for markets whose primary price discovery happens elsewhere. It is designed to keep passive liquidity concentrated around a moving external market price, from fiat FX pairs to markets such as BTC/USD.
 
 It combines:
 
 - **StableSwap-style concentration** around a variable `price_scale`;
 - an **exponential moving-average oracle** that guides gradual recentering;
-- **refuels**, external liquidity buffers that pay part of the recentering cost and are depleted as the pool uses them;
+- **refuels**, finite external liquidity buffers that help pay for recentering and are depleted as the pool uses them;
 - passive, full-range LP positions and the familiar Curve swap interface.
 
-The result is a pool that route aggregators can treat much like a two-coin Curve pool while protocols can budget refuels as a transparent market-liquidity cost instead of assigning capital to an active market maker. Deployed examples include the YieldBasis WBTC, cbBTC, and tBTC pools listed below.
+The distinguishing question is not volatility alone. FXSwap fits a market when the paired assets have reliable external price discovery, arbitrage can connect the pool to that market, and the pool can sustain the cost of moving concentrated liquidity as prices change.
+
+:::deploy[Contract Source & Deployment]
+
+This section documents callable Ethereum pools reporting `version() == "v2.1.0d"`. The verified pool source was compiled with Vyper `0.4.3` and is closest to [`curvefi/twocrypto-ng@387fbe5`](https://github.com/curvefi/twocrypto-ng/commit/387fbe5f12473ef0e1f0c6a76bc38f1ca0da669d).
+
+Review the [deployed pool reference](./reference.md#deployed-version-and-source) for the exact source boundary and [Contract Deployments](../../deployments.md) for addresses.
+
+:::
 
 :::info[Names used in this documentation]
 
@@ -29,19 +37,19 @@ The result is a pool that route aggregators can treat much like a two-coin Curve
 | Market | Prefer | Why |
 | --- | --- | --- |
 | Assets expected to stay near a fixed ratio | [Stableswap-NG](../stableswap-ng/overview.md) | Concentration around a fixed or rate-provider-adjusted peg |
-| Two volatile assets where the pool helps discover price | [Twocrypto-NG](../twocrypto-ng/overview.md) | CryptoSwap invariant and self-funded recentering |
-| Two externally priced assets with moderate relative moves | **FXSwap** | Variable-price StableSwap concentration plus subsidized recentering |
+| Two volatile assets where the Curve pool supports primary price discovery | [Twocrypto-NG](../twocrypto-ng/overview.md) | CryptoSwap invariant and self-funded recentering |
+| Two externally priced assets that need passive concentrated liquidity | **FXSwap** | Variable-price StableSwap concentration and a configurable recentering budget |
 | Three volatile assets | [Tricrypto-NG](../tricrypto-ng/overview.md) | Three-coin CryptoSwap |
 
-FXSwap is not a general replacement for CryptoSwap. A highly volatile or thinly traded asset that depends on the pool for primary price discovery is usually a poor fit.
+FXSwap is not a general replacement for CryptoSwap. A pair is a poor fit when it lacks a reliable external reference market, arbitrage cannot keep the pool connected to that market, or no sustainable budget exists for the desired concentration and recentering frequency.
 
 ## How the mechanism fits together
 
-Swaps use a StableSwap invariant centered on `price_scale`. The pool records recent prices in an EMA oracle. When the oracle moves far enough from `price_scale`, a state-changing pool operation can recenter liquidity toward it.
+Swaps use a StableSwap invariant centered on `price_scale`. The pool records recent prices in an exponential moving-average oracle. When the oracle moves far enough from `price_scale`, a state-changing pool operation can recenter liquidity toward it.
 
 Recentering has a cost. FXSwap first burns refuel shares that have unlocked and passed the protection rules. If those shares are insufficient, the normal profit buffer provides the remainder. Regular LP balances are not burned.
 
-`gamma()` remains in the deployed ABI for Twocrypto compatibility, but the FXSwap invariant does not use it. Do not infer FXSwap behavior from the ordinary Twocrypto implementation solely because both share a factory and much of their interface.
+`gamma()` remains in the deployed ABI for Twocrypto compatibility, but the FXSwap invariant does not use it. Read [Mechanism and Parameter Design](./mechanism.md) for the interactions between concentration, fees, oracle smoothing, refuel budgets, and external market depth.
 
 ## Start by role
 
@@ -51,9 +59,9 @@ Recentering has a cost. FXSwap first burns refuel shares that have unlocked and 
 Discover pools, verify the FXSwap interface, quote exact-input and exact-output routes, execute safely, and index swap events.
 
   </DocCard>
-  <DocCard title="Protocol teams" link="./refuels" linkText="Understand refuels">
+  <DocCard title="Protocol teams" link="./mechanism" linkText="Design a market">
 
-Decide whether FXSwap suits a market, inspect refuel state, fund a pool directly, or automate recurring refuels.
+Decide whether FXSwap suits a pair, evaluate parameter interactions, budget refuels, and plan monitoring.
 
   </DocCard>
   <DocCard title="Contract researchers" link="./reference" linkText="Read the interface">
@@ -63,9 +71,37 @@ Review the complete deployed `v2.1.0d` public surface, units, guards, events, an
   </DocCard>
 </DocCardGrid>
 
-## Deployed version and source of truth
+## FXSwap infrastructure
 
-The callable Ethereum pools reviewed for this documentation report `version() == "v2.1.0d"`. Representative pools include:
+<DocCardGrid>
+  <DocCard title="Pool Contract" icon="vyper" link="./reference" linkText="FXSwap Pool Reference">
+
+The two-coin AMM, LP token, oracle, fee logic, recentering state, and refuel accounting are exposed through one pool contract.
+
+  </DocCard>
+  <DocCard title="Twocrypto Factory" icon="vyper" link="../factory/twocrypto-ng/overview" linkText="Factory Reference">
+
+FXSwap pools use the Twocrypto factory infrastructure. Integrators must identify the deployed pool version explicitly because the factory does not reliably map historical pools to implementations.
+
+  </DocCard>
+  <DocCard title="Views and Math" link="../twocrypto-ng/utility-contracts/views" linkText="Shared Periphery">
+
+FXSwap retains compatible periphery interfaces. Read `VIEW()` and `MATH()` from the target pool because these addresses can change.
+
+  </DocCard>
+  <DocCard title="Refuels" link="./refuels" linkText="Refuel Lifecycle">
+
+Refuels supply a finite, transparent buffer that unlocks over time and can be burned when the pool recenters.
+
+  </DocCard>
+  <DocCard title="Automation" link="./donation-streamer" linkText="DonationStreamer">
+
+Permissionless automation contracts can schedule recurring refuels and reward executors that submit due periods.
+
+  </DocCard>
+</DocCardGrid>
+
+## Representative deployed pools
 
 | Pool | Address | Coins |
 | --- | --- | --- |
@@ -74,14 +110,10 @@ The callable Ethereum pools reviewed for this documentation report `version() ==
 | YieldBasis tBTC | [`0xf1F4…6127`](https://etherscan.io/address/0xf1F435B05D255a5dBdE37333C0f61DA6F69c6127#code) | crvUSD / tBTC |
 | ZCHF | [`0x027B…2ca9`](https://etherscan.io/address/0x027B40F5917FCd0eac57d7015e120096A5F92ca9#code) | crvUSD / ZCHF |
 
-The first pool's verified similar-match source has SHA-256 `5b4c3e0cf8a23c0e16d5d3c4d0a2d06ebd39220fa71c6300a72dec5159b3dfad` and was compiled with Vyper `0.4.3`. It is closest to [`curvefi/twocrypto-ng@387fbe5`](https://github.com/curvefi/twocrypto-ng/commit/387fbe5f12473ef0e1f0c6a76bc38f1ca0da669d), with three deployment-specific constructor defaults: the Views address, Math address, and initial `admin_fee`.
+Pool parameters are mutable. Read the target pool rather than copying values from an example.
 
-The live WBTC pool currently points to Views [`0x3504…D31f`](https://etherscan.io/address/0x35048188c02cbc9239e1e5ecb3761eF9dfDcD31f), Math [`0x7983…2e51`](https://etherscan.io/address/0x79839c2D74531A8222C0F555865aAc1834e82e51), and the Ethereum Twocrypto factory [`0x98EE…AF7F`](https://etherscan.io/address/0x98EE851a00abeE0d95D08cF4CA2BdCE32aeaAF7F). Read `VIEW()`, `MATH()`, and `factory()` from the pool because the admin can update periphery addresses and other implementations may differ.
+## Evidence and further reading
 
-:::warning[Development interfaces are not deployed interfaces]
-
-Branches in the source repository contain a later v3 design with `set_donation_parameters`, policy/allowlist controls, and `reserved_profit_fraction`. Those methods are **not callable on the reviewed `v2.1.0d` pools**. This section documents deployed behavior; future implementations must be identified and documented separately.
-
-:::
-
-For addresses by chain, see [Contract Deployments](../../deployments.md). Pool parameters are mutable, so integrations must read the target pool rather than copying example values.
+- [FXSwap](https://news.curve.finance/fxswap/) summarizes a dated execution-quality study and explains the passive-liquidity design.
+- [FXSwap Simulations: Behind the Scenes](https://news.curve.finance/fxswap-simulations/) explains the historical backtesting and parameter-search workflow, including its limitations.
+- [Understanding FXSwap](/protocol/pool/understanding-fxswap) provides a protocol-level explanation and interactive parameter charts.

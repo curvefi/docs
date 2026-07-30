@@ -41,6 +41,7 @@
 - [Twocrypto-NG](https://docs.curve.finance/developer/amm/twocrypto-ng/overview): Next-gen two-asset crypto pool contracts
 - [FXSwap](https://docs.curve.finance/developer/amm/fxswap/overview): Variable-price two-asset pools with oracle-guided recentering and refuels
 - [Integrating FXSwap](https://docs.curve.finance/developer/amm/fxswap/integration): Discovery, quoting, swap execution, routing safety, and events
+- [FXSwap Mechanism & Parameters](https://docs.curve.finance/developer/amm/fxswap/mechanism): External price discovery, recentering budgets, parameter interactions, and simulation
 - [FXSwap Pool Reference](https://docs.curve.finance/developer/amm/fxswap/reference): Complete deployed pool interface and version boundaries
 - [FXSwap Refuels](https://docs.curve.finance/developer/amm/fxswap/refuels): Refuel accounting, unlocks, protection, depletion, and automation
 - [Tricrypto-NG](https://docs.curve.finance/developer/amm/tricrypto-ng/overview): Next-gen three-asset crypto pool contracts

@@ -153,10 +153,17 @@ export default {
                 {
                     type: 'category',
                     label: 'FXSwap',
-                    link: { type: 'doc', id: 'amm/fxswap/overview' },
                     items: [
+                        { type: 'doc', id: 'amm/fxswap/overview', label: 'Overview' },
                         { type: 'doc', id: 'amm/fxswap/integration', label: 'Integration Guide' },
-                        { type: 'doc', id: 'amm/fxswap/reference', label: 'Pool Reference' },
+                        {
+                            type: 'category',
+                            label: 'Pools',
+                            items: [
+                                { type: 'doc', id: 'amm/fxswap/mechanism', label: 'Mechanism & Parameters' },
+                                { type: 'doc', id: 'amm/fxswap/reference', label: 'Pool Reference' },
+                            ],
+                        },
                         { type: 'doc', id: 'amm/fxswap/refuels', label: 'Refuels' },
                         {
                             type: 'category',
@@ -509,7 +516,7 @@ export default {
                     items: [
                         { type: 'doc', id: 'integration/stableswap-ng', label: 'Stableswap-NG' },
                         { type: 'doc', id: 'integration/twocrypto-ng', label: 'Twocrypto-NG' },
-                        { type: 'doc', id: 'amm/fxswap/integration', label: 'FXSwap' },
+                        { type: 'link', href: '/developer/amm/fxswap/integration', label: 'FXSwap' },
                         { type: 'doc', id: 'integration/tricrypto-ng', label: 'Tricrypto-NG' },
                         { type: 'doc', id: 'integration/llamma', label: 'LLAMMA' },
                     ],

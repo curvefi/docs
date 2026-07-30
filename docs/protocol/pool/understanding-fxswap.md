@@ -8,7 +8,7 @@ import ThemedVideo from '@site/src/components/ThemedVideo';
 import FXSwapAmplificationChart from '@site/src/components/Charts/FXSwapAmplification';
 import FXSwapDynamicFeeChart from '@site/src/components/Charts/FXSwapDynamicFee';
 
-FXSwap is a specialized Automated Market Maker (AMM) designed for uncorrelated but low-volatility asset pairs (such as Forex pairs `crvUSD` and `EURC`). It leverages the mathematical efficiency of [Stableswap](understanding-stableswap.md) within the dynamic rebalancing framework of [Cryptoswap](understanding-cryptoswap.md), along with some new innovations.
+FXSwap is a two-asset automated market maker (AMM) for markets whose primary price discovery happens elsewhere. It combines the concentrated pricing of [Stableswap](understanding-stableswap.md), oracle-guided recentering inspired by [Cryptoswap](understanding-cryptoswap.md), and a finite external refuel budget. Suitable markets can range from fiat FX pairs to externally priced volatile pairs such as BTC/USD.
 
 For contract interfaces and integration guidance, see the [FXSwap developer documentation](/developer/amm/fxswap/overview).
 
@@ -27,11 +27,11 @@ As with all Curve AMM pools, providing liquidity in FXSwap is completely passive
 
 ## Why FXSwap?
 
-**Cryptoswap** pools are designed to be entirely self-sufficient, relying on trading volumes and swap fees to naturally rebalance liquidity around the market price. This model works well for assets where the Cryptoswap pool is the dominant liquidity pool for tokens, and where price discovery happens (e.g., CVX, YB, RSUP, etc).
+**Cryptoswap** pools are designed to be self-sufficient, relying on trading profit to support recentering. This model fits assets for which the Cryptoswap pool contributes materially to price discovery.
 
-However, for asset pairs where price discovery is mostly happening elsewhere, (e.g., forex, BTC, ETH, etc) the pool needs to quickly rebalance and stay balanced around the current market price.  This is why **FXSwap** pools were created.
+For pairs whose reference price comes primarily from external venues—such as fiat FX, BTC, or ETH—the pool instead needs to keep concentrated liquidity connected to that outside market. This is the design problem **FXSwap** addresses.
 
-**FXSwap** does this by introducing **Refuels**. This mechanism allows projects to "fast-track" the rebalancing process using external incentives rather than waiting for accumulated trading profits. This ensures the pool remains efficient and balanced around the current price even during periods of low volatility.
+**FXSwap** introduces **refuels** so a protocol can supply an explicit budget for recentering rather than relying only on accumulated trading profit. Refuels do not set the price or guarantee that the pool remains balanced; they help pay for the pool's normal recentering process.
 
 :::info
 **Note:** As FXSwap architecture is derived from these two predecessors, we recommend reviewing their documentation first. See [Stableswap explainer](understanding-stableswap.md) and [Cryptoswap explainer](understanding-cryptoswap.md).
@@ -39,11 +39,11 @@ However, for asset pairs where price discovery is mostly happening elsewhere, (e
 
 ## How it works
 
-FXSwap was created to provide efficient, fully passive forex-style liquidity on-chain. It achieves this by taking specific components from its predecessors:
+FXSwap provides fully passive, full-range liquidity while concentrating most depth around a moving internal price. It combines:
 
 - **Stableswap Invariant:** To keep spreads tight, FXSwap utilizes the Stableswap invariant for pricing. This is ideal for assets where liquidity should remain highly concentrated near the current oracle price.
-- **Hybrid Rebalancing:** Like Cryptoswap, a pool-configured portion of trading profit supports rebalancing. However, FXSwap introduces a **Refuelling mechanism**. Refuels act as an external buffer to cover rebalancing costs, protecting LP profitability and enabling faster price alignment.
-- **Dynamic Fees:** The pool utilizes a dynamic fee model, increasing fees during periods of high volatility and imbalance to protect LPs and capture value.
+- **Hybrid Rebalancing:** A pool-configured profit buffer supports recentering, while refuels provide an additional finite buffer that can be consumed first.
+- **Dynamic Fees:** The pool charges fees according to balance and the configured `mid_fee`, `out_fee`, and `fee_gamma` parameters.
 
 Let's look at how an FXSwap pool prioritizes these resources while moving liquidity:
 
@@ -58,13 +58,13 @@ Let's look at how an FXSwap pool prioritizes these resources while moving liquid
   />
 </figure>
 
-You can see from the video above that if refuels are available, they are used first, however a small amount of profit is always consumed.  
+The video shows the priority between available refuel shares and the normal profit buffer as liquidity is recentered.
 
-## Recommended Assets
+## Recommended Markets
 
-Because FXSwap pools can use refuels to maintain efficiency, they are best suited for **highly liquid assets with lower relative volatility**.
+FXSwap is best suited to pairs with a reliable external reference market, sufficient external depth for arbitrage, and a sustainable budget for the desired concentration. Lower-volatility markets generally require less recentering, but volatility alone does not determine suitability.
 
-It is generally not recommended to use FXSwap for primary price discovery. For example, YieldBasis utilizes FXSwap for its `BTC/crvUSD` pools (established assets tracking external prices), but uses a standard Cryptoswap pool for `YB/crvUSD` (the primary market for its governance token).
+It is generally not recommended to use FXSwap for primary price discovery. For example, YieldBasis uses FXSwap for its externally priced `BTC/crvUSD` pools, but a standard Cryptoswap pool for `YB/crvUSD`, where the Curve pool contributes to the governance token's primary market.
 
 ## Refuels
 
@@ -79,24 +79,17 @@ Protocols can treat refuels as a transparent market-liquidity budget: the balanc
 - **Priority Usage:** Unlocked refuel shares are available to be burned first when recentering needs a subsidy. Unlocking makes shares available; only a rebalance burns and depletes them.
 - **Finite Buffer:** Refuel shares can decline to zero as the pool uses them. Refuels do not guarantee a fixed price, volume, or LP return.
 
-### How much do Refuels cost?
+### How much do refuels cost?
 
-Three main factors influence the cost of Refuels:
+Three main factors influence refuel demand:
 
 1.  **Volatility:** Higher volatility requires more frequent rebalancing.
 2.  **Liquidity Concentration (`A`):** Higher `A` values create deeper liquidity, but increase the cost to move that liquidity when prices change.
 3.  **Swap Fees:** Higher volume generates more fees. A pool with more trading profit generally requires fewer external Refuels; the configured allocation must be read from that pool.
 
-**Case Study: YB Pools (BTC/crvUSD)**
-*Data analyzed for ~45 days after TVL reached $100M.*
+These factors interact with oracle smoothing, external market depth, and arbitrage costs. Protocol teams should backtest a proposed configuration instead of extrapolating a fixed percentage from another pool. See [Mechanism and Parameter Design](/developer/amm/fxswap/mechanism) and [FXSwap Simulations: Behind the Scenes](https://news.curve.finance/fxswap-simulations/) for the design workflow and its limitations.
 
-- **TVL:** ~$100M per pool
-- **Total Fees Paid:** ~$86k / day
-- **Swap Fees used to Rebalance:** ~$43k / day (50% of total fees)
-- **Refuels Consumed:** ~$10k / day
-- **LP Returns (Net):** ~$43k / day (~12% APY)
-
-In this scenario, refuels represent **3.6% of TVL per year** (approximately 23% of the reported rebalancing costs). This feeds into the FXSwap liquidity cycle:
+The resulting liquidity cycle is:
 
 <figure>
   <ThemedImage
@@ -169,3 +162,9 @@ Dynamic fees adjust based on the pool's balance. **Fees are lower when a swap he
 Below you can see how these three parameters affect the shape of the dynamic fee that will be charged based on the value ratio of assets in a pool (e.g., \$550k in ETH and \$450k in crvUSD equals a 55/45 value ratio)
 
 <FXSwapDynamicFeeChart />
+
+## Further Reading
+
+- [FXSwap](https://news.curve.finance/fxswap/) — dated execution-quality evidence and product context.
+- [FXSwap Simulations: Behind the Scenes](https://news.curve.finance/fxswap-simulations/) — parameter search, historical backtesting, and limitations.
+- [FXSwap developer documentation](/developer/amm/fxswap/overview) — integration, mechanism, pool interface, and refuel automation.

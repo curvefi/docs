@@ -11,6 +11,12 @@ FXSwap keeps the common two-coin Curve routing surface: `coins`, `get_dy`, `get_
 
 Use the [Curve API](../../integration/api/curve-api.md) or [MetaRegistry](../../integration/meta-registry.md) to discover registered pools. Do not use the API's generic `implementation` label as the only FXSwap classifier: an FXSwap pool may be described as a Twocrypto implementation.
 
+:::warning[Identify the implementation explicitly]
+
+Registry membership and interface probing establish compatibility, not provenance. Do not route through an unknown pool only because it exposes familiar Twocrypto methods.
+
+:::
+
 For a newly encountered address:
 
 1. Confirm it is a registered Curve pool.
@@ -118,7 +124,11 @@ IERC20(input).transfer(pool, dx);
 dy = IFXSwap(pool).exchange_received(i, j, dx, minDy, receiver);
 ```
 
+:::warning[Keep the pre-transfer atomic]
+
 Do not send tokens in one transaction and settle them in a later transaction. Another caller can change balances first, and unsolicited pool balances are not reserved for the sender. Fee-on-transfer and rebasing tokens require explicit compatibility testing; the interface assumes the amount received matches the stated `dx`.
+
+:::
 
 FXSwap pool methods are nonpayable and operate on ERC-20 tokens. Wrap native currency before routing unless another router step handles wrapping.
 
