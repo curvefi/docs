@@ -106,11 +106,11 @@ import BadgeGrid from '@site/src/components/BadgeGrid'
     {
       title: "Refuel Monitor",
       logo: "/img/logos/curve-monitor.png",
-      description: "Track refuel consumption, donation shares, and top donors for FXSwap pools",
+      description: "Track refuel consumption, refuel shares, and top refuel providers for FXSwap pools",
       href: "https://refuel.curvemonitor.com/ethereum"
     },
     {
-      title: "Donation Streamer",
+      title: "Refuel Streamer (DonationStreamer)",
       logo: "/img/logos/crv.svg",
       description: "Automate recurring refuels for FXSwap pools",
       href: "https://curvefi.github.io/refuel-automation/"

@@ -140,7 +140,7 @@ To fine-tune the pool, enable the **Advanced** toggle. However, before experimen
 | **Allowed Extra Profit** | Sets profit-taking buffer for rebalancing. |
 | **Adjustment Step** | Step size for rebalancing operations. |
 | **Moving Average Time** | Smooths price changes over time using an EMA (in seconds). |
-| **Donation Duration** | Duration (in seconds) over which Refuels (donations) unlock linearly. Default is 7 days. More here: [FXSwap Refuels](../understanding-fxswap.md#refuels).|
+| **Refuel Duration** | Duration (in seconds) over which refuel shares unlock linearly. The deployed parameter is `donation_duration`. Default is 7 days. More here: [FXSwap Refuels](../understanding-fxswap.md#refuels).|
 
 > 📖 **Further reading**: [Understanding FXSwap](../understanding-fxswap.md)
 
@@ -176,7 +176,7 @@ These values will be used as the ERC‑20 metadata for the pool’s LP token and
 Before deploying, review all your settings in the **Summary panel** on the right. This includes:
 
 - Selected tokens
-- Pool parameters (A, Fees, Donation Duration, etc.)
+- Pool parameters (A, fees, refuel duration, etc.)
 - Pool name and symbol
 
 Once everything looks correct, click the blue **Create Pool** button at the bottom of the page. Your wallet will prompt you to approve the transaction.
@@ -202,5 +202,5 @@ Once everything looks correct, click the blue **Create Pool** button at the bott
 ## What to do after deployment
 
 ✅ **Seed initial liquidity** — a pool with zero balance cannot process trades.  
-✅ (Optional) **Add Refuels (Donations)** — Refuels help maintain pool efficiency by subsidizing rebalancing costs. You can add them manually via [crvhub.com/refuel](https://crvhub.com/refuel), or set up recurring automated refuels with the [**Donation Streamer**](./donation-streamer.md). More here: [FXSwap Refuels](../understanding-fxswap.md#refuels)
+✅ (Optional) **Add Refuels** — Refuels help maintain pool efficiency by subsidizing rebalancing costs. You can add them manually via [crvhub.com/refuel](https://crvhub.com/refuel), or set up recurring automated refuels with the [`DonationStreamer`](./donation-streamer.md) contract. More here: [FXSwap Refuels](../understanding-fxswap.md#refuels)
 ✅ (Optional) **[Create a gauge](/protocol/gauge/overview)** to distribute CRV or other incentives to LPs.

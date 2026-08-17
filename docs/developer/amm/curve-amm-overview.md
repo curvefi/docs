@@ -21,6 +21,11 @@ Next-generation StableSwap pools for stablecoins and pegged assets. Supports pla
 Optimized 2-coin CryptoSwap pools for volatile asset pairs with auto-rebalancing, built-in ERC-20 LP tokens, and a hardcoded 50% admin fee.
 
   </DocCard>
+  <DocCard title="FXSwap" link="./fxswap/overview" linkText="FXSwap">
+
+Two-coin pools for markets whose primary price discovery happens elsewhere, from fiat FX to BTC/USD. Combines variable-price StableSwap concentration, oracle-guided recentering, and optional refuels.
+
+  </DocCard>
   <DocCard title="Tricrypto-NG" link="./tricrypto-ng/overview" linkText="Tricrypto-NG">
 
 Optimized 3-coin CryptoSwap pools with native transfer support. Used for major volatile pairs like ETH/BTC/USD.
