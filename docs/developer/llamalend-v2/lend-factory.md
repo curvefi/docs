@@ -36,9 +36,15 @@ Deploys a new lending market by creating a Vault, LendController, and AMM from t
 | `_liquidation_discount` | `uint256` | Discount at which liquidation can occur |
 | `_price_oracle` | `address` | Initialized price oracle contract |
 | `_monetary_policy` | `address` | Initialized monetary policy contract |
-| `_supply_limit` | `uint256` | Maximum supply cap for the vault |
+| `_supply_limit` | `uint256` | Maximum Vault assets in borrowed-token units; `0` disables deposits and `max(uint256)` is unlimited |
 
 Returns: array of three addresses — `[vault, controller, amm]` (`address[3]`).
+
+:::note[Return ordering]
+
+The executable return statement is `return [vault.address, controller.address, amm.address]`. An older NatSpec line in the pinned source excerpt below lists the last two entries in the opposite order; integrations must use the executable ordering shown here and in the `NewVault` event.
+
+:::
 
 Emits: `NewVault` event.
 
@@ -103,7 +109,7 @@ const tx = await contract.create(
   /* _liquidation_discount: uint256 */ 0n,
   /* _price_oracle: address */ "0x0000000000000000000000000000000000000000",
   /* _monetary_policy: address */ "0x0000000000000000000000000000000000000000",
-  /* _supply_limit: uint256 */ 0n,
+  /* _supply_limit: uint256 — max(uint256) leaves supply unlimited */ (2n ** 256n) - 1n,
 )
 await tx.wait()
 ```

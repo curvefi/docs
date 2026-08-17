@@ -34,7 +34,12 @@ System of liquidity gauges and the `GaugeController` that directs CRV inflation 
   </DocCard>
   <DocCard title="Curve AMM" link="./amm/curve-amm-overview" linkText="Getting started">
 
-Implementation of StableSwap and CryptoSwap algorithms into on-chain exchange contracts, including Stableswap-NG, Twocrypto-NG, Tricrypto-NG, pool factories and routers.
+Implementation of StableSwap and CryptoSwap algorithms into on-chain exchange contracts, including Stableswap-NG, Twocrypto-NG, FXSwap, Tricrypto-NG, pool factories and routers.
+
+  </DocCard>
+  <DocCard title="FXSwap" link="./amm/fxswap/overview" linkText="Build with FXSwap">
+
+Variable-price, two-asset liquidity for markets whose primary price discovery happens elsewhere, with StableSwap-style concentration, oracle-guided recentering, and protocol-funded refuels.
 
   </DocCard>
   <DocCard title="crvUSD" icon="crvusd" link="./crvusd/overview" linkText="Getting started">

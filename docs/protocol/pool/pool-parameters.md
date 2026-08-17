@@ -44,7 +44,7 @@ CryptoSwap extends StableSwap by keeping **A** and adding parameters that adapt 
 
 ## FXSwap Parameters
 
-FXSwap parameters inherit the same ones as the Cryptoswap parameters above. Additionally, there are some governable parameters for the refuel (donation) mechanism:
+FXSwap reuses CryptoSwap's oracle, fee, and recentering parameter families, but uses a StableSwap-style invariant. It also adds governable parameters for refuels:
 
 | Name | Variable Name | Role |
 |------|:------:|-------------------|
@@ -52,10 +52,10 @@ FXSwap parameters inherit the same ones as the Cryptoswap parameters above. Addi
 | EMA half-life | `ma_time` | Time constant (in seconds) of the exponential moving average that tracks the market price |
 | Allowed extra profit | `allowed_extra_profit` | Minimum theoretical arbitrage gain (in bp) before the contract updates its internal price scale, preventing micro-adjustments |
 | Adjustment step | `adjustment_step` | The minimum rebalancing step (min movement of `price_scale`) |
-| Mid fee | `fee_mid` | Swap fee when the pool is perfectly balanced.  More here: [Cryptoswap Dynamic Fees](./understanding-cryptoswap.md#dynamic-fees)|
+| Mid fee | `mid_fee` | Swap fee when the pool is perfectly balanced.  More here: [Cryptoswap Dynamic Fees](./understanding-cryptoswap.md#dynamic-fees)|
 | Out fee | `out_fee` | Maximum fee charged at total imbalance. More here: [Cryptoswap Dynamic Fees](./understanding-cryptoswap.md#dynamic-fees) |
 | Fee gamma | `fee_gamma` | Governs how quickly the fee rises between `fee_mid` and `out_fee` as the pool leaves equilibrium. More here: [Cryptoswap Dynamic Fees](./understanding-cryptoswap.md#dynamic-fees)|
-| Donation Duration | `donation_duration` | Time required for refuels (donations) to fully unlock (default: 7 days) |
-| Protection Period | `donation_protection_period` | Maximum duration donation protection can be extended (default: 10 minutes) |
-| Protection LP Threshold | `donation_protection_lp_threshold` | LP addition threshold that triggers protection extension (default: 20%) |
-| Maximum Donation Share Ratio | `donation_shares_max_ratio` | Cap on donation shares as percentage of total supply (default: 10%) |
+| Refuel Duration | `donation_duration` | Time required for refuel shares to fully unlock (default: 7 days) |
+| Protection Period | `donation_protection_period` | Maximum duration refuel protection can be extended (default: 10 minutes) |
+| Protection LP Threshold | `donation_protection_lp_threshold` | LP addition threshold that triggers refuel protection (default: 20%) |
+| Maximum Refuel Share Ratio | `donation_shares_max_ratio` | Cap on refuel shares as percentage of total supply (default: 10%) |

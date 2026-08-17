@@ -6,7 +6,7 @@ sidebar_label: "Automating Refuels"
 
 :::vyper[`DonationStreamer.vy`]
 
-The technical documentation for the `DonationStreamer.vy` contract can be found [here](/developer/amm/twocrypto-ng/implementations/donation-streamer). The contract is deployed at the same address on all supported chains:
+The technical documentation for the `DonationStreamer.vy` contract can be found [here](/developer/amm/fxswap/automation/donation-streamer). The contract is deployed at the same address on all supported chains:
 
 - :logos-ethereum: Ethereum: [`0x2b786BB995978CC2242C567Ae62fd617b0eBC828`](https://etherscan.io/address/0x2b786BB995978CC2242C567Ae62fd617b0eBC828)
 - :logos-gnosis: Gnosis: [`0x2b786BB995978CC2242C567Ae62fd617b0eBC828`](https://gnosisscan.io/address/0x2b786BB995978CC2242C567Ae62fd617b0eBC828)
@@ -18,6 +18,12 @@ The technical documentation for the `DonationStreamer.vy` contract can be found 
 [FXSwap pools](../understanding-fxswap.md) use **refuels** to subsidize rebalancing and keep liquidity tight around the current price. While refuels can be added manually via [crvhub.com/refuel](https://crvhub.com/refuel), the **Donation Streamer** lets you automate this process — depositing tokens once and having them streamed into the pool over a set schedule.
 
 This is useful for projects that want to keep their FXSwap pools consistently refueled without manual intervention.
+
+:::info[Why the contract says “Donation”]
+
+`DonationStreamer` and UI labels such as **Donation Shares** are legacy deployed names. The mechanism is called a **refuel**: tokens are allocated to a finite rebalancing buffer, and that buffer can be depleted as the pool uses it.
+
+:::
 
 :::info
 The Donation Streamer UI is available at [**curvefi.github.io/refuel-automation**](https://curvefi.github.io/refuel-automation/).
@@ -94,7 +100,7 @@ Once a pool is loaded, you can view all active streams for that pool in the **Po
 
 Each stream card shows:
 - **Stream ID and remaining periods** (e.g. "Stream #2 — Periods 2")
-- **Pool and donor addresses** (your own streams are marked with **(you)**)
+- **Pool and provider addresses** (the current UI uses the legacy label **donor**; your own streams are marked with **(you)**)
 - **Remaining token amounts and ETH reward** still locked in the stream
 - **Time until next execution** (e.g. "Execute (in 23h 59m 0s)")
 
@@ -112,17 +118,17 @@ Track refuel activity for any pool on the [**Refuel Monitor**](https://refuel.cu
 
 Select your pool to view detailed stats. For example: [refuel.curvemonitor.com/ethereum/0x027B...](https://refuel.curvemonitor.com/ethereum/0x027B40F5917FCd0eac57d7015e120096A5F92ca9).
 
-The dashboard shows **Donation Shares** (total refuel buffer) vs **Unlocked Shares** (how much has been consumed by rebalancing), as well as **Daily Donations** in USD over the last 7 days.
+The dashboard's legacy labels show **Donation Shares** (total refuel buffer) versus **Unlocked Shares** (the portion released for use), plus **Daily Donations** (daily refuels) in USD over the last seven days. Refuel shares can be depleted when the pool burns them during rebalancing.
 
 <figure>
-  <img src={require('@site/static/img/protocol/automate-donations/donation-stats.png').default} alt="Donation shares and daily donation stats" style={{ width: '100%', maxWidth: '800px', display: 'block', margin: '0 auto' }} />
+  <img src={require('@site/static/img/protocol/automate-donations/donation-stats.png').default} alt="Refuel shares and daily refuel activity" style={{ width: '100%', maxWidth: '800px', display: 'block', margin: '0 auto' }} />
   <figcaption></figcaption>
 </figure>
 
-It also includes a **Top Donors** leaderboard showing each donor's total contribution in USD, number of donations, and token breakdown.
+It also includes a **Top Donors** leaderboard—the current UI's legacy name for top refuel providers—showing each provider's total refuels in USD, number of refuel actions, and token breakdown.
 
 <figure>
-  <img src={require('@site/static/img/protocol/automate-donations/top-donors.png').default} alt="Top donors leaderboard" style={{ width: '100%', maxWidth: '800px', display: 'block', margin: '0 auto' }} />
+  <img src={require('@site/static/img/protocol/automate-donations/top-donors.png').default} alt="Top refuel providers leaderboard" style={{ width: '100%', maxWidth: '800px', display: 'block', margin: '0 auto' }} />
   <figcaption></figcaption>
 </figure>
 
@@ -133,5 +139,5 @@ You can cancel your stream at any time to recover remaining tokens and unspent E
 ## Further Reading
 
 - [Understanding FXSwap — Refuels](../understanding-fxswap.md#refuels) — how refuels work and what they cost
-- [DonationStreamer Contract Reference](/developer/amm/twocrypto-ng/implementations/donation-streamer) — technical documentation for the smart contract
-- [FXSwap Implementation](/developer/amm/twocrypto-ng/implementations/fxswap) — how donations are handled at the pool level
+- [DonationStreamer Contract Reference](/developer/amm/fxswap/automation/donation-streamer) — technical documentation for the smart contract
+- [FXSwap Refuels](/developer/amm/fxswap/pools/refuels) — how refuels unlock, protect liquidity providers, and are depleted during rebalancing

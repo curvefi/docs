@@ -52,7 +52,7 @@ A comprehensive glossary of terms used throughout Curve Finance documentation.
 
 **Llamalend** - Curve's permissionless lending platform that uses LLAMMA for risk management.
 
-**Liquidation Protection** - LLAMMA's gradual collateral conversion process that avoids complete liquidation during price volatility. Previously called "soft liquidation."
+**Liquidation Protection** - LLAMMA's gradual collateral conversion process that avoids liquidation at one specific price and gives borrowers more time to react. Conversions incur losses and can still lead to full liquidation. Previously called "soft liquidation."
 
 ## M
 

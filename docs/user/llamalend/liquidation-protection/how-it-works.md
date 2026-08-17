@@ -7,21 +7,20 @@ import ThemedImage from '@theme/ThemedImage';
 import CollateralConversion from '@site/src/components/CollateralConversion';
 import ThemedVideo from '@site/src/components/ThemedVideo';
 
-## Making Volatile Markets Manageable
+## Replacing a Single Liquidation Price with a Range
 
 Volatile markets are one of the biggest risks when taking out onchain loans. Prices can collapse in seconds, and on many lending platforms, a single sharp move can liquidate a user before they even have time to respond.
 
-Llamalend's **liquidation protection** solves this problem.
+Llamalend's **liquidation protection** changes how this risk unfolds; it does not remove it.
 
-Instead of liquidating a position the moment it reaches a specific price, Llamalend gives borrowers **time, flexibility, and breathing room**. Even during the extremest market swings, the system often manages to keep a loan alive automatically.
+Instead of liquidating a position the moment it reaches a specific price, LLAMMA converts collateral gradually across a range. This can give borrowers more time to repay, close, or reset a position before hard liquidation.
 
-This turns the liquidation experience on its head. A sudden, irreversible liquidation becomes a **gradual and predictable process**. With Llamalend, borrowers can:
+The tradeoff is that every conversion can reduce collateral value and health. With Llamalend, borrowers can:
 
-- navigate extreme conditions with much higher resilience
-- increase their odds of surviving flash crashes and sudden volatility
-- adjust or repay their loan before it is too late
-- remain safe even when the market briefly dips below their "liquidation price"
-- potentially avoiding surprise liquidation spikes
+- see a range rather than one fixed liquidation price
+- gain time to adjust or repay before health reaches 0
+- monitor how band conversions affect collateral and health
+- choose to close or reset instead of remaining exposed to repeated conversions
 
 ---
 
@@ -29,16 +28,16 @@ This turns the liquidation experience on its head. A sudden, irreversible liquid
 
 | Concept | What It Means |
 |---------|---------------|
-| **Liquidation Protection** | Your loan enters liquidation protection mode when collateral price drops into the liquidation protection range. The system gradually converts your collateral to protect you, and automatically converts back when prices recover. |
+| **Liquidation Protection** | Your loan enters liquidation protection mode when collateral price moves into its band range. LLAMMA gradually converts collateral; the direction can reverse during a recovery, but conversion losses do not. |
 | **Health** | A value showing how close you are to full liquidation. Think of it like a fuel gauge: when it hits 0, your loan is closed. |
 | **Liquidation Protection Range** | A price zone (e.g., ETH \$3,000-$2,500). When price enters this zone, liquidation protection activates. |
 | **Full Liquidation** | When health reaches 0, your loan is fully closed. |
 | **Bands** | Small price ranges that make up your protection range. More bands = wider range = lower risk. |
-| **Protection ≠ Liquidation** | Being in liquidation protection doesn't mean you lost all your collateral (although losses occur) — it means the system is actively defending it. |
+| **Protection ≠ Full Liquidation** | The loan remains open while health is above 0, but conversion losses are already occurring and can lead to full liquidation. |
 | **Losses in Liquidation Protection** | Losses from conversions reduce your total collateral value permanently. If you enter with 10 ETH and exit protection later, you'll have less than 10 ETH (10 ETH minus losses). This reduction doesn't recover even if prices fully recover. |
 
 :::important
-**The Golden Rule**: Monitor your health constantly. As long as it's above 0, you're protected from full liquidation.
+**The Golden Rule**: Treat entry into liquidation protection as a signal to act. Health above 0 only means the position has not yet been fully liquidated; conversions can continue reducing it.
 
 For answers to common questions, see the [FAQ](../faq.md).
 :::
@@ -48,9 +47,7 @@ For answers to common questions, see the [FAQ](../faq.md).
 
 :::info
 **Analogy for Liquidation Protection:**  
-Other protocols are like a trapdoor: if your collateral price hits a certain point, the floor drops out and you instantly lose everything with no warning. Liquidation protection on Curve acts like a safety net that gradually activates as you fall, catching you over a range of prices and giving you time to react and recover.
-
-Think of the safety net as having two parts: the **liquidation protection range** is the net itself (the price zone where liquidation protection activates), and **health** is how strong and intact the net remains. As long as your health stays above 0, the net is there to catch you. When health reaches 0, the net is gone and you're fully liquidated.
+Fixed-price liquidation is like a step: crossing one price can close the loan immediately. LLAMMA is more like a ramp: it exchanges collateral in stages across the liquidation protection range, giving the borrower time to react. Each step down or back up the ramp has friction in the form of conversion losses. If those losses push health to 0, the position is fully liquidated.
 :::
 
 Liquidation protection in Llamalend works differently from systems that use a fixed liquidation price. There is **no single price** at which your loan suddenly disappears. A position is only liquidated when its **health reaches 0**. Important notice: in Llamalend, health is not a direct correlation of LTV.
@@ -84,7 +81,7 @@ However, these **conversions come with a cost**. Because the system needs to inc
 
 But as long as **health stays above 0**, the loan survives. Only when health reaches 0 — regardless of the current price — is the position fully liquidated.
 
-The good news is that users have full control over the health of the loan. For details on what actions you can take, see [I'm in Liquidation Protection. What Now?](#im-in-liquidation-protection-what-now).
+Users can influence health by managing collateral and debt when those actions are available, but price movement, interest, and conversion losses also affect it. For details on what actions you can take, see [I'm in Liquidation Protection. What Now?](#im-in-liquidation-protection-what-now).
 
 
 ---
@@ -143,7 +140,7 @@ For a more detailed illustration which shows how the collateral of the loan is a
       light: require('@site/static/img/user/llamalend/15_chart.mp4').default,
       dark: require('@site/static/img/user/llamalend/15_chart.mp4').default,
     }}
-    style={{ minWidth: '750px', width: '75%', display: 'block', margin: '0 auto' }}
+    style={{ width: '750px', maxWidth: '100%', display: 'block', margin: '0 auto' }}
   />
   <figcaption>
     This loan continuously entered and exited liquidation protection and stayed in it for quite some time (around 4 hours). The user constantly monitored its health and repaid some debt as soon as health got closer to 0.
@@ -152,7 +149,7 @@ For a more detailed illustration which shows how the collateral of the loan is a
 
 ### Stage 2: Full Liquidation
 
-Full liquidation only happens when your **health reaches 0**, not at a fixed price. At this point, your loan is completely closed and your collateral is lost. As long as health stays above 0, you're protected from full liquidation.
+Full liquidation happens when **health reaches 0**, not at a fixed price. At that point, the loan is closed. Health above 0 means the loan is still open, not that it is safe: further conversions, interest, or price movement can still push it to 0.
 
 Full liquidation can still happen during a price recovery if health is already critically low when inside the range.
 
@@ -165,7 +162,7 @@ The illustration below shows how a full liquidation works. The position entered 
       light: require('@site/static/img/user/llamalend/27_chart.mp4').default,
       dark: require('@site/static/img/user/llamalend/27_chart.mp4').default,
     }}
-    style={{ minWidth: '750px', width: '75%', display: 'block', margin: '0 auto' }}
+    style={{ width: '750px', maxWidth: '100%', display: 'block', margin: '0 auto' }}
   />
   <figcaption>
     This liquidation occurred during an extremely volatile market event. BTC price dropped around 15% in an hour. Because Llamalend uses smooth oracles, prices did not drop as sharply compared to the general market. Even though the position ended up being fully liquidated, liquidation protection gave the user around 40 minutes (200 blocks) to repay some debt to increase health again.
@@ -176,7 +173,7 @@ The illustration below shows how a full liquidation works. The position entered 
 
 ## I'm in Liquidation Protection. What Now?
 
-Being in liquidation protection doesn't mean you're liquidated. The system is actively protecting your position. Monitor your health constantly. As long as it stays above 0, you're protected from full liquidation.
+Being in liquidation protection does not mean the loan is already fully liquidated, but it does mean the position is actively incurring conversion risk. For most users, entry should be treated as a signal to close or reset the position. Remaining in the bands is an aggressive strategy that requires continuous health monitoring; reaching 0 triggers full liquidation.
 
 ### What You Can Do
 
@@ -249,7 +246,7 @@ Being below the protection range does NOT mean you're "safe". It means your enti
 
 ## Understanding Losses
 
-While in liquidation protection, you'll incur losses from conversions. This is the cost of protection, but it's much better than instant liquidation.
+While in liquidation protection, every conversion can incur losses. The mechanism avoids liquidation at one specific price and can give you time to react, but it is not guaranteed to produce a better outcome than an immediate liquidation.
 
 **Important: Losses reduce your total collateral value permanently.** If your loan enters liquidation protection with 10 ETH as collateral, stays in protection and takes losses, then exits protection, your total collateral will be less than 10 ETH (10 ETH minus the losses incurred during protection). This reduction in collateral value is permanent and does not recover even if prices fully recover.
 
@@ -284,7 +281,7 @@ The conversion process is powered by **LLAMMA** (Lending-Liquidating AMM Algorit
       light: require('@site/static/img/user/llamalend/12_chart.mp4').default,
       dark: require('@site/static/img/user/llamalend/12_chart.mp4').default,
     }}
-    style={{ minWidth: '750px', width: '75%', display: 'block', margin: '0 auto' }}
+    style={{ width: '750px', maxWidth: '100%', display: 'block', margin: '0 auto' }}
   />
 </figure>
 
@@ -300,7 +297,7 @@ Losses occur because the system offers collateral at a small discount to incenti
 
 ## Common Misconceptions
 
-- **"Being in liquidation protection means I'm liquidated."** → False. Being in liquidation protection means the system is defending your position, not that you've lost everything. However, your total collateral value will shrink due to losses (see [Understanding Losses](#understanding-losses)).
+- **"Being in liquidation protection means I'm already fully liquidated."** → False. The loan remains open, but conversion losses are already reducing its collateral value and can still lead to full liquidation (see [Understanding Losses](#understanding-losses)).
 
 - **"If price goes up, health always goes up."** → False. Health can decrease even when prices are rising if you're still inside the protection range, because losses from conversions continue.
 

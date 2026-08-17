@@ -5,17 +5,17 @@ sidebar_label: How to properly use Liquidation Protection
 
 import ThemedVideo from '@site/src/components/ThemedVideo';
 
-Making correct use of liquidation protection can make your borrowing experience a lot more relaxing, provided you follow a certain strategy.
+Liquidation protection replaces liquidation at one specific price with gradual conversions that can give borrowers more time to act. It does not make a position safe: conversions erode collateral value and health and can still end in full liquidation.
 
 This section showcases two different strategies: a conservative and aggressive approach, on how to use liquidation protection:
 
 ## Conservative Approach: Treat Entry as Your Liquidation Price
 
-This approach is **recommended for most users**: Treat the entry point into liquidation protection as your effective liquidation price. This gives you a comfortable safety buffer and you will almost never face unexpected full liquidation.
+This approach is **recommended for most users**: treat the entry point into liquidation protection as your effective liquidation price. Acting before or immediately after entry limits exposure to repeated conversion losses.
 
 **What to do:**
 - **Before entering protection**: Repay some debt or add more collateral to push the range further away
-- **If already in protection**: Fully repay and open a new position.
+- **If already in protection**: Fully repay and open a new position, or use the reset path when the market is LlamaLend v2.
 
 ---
 
@@ -36,7 +36,7 @@ This strategy requires constant vigilance. You must continuously monitor your lo
       light: require('@site/static/img/user/llamalend/15_chart.mp4').default,
       dark: require('@site/static/img/user/llamalend/15_chart.mp4').default,
     }}
-    style={{ minWidth: '750px', width: '75%', display: 'block', margin: '0 auto' }}
+    style={{ width: '750px', maxWidth: '100%', display: 'block', margin: '0 auto' }}
   />
   <figcaption>
     This loan continuously entered and exited liquidation protection and stayed in it for quite some time (around 4 hours). The user constantly monitored its health and repaid some debt as soon as health got closer to 0%.

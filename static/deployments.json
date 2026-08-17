@@ -1450,6 +1450,7 @@
       "lending-factory": "0x5F94073E3f51c1FFf92ffc6b4B06b7Af193B3640",
       "amm-blueprint": "0xa6E2E6A65059B3D0aCfEAfa9B42C0f9241Fc103D",
       "controller-blueprint": "0x8637402cCd776A3991e04576DD24e00d9009550E",
+      "controller-view-blueprint": "0xc78005eB53Fa2E914f9E26373a8B05D8cA10f0e0",
       "vault-blueprint": "0x9dEe3FcCEa37902F843e6E9c4AF0f158b192F749",
       "configurator": "0xd36c590531cAF5F620C57Faf5827Ce8E7f6E5Bec",
       "leverage-zap-v2": "0xdbeBDaE6f2D47B553B984E4091693824cf38584a"

@@ -410,9 +410,26 @@ const config: Config = {
           { from: '/developer/twocrypto-ng/pools/overview', to: '/developer/amm/twocrypto-ng/overview' },
           { from: '/developer/twocrypto-ng/pools/admin-controls', to: '/developer/amm/twocrypto-ng/pools/twocrypto' },
           { from: '/developer/tricrypto-ng/pools/admin-controls', to: '/developer/amm/tricrypto-ng/pools/tricrypto' },
-          // twocrypto-ng FXSwap (formerly refuel) redirects (updated to amm/ paths)
-          { from: '/developer/cryptoswap-exchange/twocrypto-ng/implementations/refuel', to: '/developer/amm/twocrypto-ng/implementations/fxswap' },
-          { from: '/developer/twocrypto-ng/implementations/refuel', to: '/developer/amm/twocrypto-ng/implementations/fxswap' },
+          // FXSwap moved from a Twocrypto-NG implementation to a top-level AMM family
+          { from: '/developer/cryptoswap-exchange/twocrypto-ng/implementations/refuel', to: '/developer/amm/fxswap/pools/refuels' },
+          { from: '/developer/cryptoswap-exchange/twocrypto-ng/implementations/fxswap', to: '/developer/amm/fxswap/overview' },
+          { from: '/developer/twocrypto-ng/implementations/refuel', to: '/developer/amm/fxswap/pools/refuels' },
+          { from: '/developer/twocrypto-ng/implementations/fxswap', to: '/developer/amm/fxswap/overview' },
+          { from: '/developer/twocrypto-ng/implementations/donation-streamer', to: '/developer/amm/fxswap/automation/donation-streamer' },
+          { from: '/developer/twocrypto-ng/implementations/stream-executor', to: '/developer/amm/fxswap/automation/stream-executor' },
+          { from: '/developer/amm/twocrypto-ng/implementations/refuel', to: '/developer/amm/fxswap/pools/refuels' },
+          { from: '/developer/amm/twocrypto-ng/implementations/fxswap', to: '/developer/amm/fxswap/overview' },
+          { from: '/developer/amm/twocrypto-ng/implementations/donation-streamer', to: '/developer/amm/fxswap/automation/donation-streamer' },
+          { from: '/developer/amm/twocrypto-ng/implementations/stream-executor', to: '/developer/amm/fxswap/automation/stream-executor' },
+          // FXSwap navigation aligned with the other AMM families
+          { from: '/developer/amm/fxswap/integration', to: '/developer/amm/fxswap/guides/integration' },
+          { from: '/developer/amm/fxswap/building', to: '/developer/amm/fxswap/guides/building' },
+          { from: '/developer/amm/fxswap/mechanism', to: '/developer/amm/fxswap/pools/mechanism' },
+          { from: '/developer/amm/fxswap/refuels', to: '/developer/amm/fxswap/pools/refuels' },
+          { from: '/developer/amm/fxswap/reference', to: '/developer/amm/fxswap/pools/fxswap' },
+          { from: '/developer/amm/fxswap/automation', to: '/developer/amm/fxswap/automation/overview' },
+          { from: '/developer/amm/fxswap/donation-streamer', to: '/developer/amm/fxswap/automation/donation-streamer' },
+          { from: '/developer/amm/fxswap/stream-executor', to: '/developer/amm/fxswap/automation/stream-executor' },
           // --- AMM restructure: old top-level paths → new amm/ paths ---
           // Top-level overviews
           { from: '/developer/curve-amm-overview', to: '/developer/amm/curve-amm-overview' },
@@ -433,7 +450,6 @@ const config: Config = {
           { from: '/developer/twocrypto-ng/pools/oracles', to: '/developer/amm/twocrypto-ng/pools/oracles' },
           { from: '/developer/twocrypto-ng/utility-contracts/views', to: '/developer/amm/twocrypto-ng/utility-contracts/views' },
           { from: '/developer/twocrypto-ng/utility-contracts/math', to: '/developer/amm/twocrypto-ng/utility-contracts/math' },
-          { from: '/developer/twocrypto-ng/implementations/fxswap', to: '/developer/amm/twocrypto-ng/implementations/fxswap' },
           // Tricrypto-NG
           { from: '/developer/tricrypto-ng/overview', to: '/developer/amm/tricrypto-ng/overview' },
           { from: '/developer/tricrypto-ng/pools/tricrypto', to: '/developer/amm/tricrypto-ng/pools/tricrypto' },
