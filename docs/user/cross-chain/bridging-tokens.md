@@ -22,12 +22,15 @@ The contract addresses for bridges are mirrored meaning the bridge contract on E
 - <img src="/img/logos/bsc.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Binance Smart Chain: [`0x9996D0276612d23b35f90C51EE935520B3d7355B`](https://bscscan.com/address/0x9996D0276612d23b35f90C51EE935520B3d7355B)
 - <img src="/img/logos/avalanche.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Avalanche: [`0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B`](https://snowscan.xyz/address/0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B)
 - <img src="/img/logos/fantom.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Fantom: [`0xE6c259bc0FCE25b71fE95A00361D3878E16232C3`](https://ftmscout.com/address/0xE6c259bc0FCE25b71fE95A00361D3878E16232C3)
+- <img src="/img/logos/sonic.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Sonic: [`0x5Af79133999f7908953E94b7A5CF367740Ebee35`](https://sonicscan.org/address/0x5af79133999f7908953e94b7a5cf367740ebee35)
+
 
 | Chain | Bridge Contract Address | Etherscan Link |
 | ------------------ | ---------------- | ---------------- |
 | <img src="/img/logos/bsc.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> BinanceSmartChain Bridge | `0xC91113B4Dd89dd20FDEECDAC82477Bc99A840355` | [Ethereum](https://etherscan.io/address/0xC91113B4Dd89dd20FDEECDAC82477Bc99A840355), [BSC](https://bscscan.com/address/0xC91113B4Dd89dd20FDEECDAC82477Bc99A840355) |
 | <img src="/img/logos/avalanche.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Avalanche Bridge | `0x5cc0144A511807608eF644c9e99B486124D1cFd6` | [Ethereum](https://etherscan.io/address/0x5cc0144A511807608eF644c9e99B486124D1cFd6), [Avalanche](https://snowscan.xyz/address/0x5cc0144A511807608eF644c9e99B486124D1cFd6) |
 | <img src="/img/logos/fantom.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Fantom Bridge | `0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42` | [Ethereum](https://etherscan.io/address/0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42), [Fantom](https://ftmscout.com/address/0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42) |
+| <img src="/img/logos/sonic.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Sonic Bridge | `0x5A537a46D780B1C70138aB98eDce69e7a53177ba` | [Ethereum](https://etherscan.io/address/0x5A537a46D780B1C70138aB98eDce69e7a53177ba), [Sonic](https://sonicscan.org/address/0x5A537a46D780B1C70138aB98eDce69e7a53177ba) |
 
 ---
 
@@ -56,12 +59,14 @@ The contract addresses for bridges are mirrored meaning the bridge contract on E
 - <img src="/img/logos/bsc.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Binance Smart Chain: [`0x0094Ad026643994c8fB2136ec912D508B15fe0E5`](https://bscscan.com/address/0x0094Ad026643994c8fB2136ec912D508B15fe0E5)
 - <img src="/img/logos/avalanche.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Avalanche: [`0xA3ea433509F7941df3e33857D9c9f212Ad4A4e64`](https://snowscan.xyz/address/0xA3ea433509F7941df3e33857D9c9f212Ad4A4e64)
 - <img src="/img/logos/fantom.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Fantom: [`0x5191946500e75f0A74476F146dF7d386e52961d9`](https://ftmscout.com/address/0x5191946500e75f0A74476F146dF7d386e52961d9)
+- <img src="/img/logos/xdc.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> XDC: [`0x3d8EADb739D1Ef95dd53D718e4810721837c69c1`](https://xdcscan.com/address/0x3d8EADb739D1Ef95dd53D718e4810721837c69c1)
 
 | Chain | Bridge Contract Address | Etherscan Link |
 | ------------------ | ---------------- | ---------------- |
 | <img src="/img/logos/bsc.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> BinanceSmartChain Bridge | `0xAE0666C978500f2C05784242B79B08C478Dd999c` | [Ethereum](https://etherscan.io/address/0xAE0666C978500f2C05784242B79B08C478Dd999c), [BSC](https://bscscan.com/address/0xAE0666C978500f2C05784242B79B08C478Dd999c) |
 | <img src="/img/logos/avalanche.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Avalanche Bridge | `0x26E91B1f142b9bF0bB37e82959bA79D2Aa6b99b8` | [Ethereum](https://etherscan.io/address/0x26E91B1f142b9bF0bB37e82959bA79D2Aa6b99b8), [Avalanche](https://snowscan.xyz/address/0x26E91B1f142b9bF0bB37e82959bA79D2Aa6b99b8) |
 | <img src="/img/logos/fantom.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Fantom Bridge | `0x08132eA9b02750E118cF5F5C640B7c46A8E638E8` | [Ethereum](https://etherscan.io/address/0x08132eA9b02750E118cF5F5C640B7c46A8E638E8), [Fantom](https://ftmscout.com/address/0x08132eA9b02750E118cF5F5C640B7c46A8E638E8) |
+| <img src="/img/logos/xdc.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> XDC Bridge | `0x1Ae4Ab5274a96B75d6f55a696c9D550D218261b0` | [Ethereum](https://etherscan.io/address/0x1ae4ab5274a96b75d6f55a696c9d550d218261b0), [XDC](https://xdcscan.com/address/0x1ae4ab5274a96b75d6f55a696c9d550d218261b0) |
 :::
 
 ---
