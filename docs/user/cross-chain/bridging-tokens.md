@@ -23,6 +23,7 @@ The contract addresses for bridges are mirrored meaning the bridge contract on E
 - <img src="/img/logos/avalanche.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Avalanche: [`0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B`](https://snowscan.xyz/address/0xEEbC562d445F4bC13aC75c8caABb438DFae42A1B)
 - <img src="/img/logos/fantom.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Fantom: [`0xE6c259bc0FCE25b71fE95A00361D3878E16232C3`](https://ftmscout.com/address/0xE6c259bc0FCE25b71fE95A00361D3878E16232C3)
 - <img src="/img/logos/sonic.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Sonic: [`0x5Af79133999f7908953E94b7A5CF367740Ebee35`](https://sonicscan.org/address/0x5af79133999f7908953e94b7a5cf367740ebee35)
+- <img src="/img/logos/etherlink.png" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Etherlink: [`0x004A476B5B76738E34c86C7144554B9d34402F13`](https://explorer.etherlink.com/address/0xFF0871601158e506338967aB8C19fB59d8d5cAB2)
 
 
 | Chain | Bridge Contract Address | Etherscan Link |
@@ -31,6 +32,7 @@ The contract addresses for bridges are mirrored meaning the bridge contract on E
 | <img src="/img/logos/avalanche.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Avalanche Bridge | `0x5cc0144A511807608eF644c9e99B486124D1cFd6` | [Ethereum](https://etherscan.io/address/0x5cc0144A511807608eF644c9e99B486124D1cFd6), [Avalanche](https://snowscan.xyz/address/0x5cc0144A511807608eF644c9e99B486124D1cFd6) |
 | <img src="/img/logos/fantom.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Fantom Bridge | `0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42` | [Ethereum](https://etherscan.io/address/0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42), [Fantom](https://ftmscout.com/address/0x7ce8aF75A9180B602445bE230860DDcb4cAc3E42) |
 | <img src="/img/logos/sonic.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Sonic Bridge | `0x5A537a46D780B1C70138aB98eDce69e7a53177ba` | [Ethereum](https://etherscan.io/address/0x5A537a46D780B1C70138aB98eDce69e7a53177ba), [Sonic](https://sonicscan.org/address/0x5A537a46D780B1C70138aB98eDce69e7a53177ba) |
+| <img src="/img/logos/etherlink.png" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Etherlink Bridge | `0x5A537a46D780B1C70138aB98eDce69e7a53177ba` | [Ethereum](https://etherscan.io/address/0xFF0871601158e506338967aB8C19fB59d8d5cAB2), [Etherlink](https://explorer.etherlink.com/address/0xFF0871601158e506338967aB8C19fB59d8d5cAB2) |
 
 ---
 
