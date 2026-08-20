@@ -333,9 +333,9 @@ The bridging transaction will not be settled immediately. After completing these
 
 Each bridge contract enforces an **issuance limit** over a rolling period. If the amount being bridged in would push the destination chain's issuance over that limit (or if the bridge is temporarily paused), the incoming transfer is **not** released immediately. Instead, it is recorded as delayed, and a `Delayed` event is emitted instead of `Issued`. The tokens remain claimable, you just need to wait out the delay period and then call `retry` yourself on the destination-side bridge contract.
 
-Warning
-
+:::warning Warning
 A delayed transfer is not lost. It is safely held by the bridge contract until you call `retry`, which anyone can do — it is not restricted to the original sender.
+:::
 
 ### Step 1: Find the Destination Transaction[​](#step-1-find-the-destination-transaction "Direct link to Step 1: Find the Destination Transaction")
 
