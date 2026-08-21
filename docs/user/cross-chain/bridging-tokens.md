@@ -69,7 +69,6 @@ The contract addresses for bridges are mirrored meaning the bridge contract on E
 | <img src="/img/logos/avalanche.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Avalanche Bridge | `0x26E91B1f142b9bF0bB37e82959bA79D2Aa6b99b8` | [Ethereum](https://etherscan.io/address/0x26E91B1f142b9bF0bB37e82959bA79D2Aa6b99b8), [Avalanche](https://snowscan.xyz/address/0x26E91B1f142b9bF0bB37e82959bA79D2Aa6b99b8) |
 | <img src="/img/logos/fantom.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Fantom Bridge | `0x08132eA9b02750E118cF5F5C640B7c46A8E638E8` | [Ethereum](https://etherscan.io/address/0x08132eA9b02750E118cF5F5C640B7c46A8E638E8), [Fantom](https://ftmscout.com/address/0x08132eA9b02750E118cF5F5C640B7c46A8E638E8) |
 | <img src="/img/logos/xdc.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> XDC Bridge | `0x1Ae4Ab5274a96B75d6f55a696c9D550D218261b0` | [Ethereum](https://etherscan.io/address/0x1ae4ab5274a96b75d6f55a696c9d550d218261b0), [XDC](https://xdcscan.com/address/0x1ae4ab5274a96b75d6f55a696c9d550d218261b0) |
-:::
 
 ---
 
