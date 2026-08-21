@@ -69,7 +69,6 @@ The contract addresses for bridges are mirrored meaning the bridge contract on E
 | <img src="/img/logos/avalanche.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Avalanche Bridge | `0x26E91B1f142b9bF0bB37e82959bA79D2Aa6b99b8` | [Ethereum](https://etherscan.io/address/0x26E91B1f142b9bF0bB37e82959bA79D2Aa6b99b8), [Avalanche](https://snowscan.xyz/address/0x26E91B1f142b9bF0bB37e82959bA79D2Aa6b99b8) |
 | <img src="/img/logos/fantom.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> Fantom Bridge | `0x08132eA9b02750E118cF5F5C640B7c46A8E638E8` | [Ethereum](https://etherscan.io/address/0x08132eA9b02750E118cF5F5C640B7c46A8E638E8), [Fantom](https://ftmscout.com/address/0x08132eA9b02750E118cF5F5C640B7c46A8E638E8) |
 | <img src="/img/logos/xdc.svg" alt="CRV" style={{height: '1.2em', verticalAlign: 'middle'}} /> XDC Bridge | `0x1Ae4Ab5274a96B75d6f55a696c9D550D218261b0` | [Ethereum](https://etherscan.io/address/0x1ae4ab5274a96b75d6f55a696c9d550d218261b0), [XDC](https://xdcscan.com/address/0x1ae4ab5274a96b75d6f55a696c9d550d218261b0) |
-:::
 
 ---
 
@@ -326,3 +325,43 @@ The bridging transaction will not be settled immediately. After completing these
 :::warning Warning
 The bridging transaction will not be settled immediately. After completing these steps, it may take a few minutes for your tokens to be successfully bridged to the L1.
 :::
+
+---
+
+## Retrying a Delayed Bridge Transaction[​](#retrying-a-delayed-bridge-transaction "Direct link to Retrying a Delayed Bridge Transaction")
+
+Each bridge contract enforces an **issuance limit** over a rolling period. If the amount being bridged in would push the destination chain's issuance over that limit (or if the bridge is temporarily paused), the incoming transfer is **not** released immediately. Instead, it is recorded as delayed, and a `Delayed` event is emitted instead of `Issued`. The tokens remain claimable, you just need to wait out the delay period and then call `retry` yourself on the destination-side bridge contract.
+
+:::warning Warning
+A delayed transfer is not lost. It is safely held by the bridge contract until you call `retry`, which anyone can do — it is not restricted to the original sender.
+:::
+
+### Step 1: Find the Destination Transaction[​](#step-1-find-the-destination-transaction "Direct link to Step 1: Find the Destination Transaction")
+
+1. Take the transaction hash of your original `bridge` transaction (the one on the source chain) and look it up on [LayerZero Scan](https://layerzeroscan.com/).
+2. On the transaction page, find the **destination transaction hash** — this is the `lzReceive` transaction on the destination chain.
+3. Open that destination transaction hash on the destination chain's block explorer (e.g., BscScan, Snowscan, etc.).
+
+### Step 2: Read the Delayed Event[​](#step-2-read-the-delayed-event "Direct link to Step 2: Read the Delayed Event")
+
+1. On the destination transaction page, open the **`Logs`** tab.
+2. Look for a log named **`Delayed`**. It contains the following values, which you'll need for `retry`:
+
+   - **`nonce`**
+   - **`receiver`**
+   - **`amount`**
+
+3. Note the timestamp of the transaction itself (shown near the top of the transaction page), and convert it to Unix time using a tool such as [epochconverter.com](https://www.epochconverter.com/). This is the **`_timestamp`** value for `retry`.
+
+### Step 3: Call Retry[​](#step-3-call-retry "Direct link to Step 3: Call Retry")
+
+1. Wait at least 24 hours from the timestamp found in Step 2.
+2. Go to the bridge contract on the **destination chain's** block explorer, then **`Contract` > `Write Contract`**, and click **`Connect to Web3`**.
+3. Find the **`retry`** method and input the values gathered above:
+
+   - **`_nonce`**: the nonce from the `Delayed` log.
+   - **`_timestamp`**: the Unix timestamp of the destination transaction.
+   - **`_receiver`**: the receiver address from the `Delayed` log.
+   - **`_amount`**: the amount from the `Delayed` log, in 1e18 format.
+
+4. Click **`Write`**. A transaction should pop up in your wallet which you need to sign. Once confirmed, your tokens will be released to `_receiver`.
