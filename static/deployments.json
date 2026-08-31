@@ -192,6 +192,8 @@
       "vault-blueprint": "0x2c3822264dcbd18d910C7834b1De8A70f368375b",
       "configurator": "0x6065858d0eF0AA240DFdf6f1A0B2ae34B41f49bC",
       "leverage-zap-v2": "0x5D847c892891B503c3483D3Abbc2a23774279b85"
+      "lm-callback-factory": "0x2191718CD32d02B8E60BAdFFeA33E4B5DD9A0A0D"
+      "lm-callback-blueprint": "0x61C404B60ee9c5fB09F70F9A645DD38fE5b3A956"
     },
     "scrvusd": {
       "vault": "0x0655977FEb2f289A4aB78af67BAB0d17aAb84367",
