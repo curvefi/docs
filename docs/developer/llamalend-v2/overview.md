@@ -26,6 +26,8 @@ The registry currently lists LlamaLend v2 deployments on Ethereum and Optimism. 
 | LendControllerView blueprint | [`0x7259…B2C`](https://etherscan.io/address/0x7259efD886e3A717a9206C604E0156E720871B2C) | [`0xc780…f0e0`](https://optimistic.etherscan.io/address/0xc78005eB53Fa2E914f9E26373a8B05D8cA10f0e0) |
 | Vault blueprint | [`0x2c38…375b`](https://etherscan.io/address/0x2c3822264dcbd18d910C7834b1De8A70f368375b) | [`0x9dEe…F749`](https://optimistic.etherscan.io/address/0x9dEe3FcCEa37902F843e6E9c4AF0f158b192F749) |
 | Configurator | [`0x6065…49bC`](https://etherscan.io/address/0x6065858d0eF0AA240DFdf6f1A0B2ae34B41f49bC) | [`0xd36c…5Bec`](https://optimistic.etherscan.io/address/0xd36c590531cAF5F620C57Faf5827Ce8E7f6E5Bec) |
+| LMCallbackFactory | [`0x2191…0A0D`](https://etherscan.io/address/0x2191718CD32d02B8E60BAdFFeA33E4B5DD9A0A0D) |                                                        
+| LMCallback blueprint | [`0x61C4…A956`](https://etherscan.io/address/0x61C404B60ee9c5fB09F70F9A645DD38fE5b3A956) |
 | LeverageZap | [`0x5D84…b85`](https://etherscan.io/address/0x5D847c892891B503c3483D3Abbc2a23774279b85) | [`0xdbeB…584a`](https://optimistic.etherscan.io/address/0xdbeBDaE6f2D47B553B984E4091693824cf38584a) |
 
 On 2026-07-22, read-only RPC checks confirmed that both listed factories and Configurators have code and that the factories return `version() = "2.0.0"`. The Ethereum factory reported two markets and Optimism reported three; their blueprint getters also matched the addresses above. Examples in this reference use Ethereum market `0` resolved from that factory: Vault `0x2b5a321c3cb1f33e1abecd047c2649d0b4c47eba`, Controller `0xc77d97cf01737eb7ace46cab7cd9f60ec51a40c0`, AMM `0xbf6f64b741164c26023f97faaea8e02453c27442`, and ControllerView `0xcda563f85388e621e7d810387e5afdac5d395e2b`.
@@ -186,6 +188,16 @@ The **borrower-facing contract** for each market. Wraps the core `controller.vy`
   <DocCard title="AMM (LLAMMA)" icon="vyper" link="./amm" linkText="AMM.vy">
 
 The **Lending-Liquidating AMM** that holds collateral in discretized price bands. It converts collateral gradually as prices move through the bands. The direction can reverse during a recovery, but conversion losses do not.
+
+  </DocCard>
+  <DocCard title="CurveLMCallbackFactory" icon="vyper" link="./lm-callback-factory" linkText="LMCallbackFactory.vy">
+
+Factory contract that **deploys LM Callbacks** for individual markets from a shared blueprint. Tracks every deployed callback in an on-chain registry and can pause new deployments.
+
+  </DocCard>
+  <DocCard title="LMCallback" icon="vyper" link="./lm-callback" linkText="LMCallback.vy">
+
+Per-market **liquidity mining callback** that streams CRV emissions to borrowers based on their deposited collateral, the same way a `LiquidityGauge` streams CRV to LPs. Deployed once per market by the `CurveLMCallbackFactory`.
 
   </DocCard>
 </DocCardGrid>
