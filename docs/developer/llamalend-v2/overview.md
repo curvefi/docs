@@ -190,4 +190,14 @@ The **borrower-facing contract** for each market. Wraps the core `controller.vy`
 The **Lending-Liquidating AMM** that holds collateral in discretized price bands. It converts collateral gradually as prices move through the bands. The direction can reverse during a recovery, but conversion losses do not.
 
   </DocCard>
+  <DocCard title="CurveLMCallbackFactory" icon="vyper" link="./lm-callback-factory" linkText="LMCallbackFactory.vy">
+
+Factory contract that **deploys LM Callbacks** for individual markets from a shared blueprint. Tracks every deployed callback in an on-chain registry and can pause new deployments.
+
+  </DocCard>
+  <DocCard title="LMCallback" icon="vyper" link="./lm-callback" linkText="LMCallback.vy">
+
+Per-market **liquidity mining callback** that streams CRV emissions to borrowers based on their deposited collateral, the same way a `LiquidityGauge` streams CRV to LPs. Deployed once per market by the `CurveLMCallbackFactory`.
+
+  </DocCard>
 </DocCardGrid>
