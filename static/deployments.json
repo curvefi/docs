@@ -2243,8 +2243,7 @@
         "meta-zap-ng": "0x2AF43209B366A4491CCe0A97C5a7B6059fd21295"
       }
     }
-  }
-}
+  },
   "_addressOrigins": {
     "x-gov.l1-broadcaster": "ethereum",
     "curve-block-oracle.mainnet-block-view": "ethereum",
