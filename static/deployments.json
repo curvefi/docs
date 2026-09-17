@@ -38,7 +38,7 @@
     "blast": "https://blastscan.io/address/",
     "mode": "https://explorer.mode.network/address/",
     "robinhood": "https://robinhoodchain.blockscout.com/address/",
-    "arc": "https://explorer.arc.io/address/"
+    "arc": "https://arc.etherscan.io/address/"
   },
   "ethereum": {
     "tokens": {
