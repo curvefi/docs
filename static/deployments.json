@@ -2189,6 +2189,12 @@
         "factory": "0xe7FBd704B938cB8fe26313C3464D4b7B7348c88C",
         "amm-implementation": "0x5F870C2cf22ff829B5DC1Da09856B79dA6544f94"
       },
+      "fxswap": {
+        "math": "0x7E908F6B1077af73e01E05989b99D8D3E8611A46",
+        "views": "0x8e84d3f13FF05bB353beFF40f0DbBD8Eb44d640e",
+        "factory": "0xe7FBd704B938cB8fe26313C3464D4b7B7348c88C",
+        "amm-implementation": "0x831Ac02008FF62fCF296EBA2f229A45f6355aF71"
+      },
       "tricrypto": {
         "math": "0xA4A2E7E11cBe5213B316E801D2172Ef10e566A96",
         "views": "0x2Fe4A238F6A3BD7fAA68e0B6951e3FAFdB2876Eb",
@@ -2236,6 +2242,12 @@
         "views": "0x17c67C3A38F68cbc4dEC77Fd7378978971B6c271",
         "factory": "0xe7FBd704B938cB8fe26313C3464D4b7B7348c88C",
         "amm-implementation": "0x5F870C2cf22ff829B5DC1Da09856B79dA6544f94"
+      },
+      "fxswap": {
+        "math": "0xb140A3b2DBA19719a978C1690d6F7303fdDe9A6d",
+        "views": "0xAE25375012a380D1a9B7C57021aCe72D83Cb5565",
+        "factory": "0xe7FBd704B938cB8fe26313C3464D4b7B7348c88C",
+        "amm-implementation": "0x2f39Fc9c39E99588dae8f822ce5886D395858FA7"
       },
       "tricrypto": {
         "math": "0xA4A2E7E11cBe5213B316E801D2172Ef10e566A96",
