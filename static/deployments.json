@@ -270,6 +270,12 @@
         "factory": "0x98EE851a00abeE0d95D08cF4CA2BdCE32aeaAF7F",
         "amm-implementation": "0x934791f7F391727db92BFF94cd789c4623d14c52"
       },
+      "fxswap": {
+        "math": "0xe28A23C5BfD057dd0Ed398Fa6bb9d33ABb41c044",
+        "views": "0x72cf2650Ea77BdFfB4eEcb4b70EcC7137FFCA0e5",
+        "factory": "0x98EE851a00abeE0d95D08cF4CA2BdCE32aeaAF7F",
+        "amm-implementation": "0x8c8CD70277b02E24aa9afE3dbAD1Ee10443eff2D"
+      },
       "tricrypto": {
         "math": "0x604388Bb1159AFd21eB5191cE22b4DeCdEE2Ae22",
         "views": "0x06452f9c013fc37169B57Eab8F50A7A48c9198A3",
