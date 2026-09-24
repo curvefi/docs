@@ -456,6 +456,8 @@ export default {
                 { type: 'doc', id: 'llamalend-v2/lend-controller-view', label: 'LendControllerView' },
                 { type: 'doc', id: 'llamalend-v2/configurator', label: 'Configurator' },
                 { type: 'doc', id: 'llamalend-v2/amm', label: 'AMM (LLAMMA)' },
+                { type: 'doc', id: 'llamalend-v2/lm-callback-factory', label: 'LMCallbackFactory' },
+                { type: 'doc', id: 'llamalend-v2/lm-callback', label: 'LMCallback' },
                 { type: 'doc', id: 'llamalend-v2/integration-guide', label: 'Integration Guide' },
             ],
         },
