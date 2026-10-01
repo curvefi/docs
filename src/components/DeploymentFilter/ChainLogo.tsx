@@ -26,7 +26,7 @@ export function ChainLogo({ chain }: { chain: string }) {
     // eslint-disable-next-line @next/next/no-img-element
     <img
       ref={imgRef}
-      src={`/img/chains/${slug}.${EXTS[0]}`}
+      src={`/img/chains/${slug}.${slug === 'unichain' ? 'svg' : EXTS[0]}`}
       alt=""
       className={styles.chainLogo}
       onError={handleError}

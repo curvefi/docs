@@ -23,7 +23,7 @@ Source code for all lending-relevant contracts is available on [GitHub](https://
 *The entire system is similar to the one for minting crvUSD. Every lending market has an individual **Controller**, **LLAMMA**, and **Vault**.*
 
 <figure>
-  <img src="../assets/images/lending_overview.svg" alt="" width="600" />
+  <img src={require('../assets/images/lending_overview.svg').default} alt="" width="600" />
   <figcaption></figcaption>
 </figure>
 

@@ -1807,7 +1807,7 @@ def get_amount_for_price(p: uint256) -> (uint256, bool):
 Bands in LLAMMA function similarly to UniswapV3, concentrating liquidity between two prices. Essentially, a band is a range of prices into which liquidity is deposited. LLAMMA consists of multiple bands, and when creating a loan, liquidity is equally distributed across the number of bands (`N`) chosen when opening the loan using the [`deposit_range`](amm.md#deposit_range) function. The minimum number of bands is 4, and the maximum is 50.
 
 <figure>
-  <img src="../assets/images/llamma/deposit_range.svg" alt="" width="600" />
+  <img src={require('../assets/images/llamma/deposit_range.svg').default} alt="" width="600" />
   <figcaption></figcaption>
 </figure>
 
@@ -1827,21 +1827,21 @@ The following sections assume that arbitrage traders are performing their role a
 1. **Band contains both collateral and borrowable token:**This indicates that the band is currently in continuous liquidation mode (either being soft-liquidated because the collateral price is decreasing or de-liquidated because the collateral price is increasing). The band in which the collateral price is currently located is defined as the [`active_band`](amm.md#active_band).
 
     <figure>
-    <img src="../assets/images/llamma/one_band_final.svg" alt="" width="260" />
+    <img src={require('../assets/images/llamma/one_band_final.svg').default} alt="" width="260" />
     <figcaption></figcaption>
     </figure>
 
 2. **Band contains only the collateral token:**This band has not been soft-liquidated. The collateral price is higher than the upper price of the band and is therefore outside the band. The liquidity in this band is untouched. These are the bands above the [`active_band`](amm.md#active_band). If the active band is 0, all bands greater than 0 consist solely of the collateral token.
 
     <figure>
-    <img src="../assets/images/llamma/two_bands_eth_final.svg" alt="" width="400" />
+    <img src={require('../assets/images/llamma/two_bands_eth_final.svg').default} alt="" width="400" />
     <figcaption></figcaption>
     </figure>
 
 3. **Band contains only the borrowable token:**This band has already been soft-liquidated, meaning the collateral price is below the band, and arbitrage trades have already exchanged all the ETH for crvUSD in the band. These are the bands below the [`active_band`](amm.md#active_band). If the active band is 0, all bands less than 0 consist solely of the borrowable token.
 
     <figure>
-    <img src="../assets/images/llamma/two_bands_crvusd_final.svg" alt="" width="400" />
+    <img src={require('../assets/images/llamma/two_bands_crvusd_final.svg').default} alt="" width="400" />
     <figcaption></figcaption>
     </figure>
 
@@ -1849,7 +1849,7 @@ The following sections assume that arbitrage traders are performing their role a
 *A full set up bands can look the following:*
 
 <figure>
-  <img src="../assets/images/llamma/three_bands_final.svg" alt="" width="700" />
+  <img src={require('../assets/images/llamma/three_bands_final.svg').default} alt="" width="700" />
   <figcaption></figcaption>
 </figure>
 
@@ -2862,7 +2862,7 @@ Soft- and de-liquidation of a loan only occurrs when the collateral price is wit
 When `price_oracle` equals `get_p`, the external oracle price and the AMM price are identical, indicating no need for arbitrage. When the external oracle price diverges, the AMM price `get_p` is adjusted to be more sensitive than the regular `price_oracle`, creating arbitrage opportunities. Essentially, arbitrage traders are incentivized to maintain `get_p = price_oracle` within the AMM.
 
 <figure>
-  <img src="../assets/images/llamma/ramp-cubic.svg" alt="" width="700" />
+  <img src={require('../assets/images/llamma/ramp-cubic.svg').default} alt="" width="700" />
   <figcaption></figcaption>
 </figure>
 

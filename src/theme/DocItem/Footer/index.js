@@ -1,9 +1,11 @@
 import React from 'react';
+import Head from '@docusaurus/Head';
 import clsx from 'clsx';
 import {ThemeClassNames} from '@docusaurus/theme-common';
 import {useDoc} from '@docusaurus/plugin-content-docs/client';
 import TagsListInline from '@theme/TagsListInline';
 import EditMetaRow from '@theme/EditMetaRow';
+import {markdownPath} from '@site/src/utils/markdown-path';
 
 export default function DocItemFooter() {
   const {metadata} = useDoc();
@@ -11,14 +13,16 @@ export default function DocItemFooter() {
   const canDisplayTagsRow = tags.length > 0;
   const canDisplayEditMetaRow = !!(editUrl || lastUpdatedAt || lastUpdatedBy);
 
-  // Build the path to the LLM-friendly markdown file
-  // permalink is like "/user/dex/overview", file is at "/docs/user/dex/overview.md"
-  const cleanPath = permalink.endsWith('/') ? permalink.slice(0, -1) : permalink;
-  const llmFilePath = `/docs${cleanPath}.md`;
+  const llmFilePath = markdownPath(permalink);
+  const sectionIndex = `/${permalink.split('/')[1]}/llms.txt`;
 
   return (
     <footer
       className={clsx(ThemeClassNames.docs.docFooter, 'docusaurus-mt-lg')}>
+      <Head>
+        <link rel="alternate" type="text/markdown" href={llmFilePath} />
+        <link rel="describedby" type="text/plain" href={sectionIndex} />
+      </Head>
       {canDisplayTagsRow && (
         <div
           className={clsx(
@@ -47,8 +51,8 @@ export default function DocItemFooter() {
           This page (.md)
         </a>
         <span className="llm-txt-separator"> | </span>
-        <a href="/llms-full.txt" target="_blank" rel="noopener noreferrer">
-          Full docs (.txt)
+        <a href={sectionIndex} target="_blank" rel="noopener noreferrer">
+          Section index
         </a>
         <span className="llm-txt-separator"> | </span>
         <a href="/llms.txt" target="_blank" rel="noopener noreferrer">

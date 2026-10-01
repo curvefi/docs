@@ -173,7 +173,7 @@ export default function DeploymentFilter(): React.ReactNode {
 
   return (
     <div className={`${styles.container} deployment-filter-container`}>
-      <div className={styles.filters}>
+      <div className={styles.filters} data-ai-ignore>
         <div className={styles.filterGroup}>
           <label htmlFor="search" className={styles.label}>Search</label>
           <input

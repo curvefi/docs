@@ -1,0 +1,33 @@
+{
+  "redirects": [
+    {"source": "/user/tokens/crvusd", "destination": "/user/curve-tokens/crvusd", "permanent": true},
+    {"source": "/user/tokens/scrvusd", "destination": "/user/curve-tokens/scrvusd", "permanent": true},
+    {"source": "/user/tokens/crv", "destination": "/user/curve-tokens/crv", "permanent": true},
+    {"source": "/user/tokens/vecrv", "destination": "/user/curve-tokens/vecrv", "permanent": true},
+    {"source": "/user/lending/overview", "destination": "/user/llamalend/overview", "permanent": true},
+    {"source": "/user/earning/overview", "destination": "/user/yield/overview", "permanent": true},
+    {"source": "/user/lending/borrow-guides/open-close-loan", "destination": "/user/llamalend/guides/borrow/open-and-close", "permanent": true},
+    {"source": "/user/lending/supply-guides/deposit", "destination": "/user/llamalend/guides/supply/deposit", "permanent": true},
+    {"source": "/user/vecrv/locking-crv", "destination": "/user/vecrv/how-to-lock", "permanent": true},
+    {"source": "/user/vecrv/boosting-rewards", "destination": "/user/vecrv/boosting", "permanent": true},
+    {"source": "/user/multichain/overview", "destination": "/user/cross-chain/supported-chains", "permanent": true},
+    {"source": "/user/governance/overview", "destination": "/user/dao/overview", "permanent": true},
+    {"source": "/user/governance/gauge-weights", "destination": "/user/dao/gauge-weights", "permanent": true},
+    {"source": "/user/governance/proposals", "destination": "/user/dao/proposals", "permanent": true},
+    {"source": "/user/vecrv/claiming-trading-fees", "destination": "/user/vecrv/revenue", "permanent": true},
+    {"source": "/developer/overview", "destination": "/developer/documentation-overview", "permanent": true},
+    {"source": "/developer/amm/pool-factory/overview", "destination": "/developer/amm/factory/overview", "permanent": true},
+    {"source": "/developer/llamalend/overview", "destination": "/developer/lending/overview", "permanent": true},
+    {"source": "/developer/amm/router/CurveRouterNG", "destination": "/developer/amm/router/curve-router-ng", "permanent": true},
+    {"source": "/developer/integration/api/curve-prices-api", "destination": "/developer/integration/api/curve-prices", "permanent": true},
+    {"source": "/protocol/pools/overview", "destination": "/protocol/pool/overview", "permanent": true},
+    {"source": "/protocol/gauges/guides/getting-crv-emissions", "destination": "/protocol/gauge/guides/getting-crv-emissions", "permanent": true},
+    {"source": "/protocol/gauges/guides/permissionless-rewards", "destination": "/protocol/gauge/guides/adding-permissionless-rewards", "permanent": true},
+    {"source": "/user/security/risks/pool", "destination": "/user/security/risks/pools", "permanent": true},
+    {"source": "/developer/integration/metaregistry", "destination": "/developer/integration/meta-registry", "permanent": true}
+  ],
+  "headers": [
+    {"source": "/:path*.md", "headers": [{"key": "Content-Type", "value": "text/markdown; charset=utf-8"}, {"key": "Link", "value": "</llms.txt>; rel=\"describedby\""}]},
+    {"source": "/:path*.txt", "headers": [{"key": "Content-Type", "value": "text/plain; charset=utf-8"}]}
+  ]
+}

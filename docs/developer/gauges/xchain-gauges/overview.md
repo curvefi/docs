@@ -48,7 +48,7 @@ Contracts used to bridge CRV emissions across chains. Bridge wrappers adhere to 
 Contract used to transmit veCRV information across chains to a `L2 VotingEscrow Oracle`.
 
   </DocCard>
-  <DocCard title="L2 VotingEscrow Oracle" icon="vyper" link="../../../curve-dao/voting-escrow/crosschain/vecrv-oracle" linkText="L2 VotingEscrow Oracle">
+  <DocCard title="L2 VotingEscrow Oracle" icon="vyper" link="/developer/curve-dao/voting-escrow/crosschain/vecrv-oracle" linkText="L2 VotingEscrow Oracle">
 
 Contract used to store veCRV information on child chains.
 

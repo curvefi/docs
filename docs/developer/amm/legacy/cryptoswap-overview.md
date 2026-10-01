@@ -88,6 +88,6 @@ Fees are charged based on the balance/imbalance of the pool. Fee is low when the
 
 
 <figure>
-  <img src="../../../assets/images/curveV2_fee.png" alt="" width="400" />
+  <img src={require('../../assets/images/curveV2_fee.png').default} alt="" width="400" />
   <figcaption></figcaption>
 </figure>

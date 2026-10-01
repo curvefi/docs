@@ -24,6 +24,17 @@ $ yarn build
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
+### AI documentation
+
+Each production build generates `/llms.txt`, section indexes, canonical `.md` pages, `/llms-full.txt`, and bundles limited to 512 KiB. The exporter uses published Docusaurus metadata and rendered content, including deployment tables, audit reports, tabs, code, and math. `/llms-manifest.json` records canonical URLs, aliases, hashes, and bundle membership. Discovery follows the [llms.txt proposal](https://llmstxt.org/).
+
+- Run `npm run test:ai-docs` and `npm run build` before publishing. Build validation checks sitemap coverage, local links, aliases, code, addresses, and audit reports.
+- Give pages useful titles and descriptions. Use Docusaurus links and bundled images instead of guessed output paths.
+- Components that contain documentation must render useful content without JavaScript. Provide static references for live data and interactive API tools.
+- Mark UI-only controls with `data-ai-ignore`. Keep examples, warnings, alternate tabs, and contract data in the rendered article.
+
+Vercel applies HTTP redirects for renamed routes and Markdown response headers from `vercel.json`. After deployment, verify the indexes, representative Markdown pages, and redirects over HTTP.
+
 ### Deployment
 
 Using SSH:

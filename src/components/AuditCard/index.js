@@ -42,7 +42,7 @@ export default function AuditCard({
               }}
             />
           ) : null}
-          <div className={styles.auditCardLogoFallback} style={{ display: logo ? 'none' : 'block' }}>
+          <div className={styles.auditCardLogoFallback} aria-hidden="true" style={{ display: logo ? 'none' : 'block' }}>
             {auditor.charAt(0)}
           </div>
         </div>

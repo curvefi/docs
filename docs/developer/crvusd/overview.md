@@ -18,7 +18,7 @@ The source code for all releveant stablecoin contract can be found on [GitHub ](
 ## Curve Stablecoin Infrastructure Components
 
 <DocCardGrid>
-  <DocCard title="crvUSD" icon="crvusd" link="./crvusd" linkText="crvUSD.vy">
+  <DocCard title="crvUSD" icon="crvusd" link="/developer/crvusd/" linkText="crvUSD.vy">
 
 `crvUSD` token which is based on the [ERC-20 Token Standard](https://ethereum.org/en/developers/docs/standards/tokens/erc-20/).
 

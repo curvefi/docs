@@ -19,7 +19,7 @@ A comprehensive list of all deployed components on different chains is available
 Voting for governance proposals is exclusively conducted on the Ethereum mainnet. Following a successful vote, the to be executed actions are broadcasted to a L2 network via a `Broadcaster` contract followed by the execution of the intended actions by `Agents` on the respective network via a `Relayer` contract.
 
 <figure>
-  <img src="../../assets/images/governance/x-gov.svg" alt="" width="700" />
+  <img src={require('../../../assets/images/governance/x-gov.svg').default} alt="" width="700" />
   <figcaption></figcaption>
 </figure>
 

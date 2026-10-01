@@ -28,7 +28,7 @@ Technically speaking, allowance is always granted but if certain checks do not p
 Additionally, the system has implemented limit ratios to ensure a balanced and stable distribution of debt among the PegKeepers. The formula used to calculate the maximum allowed debt ratio, $\text{maxRatio}$, can be seen below. It dynamically adjusts the allowable debt ratio based on the aggregate debt of all PegKeepers in the system. These ratios can be plotted:
 
 <figure>
-  <img src="../../assets/images/crvusd/pegkeeper_max_ratio.png" alt="" width="500" />
+  <img src={require('../../assets/images/crvusd/pegkeeper_max_ratio.png').default} alt="" width="500" />
   <figcaption></figcaption>
 </figure>
 

@@ -63,7 +63,7 @@ Contract that collects accumulated crvUSD fees from crvUSD Controllers and distr
 Contract which burns the collected admin fees into a unified token. The current system utilizes CowSwap's conditional orders to burn the accumulated fees into a specific target token.
 
   </DocCard>
-  <DocCard title="Hooker" link="Hooker" linkText="Hooker.vy">
+  <DocCard title="Hooker" link="hooker" linkText="Hooker.vy">
 
 Contract that allows users to execute certain hooks like forwarding crvUSD from the `FeeCollector` to the `FeeDistributor`.
 
