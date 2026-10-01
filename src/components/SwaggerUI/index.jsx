@@ -31,11 +31,10 @@ export default function SwaggerUIComponent({ src, ...props }) {
         alignItems: 'center',
         justifyContent: 'center'
       }}>
-        Loading API documentation...
+        <a href={src}>OpenAPI specification (JSON)</a>
       </div>
     }>
       {() => <SwaggerUIContent src={src} {...props} />}
     </BrowserOnly>
   );
 }
-

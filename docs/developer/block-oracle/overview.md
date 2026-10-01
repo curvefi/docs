@@ -11,7 +11,7 @@ A real-time [Storage Proof Monitoring Dashboard](https://curvefi.github.io/stora
 
 The **Curve Block Oracle** is a **decentralized**, **cross-chain** infrastructure designed to securely relay and verify Ethereum mainnet block hashes and state roots on other blockchains. This system enables **trust-minimized interoperability**, cross-chain oracles, and secure data streaming for applications such as price feeds, state proofs, and cross-chain governance. By providing a **canonical reference to Ethereum state**, the oracle allows DeFi protocols and dApps to safely use Ethereum-based data and logic across multiple networks.
 
-![](pathname://./assets/images/block-oracle/blockhash_approach.png)
+![Block hash verification](../assets/images/block-oracle/blockhash_approach.png)
 
 ## Why Block Oracles?
 
@@ -24,7 +24,7 @@ The simplest and most robust way to support multiple transport layers is to send
 Each block has a **block header**, which includes the **state root**—a root hash of the entire Merkle Patricia Trie containing accounts and storage. Given a block hash, you can verify the state root.
 To prove a storage slot, you must verify the full path from the root down to the leaf node—or prove that it does not exist.
 
-![](pathname://./assets/images/block-oracle/storage_proof.png)
+![Storage proof verification](../assets/images/block-oracle/storage_proof.png)
 
 ## System Architecture
 

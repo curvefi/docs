@@ -225,6 +225,15 @@ function ContractCallInner({ address, abi, method, args = [], labels = [], contr
 export default function ContractCall(props) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-  if (!mounted) return null;
+  if (!mounted) {
+    const {contractName = 'Contract', method, args = [], address} = props;
+    const displayArgs = args.map((arg) => typeof arg === 'string' && arg.startsWith('0x') ? `'${arg}'` : arg).join(', ');
+    return (
+      <div>
+        <pre><code>{`>>> ${contractName}.${method}(${displayArgs})`}</code></pre>
+        <p>Read the current value from contract <code>{address}</code>. Live results load in the interactive page.</p>
+      </div>
+    );
+  }
   return <ContractCallInner {...props} />;
 }

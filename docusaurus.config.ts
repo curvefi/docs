@@ -4,6 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 const remarkLogos = require('./remark-logos');
+const serverRedirects = require('./vercel.json').redirects;
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -44,8 +45,8 @@ const config: Config = {
   organizationName: 'curvefi', // Usually your GitHub org/user name.
   projectName: 'docs', // Usually your repo name.
 
-  onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenLinks: 'throw',
+  onBrokenAnchors: 'throw',
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -57,6 +58,7 @@ const config: Config = {
 
   markdown: {
     mermaid: true,
+    hooks: {onBrokenMarkdownLinks: 'throw'},
   },
 
   themes: [
@@ -176,6 +178,9 @@ const config: Config = {
         theme: {
           customCss: './src/css/custom.css',
         },
+        sitemap: {
+          ignorePatterns: ['/404', '/404.html', '/search', '/moved'],
+        },
       } satisfies Preset.Options,
     ],
   ],
@@ -237,20 +242,13 @@ const config: Config = {
         ...sharedDocOptions,
       },
     ],
-    [
-      'docusaurus-plugin-llms',
-      {
-        generateLLMsTxt: false,
-        generateLLMsFullTxt: true,
-        generateMarkdownFiles: true,
-        docsDir: 'docs',
-        excludeImports: true,
-      },
-    ],
+    require.resolve('./plugins/ai-docs/index.cjs'),
     [
       '@docusaurus/plugin-client-redirects',
       {
         redirects: [
+          ...serverRedirects.filter(({source}) => source !== '/developer/integration/metaregistry')
+            .map(({source, destination}) => ({from: source, to: destination})),
           // --- Directory renames ---
           // curve_dao → curve-dao
           { from: '/developer/curve_dao/crv-token', to: '/developer/curve-dao/crv-token' },

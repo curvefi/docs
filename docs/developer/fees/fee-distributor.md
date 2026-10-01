@@ -10,7 +10,7 @@ The source code for the `FeeDistributor.vy` contract can be found on [GitHub](ht
 
 There are two different `FeeDistributor` contracts deployed on Ethereum, depending on the reward token:
 
-- :logos-3CRV: `3CRV`: [0xA464e6DCda8AC41e03616F95f4BC98a13b8922Dc](https://etherscan.io/address/0xa464e6dcda8ac41e03616f95f4bc98a13b8922dc)
+- :logos-3crv: `3CRV`: [0xA464e6DCda8AC41e03616F95f4BC98a13b8922Dc](https://etherscan.io/address/0xa464e6dcda8ac41e03616f95f4bc98a13b8922dc)
 - :logos-crvusd: `crvUSD`: [0xD16d5eC345Dd86Fb63C6a9C43c517210F1027914](https://etherscan.io/address/0xD16d5eC345Dd86Fb63C6a9C43c517210F1027914)
 
 <ContractABI>

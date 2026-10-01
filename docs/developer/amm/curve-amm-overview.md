@@ -41,7 +41,7 @@ Permissionless deployment of liquidity pools, gauges, and LP tokens across all p
 On-chain router that finds optimal swap routes across Curve pools, supporting up to five tokens in a single transaction.
 
   </DocCard>
-  <DocCard title="Legacy Contracts" link="./stableswap-overview" linkText="StableSwap Legacy">
+  <DocCard title="Legacy Contracts" link="./legacy/stableswap-overview" linkText="StableSwap Legacy">
 
 Earlier implementations of StableSwap and CryptoSwap pools, factory contracts, LP tokens, and deposit contracts. Superseded by the NG versions above.
 

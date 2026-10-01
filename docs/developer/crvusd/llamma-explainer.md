@@ -27,7 +27,7 @@ Bands in LLAMMA function similarly to Uniswap V3, concentrating liquidity betwee
 [^1]: For now, do not worry about how liquidation works. This mechanism will be explained in a section further down below. For now, just think of liquidation as changing the token composition that is backing your loan.
 
 <figure>
-  <img src="../assets/images/llamma/deposit_range.svg" alt="" width="600" />
+  <img src={require('../assets/images/llamma/deposit_range.svg').default} alt="" width="600" />
   <figcaption></figcaption>
 </figure>
 
@@ -109,9 +109,7 @@ To counter the losses from liquidation and the interest rate, there is a swap fe
 A loan's health can be read directly from the `Controller.vy` contract of the corresponding market using the [`health`](controller.md#health) method:
 
 ```vyper
->>> Controller.health('0xc92D575eB77C8AAe8e841bF5040346E34ad12d
-
-37', true)
+>>> Controller.health('0xc92D575eB77C8AAe8e841bF5040346E34ad12d37', true)
 372983744062357570             # ≈37.3%
 ```
 
@@ -123,28 +121,28 @@ A loan's health can be read directly from the `Controller.vy` contract of the co
 1. **Band contains both collateral and borrowable token:** Indicates continuous liquidation mode. The band in which the collateral price is currently located is defined as the [`active_band`](amm.md#active_band).
 
     <figure>
-    <img src="../assets/images/llamma/one_band_final.svg" alt="" width="260" />
+    <img src={require('../assets/images/llamma/one_band_final.svg').default} alt="" width="260" />
     <figcaption></figcaption>
     </figure>
 
 2. **Band contains only the collateral token:** This band has not been soft-liquidated. The collateral price is higher than the upper price of the band and is therefore outside the band. These are the bands above the [`active_band`](amm.md#active_band).
 
     <figure>
-    <img src="../assets/images/llamma/two_bands_eth_final.svg" alt="" width="400" />
+    <img src={require('../assets/images/llamma/two_bands_eth_final.svg').default} alt="" width="400" />
     <figcaption></figcaption>
     </figure>
 
 3. **Band contains only the borrowable token:** This band has already been soft-liquidated. The collateral price is below the band, and arbitrage trades have exchanged all the ETH for crvUSD in the band. These are the bands below the [`active_band`](amm.md#active_band).
 
     <figure>
-    <img src="../assets/images/llamma/two_bands_crvusd_final.svg" alt="" width="400" />
+    <img src={require('../assets/images/llamma/two_bands_crvusd_final.svg').default} alt="" width="400" />
     <figcaption></figcaption>
     </figure>
 
 *A full set of bands can look like the following:*
 
 <figure>
-  <img src="../assets/images/llamma/three_bands_final.svg" alt="" width="700" />
+  <img src={require('../assets/images/llamma/three_bands_final.svg').default} alt="" width="700" />
   <figcaption></figcaption>
 </figure>
 
@@ -164,7 +162,7 @@ Soft- and de-liquidation is not automatically triggered by the smart contract. I
 When the price oracle fetched from an external price source (using oracles of Curve liquidity pools), the AMM's "internal price `get_p`" is adjusted to be more sensitive, creating arbitrage opportunities. Arbitrage traders are incentivized to maintain `get_p = price_oracle` within the LLAMMA. When `price_oracle` equals `get_p`, the external oracle price and the AMM price are identical, indicating no need and possibility for arbitrage.
 
 <figure>
-  <img src="../assets/images/llamma/ramp-cubic.svg" alt="" width="700" />
+  <img src={require('../assets/images/llamma/ramp-cubic.svg').default} alt="" width="700" />
   <figcaption></figcaption>
 </figure>
 

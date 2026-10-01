@@ -68,7 +68,7 @@ Any user with a veCRV balance can vote on a proposal. Vote duration is always 7 
 Voting power **starts decaying halfway through the voting period**. If a user starts with 1000 veCRV, and the voting period is 7 days, they will still have a voting power of 1000 veCRV after 3.5 days but its starting to decay linearly until the end of the voting period. So, after another 1.75 days, the user will have a voting power of 500 veCRV, etc. This precausion taken to avoid whales from manipulating votes voting at the last minute.
 
 <figure>
-    <img src="../assets/images/governance/decay_mid_vote.png" alt="Voting Power Decay" width="500" />
+    <img src={require('../../assets/images/governance/decay_mid_vote.png').default} alt="Voting Power Decay" width="500" />
 </figure>
 
 ---
