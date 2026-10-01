@@ -21,3 +21,19 @@ It's important to remember that providing liquidity to pools comes with risks.  
 Below are links with guides on how to use the UI to deposit, withdraw, stake and claim your rewards.
 
 <GuideCardGrid guideKeys={['howToDexDeposit', 'howToDexWithdraw', 'howToDexClaim']} />
+
+## Viewing Your Positions
+
+Connect your wallet and open the [Pools page](https://www.curve.finance/dex/ethereum/pools/) on the network where you provided liquidity. **Your Positions** replaces the former user dashboard and lists your LP positions and claimable token rewards on that network.
+
+The summary shows **Total liquidity provided** and **Claimable rewards**. Each pool row shows **Net APR**, **Deposits** in USD and LP tokens, and **Claimables**. Select **View all pool positions** to expand the list when more positions are available.
+
+<figure style={{ textAlign: 'center' }}>
+  <img
+    src={require('@site/static/img/user/dex/your-positions.png').default}
+    alt="Your Positions on the Pools page, showing liquidity, claimable rewards, and individual LP positions"
+    style={{ width: '100%' }}
+  />
+</figure>
+
+Open a pool to manage your liquidity or [claim LP rewards](./guides/claim-rewards.md). To claim veCRV protocol revenue, use **Claim Fees** on the DAO app's [Lock CRV page](https://www.curve.finance/dao/ethereum/vecrv/); see [Claiming veCRV Revenue Share](../vecrv/revenue.md).

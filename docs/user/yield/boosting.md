@@ -12,11 +12,11 @@ import VecrvLogo from '@site/static/img/logos/vecrv.png';
 
 While providing liquidity to Curve pools and lending to Llamalend markets already earns you trading fees and CRV rewards (if available), there's a powerful way to **maximize your CRV earnings**: by **boosting** them. Boosting allows you to **increase the amount of CRV you earn by up to 2.5x**.
 
-Your current pool boosts can be seen on the DEX Dashboard, and you can calculate the boost your potential boost with the boost calculator, links below.
+Find your LP positions and claimable rewards in **Your Positions** on the [Pools page](https://www.curve.finance/dex/ethereum/pools/). Open an Ethereum pool and select **Liquidity Details** to see your **veCRV Boost**. Use the boost calculator below to estimate your potential boost.
 
 <GuideCardGrid guideKeys={['learnBoosting', 'lockingCrv']} />
 
-<ButtonGrid buttonKeys={['vecrvDashboard', 'boostCalculator']} />
+<ButtonGrid buttonKeys={['poolPositions', 'boostCalculator']} />
 
 ---
 

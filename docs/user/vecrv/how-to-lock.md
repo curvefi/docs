@@ -14,7 +14,7 @@ Locking CRV is **not reversible**. veCRV is **non-transferable**, and you can on
 
 ## How to Lock CRV
 
-Visit the official Curve Locker UI at [CRV Locker](https://curve.fi/dao/ethereum/vecrv/create/) and connect your wallet on the top right.
+Visit the official Curve Locker UI at [CRV Locker](https://www.curve.finance/dao/ethereum/vecrv/) and connect your wallet on the top right.
 
 Then, simply add the amount of CRV tokens you want to lock up and choose the lock duration. The minimum is **1 week**, and the maximum is **4 years**. The amount of veCRV you receive increases with longer lock times.
 
@@ -32,26 +32,13 @@ Then, simply add the amount of CRV tokens you want to lock up and choose the loc
 After locking, you will receive veCRV in your wallet. But remember: Unlike other tokens, you will not be able to transfer them.
 
 
-## Dashboard
+## Claiming Fees
 
-The dashboard section ([Curve Dashboard](https://www.curve.finance/dex/ethereum/dashboard/)) provides a full overview on the users veCRV holdings such as their veCRV balance, total amount of CRV locked, unlock time and the claimable rewards.
-
-<figure>
-<ThemedImage
-    alt="Weekly gauge weight cycle showing the voting and distribution timeline"
-    sources={{
-        light: require('@site/static/img/user/vecrv/dashboard_light.png').default,
-        dark: require('@site/static/img/user/vecrv/dashboard_dark.png').default,
-    }}
-    style={{ width: '100%', display: 'block', margin: '0 auto' }}
-/>
-</figure>
-
-
+Open **Claim Fees** on the DAO app's [Lock CRV page](https://www.curve.finance/dao/ethereum/vecrv/) to view and claim your veCRV revenue share. See [Claiming veCRV Revenue Share](./revenue.md) for eligibility and claiming steps.
 
 ## Managing Your Lock
 
-When having an active lock, you can view your veCRV balance and lock details directly in the dashboard. Your veCRV will begin to decay as time passes, reflecting the decreasing time left on your lock.
+Manage your active lock on the DAO app's [Lock CRV page](https://www.curve.finance/dao/ethereum/vecrv/). Use **Lock More** to view your locked CRV and add tokens, or **Extend Lock** to view and change the unlock date. Your veCRV will begin to decay as time passes, reflecting the decreasing time left on your lock.
 
 If you want to increase your veCRV, you can either:
 - **Extend your lock duration:** This resets your lock to a later expiry date, increasing your veCRV balance.

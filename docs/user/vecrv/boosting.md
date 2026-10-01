@@ -56,27 +56,16 @@ Use the calculator below to compare how much veCRV you have, or plan to lock, ag
 
 ## Step 2: Lock CRV for veCRV
 
-After determining how much veCRV you need, visit the [CRV Locker](https://curve.fi/dao/ethereum/vecrv/create/) to create your lock. For detailed instructions on locking CRV, see [Locking CRV & Managing Locks](./how-to-lock.md).
+After determining how much veCRV you need, visit the [CRV Locker](https://www.curve.finance/dao/ethereum/vecrv/) to create your lock. For detailed instructions on locking CRV, see [Locking CRV & Managing Locks](./how-to-lock.md).
 
 
 ## Step 3: Check Your Boost
 
-After creating your lock, proceed to the desired pool page and click on **Your Details** as shown below. Under this tab you can see your current rewards boost.
-
-<figure>
-<ThemedImage
-    alt="Weekly gauge weight cycle showing the voting and distribution timeline"
-    sources={{
-        light: require('@site/static/img/user/vecrv/boost_light.png').default,
-        dark: require('@site/static/img/user/vecrv/boost_dark.png').default,
-    }}
-    style={{ width: '500px', display: 'block', margin: '0 auto' }}
-/>
-</figure>
+Open your Ethereum pool from **Your Positions** on the [Pools page](https://www.curve.finance/dex/ethereum/pools/), then select **Liquidity Details** on the pool page. Your current multiplier appears under **veCRV Boost**.
 
 ### Troubleshooting Boost Updates
 
-- ✅ **If the new boost is visible** after **'Current boost:'**, then no further action is required.
+- ✅ **If the new boost is visible** under **veCRV Boost**, then no further action is required.
 - ⚠️ **If the current boost hasn't updated**, try claiming CRV from each of the gauges where you have liquidity. This should trigger the boost update.
 
 :::info Boost Update Timing

@@ -5,7 +5,6 @@ sidebar_label: Claiming veCRV Revenue Share
 ---
 
 import ThemedImage from '@theme/ThemedImage';
-import RevenueStats from '@site/src/components/RevenueStats';
 
 Holding veCRV not only gives you voting power in Curve governance, but also entitles you to a share of protocol revenue.
 
@@ -34,25 +33,18 @@ Before you can claim veCRV revenue, you need to meet the following criteria:
 
 ## How to Claim Your Revenue
 
-Users can claim their rewards in the dashboard here: [Curve Dashboard](https://www.curve.finance/dex/ethereum/dashboard/)
+1. Open the DAO app's [Lock CRV page](https://www.curve.finance/dao/ethereum/vecrv/) and connect your wallet on Ethereum.
+2. Select **Claim Fees** to view your claimable **crvUSD** and any legacy **3CRV** rewards.
+3. Click **Claim** beside the token you want to receive, then confirm the transaction in your wallet. Claim each token separately if both have rewards available.
 
-Simply connect your wallet and claim your rewards by clicking the blue "Claim crvUSD" button. The rewards will be sent directly to your wallet. The rewards do not need to claimed on a weekly basis as all rewards accure and can be claimed at any point in time without forfeiting any rewards.
-
-If you have claimable revenue, it will be visible as shown below:
+Rewards are sent to your wallet. You do not need to claim weekly: rewards accumulate and can be claimed later without forfeiting them. A token's **Claim** button is disabled when its claimable balance is zero.
 
 <figure style={{ textAlign: 'center' }}>
-  <ThemedImage
-    alt="Claim Revenue UI"
-    sources={{
-      light: require('@site/static/img/ui/dashboard/claim-revenue-light.png').default,
-      dark: require('@site/static/img/ui/dashboard/claim-revenue-dark.png').default,
-    }}
-    style={{
-      maxWidth: '400px',
-      width: '100%'
-    }}
+  <img
+    src={require('@site/static/img/user/vecrv/claim-fees.png').default}
+    alt="Claim Fees tab on the Lock CRV page, with separate Claim buttons for 3CRV and crvUSD"
+    style={{ maxWidth: '500px', width: '100%' }}
   />
-  <figcaption></figcaption>
 </figure>
 
 :::info 3CRV as the original reward token

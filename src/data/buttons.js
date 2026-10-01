@@ -3,7 +3,7 @@ import ButtonIcon from '@site/src/components/ButtonIcon';
 
 export const ALL_BUTTONS = {
   lockCrv: {
-    link: 'https://www.curve.finance/dao/ethereum/vecrv/create/',
+    link: 'https://www.curve.finance/dao/ethereum/vecrv/',
     line1: 'Lock',
     line2Content: (
       <>
@@ -15,7 +15,7 @@ export const ALL_BUTTONS = {
     ),
   },
   claimVecrvRevenue: {
-    link: 'https://www.curve.finance/dex/ethereum/dashboard/',
+    link: 'https://www.curve.finance/dao/ethereum/vecrv/',
     line1: 'Claim',
     line2Content: (
       <>
@@ -24,13 +24,13 @@ export const ALL_BUTTONS = {
       </>
     ),
   },
-  vecrvDashboard: {
-    link: 'https://www.curve.finance/dex/ethereum/dashboard/',
+  poolPositions: {
+    link: 'https://www.curve.finance/dex/ethereum/pools/',
     line1: 'Go to',
     line2Content: (
       <>
         <ButtonIcon src="/img/logos/crv.png" alt="CRV" />
-        DEX Dashboard
+        Your Pool Positions
       </>
     ),
   },
