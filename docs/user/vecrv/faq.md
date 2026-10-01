@@ -29,7 +29,7 @@ No, CRV locks are **irreversible**. You can only withdraw your original CRV toke
 The maximum boost is **2.5x** on your liquidity rewards.
 
 ### How do I check my current boost?
-Visit the pool page and click on "Your Details" to see your current boost level.
+Open your Ethereum pool from **Your Positions** on the [Pools page](https://www.curve.finance/dex/ethereum/pools/). Select **Liquidity Details** on the pool page to see **veCRV Boost**.
 
 ### Why isn't my boost updating?
 Boosts are only updated when you make a withdrawal, deposit, or claim from a liquidity gauge. Try claiming your CRV rewards to update the boost.
@@ -59,7 +59,7 @@ You can find the current total veCRV supply on the [calculator page](https://dao
 ## Locking & Management Questions
 
 ### How do I lock my CRV tokens?
-Visit the [CRV Locker](https://curve.fi/dao/ethereum/vecrv/create/) and connect your wallet. Enter the amount of CRV you want to lock and choose the duration (1 week to 4 years).
+Visit the [CRV Locker](https://www.curve.finance/dao/ethereum/vecrv/) and connect your wallet. Enter the amount of CRV you want to lock and choose the duration (1 week to 4 years).
 
 ### Can I extend my lock duration?
 Yes, you can extend your lock duration at any time. This resets your lock to a later expiry date and increases your veCRV balance.
@@ -106,7 +106,7 @@ Your revenue share depends on your veCRV balance relative to the total veCRV sup
 Rewards are distributed weekly and can be claimed within 24 hours after Thursday 00:00 UTC.
 
 ### How do I claim my revenue?
-Connect your wallet to the [Curve Dashboard](https://www.curve.finance/dex/ethereum/dashboard/) and click the blue "Claim crvUSD" button.
+Connect your wallet on Ethereum to the DAO app's [Lock CRV page](https://www.curve.finance/dao/ethereum/vecrv/), select **Claim Fees**, and click **Claim** beside crvUSD. Legacy 3CRV rewards can be claimed separately from the same tab. See [Claiming veCRV Revenue Share](./revenue.md).
 
 ### Do I lose rewards if I don't claim weekly?
 No, rewards accumulate and can be claimed at any time without forfeiting any rewards.

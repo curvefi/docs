@@ -7,7 +7,9 @@ sidebar_label: Claim Rewards
 import ThemedImage from '@theme/ThemedImage';
 import ButtonGrid from '@site/src/components/ButtonGrid';
 
-To claim your earned `CRV` and other token rewards, go to your pool's page, and then the `Withdraw/Claim` tab on the left, then `Claim Rewards`, you should see a box like the following:
+Connect your wallet and find the pool in **Your Positions** on the [Pools page](https://www.curve.finance/dex/ethereum/pools/) for the relevant network. This list shows your LP positions and claimable rewards.
+
+To claim your earned `CRV` and other token rewards, go to your pool's page, select `Withdraw`, then `Claim Rewards`, you should see a box like the following:
 
 <figure style={{ textAlign: 'center' }}>
   <ThemedImage
