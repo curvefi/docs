@@ -16,7 +16,7 @@
     "kava": "https://kavascan.io/address/",
     "aurora": "https://aurorascan.dev/address/",
     "mantle": "https://explorer.mantle.xyz/address/",
-    "monad": "https://monadvision.com/address/",
+    "monad": "https://monadscan.com/address/",
     "sonic": "https://sonicscan.org/address/",
     "optimism": "https://optimistic.etherscan.io/address/",
     "gnosis": "https://gnosisscan.io/address/",
@@ -1487,7 +1487,7 @@
       "ownership-admin": "0x2641ed8034CE92f57377F88852E95eB97AeFDf3a",
       "parameter-admin": "0x4f172B31Da98bc3806aeB98C22525d43304bfea2",
       "emergency-admin": "0xb0261f64E512322EfB35E92C353301eC36b9712B",
-      "vault": "0x13DFF1809D1E9ddf9Ac901F47817B7F45220A846",
+      "vault": "0x193110Ce1542d7371e1515BD6A2E470fDefc310D",
       "agent": "0xe35A879E5EfB4F1Bb7F70dCF3250f2e19f096bd8",
       "verifier": "0x90be751c412970De0606bf0c60a6fb2AFC23fE2F"
     },
