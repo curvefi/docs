@@ -37,9 +37,17 @@ In comparison to the community fund, assets do not require a one-year vesting pe
 
 The Treasury is deployed on Ethereum at [`0x6508ef65b0bd57eabd0f1d52685a70433b2d290b`](https://etherscan.io/address/0x6508ef65b0bd57eabd0f1d52685a70433b2d290b).
 
+The table below shows the Treasury's CRV, crvUSD, sfrxUSD, and sDOLA balances. Each balance is valued using its current USD price from the [Curve Prices API](https://prices.curve.finance/), and the total includes CRV held by the Treasury. The Community Fund's CRV balance is shown separately above.
+
 <TokenBalances
   holderAddress="0x6508eF65b0Bd57eaBD0f1D52685A70433B2d290B"
   tokens={[
+    {
+      tokenAddress: '0xD533a949740bb3306d119CC777fa900bA034cd52',
+      tokenName: 'CRV',
+      logo: CrvLogo,
+      priceApiUrl: 'https://prices.curve.finance/v1/usd_price/ethereum/0xD533a949740bb3306d119CC777fa900bA034cd52',
+    },
     {
       tokenAddress: '0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E',
       tokenName: 'crvUSD',
