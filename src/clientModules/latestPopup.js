@@ -1,4 +1,4 @@
-import { GHOST_CONFIG, getGhostApiParams, getGhostApiUrl } from '@site/src/config/ghost';
+import { GHOST_CONFIG, getGhostApiParams, getGhostApiUrl, getPostUrl, getSafeImageUrl } from '@site/src/config/ghost';
 
 const STORAGE_KEY_PREFIX = 'latestPopupDismissed:';
 
@@ -43,18 +43,41 @@ function renderPopup(post){
   if (localStorage.getItem(key)) return; // dismissed for this context
   if (document.querySelector('.latest-popup')) return; // already shown on this route
 
-  const wrap = document.createElement('div');
-  wrap.className = 'latest-popup';
-  wrap.innerHTML = `
-    ${post.feature_image ? `<img class="latest-popup__img" src="${post.feature_image}" alt=""/>` : ''}
-    <button class="latest-popup__close" aria-label="Dismiss">×</button>
-    <div class="latest-popup__body">
-      <div class="latest-popup__kicker">Latest from Curve</div>
-      <a class="latest-popup__title" href="${post.url}" target="_blank" rel="noopener noreferrer">${post.title}</a>
-      <div class="latest-popup__meta">${new Date(post.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}${post.reading_time?` · ${post.reading_time} min`:''}</div>
-    </div>
-  `;
-  wrap.querySelector('.latest-popup__close').addEventListener('click',()=>{localStorage.setItem(key,'1');wrap.remove();});
+  const href = getPostUrl(post.slug);
+  if (!href) return;
+  const imageSrc = getSafeImageUrl(post.feature_image);
+
+  const el = (tag, className, text) => {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text != null) node.textContent = text;
+    return node;
+  };
+
+  const wrap = el('div', 'latest-popup');
+  if (imageSrc) {
+    const img = el('img', 'latest-popup__img');
+    img.src = imageSrc;
+    img.alt = '';
+    wrap.appendChild(img);
+  }
+  const close = el('button', 'latest-popup__close', '×');
+  close.setAttribute('aria-label', 'Dismiss');
+  wrap.appendChild(close);
+
+  const body = el('div', 'latest-popup__body');
+  body.appendChild(el('div', 'latest-popup__kicker', 'Latest from Curve'));
+  const title = el('a', 'latest-popup__title', String(post.title ?? ''));
+  title.href = href;
+  title.target = '_blank';
+  title.rel = 'noopener noreferrer';
+  body.appendChild(title);
+  const date = new Date(post.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const readingTime = Number(post.reading_time);
+  body.appendChild(el('div', 'latest-popup__meta', `${date}${readingTime > 0 ? ` · ${readingTime} min` : ''}`));
+  wrap.appendChild(body);
+
+  close.addEventListener('click',()=>{localStorage.setItem(key,'1');wrap.remove();});
   document.body.appendChild(wrap);
   // signal presence to avoid overlapping UI
   document.body.classList.add('has-latest-popup');
