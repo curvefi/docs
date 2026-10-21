@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.css';
-import { GHOST_CONFIG, getGhostApiUrl, getGhostApiParams } from '@site/src/config/ghost';
+import { GHOST_CONFIG, getGhostApiUrl, getGhostApiParams, getPostUrl, getSafeImageUrl } from '@site/src/config/ghost';
 
 interface GhostPost {
   id: string;
@@ -9,13 +9,22 @@ interface GhostPost {
   slug: string;
   published_at: string;
   feature_image?: string;
-  url: string;
+  href: string;
   reading_time?: number;
   tags?: Array<{
     name: string;
     slug: string;
   }>;
 }
+
+// Drops posts without a valid slug and any feature image outside Ghost storage.
+const toSafePosts = (raw: unknown): GhostPost[] =>
+  (Array.isArray(raw) ? raw : []).flatMap((post) => {
+    const href = getPostUrl(post?.slug);
+    if (!href) return [];
+    const { url: _cmsUrl, ...rest } = post;
+    return [{ ...rest, href, feature_image: getSafeImageUrl(post.feature_image) ?? undefined }];
+  });
 
 interface GhostPostsProps {
   limit?: number;
@@ -72,7 +81,7 @@ export default function GhostPosts({
         
         // Only set posts for the current page - Ghost API should return only the requested page
         // But limit it just in case the API returns more than requested
-        const fetchedPosts = latestData.posts || [];
+        const fetchedPosts = toSafePosts(latestData.posts);
         setPosts(fetchedPosts.slice(0, limit));
         // Ghost API returns meta.pagination with pages, page, limit, total, etc.
         setMeta(latestData.meta || null);
@@ -84,7 +93,7 @@ export default function GhostPosts({
             const newestParams = getGhostApiParams(1, { order: 'published_at DESC' });
             const newestResp = await fetch(`${apiUrl}?${newestParams}`, { headers: { 'Accept-Version': `v${GHOST_CONFIG.apiVersion.replace('v','')}` } });
             const newestData = await newestResp.json();
-            const first = newestData?.posts?.[0] as GhostPost | undefined;
+            const first = toSafePosts(newestData?.posts)[0];
             let list: GhostPost[] = [];
             if (first) list.push(first);
             if (GHOST_CONFIG.featuredStaticSlugs?.length) {
@@ -92,7 +101,7 @@ export default function GhostPosts({
               const staticParams = getGhostApiParams(GHOST_CONFIG.featuredStaticSlugs.length, { filter: slugFilter });
               const staticResp = await fetch(`${apiUrl}?${staticParams}`, { headers: { 'Accept-Version': `v${GHOST_CONFIG.apiVersion.replace('v','')}` } });
               const staticData = await staticResp.json();
-              const staticPosts: GhostPost[] = staticData?.posts || [];
+              const staticPosts = toSafePosts(staticData?.posts);
               // preserve requested order
               const orderMap = new Map(GHOST_CONFIG.featuredStaticSlugs.map((s, i) => [s, i]));
               staticPosts.sort((a, b) => (orderMap.get(a.slug) ?? 0) - (orderMap.get(b.slug) ?? 0));
@@ -119,7 +128,7 @@ export default function GhostPosts({
             });
             if (bySlugResp.ok) {
               const bySlugData = await bySlugResp.json();
-              pinnedList = bySlugData.posts || [];
+              pinnedList = toSafePosts(bySlugData.posts);
             }
           }
 
@@ -130,7 +139,7 @@ export default function GhostPosts({
             });
             if (pinnedResp.ok) {
               const pinnedData = await pinnedResp.json();
-              const fallback = pinnedData.posts || [];
+              const fallback = toSafePosts(pinnedData.posts);
               // merge unique by id
               const seen = new Set(pinnedList.map(p => p.id));
               for (const p of fallback) if (!seen.has(p.id)) pinnedList.push(p);
@@ -200,7 +209,7 @@ export default function GhostPosts({
           <div className={`${styles.postsList} ${compact ? styles.postsListCompact : ''}`}>
             {featured.map((post, idx) => (
               <article key={`featured-${post.id}-${idx}`} className={`${styles.postListItem} ${compact ? styles.postListItemCompact : ''}`}>
-                <a href={post.url} target="_blank" rel="noopener noreferrer" className={styles.postListLink}>
+                <a href={post.href} target="_blank" rel="noopener noreferrer" className={styles.postListLink}>
                   <div className={styles.postListContent}>
                     {post.feature_image && (
                       <div className={styles.postListImage}>
@@ -229,7 +238,7 @@ export default function GhostPosts({
           <div className={`${styles.postsList} ${compact ? styles.postsListCompact : ''}`}>
             {posts.map((post, idx) => (
               <article key={`tagged-${post.id}-${idx}`} className={`${styles.postListItem} ${compact ? styles.postListItemCompact : ''}`}>
-                <a href={post.url} target="_blank" rel="noopener noreferrer" className={styles.postListLink}>
+                <a href={post.href} target="_blank" rel="noopener noreferrer" className={styles.postListLink}>
                   <div className={styles.postListContent}>
                     {post.feature_image && (
                       <div className={styles.postListImage}>

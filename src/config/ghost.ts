@@ -53,3 +53,24 @@ export const getGhostApiParams = (limit?: number, extra?: Record<string, string>
   }
   return params;
 };
+
+
+// CMS data is untrusted: links are rebuilt from the slug and images are limited to Ghost storage.
+const POST_BASE_URL = 'https://news.curve.finance';
+const IMAGE_ORIGIN = 'https://storage.ghost.io';
+const SLUG_PATTERN = /^[a-z0-9][a-z0-9-]*$/;
+
+export const getPostUrl = (slug: unknown): string | null => {
+  if (typeof slug !== 'string' || !SLUG_PATTERN.test(slug)) return null;
+  return `${POST_BASE_URL}/${slug}/`;
+};
+
+export const getSafeImageUrl = (src: unknown): string | null => {
+  if (typeof src !== 'string') return null;
+  try {
+    const url = new URL(src);
+    return url.origin === IMAGE_ORIGIN ? url.href : null;
+  } catch {
+    return null;
+  }
+};
