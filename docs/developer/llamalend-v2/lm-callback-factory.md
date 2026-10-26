@@ -1,34 +1,47 @@
 # CurveLMCallbackFactory
 
-`CurveLMCallbackFactory` deploys LM Callback contracts for LlamaLend and crvUSD markets from a shared blueprint. LM Callbacks let an AMM route liquidity-mining incentives to depositors, and the factory tracks every LM Callback it has deployed as a permanent, on-chain registry.
+The `CurveLMCallbackFactory` deploys [`LMCallback`](./lm-callback.md) contracts for Llamalend markets from a single blueprint. An LM Callback acts as a liquidity gauge for the collateral deposited in a market's AMM: once it receives gauge weight in the `GaugeController`, it streams CRV emissions to the market's borrowers.
 
-:::vyper[`CurveLMCallbackFactory.vy`]
+The factory only deploys callbacks and keeps a registry of them. Deploying a callback does not activate it: a callback starts earning only after it is set as the AMM's liquidity mining callback through the market's `Configurator` and added to the `GaugeController` by the DAO.
 
-The source code for the `CurveLMCallbackFactory.vy` contract can be found on [GitHub](https://github.com/curvefi/curve-stablecoin/blob/master/curve_stablecoin/lm_callback/LMCallbackFactory.vy). The contract is written in [Vyper](https://vyperlang.org/) version `0.4.3`.
+Deployment is permissionless. Anyone can call `deploy_lm_callback` for an AMM, while the owner of the factory controls the blueprint, can pause new deployments, and is the account allowed to pause CRV rewards on every callback deployed by this factory (see [`LMCallback.set_killed`](./lm-callback.md#set_killed)).
 
-The contract is deployed on :logos-ethereum: Ethereum at [`0x2191718CD32d02B8E60BAdFFeA33E4B5DD9A0A0D`](https://etherscan.io/address/0x2191718CD32d02B8E60BAdFFeA33E4B5DD9A0A0D).
+:::vyper[`LMCallbackFactory.vy`]
+
+The source code for the `LMCallbackFactory.vy` contract can be found on [GitHub](https://github.com/curvefi/curve-stablecoin/blob/master/curve_stablecoin/lm_callback/LMCallbackFactory.vy). The contract is written in [Vyper](https://vyperlang.org/) version `0.4.3` and uses the [Snekmate](https://github.com/pcaversaccio/snekmate) `ownable` and `pausable` modules.
+
+The contract is deployed on :logos-ethereum: Ethereum at [`0x916E2B5E3Df268Ce2348265d2AAD4BB9f2B3dFA0`](https://etherscan.io/address/0x916E2B5E3Df268Ce2348265d2AAD4BB9f2B3dFA0).
 
 <ContractABI>
 
-
 ```json
-[{"inputs":[{"name":"_owner","type":"address"},{"name":"_blueprint","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"previous_owner","type":"address"},{"indexed":true,"name":"new_owner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"old_blueprint","type":"address"},{"indexed":false,"name":"new_blueprint","type":"address"}],"name":"UpdateLMCallbackBlueprint","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"amm","type":"address"},{"indexed":true,"name":"deployer","type":"address"},{"indexed":true,"name":"blueprint","type":"address"},{"indexed":false,"name":"lm_callback","type":"address"}],"name":"DeployedLMCallback","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"account","type":"address"}],"name":"Paused","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"account","type":"address"}],"name":"Unpaused","type":"event"},{"stateMutability":"nonpayable","type":"function","name":"deploy_lm_callback","inputs":[{"name":"_amm","type":"address"}],"outputs":[{"name":"","type":"address"}]},{"stateMutability":"view","type":"function","name":"get_lm_callback","inputs":[{"name":"_i","type":"uint256"}],"outputs":[{"name":"","type":"address"}]},{"stateMutability":"view","type":"function","name":"get_lm_callback_by_amm","inputs":[{"name":"arg0","type":"address"}],"outputs":[{"name":"","type":"address"}]},{"stateMutability":"view","type":"function","name":"get_blueprint_by_lm_callback","inputs":[{"name":"arg0","type":"address"}],"outputs":[{"name":"","type":"address"}]},{"stateMutability":"view","type":"function","name":"get_lm_callback_count","inputs":[],"outputs":[{"name":"","type":"uint256"}]},{"stateMutability":"nonpayable","type":"function","name":"pause","inputs":[],"outputs":[]},{"stateMutability":"nonpayable","type":"function","name":"unpause","inputs":[],"outputs":[]},{"stateMutability":"nonpayable","type":"function","name":"set_blueprint","inputs":[{"name":"_blueprint","type":"address"}],"outputs":[]},{"stateMutability":"view","type":"function","name":"owner","inputs":[],"outputs":[{"name":"","type":"address"}]},{"stateMutability":"nonpayable","type":"function","name":"transfer_ownership","inputs":[{"name":"new_owner","type":"address"}],"outputs":[]},{"stateMutability":"view","type":"function","name":"paused","inputs":[],"outputs":[{"name":"","type":"bool"}]},{"stateMutability":"view","type":"function","name":"lm_callback_blueprint","inputs":[],"outputs":[{"name":"","type":"address"}]},{"stateMutability":"view","type":"function","name":"is_valid_gauge","inputs":[{"name":"arg0","type":"address"}],"outputs":[{"name":"","type":"bool"}]},{"stateMutability":"view","type":"function","name":"version","inputs":[],"outputs":[{"name":"","type":"string"}]}]
+[{"anonymous":false,"inputs":[{"indexed":true,"name":"previous_owner","type":"address"},{"indexed":true,"name":"new_owner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"old_blueprint","type":"address"},{"indexed":false,"name":"new_blueprint","type":"address"}],"name":"UpdateLMCallbackBlueprint","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"amm","type":"address"},{"indexed":true,"name":"deployer","type":"address"},{"indexed":true,"name":"blueprint","type":"address"},{"indexed":false,"name":"lm_callback","type":"address"}],"name":"DeployedLMCallback","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"account","type":"address"}],"name":"Paused","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"account","type":"address"}],"name":"Unpaused","type":"event"},{"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"name":"new_owner","type":"address"}],"name":"transfer_ownership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"paused","outputs":[{"name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"name":"_amm","type":"address"}],"name":"deploy_lm_callback","outputs":[{"name":"","type":"address"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_i","type":"uint256"}],"name":"get_lm_callback","outputs":[{"name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"get_lm_callback_count","outputs":[{"name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"pause","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"unpause","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_blueprint","type":"address"}],"name":"set_blueprint","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"version","outputs":[{"name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"lm_callback_blueprint","outputs":[{"name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"name":"arg0","type":"address"}],"name":"is_valid_gauge","outputs":[{"name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"name":"arg0","type":"address"}],"name":"get_lm_callback_by_amm","outputs":[{"name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"name":"arg0","type":"address"}],"name":"get_blueprint_by_lm_callback","outputs":[{"name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"name":"_owner","type":"address"},{"name":"_blueprint","type":"address"}],"outputs":[],"stateMutability":"nonpayable","type":"constructor"}]
 ```
 
 </ContractABI>
 
 :::
 
-## LM Callback Deployment
+---
+
+## Deploying LM Callbacks
 
 ### `deploy_lm_callback`
-::::description[`CurveLMCallbackFactory.deploy_lm_callback(_amm: IAMM) -> address`]
+::::description[`LMCallbackFactory.deploy_lm_callback(_amm: IAMM) -> address`]
 
-Deploys a new LM Callback from the current blueprint for the given LlamaLend/crvUSD AMM. The call reverts if the factory is paused. It also reverts if the AMM's most recently deployed LM Callback already came from the blueprint currently set — this stops the same market from being handed two identical callbacks back to back. Only the AMM's newest callback is checked, not every callback ever deployed for it, so rotating the blueprint away and back does allow another deployment from the earlier blueprint. The function is guarded against reentrancy because the blueprint's constructor hands control to the caller-supplied `_amm`, and the reentrancy lock keeps the registry writes below atomic with respect to the deployment they describe.
+Deploys a new `LMCallback` for the AMM `_amm` from the current `lm_callback_blueprint`. Anyone can call this function while the factory is not paused.
 
-| Input | Type   | Description                                              |
-| ----- | ------ | ---------------------------------------------------------- |
-| `_amm` | `address` | LlamaLend AMM the deployed LM Callback is going to be used for |
+The new callback is registered as a valid gauge (`is_valid_gauge`), appended to the list of deployed callbacks, recorded as the newest callback for the AMM (`get_lm_callback_by_amm`), and linked to the blueprint it was created from (`get_blueprint_by_lm_callback`).
+
+The call reverts with `"already deployed"` if the AMM's newest callback was created from the blueprint that is currently set, so a market cannot receive two identical callbacks back to back. Only the newest callback is compared: after the blueprint has been rotated, a new callback can be deployed for an AMM that already has one from an earlier blueprint.
+
+The callback constructor reads the collateral token from `_amm.coins(1)` and requires it to have 18 decimals. The function is reentrancy-locked because the blueprint constructor calls into the caller-supplied AMM.
+
+Deploying a callback does not attach it to the AMM. Attaching is done through the market's `Configurator`, and CRV only flows once the DAO has added the callback to the `GaugeController`.
+
+| Input  | Type      | Description                                               |
+| ------ | --------- | --------------------------------------------------------- |
+| `_amm` | `address` | Llamalend AMM the LM Callback is deployed for.            |
 
 Returns: address of the deployed LM Callback (`address`).
 
@@ -36,7 +49,25 @@ Emits: `DeployedLMCallback` event.
 
 <SourceCode>
 
+<Tabs>
+<TabItem value="LMCallbackFactory.vy" label="LMCallbackFactory.vy">
+
 ```vyper
+event DeployedLMCallback:
+    amm: indexed(address)
+    deployer: indexed(address)
+    blueprint: indexed(address)
+    lm_callback: address
+
+MAX_LM_CALLBACKS: constant(uint256) = 10**18
+
+lm_callback_blueprint: public(address)
+is_valid_gauge: public(HashMap[address, bool])
+get_lm_callback_by_amm: public(HashMap[address, address])
+get_blueprint_by_lm_callback: public(HashMap[address, address])
+
+_lm_callbacks: DynArray[address, MAX_LM_CALLBACKS]
+
 @external
 @nonreentrant
 def deploy_lm_callback(_amm: IAMM) -> address:
@@ -84,179 +115,76 @@ def deploy_lm_callback(_amm: IAMM) -> address:
     return lm_callback
 ```
 
+</TabItem>
+<TabItem value="pausable.vy" label="pausable.vy (Snekmate 🐍)">
+
+```vyper
+paused: public(bool)
+
+@internal
+def _require_not_paused():
+    """
+    @dev Throws if the contract is paused.
+    """
+    assert not self.paused, "pausable: contract is paused"
+```
+
+</TabItem>
+</Tabs>
+
 </SourceCode>
 
 <Example>
 
 ```shell
->>> CurveLMCallbackFactory.deploy_lm_callback("0x0000000000000000000000000000000000000A")
+>>> LMCallbackFactory.deploy_lm_callback("0xAMM...")
+'0xLMCallback...'
 ```
 
 </Example>
 
 ::::
 
-### `get_lm_callback`
-::::description[`CurveLMCallbackFactory.get_lm_callback(_i: uint256) -> address: view`]
+---
 
-Returns the address of the LM Callback deployed at index `_i` in the factory's registry.
-
-| Input | Type      | Description             |
-| ----- | --------- | ------------------------ |
-| `_i`  | `uint256` | Index of the LM Callback |
-
-Returns: address of the LM Callback (`address`).
-
-<SourceCode>
-
-```vyper
-@external
-@view
-def get_lm_callback(_i: uint256) -> address:
-    """
-    @notice Get the LM Callback deployed at index `_i`
-    @param _i Index of the LM Callback
-    @return Address of the LM Callback
-    """
-    return self._lm_callbacks[_i]
-```
-
-</SourceCode>
-
-<Example>
-
-<ContractCall
-  address="0x2191718CD32d02B8E60BAdFFeA33E4B5DD9A0A0D"
-  abi={["function get_lm_callback(uint256) view returns (address)"]}
-  method="get_lm_callback"
-  args={["0"]}
-  labels={["_i"]}
-  contractName="CurveLMCallbackFactory"
-/>
-
-</Example>
-
-::::
-
-### `get_lm_callback_by_amm`
-::::description[`CurveLMCallbackFactory.get_lm_callback_by_amm(arg0: address) -> address: view`]
-
-Returns the most recent LM Callback this factory deployed for a given AMM, or the zero address if it has never deployed one for it. This reflects deploy-time intent, not necessarily live state: the Controller's Configurator can point an AMM's callback at any address it likes, and detaching one is never reflected here. To find out what an AMM is actually using right now, query the AMM itself rather than the factory.
-
-| Input  | Type      | Description   |
-| ------ | --------- | ------------- |
-| `arg0` | `address` | AMM address   |
-
-Returns: address of the AMM's most recently factory-deployed LM Callback, or the zero address (`address`).
-
-<SourceCode>
-
-```vyper
-# The newest callback this factory deployed for an AMM - deploy-time intent, not
-# live state: the Configurator can attach any address it likes, and a detach is
-# never reflected here. Ask the AMM itself for what is currently attached
-get_lm_callback_by_amm: public(HashMap[address, address])
-```
-
-</SourceCode>
-
-<Example>
-
-<ContractCall
-  address="0x2191718CD32d02B8E60BAdFFeA33E4B5DD9A0A0D"
-  abi={["function get_lm_callback_by_amm(address) view returns (address)"]}
-  method="get_lm_callback_by_amm"
-  args={["0x0000000000000000000000000000000000000A"]}
-  labels={["_amm"]}
-  contractName="CurveLMCallbackFactory"
-/>
-
-</Example>
-
-::::
-
-### `get_blueprint_by_lm_callback`
-::::description[`CurveLMCallbackFactory.get_blueprint_by_lm_callback(arg0: address) -> address: view`]
-
-Returns the blueprint a given LM Callback was created from. This is kept both for the duplicate-deploy check in `deploy_lm_callback` and so integrations can tell different callback generations apart.
-
-| Input  | Type      | Description        |
-| ------ | --------- | -------------------- |
-| `arg0` | `address` | LM Callback address |
-
-Returns: address of the blueprint the LM Callback was deployed from (`address`).
-
-<SourceCode>
-
-```vyper
-# Blueprint each callback was created from, kept for the duplicate check in
-# `deploy_lm_callback` and so integrations can tell callback generations apart
-get_blueprint_by_lm_callback: public(HashMap[address, address])
-```
-
-</SourceCode>
-
-<Example>
-
-<ContractCall
-  address="0x2191718CD32d02B8E60BAdFFeA33E4B5DD9A0A0D"
-  abi={["function get_blueprint_by_lm_callback(address) view returns (address)"]}
-  method="get_blueprint_by_lm_callback"
-  args={["0x0000000000000000000000000000000000000A"]}
-  labels={["_lm_callback"]}
-  contractName="CurveLMCallbackFactory"
-/>
-
-</Example>
-
-::::
-
-### `get_lm_callback_count`
-::::description[`CurveLMCallbackFactory.get_lm_callback_count() -> uint256: view`]
-
-Returns the number of LM Callbacks deployed by this factory.
-
-Returns: number of deployed LM Callbacks (`uint256`).
-
-<SourceCode>
-
-```vyper
-@external
-@view
-def get_lm_callback_count() -> uint256:
-    """
-    @notice Get the number of LM Callbacks deployed by this factory
-    @return Number of deployed LM Callbacks
-    """
-    return len(self._lm_callbacks)
-```
-
-</SourceCode>
-
-<Example>
-
-<ContractCall
-  address="0x2191718CD32d02B8E60BAdFFeA33E4B5DD9A0A0D"
-  abi={["function get_lm_callback_count() view returns (uint256)"]}
-  method="get_lm_callback_count"
-  contractName="CurveLMCallbackFactory"
-/>
-
-</Example>
-
-::::
+## Blueprint
 
 ### `lm_callback_blueprint`
-::::description[`CurveLMCallbackFactory.lm_callback_blueprint() -> address: view`]
+::::description[`LMCallbackFactory.lm_callback_blueprint() -> address: view`]
 
-Returns the address of the blueprint contract that `deploy_lm_callback` currently deploys from.
+Getter for the blueprint that new LM Callbacks are deployed from. It is set in the constructor and can be changed by the owner via `set_blueprint`. The blueprint can never be the zero address.
 
-Returns: address of the LM Callback blueprint (`address`).
+Returns: LM Callback blueprint (`address`).
 
 <SourceCode>
 
 ```vyper
 lm_callback_blueprint: public(address)
+
+@deploy
+def __init__(
+    _owner: address,
+    _blueprint: address,
+):
+    """
+    @notice Factory which creates LM Callbacks for LlamaLend/crvUSD markets from a blueprint
+    @param _owner Owner of the factory, allowed to update the blueprint (ideally DAO)
+    @param _blueprint Address of the LM Callback blueprint
+    """
+    ownable.__init__()
+    pausable.__init__()
+    assert _owner != empty(address)  # dev: zero owner
+    ownable._transfer_ownership(_owner)
+
+    self._set_blueprint(_blueprint)
+
+@internal
+def _set_blueprint(_blueprint: address):
+    assert _blueprint != empty(address)  # dev: zero blueprint
+    log ILMCallbackFactory.UpdateLMCallbackBlueprint(
+        old_blueprint=self.lm_callback_blueprint, new_blueprint=_blueprint
+    )
+    self.lm_callback_blueprint = _blueprint
 ```
 
 </SourceCode>
@@ -264,47 +192,10 @@ lm_callback_blueprint: public(address)
 <Example>
 
 <ContractCall
-  address="0x2191718CD32d02B8E60BAdFFeA33E4B5DD9A0A0D"
+  address="0x916E2B5E3Df268Ce2348265d2AAD4BB9f2B3dFA0"
   abi={["function lm_callback_blueprint() view returns (address)"]}
   method="lm_callback_blueprint"
-  contractName="CurveLMCallbackFactory"
-/>
-
-</Example>
-
-::::
-
-### `is_valid_gauge`
-::::description[`CurveLMCallbackFactory.is_valid_gauge(arg0: address) -> bool: view`]
-
-Returns `True` if the given address is an LM Callback deployed by this factory. This getter is named after the convention gauge factories use — integrations validate a gauge by asking its factory for `is_valid_gauge`, and LM Callbacks are gauges from that point of view — rather than being named directly after `LMCallback`. It was renamed from `is_valid_lm_callback` in the previous version of this contract; the check itself is unchanged.
-
-| Input  | Type      | Description                     |
-| ------ | --------- | -------------------------------- |
-| `arg0` | `address` | Address to check                 |
-
-Returns: whether the address is a valid, factory-deployed LM Callback (`bool`).
-
-<SourceCode>
-
-```vyper
-# Named after the gauge factories' getter rather than after the callback:
-# integrations validate a gauge by asking its factory for `is_valid_gauge`,
-# and LM Callbacks are gauges from their point of view
-is_valid_gauge: public(HashMap[address, bool])
-```
-
-</SourceCode>
-
-<Example>
-
-<ContractCall
-  address="0x2191718CD32d02B8E60BAdFFeA33E4B5DD9A0A0D"
-  abi={["function is_valid_gauge(address) view returns (bool)"]}
-  method="is_valid_gauge"
-  args={["0x0000000000000000000000000000000000000A"]}
-  labels={["_lm_callback"]}
-  contractName="CurveLMCallbackFactory"
+  contractName="LMCallbackFactory"
 />
 
 </Example>
@@ -312,26 +203,32 @@ is_valid_gauge: public(HashMap[address, bool])
 ::::
 
 ### `set_blueprint`
-::::description[`CurveLMCallbackFactory.set_blueprint(_blueprint: address)`]
+::::description[`LMCallbackFactory.set_blueprint(_blueprint: address)`]
 
-:::guard[Guarded Method]
-This function is only callable by the `owner` of the contract. The `owner` in this case is ideally the Curve DAO. So, rotating the LM Callback blueprint used by `deploy_lm_callback` is in the hands of the DAO.
+:::guard[Guarded Method by [Snekmate 🐍](https://github.com/pcaversaccio/snekmate)]
+This contract makes use of a Snekmate module to manage roles and permissions. This specific function can only be called by the current `owner` of the factory, which is intended to be the Curve DAO. Changing the code that future LM Callbacks are deployed from is therefore in the hands of the owner.
 :::
 
-Sets the blueprint that `deploy_lm_callback` deploys from. Reverts on the zero address: the blueprint can be rotated but never unset, so new deployments are halted with `pause()` instead.
+Sets a new blueprint for future LM Callback deployments. Callbacks that were already deployed are not affected. The blueprint can be rotated but never unset: passing the zero address reverts, so new deployments are halted with `pause` instead.
 
-| Input        | Type      | Description                          |
+| Input        | Type      | Description                            |
 | ------------ | --------- | -------------------------------------- |
-| `_blueprint` | `address` | The address of the blueprint to use  |
+| `_blueprint` | `address` | Address of the new LM Callback blueprint. |
 
 Emits: `UpdateLMCallbackBlueprint` event.
 
 <SourceCode>
 
 <Tabs>
-<TabItem value="CurveLMCallbackFactory.vy" label="CurveLMCallbackFactory.vy">
+<TabItem value="LMCallbackFactory.vy" label="LMCallbackFactory.vy">
 
 ```vyper
+event UpdateLMCallbackBlueprint:
+    old_blueprint: address
+    new_blueprint: address
+
+lm_callback_blueprint: public(address)
+
 @external
 def set_blueprint(_blueprint: address):
     """
@@ -356,6 +253,8 @@ def _set_blueprint(_blueprint: address):
 <TabItem value="ownable.vy" label="ownable.vy (Snekmate 🐍)">
 
 ```vyper
+owner: public(address)
+
 @internal
 def _check_owner():
     """
@@ -372,30 +271,227 @@ def _check_owner():
 <Example>
 
 ```shell
->>> CurveLMCallbackFactory.set_blueprint("0x0000000000000000000000000000000000000B")
+>>> LMCallbackFactory.set_blueprint("0xNewBlueprint...")
 ```
 
 </Example>
 
 ::::
 
-## Pausing
+### `get_blueprint_by_lm_callback`
+::::description[`LMCallbackFactory.get_blueprint_by_lm_callback(arg0: address) -> address: view`]
+
+Getter for the blueprint an LM Callback was deployed from. It is used for the duplicate check in `deploy_lm_callback` and lets integrations tell callback generations apart. Returns the zero address for addresses not deployed by this factory.
+
+| Input  | Type      | Description                    |
+| ------ | --------- | ------------------------------ |
+| `arg0` | `address` | Address of the LM Callback.    |
+
+Returns: blueprint the callback was created from (`address`).
+
+<SourceCode>
+
+```vyper
+# Blueprint each callback was created from, kept for the duplicate check in
+# `deploy_lm_callback` and so integrations can tell callback generations apart
+get_blueprint_by_lm_callback: public(HashMap[address, address])
+```
+
+</SourceCode>
+
+<Example>
+
+<ContractCall
+  address="0x916E2B5E3Df268Ce2348265d2AAD4BB9f2B3dFA0"
+  abi={["function get_blueprint_by_lm_callback(address) view returns (address)"]}
+  method="get_blueprint_by_lm_callback"
+  args={["0x0000000000000000000000000000000000000000"]}
+  labels={["arg0"]}
+  contractName="LMCallbackFactory"
+/>
+
+</Example>
+
+::::
+
+---
+
+## Querying LM Callbacks
+
+### `get_lm_callback`
+::::description[`LMCallbackFactory.get_lm_callback(_i: uint256) -> address: view`]
+
+Returns the LM Callback deployed at index `_i`, in deployment order. Reverts if `_i` is not lower than `get_lm_callback_count`.
+
+| Input | Type      | Description                  |
+| ----- | --------- | ---------------------------- |
+| `_i`  | `uint256` | Index of the LM Callback.    |
+
+Returns: LM Callback (`address`).
+
+<SourceCode>
+
+```vyper
+_lm_callbacks: DynArray[address, MAX_LM_CALLBACKS]
+
+@external
+@view
+def get_lm_callback(_i: uint256) -> address:
+    """
+    @notice Get the LM Callback deployed at index `_i`
+    @param _i Index of the LM Callback
+    @return Address of the LM Callback
+    """
+    return self._lm_callbacks[_i]
+```
+
+</SourceCode>
+
+<Example>
+
+```shell
+>>> LMCallbackFactory.get_lm_callback(0)
+'0xLMCallback...'
+```
+
+</Example>
+
+::::
+
+### `get_lm_callback_count`
+::::description[`LMCallbackFactory.get_lm_callback_count() -> uint256: view`]
+
+Returns the number of LM Callbacks deployed by this factory.
+
+Returns: number of deployed LM Callbacks (`uint256`).
+
+<SourceCode>
+
+```vyper
+_lm_callbacks: DynArray[address, MAX_LM_CALLBACKS]
+
+@external
+@view
+def get_lm_callback_count() -> uint256:
+    """
+    @notice Get the number of LM Callbacks deployed by this factory
+    @return Number of deployed LM Callbacks
+    """
+    return len(self._lm_callbacks)
+```
+
+</SourceCode>
+
+<Example>
+
+<ContractCall
+  address="0x916E2B5E3Df268Ce2348265d2AAD4BB9f2B3dFA0"
+  abi={["function get_lm_callback_count() view returns (uint256)"]}
+  method="get_lm_callback_count"
+  contractName="LMCallbackFactory"
+/>
+
+</Example>
+
+::::
+
+### `get_lm_callback_by_amm`
+::::description[`LMCallbackFactory.get_lm_callback_by_amm(arg0: address) -> address: view`]
+
+Getter for the newest LM Callback this factory deployed for an AMM. This records deploy-time intent, not live state: the `Configurator` can attach any address as the callback, and a detach is never reflected here. To find the callback currently attached to a market, query `liquidity_mining_callback()` on the AMM itself.
+
+| Input  | Type      | Description          |
+| ------ | --------- | -------------------- |
+| `arg0` | `address` | Address of the AMM.  |
+
+Returns: newest LM Callback deployed for the AMM (`address`).
+
+<SourceCode>
+
+```vyper
+# The newest callback this factory deployed for an AMM - deploy-time intent, not
+# live state: the Configurator can attach any address it likes, and a detach is
+# never reflected here. Ask the AMM itself for what is currently attached
+get_lm_callback_by_amm: public(HashMap[address, address])
+```
+
+</SourceCode>
+
+<Example>
+
+<ContractCall
+  address="0x916E2B5E3Df268Ce2348265d2AAD4BB9f2B3dFA0"
+  abi={["function get_lm_callback_by_amm(address) view returns (address)"]}
+  method="get_lm_callback_by_amm"
+  args={["0x0000000000000000000000000000000000000000"]}
+  labels={["arg0"]}
+  contractName="LMCallbackFactory"
+/>
+
+</Example>
+
+::::
+
+### `is_valid_gauge`
+::::description[`LMCallbackFactory.is_valid_gauge(arg0: address) -> bool: view`]
+
+Checks whether an address is an LM Callback deployed by this factory. The getter is named after the gauge factories' `is_valid_gauge` because integrations validate gauges by asking their factory, and LM Callbacks are gauges from their point of view.
+
+A `True` result only means the callback was deployed by this factory. It says nothing about whether the callback is currently attached to its AMM or whether its rewards are paused; see [`LMCallback.is_killed`](./lm-callback.md#is_killed) for that.
+
+| Input  | Type      | Description            |
+| ------ | --------- | ---------------------- |
+| `arg0` | `address` | Address to check.      |
+
+Returns: `True` if deployed by this factory (`bool`).
+
+<SourceCode>
+
+```vyper
+# Named after the gauge factories' getter rather than after the callback:
+# integrations validate a gauge by asking its factory for `is_valid_gauge`,
+# and LM Callbacks are gauges from their point of view
+is_valid_gauge: public(HashMap[address, bool])
+```
+
+</SourceCode>
+
+<Example>
+
+<ContractCall
+  address="0x916E2B5E3Df268Ce2348265d2AAD4BB9f2B3dFA0"
+  abi={["function is_valid_gauge(address) view returns (bool)"]}
+  method="is_valid_gauge"
+  args={["0x0000000000000000000000000000000000000000"]}
+  labels={["arg0"]}
+  contractName="LMCallbackFactory"
+/>
+
+</Example>
+
+::::
+
+---
+
+## Pausing Deployments
+
+Pausing only stops new deployments through `deploy_lm_callback`. It has no effect on callbacks that are already deployed; CRV rewards on an individual callback are paused with [`LMCallback.set_killed`](./lm-callback.md#set_killed).
 
 ### `pause`
-::::description[`CurveLMCallbackFactory.pause()`]
+::::description[`LMCallbackFactory.pause()`]
 
-:::guard[Guarded Method]
-This function is only callable by the `owner` of the contract. The `owner` in this case is ideally the Curve DAO. So, halting new LM Callback deployments is in the hands of the DAO.
+:::guard[Guarded Method by [Snekmate 🐍](https://github.com/pcaversaccio/snekmate)]
+This contract makes use of a Snekmate module to manage roles and permissions. This specific function can only be called by the current `owner` of the factory, which is intended to be the Curve DAO.
 :::
 
-Pauses new LM Callback deployments. While paused, `deploy_lm_callback` reverts.
+Pauses the factory, so `deploy_lm_callback` reverts until it is unpaused. Reverts if the factory is already paused.
 
 Emits: `Paused` event.
 
 <SourceCode>
 
 <Tabs>
-<TabItem value="CurveLMCallbackFactory.vy" label="CurveLMCallbackFactory.vy">
+<TabItem value="LMCallbackFactory.vy" label="LMCallbackFactory.vy">
 
 ```vyper
 @external
@@ -411,6 +507,8 @@ def pause():
 <TabItem value="ownable.vy" label="ownable.vy (Snekmate 🐍)">
 
 ```vyper
+owner: public(address)
+
 @internal
 def _check_owner():
     """
@@ -423,6 +521,11 @@ def _check_owner():
 <TabItem value="pausable.vy" label="pausable.vy (Snekmate 🐍)">
 
 ```vyper
+event Paused:
+    account: address
+
+paused: public(bool)
+
 @internal
 def _pause():
     """
@@ -451,7 +554,7 @@ def _require_not_paused():
 <Example>
 
 ```shell
->>> CurveLMCallbackFactory.pause()
+>>> LMCallbackFactory.pause()
 ```
 
 </Example>
@@ -459,20 +562,20 @@ def _require_not_paused():
 ::::
 
 ### `unpause`
-::::description[`CurveLMCallbackFactory.unpause()`]
+::::description[`LMCallbackFactory.unpause()`]
 
-:::guard[Guarded Method]
-This function is only callable by the `owner` of the contract. The `owner` in this case is ideally the Curve DAO. So, resuming LM Callback deployments is in the hands of the DAO.
+:::guard[Guarded Method by [Snekmate 🐍](https://github.com/pcaversaccio/snekmate)]
+This contract makes use of a Snekmate module to manage roles and permissions. This specific function can only be called by the current `owner` of the factory, which is intended to be the Curve DAO.
 :::
 
-Unpauses the factory, allowing `deploy_lm_callback` to be called again.
+Unpauses the factory to allow new LM Callback deployments again. Reverts if the factory is not paused.
 
 Emits: `Unpaused` event.
 
 <SourceCode>
 
 <Tabs>
-<TabItem value="CurveLMCallbackFactory.vy" label="CurveLMCallbackFactory.vy">
+<TabItem value="LMCallbackFactory.vy" label="LMCallbackFactory.vy">
 
 ```vyper
 @external
@@ -488,6 +591,8 @@ def unpause():
 <TabItem value="ownable.vy" label="ownable.vy (Snekmate 🐍)">
 
 ```vyper
+owner: public(address)
+
 @internal
 def _check_owner():
     """
@@ -500,6 +605,11 @@ def _check_owner():
 <TabItem value="pausable.vy" label="pausable.vy (Snekmate 🐍)">
 
 ```vyper
+event Unpaused:
+    account: address
+
+paused: public(bool)
+
 @internal
 def _unpause():
     """
@@ -528,7 +638,7 @@ def _require_paused():
 <Example>
 
 ```shell
->>> CurveLMCallbackFactory.unpause()
+>>> LMCallbackFactory.unpause()
 ```
 
 </Example>
@@ -536,57 +646,104 @@ def _require_paused():
 ::::
 
 ### `paused`
-::::description[`CurveLMCallbackFactory.paused() -> bool: view`]
+::::description[`LMCallbackFactory.paused() -> bool: view`]
 
-Returns whether the factory is currently paused. While paused, `deploy_lm_callback` reverts.
+Getter for whether the factory is paused. While paused, `deploy_lm_callback` reverts.
 
-Returns: whether the factory is paused (`bool`).
+Returns: `True` if paused (`bool`).
 
 <SourceCode>
+
+<Tabs>
+<TabItem value="LMCallbackFactory.vy" label="LMCallbackFactory.vy">
+
+```vyper
+from snekmate.utils import pausable
+
+initializes: pausable
+
+exports: (
+    ...
+    pausable.paused,
+)
+```
+
+</TabItem>
+<TabItem value="pausable.vy" label="pausable.vy (Snekmate 🐍)">
 
 ```vyper
 paused: public(bool)
 ```
+
+</TabItem>
+</Tabs>
 
 </SourceCode>
 
 <Example>
 
 <ContractCall
-  address="0x2191718CD32d02B8E60BAdFFeA33E4B5DD9A0A0D"
+  address="0x916E2B5E3Df268Ce2348265d2AAD4BB9f2B3dFA0"
   abi={["function paused() view returns (bool)"]}
   method="paused"
-  contractName="CurveLMCallbackFactory"
+  contractName="LMCallbackFactory"
 />
 
 </Example>
 
 ::::
 
+---
+
 ## Contract Ownership
 
+The factory uses Snekmate's `ownable` module. `renounce_ownership` is intentionally not exported: with a zero owner the blueprint could never be updated again.
+
 ### `owner`
-::::description[`CurveLMCallbackFactory.owner() -> address: view`]
+::::description[`LMCallbackFactory.owner() -> address: view`]
 
-Returns the address of the current owner of the factory.
+Getter for the owner of the factory. The owner can change the blueprint, pause and unpause deployments, and pause or resume CRV rewards on any LM Callback deployed by this factory.
 
-Returns: address of the current owner (`address`).
+Returns: owner (`address`).
 
 <SourceCode>
+
+<Tabs>
+<TabItem value="LMCallbackFactory.vy" label="LMCallbackFactory.vy">
+
+```vyper
+from snekmate.auth import ownable
+
+initializes: ownable
+
+exports: (
+    # `renounce_ownership` is intentionally not exported: with a zero owner the
+    # blueprint could never be updated again
+    ownable.owner,
+    ownable.transfer_ownership,
+    ...
+)
+```
+
+</TabItem>
+<TabItem value="ownable.vy" label="ownable.vy (Snekmate 🐍)">
 
 ```vyper
 owner: public(address)
 ```
+
+</TabItem>
+</Tabs>
 
 </SourceCode>
 
 <Example>
 
 <ContractCall
-  address="0x2191718CD32d02B8E60BAdFFeA33E4B5DD9A0A0D"
+  address="0x916E2B5E3Df268Ce2348265d2AAD4BB9f2B3dFA0"
   abi={["function owner() view returns (address)"]}
   method="owner"
-  contractName="CurveLMCallbackFactory"
+  contractName="LMCallbackFactory"
 />
 
 </Example>
@@ -594,26 +751,43 @@ owner: public(address)
 ::::
 
 ### `transfer_ownership`
-::::description[`CurveLMCallbackFactory.transfer_ownership(new_owner: address)`]
+::::description[`LMCallbackFactory.transfer_ownership(new_owner: address)`]
 
 :::guard[Guarded Method by [Snekmate 🐍](https://github.com/pcaversaccio/snekmate)]
-This contract makes use of a Snekmate module to manage roles and permissions. This specific function can only be called by the current `owner` of the contract.
+This contract makes use of a Snekmate module to manage roles and permissions. This specific function can only be called by the current `owner` of the factory.
 :::
 
-Transfers ownership of the contract to a new account. The new owner cannot be the zero address. Note that `renounce_ownership` is intentionally not exported by this factory: with a zero owner, the blueprint could never be updated again.
+Transfers ownership of the factory to `new_owner`. The new owner cannot be the zero address. Because LM Callbacks read the factory owner when `set_killed` is called, this also hands over the right to pause CRV rewards on every callback deployed by this factory.
 
-| Input       | Type      | Description                      |
-| ----------- | --------- | ---------------------------------- |
-| `new_owner` | `address` | The 20-byte address of the new owner |
+| Input       | Type      | Description            |
+| ----------- | --------- | ---------------------- |
+| `new_owner` | `address` | Address of the new owner. |
 
 Emits: `OwnershipTransferred` event.
 
 <SourceCode>
 
 <Tabs>
+<TabItem value="LMCallbackFactory.vy" label="LMCallbackFactory.vy">
+
+```vyper
+exports: (
+    ownable.owner,
+    ownable.transfer_ownership,
+    ...
+)
+```
+
+</TabItem>
 <TabItem value="ownable.vy" label="ownable.vy (Snekmate 🐍)">
 
 ```vyper
+event OwnershipTransferred:
+    previous_owner: indexed(address)
+    new_owner: indexed(address)
+
+owner: public(address)
+
 @external
 def transfer_ownership(new_owner: address):
     """
@@ -642,6 +816,7 @@ def _transfer_ownership(new_owner: address):
          to a new account `new_owner`.
     @notice This is an `internal` function without
             access restriction.
+    @param new_owner The 20-byte address of the new owner.
     """
     old_owner: address = self.owner
     self.owner = new_owner
@@ -656,19 +831,21 @@ def _transfer_ownership(new_owner: address):
 <Example>
 
 ```shell
->>> CurveLMCallbackFactory.transfer_ownership("0x0000000000000000000000000000000000000C")
+>>> LMCallbackFactory.transfer_ownership("0xNewOwner...")
 ```
 
 </Example>
 
 ::::
 
+---
+
 ## Other Methods
 
 ### `version`
-::::description[`CurveLMCallbackFactory.version() -> String[5]: view`]
+::::description[`LMCallbackFactory.version() -> String[5]: view`]
 
-Returns the version of this factory contract as a string.
+Getter for the version of the contract.
 
 Returns: contract version (`String[5]`).
 
@@ -683,10 +860,10 @@ version: public(constant(String[5])) = "1.0.0"
 <Example>
 
 <ContractCall
-  address="0x2191718CD32d02B8E60BAdFFeA33E4B5DD9A0A0D"
+  address="0x916E2B5E3Df268Ce2348265d2AAD4BB9f2B3dFA0"
   abi={["function version() view returns (string)"]}
   method="version"
-  contractName="CurveLMCallbackFactory"
+  contractName="LMCallbackFactory"
 />
 
 </Example>
