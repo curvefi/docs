@@ -52,7 +52,7 @@ The vote description is uploaded to IPFS via Pinata. You need a Pinata API key t
 IMPORTANT: You must enable the "pinFileToIPFS" legacy endpoint when creating your API key, otherwise it will not work.
 :::
 
-After a few minutes, your proposal will appear on the <a href="https://www.curve.fi/dao/ethereum/proposals/" target="_blank" rel="noopener noreferrer">Curve DAO proposals page</a>, where veCRV holders can vote **yes** or **no**.
+After a few minutes, your proposal will appear on the <a href="https://www.curve.finance/dao/ethereum/proposals/" target="_blank" rel="noopener noreferrer">Curve DAO proposals page</a>, where veCRV holders can vote **yes** or **no**.
 
 This begins a 7-day on-chain vote to whitelist your gauge to the `GaugeController`.
 
@@ -74,4 +74,5 @@ If the vote passes:
 
 ## Next Steps
 
-todo
+- [Getting CRV Emissions](./guides/getting-crv-emissions.md): how gauge weight votes turn into CRV for your gauge.
+- [Incentivizing a Pool](./incentive-routes.md): every way to attract votes and fund LP yield.

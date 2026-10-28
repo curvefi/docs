@@ -20,7 +20,8 @@ All veCRV holders can vote on gauges using the <a href="https://www.curve.financ
 
 - Votes are **relative**: if your gauge receives 10% of all votes, it will receive 10% of that week's CRV inflation
 - You can vote at any time, but votes are **locked in** at the weekly update
-- Weights are reset weekly — your gauge must continuously attract votes to maintain emissions
+- Votes stay in place until the voter changes them, and their weight decays as the voter's veCRV lock runs down
+- A voter can change their vote on a gauge once every 10 days ([`WEIGHT_VOTE_DELAY`](/developer/gauges/gauge-controller))
 
 ## Weekly Update Cycle
 

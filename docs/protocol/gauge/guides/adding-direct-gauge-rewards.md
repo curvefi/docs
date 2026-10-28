@@ -6,7 +6,7 @@ sidebar_label: Adding Direct Gauge Rewards
 
 Direct gauge rewards are token rewards that can simply be added to a Curve gauge. They don't require any DAO approval as they are not based on gauge weights and CRV emissions but rather use external rewards provided by someone else. While conceptually permissionless, only the **gauge manager** (typically the deployer) can authorize and deposit these rewards. This is done to prevent malicious actors from spamming the gauge with fake scam tokens. 
 
-Currently, there is no UI for this process. This guide explains how to add direct gauge rewards using **Etherscan**.
+Currently, there is no UI for this process. This guide explains how to add direct gauge rewards using **Etherscan**. On other chains, use that chain's block explorer; the functions are the same.
 
 ## Before You Start
 
@@ -72,4 +72,4 @@ There is no additional setup needed on the user side.
 
 ## Claiming and Viewing Rewards
 
-From a user side, rewards can simply be claimed via the UI. More here: [Claiming Rewards](/user/dex/liquidity).
+From a user side, rewards can simply be claimed via the UI. More here: [Claiming Rewards](/user/dex/guides/claim-rewards).

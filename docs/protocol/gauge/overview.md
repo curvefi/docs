@@ -44,7 +44,7 @@ For every route and when it fits, see [Incentivizing a Pool](./incentive-routes.
 
 ### Direct Gauge Rewards
 
-- Any token can be added to a gauge (not recommended: rebasing tokens will lose the rebases)
+- Rewards are standard ERC-20 tokens, at most 8 per gauge, and a token can't be removed once added (rebasing tokens lose their rebases inside the gauge)
 - Useful to bootstrap liquidity or reward LPs using the protocol's own token
 - Requires no governance or approval
 
@@ -52,7 +52,7 @@ For every route and when it fits, see [Incentivizing a Pool](./incentive-routes.
 
 Deploying a gauge is fully permissionless — **anyone can create a gauge** for a Curve pool or lending vaults. Once deployed, the gauge can immediately begin distributing **direct gauge rewards**, such as your project’s native token or other ERC-20 rewards.
 
-However, if a gauge should be eligible to receive **CRV emissions**, it must first be **approved and whitelisted by the Curve DAO** through a governance vote. Only DAO-approved gauges are eligible to receive a share of Curve's weekly CRV inflation — and emissions are not fixed: they are determined by [veCRV gauge weight voting](/user/dao/gauge-weights), which takes place on a weekly basis.
+However, if a gauge should be eligible to receive **CRV emissions**, it must first be **approved and whitelisted by the Curve DAO** through a governance vote. Only DAO-approved gauges are eligible to receive a share of Curve's weekly CRV inflation — and emissions are not fixed: they are determined by [veCRV gauge weight voting](/user/dao/gauge-weights), which takes place on a weekly basis. A gauge on another chain gets CRV through a root gauge on Ethereum, which is what the DAO whitelists and veCRV votes on. See [Gauge Weights on L2s](/user/dao/gauge-weights#gauge-weights-on-l2s).
 
 > - Gauges can always and instantly after deployment distribute direct gauge rewards.
 > - CRV emissions (via gauge weights) require DAO approval **and** veCRV weight. More here: [Gauge Weights](/user/dao/gauge-weights).
