@@ -23,6 +23,15 @@ function LazyContractCall(props) {
   return <Component {...props} />;
 }
 
+// Markdown tables fill the content column; the wrapper scrolls a table wider than that.
+function Table(props) {
+  return (
+    <div className="table-scroll">
+      <table {...props} />
+    </div>
+  );
+}
+
 export default {
   ...MDXComponents,
   Tabs,
@@ -35,4 +44,5 @@ export default {
   ContractABI,
   ContractCall: LazyContractCall,
   Dropdown,
+  table: Table,
 };
