@@ -4,72 +4,49 @@ title: Adding Direct Gauge Rewards
 sidebar_label: Adding Direct Gauge Rewards
 ---
 
-Direct gauge rewards are token rewards that can simply be added to a Curve gauge. They don't require any DAO approval as they are not based on gauge weights and CRV emissions but rather use external rewards provided by someone else. While conceptually permissionless, only the **gauge manager** (typically the deployer) can authorize and deposit these rewards. This is done to prevent malicious actors from spamming the gauge with fake scam tokens. 
+**Direct gauge rewards** are tokens you deposit into a Curve gauge, which streams them to staked LPs. They need no DAO vote, but only the gauge manager can register a reward token, which keeps scam tokens out of gauges.
 
-Currently, there is no UI for this process. This guide explains how to add direct gauge rewards using **Etherscan**. On other chains, use that chain's block explorer; the functions are the same.
+There is no UI for this yet. This guide uses Etherscan on Ethereum. On other chains, use that chain's block explorer; the functions are the same.
 
 ## Before You Start
 
-To add direct gauge rewards:
+- **Manager:** the address that deployed the gauge becomes its `manager`. Only the manager can call `add_reward`, which registers a reward token and the distributor allowed to deposit it. The manager can also transfer the role to another address. Check the `manager` address under the gauge's **Read Contract** tab.
+- **Distributor:** the one address that can deposit a given reward token. It can be the manager or any other address.
+- **Token:** a standard, transferable ERC-20. A gauge holds at most 8 reward tokens, and a token can't be removed once added.
+- **Balance:** the distributor needs the tokens it will deposit.
 
-- You must be the **manager** of the gauge (typically the address that deployed it)
-- The reward token must be transferable and follow standard behavior
-- You need a token balance and must approve the gauge contract to spend it
-- You will interact directly with **Etherscan**
+For example, to add USDC as a reward, the manager calls `add_reward` with the USDC address and the distributor's address. From then on, only that distributor can deposit USDC to the gauge.
 
-You can check the `manager` or `admin` address under the **Read Contract** tab of your gauge contract.
+## Step 1: Set the Distributor for a Token
 
-Only a maximum of **8 unique reward tokens** can be added to a single gauge. Once added, a reward token cannot be removed.
+Open your gauge contract on [Etherscan](https://etherscan.io), go to **Write Contract** and connect the manager wallet.
 
-## Understanding the Gauge Manager Role
+Call `add_reward` with:
 
-The gauge deployer is automatically assigned as the **manager**. This role allows:
-
-- Transferring manager status to another address
-- Calling `add_reward` to register a reward token and assign a distributor address
-
-For example, if you want to add USDC as a direct gauge reward, the `manager` would call `add_reward` with the USDC token address and the address that will act as the distributor. The distributor is the only address allowed to deposit that token to the gauge.
-
-Only the **manager** can call `add_reward`, and only the assigned **distributor** can deposit rewards.
-
-## Step 1: Set Distributor for a Token
-
-Go to your **Gauge Contract** on [Etherscan](https://etherscan.io), connect your wallet, and open the **Write Contract** tab. Make sure you are connected with the `manager` wallet.
-
-Call `add_reward` and input:
-
-- `_reward_token`: the address of the reward token you want to add
+- `_reward_token`: the address of the reward token
 - `_distributor`: the address that will fund the gauge with this token
 
-This function can only be called once per reward token.
+You can call `add_reward` once per reward token.
 
 ## Step 2: Approve the Reward Token
 
-Go to the **reward token's contract** (e.g. USDC) on Etherscan. Under **Write Contract**, call `approve`:
+Open the reward token's contract (for example USDC). Under **Write Contract**, connect the distributor wallet and call `approve` with:
 
 - `_spender`: the gauge contract address
-- `_value`: the number of tokens you want to approve for deposit
-
-This grants the gauge permission to transfer the reward tokens from the distributor.
+- `_value`: the amount the gauge may transfer
 
 ## Step 3: Deposit the Reward Tokens
 
-Return to the gauge contract's **Write Contract** tab and call `deposit_reward_token`:
+Back on the gauge's **Write Contract** tab, call `deposit_reward_token` from the distributor wallet with:
 
-- `_reward_token`: the token address previously added
-- `_amount`: the amount of tokens to deposit
-- `_epoch`: the number of seconds over which the tokens will be distributed  
-  *(Optional – if omitted, defaults to one week or 604800 seconds)*
+- `_reward_token`: the token address you added
+- `_amount`: the amount to deposit
+- `_epoch`: the number of seconds to stream the tokens over (optional; defaults to one week, 604800 seconds)
 
-Rewards are streamed evenly over the specified time period. If more tokens are added during an ongoing epoch, the remaining balance and the new deposit are combined, and a new epoch begins.
+The gauge streams the tokens evenly over the period. If you deposit more during a running period, the remaining balance and the new deposit combine and a new period starts.
 
-Once the reward tokens are deposited, Curve LPs will:
-
-- See the reward token listed in the Curve UI
-- Receive the reward automatically when claiming CRV or other incentives
-
-There is no additional setup needed on the user side.
+Once the deposit lands, the reward token shows in the Curve UI and staked LPs receive it when they claim. LPs don't need to do anything else.
 
 ## Claiming and Viewing Rewards
 
-From a user side, rewards can simply be claimed via the UI. More here: [Claiming Rewards](/user/dex/guides/claim-rewards).
+LPs claim rewards in the Curve UI. See [Claiming Rewards](/user/dex/guides/claim-rewards).
