@@ -29,6 +29,8 @@ You deposit reward tokens into the gauge and it streams them to staked LPs, by d
 
 **What it needs:** a deployed gauge, the gauge manager's wallet to register the token and a distributor, and a standard transferable token. A gauge holds at most 8 reward tokens, and a token can't be removed once added. Rebasing tokens lose their rebases inside the gauge.
 
+Only the gauge manager or the Curve DAO can register a reward token, so a third party needs the manager to call `add_reward` with their token and distributor address. The factory allows one gauge per pool: if someone else deployed your pool's gauge, they hold the manager role.
+
 **When it fits:** you want rewards live on day one, in your own token or a stablecoin, with a budget you control. No vote is involved, so it works on any chain with Curve gauges.
 
 Guide: [Adding Direct Gauge Rewards](./guides/adding-direct-gauge-rewards.md).
@@ -56,6 +58,8 @@ You hold voting power yourself and point it at your gauge every week. The emissi
 ### Vote Incentives
 
 You pay veCRV or vlCVX holders to vote for your gauge. They earn your tokens, and your LPs earn the CRV their votes direct. People also call these bribes.
+
+Your budget buys votes, and those votes direct CRV emissions to your gauge, so LPs can receive more in CRV than you paid voters. How much more depends on the CRV price and the price per vote. Historically, issuers have often got more value for LPs this way than from direct gauge rewards.
 
 - **[Votemarket](https://www.votemarket.org/curve)** by StakeDAO: you fund a campaign for a gauge over a set number of weekly periods, cap the price per vote, and can blacklist addresses such as your own.
 - **[Votium](https://votium.app/curve):** incentives paid to vlCVX holders for the way Convex votes its veCRV.
