@@ -18,7 +18,7 @@ veCRV holders vote in the [Curve voting interface](https://www.curve.finance/dao
 
 ## Weekly Update Cycle
 
-Gauge weights, and with them CRV emissions, update every Thursday at 00:00 UTC. Votes cast before that time count from that update.
+Gauge weights, and with them CRV emissions, update every Thursday at 00:00 UTC. Votes cast before that time count from that update. Gauges on other chains receive their CRV about a week later, after it accumulates in the root gauge on Ethereum and is bridged.
 
 ## Attracting Votes
 
