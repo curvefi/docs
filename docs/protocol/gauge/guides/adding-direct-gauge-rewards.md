@@ -32,7 +32,7 @@ You can register each reward token once.
 Connect the distributor wallet and open **Gauge**, then **Deposit Reward**.
 
 1. Pick the registered token and enter the **Amount to deposit**.
-2. Set the **Distribution duration (in weeks)**. It defaults to 1 week.
+2. Set the **Distribution duration (in weeks)**. It defaults to 1 week. Only gauges that support a custom period use it: Tricrypto-NG gauges and older Ethereum gauges always stream over 1 week.
 3. Click **Approve** to let the gauge transfer the token, then **Deposit**.
 
 <img src="/img/protocol/gauge/direct-rewards/app-deposit-reward.png" alt="In the Gauge tab, Deposit Reward: enter the amount and the distribution duration in weeks, then approve and deposit" width="425" />
@@ -54,7 +54,7 @@ On Ethereum, use [Etherscan](https://etherscan.io). On other chains, use that ch
 
    <img src="/img/protocol/gauge/direct-rewards/etherscan-deposit-reward-token.png" alt="Etherscan Write Contract: deposit_reward_token with the token, amount and epoch in seconds" width="520" />
 
-`_epoch` is in seconds, while the app asks for weeks. It defaults to one week (604800 seconds). Gauges on chains other than Ethereum require between 3 days (259200 seconds) and 48 weeks (29030400 seconds).
+`_epoch` is in seconds, while the app asks for weeks. It defaults to one week (604800 seconds). Gauges on chains other than Ethereum require between 3 days (259200 seconds) and 48 weeks (29030400 seconds). Tricrypto-NG gauges and older Ethereum gauges have a `deposit_reward_token` with only two inputs (`_reward_token`, `_amount`) and always stream over 1 week.
 
 ## Claiming and Viewing Rewards
 
