@@ -4,6 +4,8 @@ title: Incentivizing a Pool
 sidebar_label: Incentivizing a Pool
 ---
 
+import ThemedImage from '@theme/ThemedImage';
+
 Liquidity providers deposit where the yield is. This page lists the ways a token issuer can fund or attract that yield on a Curve pool, what each route needs and when it fits. Routes appear in alphabetical order, and many issuers combine several.
 
 ## Before You Start
@@ -18,6 +20,17 @@ CRV emissions take more. The Curve DAO must first whitelist the gauge in a 7-day
 | Holding veCRV or vlCVX | Yes | Yes | Curve, in CRV |
 | Merkl campaigns | No | No | You, in any standard token |
 | Vote incentives | Yes | Yes | Curve, in CRV; you pay the voters |
+
+<figure>
+<ThemedImage
+    alt="How each route reaches LPs: direct gauge rewards and Merkl pay your token, owned votes and vote incentives raise the gauge weight, which pays CRV"
+    sources={{
+        light: '/img/protocol/gauge/incentive-routes-light.svg',
+        dark: '/img/protocol/gauge/incentive-routes-dark.svg',
+    }}
+    style={{ width: '880px', display: 'block', margin: '0 auto' }}
+/>
+</figure>
 
 ## Routes
 
@@ -65,5 +78,16 @@ You pay veCRV or vlCVX holders to vote for your gauge. They earn your tokens, an
 ## Combining Routes
 
 The routes stack on the same pool. A common pattern starts with direct gauge rewards or a Merkl campaign while the whitelist vote runs, then adds vote incentives or owned votes once the gauge can receive CRV.
+
+<figure>
+<ThemedImage
+    alt="A common launch sequence: own-token rewards from day 0 while the 7-day whitelist vote runs, then CRV once gauge weights update on Thursday"
+    sources={{
+        light: '/img/protocol/gauge/incentive-timeline-light.svg',
+        dark: '/img/protocol/gauge/incentive-timeline-dark.svg',
+    }}
+    style={{ width: '880px', display: 'block', margin: '0 auto' }}
+/>
+</figure>
 
 Background: [Incentives: CRV Emissions vs. Permissionless Rewards](./incentives.md) and [Gauge Weights](/user/dao/gauge-weights).

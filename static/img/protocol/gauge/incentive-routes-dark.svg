@@ -1,0 +1,57 @@
+<svg width="880" height="470" viewBox="0 0 880 470" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Four routes from an issuer to LPs: direct gauge rewards and Merkl pay your token; owned votes and vote incentives raise the gauge weight, which pays CRV.">
+<rect width="880" height="470" fill="#12110F"/>
+<rect width="880" height="44" fill="#242322"/>
+<text x="20" y="28" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#F0EDEA" text-anchor="start" letter-spacing="0.3">HOW EACH ROUTE REACHES LPS</text>
+<rect x="20" y="80" width="140" height="322" fill="#2A2927"/>
+<text x="90.0" y="230.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#F0EDEA" text-anchor="middle">Issuer</text>
+<text x="90.0" y="249.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="middle">budget or</text>
+<text x="90.0" y="265.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="middle">locked capital</text>
+<rect x="210" y="80" width="210" height="64" fill="#2A2927"/>
+<text x="315.0" y="109.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#F0EDEA" text-anchor="middle">Direct gauge rewards</text>
+<text x="315.0" y="128.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="middle">your token, streamed weekly</text>
+<rect x="210" y="166" width="210" height="64" fill="#2A2927"/>
+<text x="315.0" y="195.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#F0EDEA" text-anchor="middle">Holding veCRV or vlCVX</text>
+<text x="315.0" y="214.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="middle">you vote for your gauge</text>
+<rect x="210" y="252" width="210" height="64" fill="#2A2927"/>
+<text x="315.0" y="281.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#F0EDEA" text-anchor="middle">Vote incentives</text>
+<text x="315.0" y="300.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="middle">you pay veCRV / vlCVX voters</text>
+<rect x="210" y="338" width="210" height="64" fill="#2A2927"/>
+<text x="315.0" y="367.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#F0EDEA" text-anchor="middle">Merkl campaign</text>
+<text x="315.0" y="386.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="middle">no gauge, no DAO vote</text>
+<path d="M160 112.0 L210 112.0" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<polyline points="201,106.0 210,112.0 201,118.0" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<path d="M160 198.0 L210 198.0" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<polyline points="201,192.0 210,198.0 201,204.0" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<path d="M160 284.0 L210 284.0" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<polyline points="201,278.0 210,284.0 201,290.0" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<path d="M160 370.0 L210 370.0" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<polyline points="201,364.0 210,370.0 201,376.0" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<rect x="470" y="166" width="170" height="150" fill="#2A2927"/>
+<text x="555.0" y="230.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#5781FF" text-anchor="middle">Gauge weight</text>
+<text x="555.0" y="249.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="middle">share of weekly CRV,</text>
+<text x="555.0" y="265.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="middle">set by veCRV votes</text>
+<path d="M420 198.0 L470 198.0" stroke="#B3B0AC" stroke-width="2" fill="none" stroke-dasharray="5 4"/>
+<polyline points="461,192.0 470,198.0 461,204.0" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<path d="M420 284.0 L470 284.0" stroke="#B3B0AC" stroke-width="2" fill="none" stroke-dasharray="5 4"/>
+<polyline points="461,278.0 470,284.0 461,290.0" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<rect x="690" y="80" width="170" height="236" fill="#2A2927"/>
+<text x="775.0" y="187.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#F0EDEA" text-anchor="middle">Gauge</text>
+<text x="775.0" y="206.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="middle">pays staked LPs</text>
+<text x="775.0" y="222.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="middle">your token and CRV</text>
+<path d="M420 112.0 L690 112.0" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<polyline points="681,106.0 690,112.0 681,118.0" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<text x="555" y="104.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="middle">your token</text>
+<path d="M640 241.0 L690 241.0" stroke="#5781FF" stroke-width="2" fill="none" stroke-dasharray="5 4"/>
+<polyline points="681,235.0 690,241.0 681,247.0" stroke="#5781FF" stroke-width="2" fill="none"/>
+<text x="665" y="233.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#5781FF" text-anchor="middle">CRV</text>
+<rect x="690" y="338" width="170" height="64" fill="#2A2927"/>
+<text x="775.0" y="367.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#F0EDEA" text-anchor="middle">Merkl</text>
+<text x="775.0" y="386.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="middle">LPs claim from Merkl</text>
+<path d="M420 370.0 L690 370.0" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<polyline points="681,364.0 690,370.0 681,376.0" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<text x="555" y="362.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="middle">your token, minus fee</text>
+<path d="M20 440 L60 440" stroke="#B3B0AC" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="70" y="445" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="start">needs a gauge whitelisted by a 7-day DAO vote</text>
+<path d="M420 440 L460 440" stroke="#B3B0AC" stroke-width="2"/>
+<text x="470" y="445" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="start">no vote needed</text>
+</svg>

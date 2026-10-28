@@ -1,0 +1,28 @@
+<svg width="880" height="300" viewBox="0 0 880 300" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Own-token rewards run from day 0 while the 7-day whitelist vote passes; CRV starts once gauge weights update on the following Thursday.">
+<rect width="880" height="300" fill="#12110F"/>
+<rect width="880" height="44" fill="#242322"/>
+<text x="20" y="28" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#F0EDEA" text-anchor="start" letter-spacing="0.3">A COMMON LAUNCH SEQUENCE</text>
+<path d="M40 64 L40 268" stroke="#B3B0AC" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="46" y="62" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#B3B0AC" text-anchor="start">Day 0</text>
+<path d="M330 64 L330 268" stroke="#B3B0AC" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="330" y="62" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#B3B0AC" text-anchor="middle">Vote passes</text>
+<path d="M520 64 L520 268" stroke="#B3B0AC" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="520" y="62" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#B3B0AC" text-anchor="middle">Next Thursday 00:00 UTC</text>
+<path d="M20 160 L860 160" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<polyline points="851,154 860,160 851,166" stroke="#B3B0AC" stroke-width="2" fill="none"/>
+<rect x="48" y="82" width="804" height="60" fill="#2A2927"/>
+<text x="62" y="109.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#F0EDEA" text-anchor="start">Direct gauge rewards or a Merkl campaign</text>
+<text x="62" y="128.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="start">live from day 0, paid in your token</text>
+<rect x="48" y="180" width="274" height="72" fill="#2A2927"/>
+<text x="62" y="205.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#F0EDEA" text-anchor="start">Whitelist vote</text>
+<text x="62" y="224.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="start">7 days, needs 2,500 veCRV</text>
+<text x="62" y="240.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="start">to create</text>
+<rect x="338" y="180" width="174" height="72" fill="#2A2927"/>
+<text x="352" y="205.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#F0EDEA" text-anchor="start">Votes cast</text>
+<text x="352" y="224.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="start">weights update</text>
+<text x="352" y="240.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="start">on Thursday</text>
+<rect x="528" y="180" width="324" height="72" fill="#2A2927"/>
+<text x="542" y="205.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#5781FF" text-anchor="start">Gauge earns CRV</text>
+<text x="542" y="224.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="start">add vote incentives or owned</text>
+<text x="542" y="240.0" font-family="'Mona Sans', 'Hubot Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#B3B0AC" text-anchor="start">votes each week</text>
+</svg>
