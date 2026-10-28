@@ -26,7 +26,7 @@ CRV emissions take more. The Curve DAO must first whitelist the gauge in a 7-day
 
 ### Direct Gauge Rewards
 
-You deposit reward tokens into the gauge and it streams them to staked LPs. The default period is one week. You can set another: whole weeks in the Curve app, or any length in seconds through the contract. On chains other than Ethereum the contract accepts 3 days to 48 weeks.
+You deposit reward tokens into the gauge and it streams them to staked LPs. Each deposit streams over a period the distributor sets, 1 week by default. On other chains the gauge accepts 3 days to 48 weeks; Ethereum gauges set no limit.
 
 **What it needs:** a deployed gauge, the gauge manager's wallet to register the token and a distributor, and a standard transferable token. A gauge holds at most 8 reward tokens, and a token can't be removed once added. Rebasing tokens lose their rebases inside the gauge.
 
@@ -38,9 +38,9 @@ Guide: [Adding Direct Gauge Rewards](./guides/adding-direct-gauge-rewards.md).
 
 ### Holding veCRV
 
-You lock CRV on Curve for up to four years and vote for your gauge yourself. Your vote stays in place until you change it, its weight decays as the lock runs down, and you can change your vote on a gauge once every 10 days. See [How to Lock CRV](/user/vecrv/how-to-lock).
+You lock CRV on Curve for up to four years and vote for your gauge yourself, at any time. Your vote stays in place until you change it, its weight decays as the lock runs down, and you can change your vote on a gauge once every 10 days. See [How to Lock CRV](/user/vecrv/how-to-lock).
 
-Liquid lockers such as [StakeDAO](https://www.stakedao.org) also hold veCRV. Holders of their liquid token, like sdCRV, direct its votes in rounds every 2 weeks.
+To hold veCRV voting power indirectly, use a liquid locker such as [StakeDAO](https://www.stakedao.org): holders of its liquid token, sdCRV, direct StakeDAO's veCRV votes, which it casts every 2 weeks.
 
 **What it needs:** a whitelisted gauge and enough locked CRV for your votes to matter against the total.
 
@@ -48,7 +48,7 @@ Liquid lockers such as [StakeDAO](https://www.stakedao.org) also hold veCRV. Hol
 
 ### Holding vlCVX
 
-You lock CVX on [Convex](https://www.convexfinance.com) for 16 weeks and vote in Convex's gauge weight rounds, held every 2 weeks. Convex holds a large share of veCRV and votes it as vlCVX holders direct.
+You lock CVX on [Convex](https://www.convexfinance.com) for 16 weeks. Convex holds a large share of veCRV and votes it every 2 weeks as vlCVX holders direct.
 
 **What it needs:** a whitelisted gauge and enough vlCVX for your share of Convex's votes to matter.
 
@@ -68,8 +68,8 @@ You pay veCRV or vlCVX holders to vote for your gauge. They earn your tokens, an
 
 Your budget buys votes, and those votes direct CRV emissions to your gauge, so LPs can receive more in CRV than you paid voters. How much more depends on the CRV price and the price per vote. Historically, issuers have often got more value for LPs this way than from direct gauge rewards.
 
-- **[Votemarket](https://www.votemarket.org/curve)** by StakeDAO: you fund a campaign for a gauge over a set number of weekly periods, cap the price per vote, and can blacklist addresses such as your own.
-- **[Votium](https://votium.app/curve):** incentives paid to vlCVX holders for the way Convex votes its veCRV, in rounds every 2 weeks.
+- **[Votemarket](https://www.votemarket.org/curve)** by StakeDAO: you fund a campaign for a gauge over a set number of weekly periods, cap the price per vote, and can blacklist addresses such as your own. StakeDAO's own liquid locker votes every 2 weeks.
+- **[Votium](https://votium.app/curve):** incentives paid to vlCVX holders for the way Convex votes its veCRV. Rounds run every 2 weeks, matching Convex's vote.
 
 **What it needs:** a whitelisted gauge and a budget. Both platforms charge a fee; check it before funding.
 
@@ -79,6 +79,6 @@ Your budget buys votes, and those votes direct CRV emissions to your gauge, so L
 
 The routes stack on the same pool. A common pattern starts with direct gauge rewards or a Merkl campaign while the whitelist vote runs, then adds vote incentives or owned votes once the gauge can receive CRV.
 
-![A common launch sequence: direct gauge rewards or a Merkl campaign from day 0, the 7-day DAO gauge whitelist vote on Ethereum, votes cast for the gauge, then CRV from the next Thursday 00:00 UTC weight update.](/img/protocol/gauge/incentive-timeline.png)
+![A common launch sequence: direct gauge rewards or a Merkl campaign from day 0, the 7-day DAO gauge whitelist vote on Ethereum, votes cast for the gauge (Convex and StakeDAO vote every 2 weeks), then CRV from the Thursday 00:00 UTC weight update after that vote round.](/img/protocol/gauge/incentive-timeline.png)
 
 Background: [Gauge Weights](/user/dao/gauge-weights).
