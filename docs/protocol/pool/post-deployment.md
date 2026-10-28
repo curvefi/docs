@@ -36,6 +36,6 @@ If you deployed an **FXSwap pool**, consider adding refuels to subsidize rebalan
 
 ## Grow Liquidity Using Incentives
 
-Curve offers various ways for protocols or asset issuers to sustainably grow liquidity and asset proliferation. Examples include attracting gauge weight to receive CRV emissions or providing external incentives and points.
+Curve offers various ways for protocols or asset issuers to sustainably grow liquidity and asset proliferation. Options include CRV emissions through gauge weight votes, direct gauge rewards and Merkl campaigns.
 
-<GuideCardGrid guideKeys={['GaugesAndIncentives']} />
+<GuideCardGrid guideKeys={['GaugesAndIncentives', 'IncentivizingAPool']} />

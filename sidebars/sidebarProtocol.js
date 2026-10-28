@@ -96,7 +96,7 @@ export default {
                 },
                 {
                     type: 'doc',
-                    id: 'gauge/incentives',
+                    id: 'gauge/incentive-routes',
                 },
                 {
                     type: 'doc',
@@ -108,7 +108,7 @@ export default {
                 },
                 {
                     type: 'doc',
-                    id: 'gauge/guides/adding-permissionless-rewards',
+                    id: 'gauge/guides/adding-direct-gauge-rewards',
                 },
             ],
         },

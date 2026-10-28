@@ -209,17 +209,17 @@ export const ALL_GUIDES = {
     image: '',
     link: '/protocol/gauge/whitelisting-gauge',
   },
-  CRVEmissionsVsPermissionlessRewards: {
-    title: 'Learn About CRV Emissions vs Permissionless Rewards',
-    description: 'Learn about the differences between CRV emissions and permissionless rewards.',
+  IncentivizingAPool: {
+    title: 'Incentivizing a Pool',
+    description: 'Compare the ways to fund LP yield on a Curve pool and when each fits.',
     image: '',
-    link: '/protocol/gauge/incentives',
+    link: '/protocol/gauge/incentive-routes',
   },
-  AddingPermissionlessRewards: {
-    title: 'How to Add Permissionless Rewards',
-    description: 'Learn how to add permissionless rewards to a gauge.',
+  AddingDirectGaugeRewards: {
+    title: 'How to Add Direct Gauge Rewards',
+    description: 'Add your own token rewards to a gauge.',
     image: '',
-    link: '/protocol/gauge/guides/adding-permissionless-rewards',
+    link: '/protocol/gauge/guides/adding-direct-gauge-rewards',
   },
   HowToGetCRVEmissions: {
     title: 'How to Get CRV Emissions',

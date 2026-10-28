@@ -89,6 +89,16 @@
   /* Button Focus */
   --Button-Focus-Outline-Width: 2px;
   --Button-Focus-Outline: var(--Color-Primary-500);
+
+  /* Chart series colors, mirrored from curve-frontend theme.design.Chart.Lines 1-8 */
+  --chart-index-1: #3976ee;
+  --chart-index-2: #1fa25e;
+  --chart-index-3: #ffc300;
+  --chart-index-4: #f77f00;
+  --chart-index-5: #ed242f;
+  --chart-index-6: #5f5cae;
+  --chart-index-7: #0b3d26;
+  --chart-index-8: #82070d;
 }
 
 /* Dark Theme */
@@ -162,6 +172,15 @@
   --Feedback-Warning: var(--Reds-300);
   --Feedback-Danger: var(--Reds-400);
   --Feedback-Error: var(--Reds-500);
+
+  --chart-index-1: #3976ee;
+  --chart-index-2: #27b86c;
+  --chart-index-3: #ffc300;
+  --chart-index-4: #f77f00;
+  --chart-index-5: #ed242f;
+  --chart-index-6: #6a68b7;
+  --chart-index-7: #d4f7e3;
+  --chart-index-8: #fab0b4;
 }
 
 /* Chad Theme */

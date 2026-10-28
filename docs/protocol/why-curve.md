@@ -79,10 +79,10 @@ LlamaLend v1 (LL1) is deprecated. New lending markets should use LlamaLend v2 (L
 Curve's protocol mechanics makes it easy to bootstrap, maintain, and build liquidity for on-chain assets. Curve's gauge system provides a flexible incentive mechanism that enables you to bootstrap and sustain liquidity for your asset:
 
 - **CRV Emissions** - Direct a portion of Curve's weekly CRV inflation to your pool through gauge weight voting, attracting more liquidity providers.
-- **Permissionless Rewards** - Add your own token incentives instantly without governance approval to boost pool attractiveness.
+- **Direct Gauge Rewards** - Add your own token rewards to your gauge without a governance vote.
 - **Vote Incentives** - Provide rewards to veCRV holders to vote for your gauge, creating sustainable voting power.
 - **Flexible Strategies** - Choose between temporary vote renting or permanent veCRV accumulation based on your needs.
-- **Custom Combinations** - Mix CRV emissions, custom rewards, and vote incentives to create your perfect liquidity bootstrapping strategy.
+- **Custom Combinations** - Mix CRV emissions, direct gauge rewards, and vote incentives to create your perfect liquidity bootstrapping strategy.
 
 ---
 
