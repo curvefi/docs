@@ -45,4 +45,4 @@ Gauges also connect three groups:
 
 Anyone can deploy a gauge for a Curve pool or lending vault. Once deployed, it can pay direct gauge rewards, such as your project's token or a stablecoin.
 
-To receive CRV emissions, the gauge must first be whitelisted by a Curve DAO vote. After that, its share of CRV depends on [veCRV gauge weight votes](/user/dao/gauge-weights), which update weekly. A gauge on another chain gets CRV through a root gauge on Ethereum, which is what the DAO whitelists and veCRV votes on. See [Gauge Weights on L2s](/user/dao/gauge-weights#gauge-weights-on-l2s).
+To receive CRV emissions, the gauge must first be whitelisted by a Curve DAO vote. After that, its share of CRV depends on [veCRV gauge weight votes](/user/dao/gauge-weights), which update weekly. A gauge on another chain gets CRV through a root gauge on Ethereum, which is what the DAO whitelists and veCRV votes on. CRV reaches LPs there about a week later, after it accumulates in the root gauge and is bridged. See [Gauge Weights on L2s](/user/dao/gauge-weights#gauge-weights-on-l2s).
