@@ -79,6 +79,6 @@ Your budget buys votes, and those votes direct CRV emissions to your gauge, so L
 
 The routes stack on the same pool. A common pattern starts with direct gauge rewards or a Merkl campaign while the whitelist vote runs, then adds vote incentives or owned votes once the gauge can receive CRV.
 
-![A common launch sequence: direct gauge rewards or a Merkl campaign from day 0, the 7-day DAO gauge whitelist vote on Ethereum, votes cast for the gauge (Convex and StakeDAO vote every 2 weeks), then CRV from the Thursday 00:00 UTC weight update after that vote round, a week later on other chains.](/img/protocol/gauge/incentive-timeline.png)
+![A common launch sequence: direct gauge rewards or a Merkl campaign from day 0, the 7-day DAO gauge whitelist vote on Ethereum, votes cast for the gauge (Convex and StakeDAO vote every 2 weeks), then CRV on Ethereum from the Thursday 00:00 UTC weight update after that vote round, and on other chains one week later through the root gauge.](/img/protocol/gauge/incentive-timeline.png)
 
 Background: [Gauge Weights](/user/dao/gauge-weights).
