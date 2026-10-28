@@ -96,6 +96,10 @@ export default {
                 },
                 {
                     type: 'doc',
+                    id: 'gauge/incentive-routes',
+                },
+                {
+                    type: 'doc',
                     id: 'gauge/incentives',
                 },
                 {
