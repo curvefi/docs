@@ -4,6 +4,8 @@ title: Getting CRV Emissions
 sidebar_label: Getting CRV Emissions
 ---
 
+import GaugeWeightDistribution from '@site/src/components/Charts/GaugeWeightDistribution';
+
 A whitelisted gauge receives CRV only when veCRV holders vote for it. Each week, Curve splits its CRV inflation across whitelisted gauges in proportion to their share of gauge weight votes. A gauge with 0% of the votes receives no CRV.
 
 ## How Gauge Weight Voting Works
@@ -25,3 +27,5 @@ To get votes, you can hold veCRV or vlCVX yourself or pay voters through vote in
 ## Where to Track Emissions
 
 Live and past gauge weights are on [curve.finance/dao/ethereum/gauges](https://www.curve.finance/dao/ethereum/gauges).
+
+<GaugeWeightDistribution />
