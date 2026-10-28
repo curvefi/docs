@@ -363,6 +363,24 @@ code {
   line-height: var(--Typography-LineHeight-lg);
 }
 
+/* Markdown tables fill the content column. The wrapper (MDXComponents) scrolls
+   a wider table, so it never spills into the page padding. */
+.markdown .table-scroll {
+  overflow-x: auto;
+  margin-bottom: var(--ifm-spacing-vertical);
+}
+
+.markdown .table-scroll > table {
+  display: table;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+/* Headers align like their cells; markdown `:---:` / `---:` set inline text-align, which still wins. */
+.markdown th {
+  text-align: left;
+}
+
 /* Reduce h2 margin when followed by compact GhostPosts */
 .theme-doc-markdown h2 + :global(.ghostPostsInline) {
   margin-top: calc(var(--Spacing-md) * -1.5);
