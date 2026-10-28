@@ -100,10 +100,6 @@ export default {
                 },
                 {
                     type: 'doc',
-                    id: 'gauge/incentives',
-                },
-                {
-                    type: 'doc',
                     id: 'gauge/whitelisting-gauge',
                 },
                 {
@@ -112,7 +108,7 @@ export default {
                 },
                 {
                     type: 'doc',
-                    id: 'gauge/guides/adding-permissionless-rewards',
+                    id: 'gauge/guides/adding-direct-gauge-rewards',
                 },
             ],
         },

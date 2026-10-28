@@ -10,7 +10,7 @@ Liquidity providers deposit where the yield is. This page lists the ways a token
 
 Most routes pay LPs through the pool's **gauge**, a contract that rewards LPs who stake their LP tokens in it. Anyone can deploy a gauge for any pool, and it can pay your own token rewards as soon as it exists.
 
-CRV emissions take more. The Curve DAO must first whitelist the gauge in a 7-day on-chain vote, and creating that vote needs 2,500 veCRV. After that, the gauge earns a share of weekly CRV inflation equal to its share of veCRV gauge votes, updated every Thursday at 00:00 UTC. A gauge on another chain receives CRV through a root gauge on Ethereum, so whitelisting and voting both happen there. See [Whitelisting a Gauge](./whitelisting-gauge.md) and [Getting CRV Emissions](./guides/getting-crv-emissions.md).
+CRV emissions take more. The Curve DAO must first whitelist the gauge in a 7-day on-chain vote, and creating that vote needs 2,500 veCRV. After that, the gauge earns a share of weekly CRV inflation equal to its share of veCRV gauge votes, updated every Thursday at 00:00 UTC. CRV emissions cost you nothing directly, but their value to LPs moves with the CRV price. A gauge on another chain receives CRV through a root gauge on Ethereum, so whitelisting and voting both happen there. See [Whitelisting a Gauge](./whitelisting-gauge.md) and [Getting CRV Emissions](./guides/getting-crv-emissions.md).
 
 | Route | Needs a gauge | Needs DAO whitelist | Who pays LPs |
 | ----- | ------------- | ------------------- | ------------ |
@@ -31,7 +31,7 @@ You deposit reward tokens into the gauge and it streams them to staked LPs, by d
 
 **When it fits:** you want rewards live on day one, in your own token or a stablecoin, with a budget you control. No vote is involved, so it works on any chain with Curve gauges.
 
-Guide: [Adding Permissionless Rewards](./guides/adding-permissionless-rewards.md).
+Guide: [Adding Direct Gauge Rewards](./guides/adding-direct-gauge-rewards.md).
 
 ### Holding veCRV or vlCVX
 
@@ -70,4 +70,4 @@ The routes stack on the same pool. A common pattern starts with direct gauge rew
 
 ![A common launch sequence: direct gauge rewards or a Merkl campaign from day 0, the 7-day DAO gauge whitelist vote on Ethereum, votes cast for the gauge, then CRV from the next Thursday 00:00 UTC weight update.](/img/protocol/gauge/incentive-timeline.png)
 
-Background: [Incentives: CRV Emissions vs. Permissionless Rewards](./incentives.md) and [Gauge Weights](/user/dao/gauge-weights).
+Background: [Gauge Weights](/user/dao/gauge-weights).

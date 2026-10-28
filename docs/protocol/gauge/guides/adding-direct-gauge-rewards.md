@@ -1,16 +1,16 @@
 ---
-id: adding-permissionless-rewards
-title: Adding Permissionless Rewards
-sidebar_label: Adding Permissionless Rewards
+id: adding-direct-gauge-rewards
+title: Adding Direct Gauge Rewards
+sidebar_label: Adding Direct Gauge Rewards
 ---
 
-Permissionless rewards are third-party incentives that can simply be added to a Curve gauge. They don't require any DAO approval as they are not based on gauge weights and CRV emissions but rather use external rewards provided by someone else. While conceptually permissionless, only the **gauge manager** (typically the deployer) can authorize and deposit these rewards. This is done to prevent malicious actors from spamming the gauge with fake scam tokens. 
+Direct gauge rewards are token rewards that can simply be added to a Curve gauge. They don't require any DAO approval as they are not based on gauge weights and CRV emissions but rather use external rewards provided by someone else. While conceptually permissionless, only the **gauge manager** (typically the deployer) can authorize and deposit these rewards. This is done to prevent malicious actors from spamming the gauge with fake scam tokens. 
 
-Currently, there is no UI for this process. This guide explains how to add permissionless rewards using **Etherscan**.
+Currently, there is no UI for this process. This guide explains how to add direct gauge rewards using **Etherscan**.
 
 ## Before You Start
 
-To add permissionless rewards:
+To add direct gauge rewards:
 
 - You must be the **manager** of the gauge (typically the address that deployed it)
 - The reward token must be transferable and follow standard behavior
@@ -28,7 +28,7 @@ The gauge deployer is automatically assigned as the **manager**. This role allow
 - Transferring manager status to another address
 - Calling `add_reward` to register a reward token and assign a distributor address
 
-For example, if you want to add USDC as a permissionless reward, the `manager` would call `add_reward` with the USDC token address and the address that will act as the distributor. The distributor is the only address allowed to deposit that token to the gauge.
+For example, if you want to add USDC as a direct gauge reward, the `manager` would call `add_reward` with the USDC token address and the address that will act as the distributor. The distributor is the only address allowed to deposit that token to the gauge.
 
 Only the **manager** can call `add_reward`, and only the assigned **distributor** can deposit rewards.
 

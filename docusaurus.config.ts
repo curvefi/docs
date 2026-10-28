@@ -509,6 +509,10 @@ const config: Config = {
           { from: '/developer/factory/cryptoswap/overview', to: '/developer/amm/legacy/factory/cryptoswap/overview' },
           { from: '/developer/factory/cryptoswap/deployer-api', to: '/developer/amm/legacy/factory/cryptoswap/deployer-api' },
           { from: '/developer/factory/cryptoswap/implementations', to: '/developer/amm/legacy/factory/cryptoswap/implementations' },
+          // Gauges section: incentives merged into incentive-routes, permissionless rewards renamed
+          { from: '/protocol/gauge/incentives', to: '/protocol/gauge/incentive-routes' },
+          { from: '/protocol/gauge/guides/vote-incentives', to: '/protocol/gauge/incentive-routes' },
+          { from: '/protocol/gauge/guides/adding-permissionless-rewards', to: '/protocol/gauge/guides/adding-direct-gauge-rewards' },
         ],
       },
     ],

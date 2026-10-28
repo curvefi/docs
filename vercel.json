@@ -22,7 +22,7 @@
     {"source": "/developer/integration/api/curve-prices-api", "destination": "/developer/integration/api/curve-prices", "permanent": true},
     {"source": "/protocol/pools/overview", "destination": "/protocol/pool/overview", "permanent": true},
     {"source": "/protocol/gauges/guides/getting-crv-emissions", "destination": "/protocol/gauge/guides/getting-crv-emissions", "permanent": true},
-    {"source": "/protocol/gauges/guides/permissionless-rewards", "destination": "/protocol/gauge/guides/adding-permissionless-rewards", "permanent": true},
+    {"source": "/protocol/gauges/guides/permissionless-rewards", "destination": "/protocol/gauge/guides/adding-direct-gauge-rewards", "permanent": true},
     {"source": "/user/security/risks/pool", "destination": "/user/security/risks/pools", "permanent": true},
     {"source": "/developer/integration/metaregistry", "destination": "/developer/integration/meta-registry", "permanent": true}
   ],
