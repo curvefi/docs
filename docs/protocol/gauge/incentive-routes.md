@@ -20,7 +20,7 @@ CRV emissions take more. The Curve DAO must first whitelist the gauge in a 7-day
 | Merkl campaigns | No | No | You, in any standard token |
 | Vote incentives | Yes | Yes | Curve, in CRV; you pay the voters |
 
-![How each route reaches LPs: holding veCRV or vlCVX directs CRV through the gauge weight vote; vote incentives pay veCRV and vlCVX voters, who direct CRV; direct gauge rewards pay your token through the pool gauge; Merkl campaigns pay your token through Merkl. Routes through a gauge weight vote need a DAO-whitelisted gauge.](/img/protocol/gauge/incentive-routes.png)
+![How each route reaches LPs: holding veCRV or vlCVX (your own votes) and vote incentives (votes you pay for) both go through the gauge weight vote and pay LPs in CRV; direct gauge rewards (through the pool gauge) and Merkl campaigns (through Merkl) pay LPs in your token. Routes through the gauge weight vote need a DAO-whitelisted gauge.](/img/protocol/gauge/incentive-routes.png)
 
 ## Routes
 
