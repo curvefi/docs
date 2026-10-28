@@ -14,7 +14,7 @@ veCRV holders vote in the [Curve voting interface](https://www.curve.finance/dao
 
 - Votes are relative: a gauge with 10% of all votes receives 10% of that week's CRV inflation.
 - Votes stay in place until the voter changes them, and their weight decays as the voter's veCRV lock runs down.
-- A voter can change their vote on a gauge once every 10 days ([`WEIGHT_VOTE_DELAY`](/developer/gauges/gauge-controller)).
+- A voter can change their vote on a gauge once every 10 days.
 
 ## Weekly Update Cycle
 

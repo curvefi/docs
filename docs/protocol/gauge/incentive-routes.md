@@ -26,11 +26,11 @@ CRV emissions take more. The Curve DAO must first whitelist the gauge in a 7-day
 
 ### Direct Gauge Rewards
 
-You deposit reward tokens into the gauge and it streams them to staked LPs. Each deposit streams over 1 week by default. Current Stableswap-NG and Twocrypto-NG gauges on Ethereum let the distributor choose any period. Tricrypto-NG gauges and older Ethereum gauges always stream over 1 week. On other chains, the gauge accepts 3 days to 48 weeks.
+You deposit reward tokens into the gauge and it streams them to staked LPs. Each deposit streams to LPs over a period you choose, between 3 days and 48 weeks, 1 week by default.
 
 **What it needs:** a deployed gauge, the gauge manager's wallet to register the token and a distributor, and a standard transferable token. A gauge holds at most 8 reward tokens, and a token can't be removed once added. Rebasing tokens lose their rebases inside the gauge.
 
-Only the gauge manager or the Curve DAO can register a reward token, so a third party needs the manager to call `add_reward` with their token and distributor address. The factory allows one gauge per pool: if someone else deployed your pool's gauge, they hold the manager role.
+Only the gauge manager can register a reward token, so a third party needs the manager to add their token. The factory allows one gauge per pool: if someone else deployed your pool's gauge, they hold the manager role.
 
 **When it fits:** you want rewards live on day one, in your own token or a stablecoin, with a budget you control. No vote is involved, so it works on any chain with Curve gauges.
 

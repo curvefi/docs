@@ -39,7 +39,7 @@ Gauges also connect three groups:
 
 - Paid in a token you choose, from a budget you fund.
 - Need no governance vote, so they can start right after the gauge is deployed.
-- Rewards are standard ERC-20 tokens, at most 8 per gauge, and a token can't be removed once added (rebasing tokens lose their rebases inside the gauge).
+- Rewards are standard ERC-20 tokens, at most 8 per gauge, and a token can't be removed once added.
 
 ## Deploying Gauges and Receiving CRV Emissions
 
