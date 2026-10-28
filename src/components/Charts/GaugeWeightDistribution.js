@@ -16,7 +16,10 @@ const shortName = (name) => name.replace(/^Curve\.fi /, '').replace(/ Gauge Depo
 
 const ChartContent = () => {
   useColorMode();
-  const { primaryColor, txtColor, gridColor } = getChartColors();
+  const { txtColor, gridColor } = getChartColors();
+  const css = getComputedStyle(document.documentElement);
+  // Same order as curve-frontend's createChartSeriesColorScale: bar i uses chart index (i % 8) + 1
+  const seriesColors = [1, 2, 3, 4, 5, 6, 7, 8].map((i) => css.getPropertyValue(`--chart-index-${i}`).trim());
   const [gauges, setGauges] = useState(null);
   const [failed, setFailed] = useState(false);
 
@@ -44,7 +47,7 @@ const ChartContent = () => {
 
   const data = {
     labels: gauges.map((g) => g.name),
-    datasets: [{ data: gauges.map((g) => g.weight), backgroundColor: primaryColor }],
+    datasets: [{ data: gauges.map((g) => g.weight), backgroundColor: gauges.map((_, i) => seriesColors[i % 8]) }],
   };
   const options = {
     responsive: true,
