@@ -15,7 +15,8 @@ CRV emissions take more. The Curve DAO must first whitelist the gauge in a 7-day
 | Route | Needs a gauge | Needs DAO whitelist | Who pays LPs |
 | ----- | ------------- | ------------------- | ------------ |
 | Direct gauge rewards | Yes | No | You, in any standard token |
-| Holding veCRV or vlCVX | Yes | Yes | Curve, in CRV |
+| Holding veCRV | Yes | Yes | Curve, in CRV |
+| Holding vlCVX | Yes | Yes | Curve, in CRV |
 | Merkl campaigns | No | No | You, in any standard token |
 | Vote incentives | Yes | Yes | Curve, in CRV; you pay the voters |
 
@@ -25,7 +26,7 @@ CRV emissions take more. The Curve DAO must first whitelist the gauge in a 7-day
 
 ### Direct Gauge Rewards
 
-You deposit reward tokens into the gauge and it streams them to staked LPs, by default over one week.
+You deposit reward tokens into the gauge and it streams them to staked LPs. The default period is one week. You can set another: whole weeks in the Curve app, or any length in seconds through the contract. On chains other than Ethereum the contract accepts 3 days to 48 weeks.
 
 **What it needs:** a deployed gauge, the gauge manager's wallet to register the token and a distributor, and a standard transferable token. A gauge holds at most 8 reward tokens, and a token can't be removed once added. Rebasing tokens lose their rebases inside the gauge.
 
@@ -35,17 +36,23 @@ Only the gauge manager or the Curve DAO can register a reward token, so a third 
 
 Guide: [Adding Direct Gauge Rewards](./guides/adding-direct-gauge-rewards.md).
 
-### Holding veCRV or vlCVX
+### Holding veCRV
 
-You hold voting power yourself and point it at your gauge every week. The emissions you direct cost you nothing beyond the capital tied up in the lock.
+You lock CRV on Curve for up to four years and vote for your gauge yourself. Your vote stays in place until you change it, its weight decays as the lock runs down, and you can change your vote on a gauge once every 10 days. See [How to Lock CRV](/user/vecrv/how-to-lock).
 
-- **veCRV:** lock CRV on Curve for up to four years. Voting power decays as the lock runs down, and each address can change its vote on a gauge once every 10 days. See [How to Lock CRV](/user/vecrv/how-to-lock).
-- **vlCVX:** lock CVX on [Convex](https://www.convexfinance.com) for 16 weeks. Convex holds a large share of veCRV and votes it as vlCVX holders direct.
-- **Liquid lockers:** protocols such as [StakeDAO](https://www.stakedao.org) hold veCRV and let holders of their liquid token, like sdCRV, direct its votes.
+Liquid lockers such as [StakeDAO](https://www.stakedao.org) also hold veCRV. Holders of their liquid token, like sdCRV, direct its votes in rounds every 2 weeks.
 
-**What it needs:** a whitelisted gauge and enough locked capital for your votes to matter against the total.
+**What it needs:** a whitelisted gauge and enough locked CRV for your votes to matter against the total.
 
-**When it fits:** you plan to stay on Curve for years and prefer owning votes to renting them each week.
+**When it fits:** you plan to stay on Curve for years and prefer owning votes to renting them each round. The emissions you direct cost you nothing beyond the capital tied up in the lock.
+
+### Holding vlCVX
+
+You lock CVX on [Convex](https://www.convexfinance.com) for 16 weeks and vote in Convex's gauge weight rounds, held every 2 weeks. Convex holds a large share of veCRV and votes it as vlCVX holders direct.
+
+**What it needs:** a whitelisted gauge and enough vlCVX for your share of Convex's votes to matter.
+
+**When it fits:** you want owned votes with a shorter lock than veCRV, and voting every 2 weeks suits you.
 
 ### Merkl Campaigns
 
@@ -62,11 +69,11 @@ You pay veCRV or vlCVX holders to vote for your gauge. They earn your tokens, an
 Your budget buys votes, and those votes direct CRV emissions to your gauge, so LPs can receive more in CRV than you paid voters. How much more depends on the CRV price and the price per vote. Historically, issuers have often got more value for LPs this way than from direct gauge rewards.
 
 - **[Votemarket](https://www.votemarket.org/curve)** by StakeDAO: you fund a campaign for a gauge over a set number of weekly periods, cap the price per vote, and can blacklist addresses such as your own.
-- **[Votium](https://votium.app/curve):** incentives paid to vlCVX holders for the way Convex votes its veCRV.
+- **[Votium](https://votium.app/curve):** incentives paid to vlCVX holders for the way Convex votes its veCRV, in rounds every 2 weeks.
 
 **What it needs:** a whitelisted gauge and a budget. Both platforms charge a fee; check it before funding.
 
-**When it fits:** you want CRV emissions without locking capital, and the CRV your votes direct is worth more to LPs than paying them the same budget directly. The price of a vote moves every week, so compare before each round.
+**When it fits:** you want CRV emissions without locking capital, and the CRV your votes direct is worth more to LPs than paying them the same budget directly. The price of a vote moves from round to round, so compare before each one.
 
 ## Combining Routes
 
