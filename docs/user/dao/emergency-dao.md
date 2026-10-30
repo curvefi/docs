@@ -28,15 +28,15 @@ Additionally, the Emergency DAO multisig is deployed at `0x6d447e544D01a59cb0774
 The EmergencyDAO consists of the following members:
 
 <div style={{ display: 'flex', justifyContent: 'center', margin: '2rem 0' }} markdown="block">
-| Name            | Telegram Handle       |
-| --------------- | --------------------- |
-| `banteg`        | `Yearn, @banteg`      |
-| `Calvin`        | `@calchulus`          |
-| `C2tP`          | `Convex, @c2tp_eth`   |
-| `Darly Lau`     | `@Daryllautk`         |
-| `Ga3b_node`     | `@ga3b_node`          |
-| `Naga King`     | `@nagakingg`          |
-| `Peter MM`      | `@PeterMm`            |
-| `Addison`       | `@addisonthunderhead` |
-| `Quentin Milne` | `StakeDAO, @Kii_iu`   |
+| Name            | Telegram Handle              |
+| --------------- | ---------------------------- |
+| `banteg`        | `Yearn, @banteg`             |
+| `Calvin`        | `@calchulus`                 |
+| `C2tP`          | `Convex, @c2tp_eth`          |
+| `Winthorpe`     | `Convex, @CryptoWinthorpe`   |
+| `Ga3b_node`     | `@ga3b_node`                 |
+| `Naga King`     | `@nagakingg`                 |
+| `Peter MM`      | `@PeterMm`                   |
+| `Chago`         | `StakeDAO, @chago0x`         |
+| `Quentin Milne` | `StakeDAO, @Kii_iu`          |
 </div>
