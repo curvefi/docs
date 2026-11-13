@@ -8,7 +8,7 @@ The contract is usually not used on its own but as one part of a market's oracle
 
 The source code for the `ChainlinkEMA.sol` contract can be found on [GitHub](https://github.com/curvefi/curve-stablecoin/blob/master/curve_stablecoin/price_oracles/v2/ChainlinkEMA.sol). The contract is written in [Solidity](https://soliditylang.org/) version `0.8.25`. It is based on the Chainlink EMA oracle by [defi.money](https://github.com/defidotmoney/dfm-contracts).
 
-A separate instance is deployed for every market (and every Chainlink feed) that uses it.
+A separate instance is deployed for every market (and every Chainlink feed) that uses it. The examples on this page read the USDC/USD instance in the wOUSD/crvUSD market's oracle stack on Ethereum, [`0xE960edd17972676C22Fc3A68f0A24570Da32814E`](https://etherscan.io/address/0xE960edd17972676C22Fc3A68f0A24570Da32814E).
 
 <ContractABI>
 
@@ -38,7 +38,7 @@ where $p_t$ is the Chainlink answer for slot $t$ and $\alpha$ is stored as `SMOO
 
 **Rebuilding.** If the stored slot is `2 * OBSERVATIONS` intervals or more in the past, or the Chainlink feed has switched to a new phase aggregator, the oracle discards its state and rebuilds the EMA from scratch. It walks backwards through the feed's rounds to collect the answer for up to `2 * OBSERVATIONS` past slots, then computes the EMA forward from the oldest one.
 
-**Normalization.** Chainlink answers are scaled to 18 decimals. The oracle reverts if the feed reports more than 18 decimals or a non-positive answer.
+**Normalization.** Chainlink answers are scaled to 18 decimals. The feed's decimals are read at deployment and again whenever its round id shows a new phase aggregator, so a phase that changes decimals is still scaled correctly. The oracle reverts if the feed reports more than 18 decimals or a non-positive answer.
 
 :::warning[No staleness check]
 The oracle does not check when the Chainlink feed was last updated. If the feed stops updating, the EMA keeps converging to the last reported answer. Any staleness protection has to be added elsewhere in the oracle stack.
@@ -220,9 +220,12 @@ function _validateAndFormatResponse(uint80 roundId, int256 answer, uint256 updat
 
 <Example>
 
-```shell
->>> ChainlinkEMA.price()
-```
+<ContractCall
+  address="0xE960edd17972676C22Fc3A68f0A24570Da32814E"
+  abi={["function price() view returns (uint256)"]}
+  method="price"
+  contractName="ChainlinkEMA"
+/>
 
 </Example>
 
@@ -407,6 +410,7 @@ function _validateAndFormatResponse(uint80 roundId, int256 answer, uint256 updat
 
 ```shell
 >>> ChainlinkEMA.price_w()
+999780000000000000
 ```
 
 </Example>
@@ -442,6 +446,7 @@ constructor(IChainlinkAggregator _chainlink, uint256 _observations, uint256 _int
 
 ```shell
 >>> ChainlinkEMA.chainlinkFeed()
+'0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6'
 ```
 
 </Example>
@@ -596,9 +601,12 @@ function price_w() external returns (uint256 currentPrice) {
 
 <Example>
 
-```shell
->>> ChainlinkEMA.storedPrice()
-```
+<ContractCall
+  address="0xE960edd17972676C22Fc3A68f0A24570Da32814E"
+  abi={["function storedPrice() view returns (uint256)"]}
+  method="storedPrice"
+  contractName="ChainlinkEMA"
+/>
 
 </Example>
 
@@ -650,9 +658,12 @@ function _getCurrentObservationTimestamp() internal view returns (uint256) {
 
 <Example>
 
-```shell
->>> ChainlinkEMA.storedObservationTimestamp()
-```
+<ContractCall
+  address="0xE960edd17972676C22Fc3A68f0A24570Da32814E"
+  abi={["function storedObservationTimestamp() view returns (uint256)"]}
+  method="storedObservationTimestamp"
+  contractName="ChainlinkEMA"
+/>
 
 </Example>
 
@@ -735,9 +746,12 @@ function _validateAndFormatResponse(uint80 roundId, int256 answer, uint256 updat
 
 <Example>
 
-```shell
->>> ChainlinkEMA.storedResponse()
-```
+<ContractCall
+  address="0xE960edd17972676C22Fc3A68f0A24570Da32814E"
+  abi={["function storedResponse() view returns (uint80 roundId, uint128 updatedAt, uint8 decimals, uint256 answer)"]}
+  method="storedResponse"
+  contractName="ChainlinkEMA"
+/>
 
 </Example>
 
