@@ -451,6 +451,14 @@ export default {
             items: [
                 { type: 'doc', id: 'llamalend-v2/overview', label: 'Overview' },
                 { type: 'doc', id: 'llamalend-v2/lend-factory', label: 'LendFactory' },
+                {
+                    type: 'category',
+                    label: 'Oracles',
+                    items: [
+                        { type: 'doc', id: 'llamalend-v2/oracles', label: 'Overview' },
+                        { type: 'doc', id: 'llamalend-v2/chainlink-ema', label: 'ChainlinkEMA' },
+                    ],
+                },
                 { type: 'doc', id: 'llamalend-v2/vault', label: 'Vault' },
                 { type: 'doc', id: 'llamalend-v2/lend-controller', label: 'LendController' },
                 { type: 'doc', id: 'llamalend-v2/lend-controller-view', label: 'LendControllerView' },
