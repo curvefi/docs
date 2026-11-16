@@ -96,6 +96,11 @@ import BadgeGrid from '@site/src/components/BadgeGrid'
       description: "Community-built dashboards with on-chain Curve data",
       href: "https://dune.com/curvefi"
     },
+    {
+      title: "X-RAY",
+      description: "Curve pools by value and share of CRV emissions, read from Curve's public API",
+      href: "https://x-ray.me/registers/curve-pools"
+    },
   ]}
 />
 
