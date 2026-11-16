@@ -459,6 +459,15 @@ export default {
                         { type: 'doc', id: 'llamalend-v2/chainlink-ema', label: 'ChainlinkEMA' },
                     ],
                 },
+                {
+                    type: 'category',
+                    label: 'Monetary Policy',
+                    items: [
+                        { type: 'doc', id: 'llamalend-v2/mp-overview', label: 'Overview' },
+                        { type: 'doc', id: 'llamalend-v2/hyperbolic-mp', label: 'HyperbolicMP' },
+                        { type: 'doc', id: 'llamalend-v2/hyperbolic-dynamic-mp', label: 'HyperbolicDynamicMP' },
+                    ],
+                },
                 { type: 'doc', id: 'llamalend-v2/vault', label: 'Vault' },
                 { type: 'doc', id: 'llamalend-v2/lend-controller', label: 'LendController' },
                 { type: 'doc', id: 'llamalend-v2/lend-controller-view', label: 'LendControllerView' },
