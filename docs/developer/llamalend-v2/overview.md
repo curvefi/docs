@@ -190,6 +190,16 @@ The **borrower-facing contract** for each market. Wraps the core `controller.vy`
 The **Lending-Liquidating AMM** that holds collateral in discretized price bands. It converts collateral gradually as prices move through the bands. The direction can reverse during a recovery, but conversion losses do not.
 
   </DocCard>
+  <DocCard title="HyperbolicMP" icon="vyper" link="./hyperbolic-mp" linkText="HyperbolicMP.vy">
+
+Per-market **monetary policy** with a hyperbolic utilization curve around a fixed target rate. Borrowers pay the target rate at target utilization, less below it and sharply more towards full utilization.
+
+  </DocCard>
+  <DocCard title="HyperbolicDynamicMP" icon="vyper" link="./hyperbolic-dynamic-mp" linkText="HyperbolicDynamicMP.vy">
+
+Per-market **monetary policy for yield-bearing collateral**. Uses the same hyperbolic curve, but the target rate follows the collateral's yield as reported by an external rate calculator.
+
+  </DocCard>
   <DocCard title="CurveLMCallbackFactory" icon="vyper" link="./lm-callback-factory" linkText="LMCallbackFactory.vy">
 
 Factory contract that **deploys LM Callbacks** for individual markets from a shared blueprint. Tracks every deployed callback in an on-chain registry and can pause new deployments.
