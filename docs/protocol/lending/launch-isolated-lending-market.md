@@ -29,7 +29,7 @@ Llamalend v1 is deprecated. New markets and integrations should use the v2 contr
 **For your users:**
 
 - **Time to react.** LLAMMA soft liquidation sells collateral gradually as the price falls, instead of seizing it all at one price.
-- **High LTV on correlated pairs.** Live markets for yield-bearing stablecoins allow a maximum LTV of up to about 98%.
+- **High LTV on correlated pairs.** Live markets for yield-bearing stablecoins allowed a maximum LTV of up to about 98% as of 17 November 2026, per the Curve Prices API.
 - **They keep their yield.** Yield-bearing collateral, such as ERC-4626 vault shares, keeps earning while it backs a loan.
 - **Leverage in one transaction.** The Controller accepts a callback that builds a leveraged position in a single transaction.
 - **Lenders get a standard vault.** Lenders deposit into an ERC-4626 vault and earn interest paid by borrowers.

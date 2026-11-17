@@ -7,6 +7,15 @@ const {gfm} = require('turndown-plugin-gfm');
 const {markdownPath} = require('../../src/utils/markdown-path');
 
 const sections = {user: 'User documentation', developer: 'Developer documentation', protocol: 'Build on Curve'};
+const curveSummary = 'Curve is a permissionless DEX and lending protocol governed by the Curve DAO: Stableswap, Cryptoswap and FXSwap liquidity pools, Llamalend isolated lending markets, the crvUSD stablecoin, and gauges that pay CRV and other incentives.';
+const summaries = {
+  user: 'Guides for using Curve: swapping, providing liquidity, borrowing and lending, crvUSD and scrvUSD, CRV and veCRV, and Curve DAO governance.',
+  developer: 'Contract references and integration guides for Curve pools, factories, routers, Llamalend, crvUSD, gauges and the Curve DAO.',
+  protocol: 'Guides for stablecoin, LST and wrapped BTC, RWA and project token issuers, DeFi protocols and chains launching liquidity pools, Llamalend lending markets and gauge incentives on Curve.',
+};
+// Start Here pages lead the Build on Curve index so retrieval finds the audience overviews first.
+const firstPages = ['/protocol/why-curve', '/protocol/start-here/', '/protocol/launch-playbook'];
+const rank = (page) => { const i = firstPages.findIndex((prefix) => page.html.startsWith(prefix)); return i < 0 ? firstPages.length : i; };
 const maxBundleBytes = 512 * 1024;
 
 function htmlFile(outDir, permalink) {
@@ -110,7 +119,7 @@ function description(doc, html) {
 function index(title, summary, pages, siteUrl, extras = '') {
   let content = `# ${title}\n\n> ${summary}\n\nRead individual Markdown pages for focused retrieval. Source links identify the canonical documentation.\n\n${extras}`;
   for (const [section, label] of Object.entries(sections)) {
-    const items = pages.filter((page) => page.section === section);
+    const items = pages.filter((page) => page.section === section).sort((a, b) => rank(a) - rank(b));
     if (!items.length) continue;
     content += `## ${label}\n\n` + items.map((page) => `- [${page.title.replace(/[\[\]\r\n]/g, '')}](${siteUrl}${page.markdown})${page.description ? `: ${page.description}` : ''}`).join('\n') + '\n\n';
   }
@@ -161,11 +170,11 @@ async function generate({docs, siteDir, outDir, siteUrl}) {
       batch.push(page); bytes += page.bytes + 10;
     }
     await flush();
-    await write(`/${section}/llms.txt`, index(sections[section], `Official Curve ${section} documentation.`, pages.filter((page) => page.section === section), siteUrl));
+    await write(`/${section}/llms.txt`, index(sections[section], `${curveSummary} ${summaries[section]}`, pages.filter((page) => page.section === section), siteUrl));
   }
-  const extras = `## Retrieval\n\n- [Users](${siteUrl}/user/llms.txt): User guides, tokens, DAO, and risk documentation\n- [Developers](${siteUrl}/developer/llms.txt): Contract references and integration guides\n- [Build on Curve](${siteUrl}/protocol/llms.txt): Deployment and incentive guides\n- [Deployment data](${siteUrl}/deployments.json): Contract addresses by chain\n- [Manifest](${siteUrl}/llms-manifest.json): Canonical URLs, export hashes, and bounded bundles\n\n`;
+  const extras = `## Retrieval\n\n- [Users](${siteUrl}/user/llms.txt): Guides for swapping, liquidity, lending, crvUSD, CRV and governance\n- [Developers](${siteUrl}/developer/llms.txt): Contract references and integration guides\n- [Build on Curve](${siteUrl}/protocol/llms.txt): Launching pools, lending markets and incentives on Curve for stablecoins, LSTs and wrapped BTC, RWAs, project tokens, DeFi protocols and chains\n- [Deployment data](${siteUrl}/deployments.json): Contract addresses by chain\n- [Manifest](${siteUrl}/llms-manifest.json): Canonical URLs, export hashes, and bounded bundles\n\n`;
   const optional = '\n## Optional\n\n' + bundles.map((bundle) => `- [${bundle.url}](${siteUrl}${bundle.url}): ${bundle.bytes} bytes`).join('\n') + `\n- [Full documentation](${siteUrl}/llms-full.txt): Large combined export; prefer individual pages or bounded bundles\n- [Governance map](${siteUrl}/governance): Interactive governance overview\n- [Emissions cycle](${siteUrl}/emissions): Interactive emissions overview\n- [Fee architecture](${siteUrl}/fee-architecture): Interactive fee overview\n`;
-  await write('/llms.txt', index('Curve Finance Documentation', 'Official Curve user, developer, and protocol documentation.', pages, siteUrl, extras) + optional);
+  await write('/llms.txt', index('Curve Finance Documentation', curveSummary, pages, siteUrl, extras) + optional);
   await write('/llms-full.txt', '# Curve Finance Documentation\n\n> Combined reference. Prefer individual pages for focused retrieval.\n\n' + pages.map((page) => page.content).join('\n---\n\n'));
   await write('/llms-manifest.json', JSON.stringify({schemaVersion: 1, pages: pages.map(({content, ...page}) => page), bundles}, null, 2) + '\n');
   console.log(`[ai-docs] Exported ${pages.length} pages and ${bundles.length} bounded bundles`);

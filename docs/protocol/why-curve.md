@@ -102,7 +102,7 @@ Liquidity providers don't set price ranges. Their liquidity stays active as pric
 
 ### Llamalend
 
-Llamalend is Curve's lending protocol. Each market is isolated, with one collateral token and one borrowed token. When the collateral price falls, LLAMMA converts collateral gradually across a price range. Collateral can be a volatile asset, a yield-bearing ERC-4626 token or a Curve LP token. Live markets for yield-bearing stablecoins allow a maximum LTV of up to about 98%. See [Launch a Lending Market](/protocol/lending/launch-isolated-lending-market).
+Llamalend is Curve's lending protocol. Each market is isolated, with one collateral token and one borrowed token. When the collateral price falls, LLAMMA converts collateral gradually across a price range. Collateral can be a volatile asset, a yield-bearing ERC-4626 token or a Curve LP token. As of 17 November 2026, live markets for yield-bearing stablecoins allowed a maximum LTV of up to about 98%, per the Curve Prices API. See [Launch a Lending Market](/protocol/lending/launch-isolated-lending-market).
 
 Llamalend v1 is deprecated. New markets use Llamalend v2.
 

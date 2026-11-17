@@ -27,5 +27,7 @@ The [Curve API](../api/curve-api.md) at `api.curve.finance` serves pool lists an
 
 ## Related
 
+- [Why Build on Curve](../why-curve.md)
+- [Launch Playbook](../launch-playbook.md)
 - [Developer documentation](/developer/documentation-overview)
 - Curve [Telegram](https://t.me/curvefi) and [Discord](https://discord.gg/twUngQYz85)

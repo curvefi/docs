@@ -73,6 +73,7 @@ Liquidity providers. Rebasing yield accrues to the pool, and an oracle-priced to
 
 ## Related
 
+- [Why Build on Curve](../why-curve.md)
 - [Launch Playbook](../launch-playbook.md)
 - [Pool Types](../pool/overview.md)
 - [Launch a Lending Market](../lending/launch-isolated-lending-market.md)

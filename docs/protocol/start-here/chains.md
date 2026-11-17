@@ -58,6 +58,8 @@ Yes, once the Curve DAO adds their gauges by vote. Each gauge then receives CRV 
 
 ## Related
 
+- [Why Build on Curve](../why-curve.md)
+- [Launch Playbook](../launch-playbook.md)
 - [curvefi/curve-core](https://github.com/curvefi/curve-core)
 - [Supported Chains & Assets](/user/cross-chain/supported-chains)
 - [Gauge Weights on L2s](/user/dao/gauge-weights#gauge-weights-on-l2s)

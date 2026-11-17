@@ -69,6 +69,7 @@ Yes. Direct gauge rewards need no vote and can start once the gauge exists.
 
 ## Related
 
+- [Why Build on Curve](../why-curve.md)
 - [Launch Playbook](../launch-playbook.md)
 - [Gauges & Incentives](../gauge/overview.md)
 - [Understanding Cryptoswap](../pool/understanding-cryptoswap.md)

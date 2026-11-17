@@ -70,6 +70,7 @@ Yes, if a reliable price oracle exists for it. Borrowing opens after a Curve DAO
 
 ## Related
 
+- [Why Build on Curve](../why-curve.md)
 - [Launch Playbook](../launch-playbook.md)
 - [Oracles & Parameters](../lending/oracles-and-parameters.md)
 - [Understanding FXSwap](../pool/understanding-fxswap.md)

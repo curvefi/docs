@@ -79,6 +79,8 @@ It votes with veCRV or vlCVX it holds, or pays vote incentives to veCRV holders.
 
 ## Related
 
+- [Why Build on Curve](../why-curve.md)
+- [Launch Playbook](../launch-playbook.md)
 - [Developer documentation](/developer/documentation-overview)
 - [Incentivizing a Pool](../gauge/incentive-routes.md)
 - [Launch a Lending Market](../lending/launch-isolated-lending-market.md)
