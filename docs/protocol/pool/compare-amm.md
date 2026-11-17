@@ -1,20 +1,20 @@
 ---
 id: compare-amm
-title: Curve vs Concentrated-Liquidity and Weighted AMMs
+title: Curve vs Concentrated-Liquidity AMMs
 sidebar_label: Curve vs. Other AMMs
-description: How Curve's Stableswap and Cryptoswap pools compare with concentrated-liquidity AMMs such as Uniswap v3 and weighted pools such as Balancer, covering price ranges, LP tokens, fees and oracles.
+description: How Curve's Stableswap and Cryptoswap pools compare with concentrated-liquidity AMMs such as Uniswap v3 and v4, covering price ranges, LP positions, fees and oracles.
 ---
 
-Curve pools concentrate liquidity automatically: liquidity providers (LPs) deposit without choosing a price range. Concentrated-liquidity AMMs such as Uniswap v3 let each LP choose a range, which can earn more fees per dollar but stops earning when the price leaves it. Weighted pools such as Balancer's hold up to 8 tokens in fixed proportions. Each design fits a different kind of asset and LP.
+Curve pools concentrate liquidity automatically: liquidity providers (LPs) deposit without choosing a price range. In a concentrated-liquidity AMM such as Uniswap v3 or v4, each LP chooses a range. A narrow range can earn more fees per dollar, but the position stops earning when the price leaves it.
 
 As of 17 November 2026.
 
-| | Curve | Concentrated liquidity (Uniswap v3) | Weighted pools (Balancer v3) |
-| --- | --- | --- | --- |
-| Where liquidity sits | Stableswap concentrates it near the peg, set by the amplification factor `A`. Cryptoswap re-centers it as the price moves. LPs choose nothing. | Each LP chooses a price interval. Outside it, the position is inactive, earns no fees and ends up in a single asset ([docs](https://developers.uniswap.org/docs/get-started/concepts/liquidity-providers/concentrated-liquidity)). | Spread according to custom token weights, such as 80/20 ([docs](https://docs.balancer.fi/concepts/explore-available-balancer-pools/weighted-pool/weighted-pool.html)). |
-| LP position | ERC-20 LP token | ERC-721 NFT per position ([whitepaper](https://uniswap.org/whitepaper-v3.pdf)) | ERC-20 pool token ([docs](https://docs.balancer.fi/concepts/core-concepts/balancer-pool-tokens.html)) |
-| Swap fee | Dynamic: rises when the pool is imbalanced ([Pool Parameters](./pool-parameters.md)) | Fixed fee tier per pool, tied to tick spacing ([docs](https://developers.uniswap.org/docs/get-started/concepts/liquidity-providers/concentrated-liquidity)) | Set per pool between 0.001% and 10% ([docs](https://docs.balancer.fi/concepts/explore-available-balancer-pools/weighted-pool/weighted-pool.html)) |
-| Tokens per pool | Stableswap up to 8, Cryptoswap 2 or 3 | 2 ([whitepaper](https://uniswap.org/whitepaper-v3.pdf)) | Up to 8 ([docs](https://docs.balancer.fi/concepts/explore-available-balancer-pools/weighted-pool/weighted-pool.html)) |
+| | Curve | Uniswap v3 and v4 |
+| --- | --- | --- |
+| Where liquidity sits | Stableswap concentrates it near the peg, set by the amplification factor `A`. Cryptoswap re-centers it as the price moves. LPs choose nothing. | Each LP chooses a price interval. Outside it, the position is inactive, earns no fees and ends up in a single asset ([docs](https://developers.uniswap.org/docs/get-started/concepts/liquidity-providers/concentrated-liquidity)). |
+| LP position | ERC-20 LP token | ERC-721 NFT per position ([v3 whitepaper](https://uniswap.org/whitepaper-v3.pdf), [v4 docs](https://developers.uniswap.org/docs/protocols/v4/guides/managing-liquidity/mint-position)) |
+| Swap fee | Dynamic: rises when the pool is imbalanced ([Pool Parameters](./pool-parameters.md)) | In v3, a fixed fee tier per pool, tied to tick spacing ([docs](https://developers.uniswap.org/docs/get-started/concepts/liquidity-providers/concentrated-liquidity)) |
+| Tokens per pool | Stableswap up to 8, Cryptoswap 2 or 3 | 2 ([v3 whitepaper](https://uniswap.org/whitepaper-v3.pdf)) |
 
 ## How Curve Places Liquidity
 
@@ -30,15 +30,13 @@ Every Curve pool records an exponential moving average (EMA) of its prices oncha
 
 ## When Each Design Fits
 
-A concentrated-liquidity pool fits LPs who actively manage positions and want the most fee income per dollar inside a chosen range. They accept that the position stops earning outside it.
+A concentrated-liquidity pool fits LPs who manage positions actively and want the most fee income per dollar inside a chosen range. They accept that the position stops earning outside it.
 
-A weighted pool fits a basket of tokens, or a token held in a fixed ratio against another, such as an 80/20 pool for a governance token.
-
-A Curve pool fits pegged assets, such as stablecoins, LSTs and wrapped BTC, and volatile pairs where LPs want to deposit without managing a range. An LP token is a plain ERC-20, so other protocols can lend against it, including Llamalend.
+A Curve pool fits pegged assets, such as stablecoins, LSTs and wrapped BTC, and volatile pairs where LPs want to deposit without managing a range. The LP token is a plain ERC-20, so other protocols can lend against it, including Llamalend.
 
 ## Related
 
-- [Pool Types](./overview.md)
+- [Curve Pool Types](./overview.md)
 - [Understanding Stableswap](./understanding-stableswap.md)
 - [Understanding Cryptoswap](./understanding-cryptoswap.md)
 - [Understanding FXSwap](./understanding-fxswap.md)

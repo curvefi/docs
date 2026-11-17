@@ -9,7 +9,7 @@ import ThemedImage from '@theme/ThemedImage'
 
 ## The Pool Doesn't Appear in the Pool List
 
-The Curve app hides pools with less than $10k TVL by default. Search for the pool by name or contract address, or turn off the **Hide very small pools** filter. A newly deployed pool also takes a short time to appear.
+The pool list hides pools with no liquidity, and its search only covers pools in the list. Open an empty pool directly at `https://www.curve.finance/dex/<network>/pools/<pool address>`, then make the first deposit in the **Seed pool** tab. The pool joins the list once it holds liquidity and the Curve Prices API has indexed it.
 
 ## The Token Shows a Default Logo
 
@@ -40,7 +40,7 @@ A Cryptoswap pool rebalances only when the cost is less than half of the trading
 
 ### Check Whether a Pool Is Stale
 
-Open the pool in the Curve app and select the **Advanced** tab at the bottom of the pool details. Compare two values:
+Open the pool in the Curve app and find the **Price Oracle** and **Price Scale** cards in its Advanced Details. Compare the two values:
 
 - **Price Scale** is the price at which liquidity was last rebalanced, the center of liquidity.
 - **Price Oracle** is the EMA of recent prices. Rebalances follow this price, which makes them hard to manipulate.
@@ -74,7 +74,7 @@ Parameters set at deployment are the main defense. A higher `gamma` and a lower 
 
 ## An FXSwap Pool Drifts From the Market Price
 
-FXSwap recenters using a refuel budget. When the budget runs out, the pool can lag the external market. Add refuels manually at [crvhub.com/refuel](https://crvhub.com/refuel) or schedule them with [Automating FXSwap Refuels](./guides/donation-streamer.md). See [Understanding FXSwap](./understanding-fxswap.md#refuels) for how refuels are spent.
+FXSwap recenters using a refuel budget. When the budget runs out, the pool can lag the external market. Add refuels on the pool's **Manage pool** page in the Curve app, linked from its Advanced Details, or schedule them with [Automating FXSwap Refuels](./guides/donation-streamer.md). The Manage pool page also charts recent refuels and the pool's price scale. See [Understanding FXSwap](./understanding-fxswap.md#refuels) for how refuels are spent.
 
 ## Related
 

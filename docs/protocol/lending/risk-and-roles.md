@@ -21,19 +21,9 @@ A Curve DAO vote can also assign a market-specific admin, who can then change th
 
 For help preparing an oracle, parameter set, deployment or governance proposal, contact **SwissStake** through Curve's [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).
 
-## What Lenders Risk
+## What Lenders and Borrowers Risk
 
-A market's losses stay in that market. Bad debt in one market does not reach other Llamalend markets, Curve pools or crvUSD.
-
-Bad debt appears when LLAMMA can't convert enough collateral into the borrowed token before a loan has to be liquidated, so the collateral left can't repay the debt. The shortfall falls on the lenders in that market's vault.
-
-Lenders can withdraw only what borrowers haven't borrowed. When utilization is high, a vault share can be worth more than a lender can withdraw at that moment.
-
-## What Borrowers Risk
-
-When the collateral price falls into a loan's liquidation range, LLAMMA converts collateral to the borrowed token gradually. Each conversion loses some value to fees and arbitrage, even if the price later recovers. A loan that stays in its range long enough can still be hard-liquidated.
-
-The borrow rate comes from the market's monetary policy and rises with utilization. The Curve DAO can change the monetary policy by vote.
+A market's losses stay in that market. If LLAMMA can't convert enough collateral before a loan is liquidated, the shortfall falls on that market's lenders, and lenders can only withdraw what borrowers haven't borrowed. Borrowers lose some value on each LLAMMA conversion and can still be hard-liquidated. The user docs explain both in full: [Bad Debt & Market Solvency](/user/llamalend/bad-debt) and [How Liquidation Protection Works](/user/llamalend/liquidation-protection/how-it-works).
 
 ## What the Oracle Decides
 

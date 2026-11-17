@@ -18,7 +18,7 @@ The technical documentation for the `DonationStreamer.vy` contract can be found 
 
 :::
 
-[FXSwap pools](../understanding-fxswap.md) use **refuels** to subsidize rebalancing and keep liquidity tight around the current price. While refuels can be added manually via [crvhub.com/refuel](https://crvhub.com/refuel), the **Donation Streamer** lets you automate this process — depositing tokens once and having them streamed into the pool over a set schedule.
+[FXSwap pools](../understanding-fxswap.md) use **refuels** to subsidize rebalancing and keep liquidity tight around the current price. While refuels can be added manually on the pool's **Manage pool** page in the Curve app, linked from the pool's Advanced Details, the **Donation Streamer** lets you automate this process — depositing tokens once and having them streamed into the pool over a set schedule.
 
 This is useful for projects that want to keep their FXSwap pools consistently refueled without manual intervention.
 

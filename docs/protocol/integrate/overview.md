@@ -17,7 +17,7 @@ Llamalend lender positions are ERC-4626 vault shares. Borrowing goes through eac
 
 crvUSD is Curve's stablecoin, governed by the Curve DAO. It is the borrowed asset in the live Llamalend markets on Ethereum.
 
-Resupply's reUSD/sfrxUSD Curve LP token is collateral in a Llamalend market on Ethereum, so its liquidity providers borrow crvUSD against their position.
+For an example of a protocol built on Curve pools and crvUSD, see [Resupply: A Curve Ecosystem Success Story](https://news.curve.finance/resupply-success-story/).
 
 ## Quickstarts
 

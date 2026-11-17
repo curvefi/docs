@@ -19,6 +19,10 @@ This page lists the steps for taking a token from no liquidity to a Curve pool w
 | Gauge receives CRV | veCRV holders, through gauge weight votes | From the next Thursday 00:00 UTC update after votes are cast |
 | CRV reaches a gauge on another chain | Automatic, through the root gauge | About one more week |
 
+The diagram shows a common incentive sequence after the gauge exists.
+
+![A common launch sequence: direct gauge rewards or a Merkl campaign from day 0, the 7-day DAO gauge whitelist vote on Ethereum, votes cast for the gauge (Convex and StakeDAO vote every 2 weeks), then CRV on Ethereum from the Thursday 00:00 UTC weight update after that vote round, and on other chains one week later through the root gauge.](/img/protocol/gauge/incentive-timeline.png)
+
 ## Steps
 
 ### 1. Choose a Pool Type
@@ -31,18 +35,18 @@ Deploy the pool in the Curve app or onchain. It needs no approval and costs only
 
 ### 3. Deploy the Gauge
 
-The factory allows one gauge per pool, and the wallet that deploys it becomes the gauge manager. Only the manager can register reward tokens, so deploy your pool's gauge yourself. See [Curve Gauges and Incentives](./gauge/overview.md).
+Deploy it from the Curve app's gauge deployment page or onchain. The factory allows one gauge per pool, and the wallet that deploys it becomes the gauge manager. Only the manager can register reward tokens, so deploy your pool's gauge yourself. See [Curve Gauges and Incentives](./gauge/overview.md).
 
 ### 4. Fund Incentives
 
-Direct gauge rewards in your own token start as soon as you deposit them. CRV emissions take longer. The gauge needs a Curve DAO ownership vote to be whitelisted, then veCRV gauge weight votes. Creating the vote takes 2,500 veCRV. It runs for 7 days and passes with at least 51% support and a 30% quorum of yes votes. [Incentivizing a Curve Pool](./gauge/incentive-routes.md) compares every route, and [Incentive Costs](./gauge/incentive-costs.md) explains what each one costs.
+Direct gauge rewards in your own token start as soon as you deposit them. CRV emissions take longer. The gauge needs a Curve DAO ownership vote to be whitelisted, then veCRV gauge weight votes. The vote runs for 7 days. [Governance Proposals](/user/dao/proposals) explains who can create one and what it needs to pass. [Incentivizing a Curve Pool](./gauge/incentive-routes.md) compares every route, and [Incentive Costs](./gauge/incentive-costs.md) explains what each one costs.
 
 ### 5. Launch a Lending Market
 
-Propose the market, have it reviewed by yRisk, the Curve DAO's elected risk manager, and deploy it. A Curve DAO ownership vote, with the same 7-day period and thresholds, raises its borrow cap from zero. See [Launch a Lending Market](./lending/launch-isolated-lending-market.md).
+Propose the market, have it reviewed by yRisk, the Curve DAO's elected risk manager, and deploy it. A 7-day Curve DAO ownership vote raises its borrow cap from zero. See [Launch a Lending Market](./lending/launch-isolated-lending-market.md).
 
 ### 6. Monitor the Pool and Market
 
 Watch pool balances, fee income, lending utilization and incentive spend. The Curve DAO can change pool and market parameters by vote. See [Troubleshooting Curve Pools](./pool/troubleshooting.md) and [Running a Llamalend Market](./lending/running-a-market.md).
 
-Vote thresholds were read onchain from the Curve DAO's ownership voting contract on 17 November 2026. See [Governance Proposals](/user/dao/proposals).
+The 7-day vote period was read onchain from the Curve DAO's ownership voting contract on 17 November 2026.

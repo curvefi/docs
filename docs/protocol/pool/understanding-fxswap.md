@@ -111,7 +111,7 @@ The resulting liquidity cycle is:
 
 ### How Can I Refuel a Pool?
 
-Refuels are added through the standard `add_liquidity` function using the deployed `donation = true` flag. A community UI is available at [crvhub.com/refuel](https://crvhub.com/refuel).
+Refuels are added through the standard `add_liquidity` function using the deployed `donation = true` flag. In the Curve app, refuels are set up on the pool's **Manage pool** page in the Curve app, linked from the pool's Advanced Details.
 
 To set up **recurring automated refuels**, use the [**Donation Streamer**](./guides/donation-streamer.md) — deposit tokens once and have them streamed into the pool on a schedule.
 

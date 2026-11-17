@@ -203,5 +203,5 @@ Once everything looks correct, click the blue **Create Pool** button at the bott
 ## What to do after deployment
 
 ✅ **Seed initial liquidity** — a pool with zero balance cannot process trades.  
-✅ (Optional) **Add Refuels** — Refuels help maintain pool efficiency by subsidizing rebalancing costs. You can add them manually via [crvhub.com/refuel](https://crvhub.com/refuel), or set up recurring automated refuels with the [`DonationStreamer`](./donation-streamer.md) contract. More here: [FXSwap Refuels](../understanding-fxswap.md#refuels)
+✅ (Optional) **Add Refuels** — Refuels help maintain pool efficiency by subsidizing rebalancing costs. You can add them on the pool's **Manage pool** page in the Curve app, linked from the pool's Advanced Details, or set up recurring automated refuels with the [`DonationStreamer`](./donation-streamer.md) contract. More here: [FXSwap Refuels](../understanding-fxswap.md#refuels)
 ✅ (Optional) **[Create a gauge](/protocol/gauge/overview)** to distribute CRV or other incentives to LPs.

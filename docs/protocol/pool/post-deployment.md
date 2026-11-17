@@ -13,7 +13,7 @@ A new pool can't trade until it holds liquidity. After seeding it, check that it
 
 Before a pool can process any trades, it must be seeded with initial liquidity. To get the pool going, it's highly recommended to add liquidity in proportional balances. For two-coin pools 50/50, three-coin pools 33/33/33, etc.
 
-The frontend filters out liquidity pools with less than $10k TVL. The pool will be hidden by default from the pool list. Users can still search for the pool using its name or contract address, or simply disable the "Hide very small pools" filter.
+The pool list in the Curve app hides pools with no liquidity, so a new pool appears after it is seeded. An empty pool's page shows a **Seed pool** tab for the first deposit.
 
 ## Integrations
 
@@ -33,7 +33,7 @@ Compare your pool with [Pool Parameter Presets](./presets.md), and see [Troubles
 
 ## Add Refuels (FXSwap Pools)
 
-If you deployed an **FXSwap pool**, consider adding refuels to subsidize rebalancing and keep liquidity tight around the current price. Refuels can be added manually via [crvhub.com/refuel](https://crvhub.com/refuel), or automated with the [`DonationStreamer` contract](./guides/donation-streamer.md). For more on how refuels work, see [Understanding FXSwap — Refuels](./understanding-fxswap.md#refuels).
+If you deployed an **FXSwap pool**, consider adding refuels to subsidize rebalancing and keep liquidity tight around the current price. Refuels can be added on the pool's **Manage pool** page in the Curve app, linked from the pool's Advanced Details, or automated with the [`DonationStreamer` contract](./guides/donation-streamer.md). For more on how refuels work, see [Understanding FXSwap — Refuels](./understanding-fxswap.md#refuels).
 
 ## Grow Liquidity Using Incentives
 

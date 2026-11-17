@@ -21,7 +21,7 @@ Your network, its pools and swaps appear in the Curve app.
 
 The deployment scripts are open source in [curvefi/curve-core](https://github.com/curvefi/curve-core). Llamalend is not part of Curve Lite and runs on Ethereum and Optimism.
 
-## What Your Ecosystem Gets
+## What Projects on Your Chain Get
 
 Every project on your chain can deploy pools on the same terms, with no listing approval. Traders get low-slippage swaps for pegged assets, and liquidity providers earn fees without managing ranges.
 
@@ -36,11 +36,16 @@ A Curve Lite deployment needs:
 - CRV and crvUSD bridged to the chain through native bridges;
 - an OP Stack, Arbitrum Orbit, Polygon CDK, Taiko or non-rollup chain. zkSync-based chains are not fully supported.
 
+The [curve-core README](https://github.com/curvefi/curve-core) has the full requirements. On HyperEVM, deploying pools and gauges requires large blocks; see [Enabling Big Blocks on HyperEVM](../pool/guides/enable-big-blocks-hyperevm.md).
+
 ## Case Studies
 
-As of 17 November 2026, Curve's API lists Curve Lite deployments on Sonic, Taiko, Unichain, Ink and HyperEVM, among others. [Why Curve](../why-curve.md#chains) shows the full list.
+- [Taiko Launches Curve-Lite](https://news.curve.finance/curve-taiko-launch/)
+- [Curve-Lite Now Available on Corn](https://news.curve.finance/curve-lite-now-available-on-corn/)
+- [Curve Launches on Sonic](https://news.curve.finance/curve-sonic-launch/)
+- [Curve Live on Hyperliquid](https://news.curve.finance/curve-live-on-hyperliquid/)
 
-On HyperEVM, deploying pools and gauges requires large blocks. See [Enabling Big Blocks on HyperEVM](../pool/guides/enable-big-blocks-hyperevm.md).
+[Why Curve](../why-curve.md#chains) shows every chain Curve runs on.
 
 ## FAQ
 
