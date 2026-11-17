@@ -17,7 +17,11 @@ Llamalend lender positions are ERC-4626 vault shares. Borrowing goes through eac
 
 crvUSD is Curve's stablecoin, governed by the Curve DAO. It is the borrowed asset in the live Llamalend markets on Ethereum.
 
-For an example of a protocol built on Curve pools and crvUSD, see [Resupply: A Curve Ecosystem Success Story](https://news.curve.finance/resupply-success-story/).
+
+## Case Studies
+
+- [Resupply: A Curve Ecosystem Success Story](https://news.curve.finance/resupply-success-story/)
+- [YieldBasis on Curve: What's Happened So Far](https://news.curve.finance/yieldbasis-on-curve-whats-happened-so-far/)
 
 ## Quickstarts
 

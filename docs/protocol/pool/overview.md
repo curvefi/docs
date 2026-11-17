@@ -90,3 +90,7 @@ Stableswap pools on Curve support a powerful structure of **base pools** and **m
 For example, the USDC/USDT pool might begin as a normal Stableswap pool. If the DAO adds it as a base pool, it can then be reused in other pools. A protocol such as Inverse can create a metapool that pairs their stablecoin DOLA against the base pool, resulting in a DOLA–USDC/USDT market. Users can directly swap DOLA/USDT or DOLA/USDC through this pool.
 
 This approach gives new tokens a major advantage: they can **tap into the deep, established liquidity of the base pool** instead of needing to attract all liquidity themselves **by** pairing their token against an already existing and established pool with TVL.
+
+## Case Studies
+
+- [YieldBasis on Curve: What's Happened So Far](https://news.curve.finance/yieldbasis-on-curve-whats-happened-so-far/)
