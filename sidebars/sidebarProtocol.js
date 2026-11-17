@@ -127,6 +127,10 @@ export default {
                     items: [
                         {
                             type: 'doc',
+                            id: 'lending/risk-and-roles',
+                        },
+                        {
+                            type: 'doc',
                             id: 'lending/oracles-and-parameters',
                         },
                         {
@@ -147,6 +151,21 @@ export default {
                         {
                             type: 'doc',
                             id: 'lending/post-deployment',
+                        },
+                        {
+                            type: 'doc',
+                            id: 'lending/running-a-market',
+                        },
+                    ],
+                },
+                {
+                    type: 'category',
+                    label: 'Reference',
+                    collapsed: true,
+                    items: [
+                        {
+                            type: 'doc',
+                            id: 'lending/parameters-and-access-control',
                         },
                     ],
                 },

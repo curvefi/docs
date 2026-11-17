@@ -67,10 +67,14 @@ A market works when three things are in place:
 
 ## Launch Steps
 
-1. **Deploy the market.** Call `LendFactory.create()` with your token pair, oracle, monetary policy, and risk parameters. Follow the [Deploy a Market](./guides/deploy-lending-market.md) guide.
-2. **Wait for the borrow cap.** Every new market starts with a borrow cap of zero, so nobody can borrow yet. A Curve DAO vote must raise the cap. Treat this vote as a review step: plan the proposal before you deploy. Deploying a market does not make you its administrator.
-3. **Seed lender liquidity.** Deposit the borrowed token into the market's Vault so borrowers have something to borrow.
-4. **Add incentives (optional).** Deploy a gauge to pay rewards to lenders. See [Gauges & Incentive Mechanics](/protocol/gauge/overview).
+1. Prepare the token pair, oracle, monetary policy and parameters, then propose the market on the [Curve governance forum](https://gov.curve.finance/). See [Oracles & Parameters](./oracles-and-parameters.md).
+2. yRisk, the risk manager elected by the Curve DAO, reviews the oracle, the parameters and the proposed borrow cap.
+3. Deploy the market with `LendFactory.create()`. Deployment is permissionless and does not make you the market's admin. See [Deploying a Llamalend Market](./guides/deploy-lending-market.md).
+4. A Curve DAO vote raises the borrow cap from zero. Until it passes, nobody can borrow.
+5. Seed lender liquidity by depositing the borrowed token into the market's Vault.
+6. Optionally, deploy a gauge to pay rewards to lenders. See [Curve Gauges and Incentives](/protocol/gauge/overview).
+
+Once the market is live, parameter changes, wind-down and emergencies go through yRisk and the Curve DAO. See [Running a Llamalend Market](./running-a-market.md).
 
 The factory deploys three contracts for each market:
 
@@ -104,7 +108,7 @@ Figures as of 2026-11-17, from the Curve Prices API for [Ethereum](https://price
 
 ## How It Compares
 
-- **Llamalend:** anyone deploys the market; a Curve DAO vote opens borrowing; LLAMMA protects borrowers from instant liquidation.
+- **Llamalend:** anyone deploys the market; the DAO-elected risk manager reviews it and a Curve DAO vote opens borrowing; LLAMMA protects borrowers from instant liquidation.
 - **Morpho:** anyone creates a market with no vote; curated vaults allocate lender funds across markets.
 - **Euler:** anyone deploys a vault; its governor sets collateral and LTVs; liquidations use a reverse Dutch auction.
 

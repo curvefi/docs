@@ -16,7 +16,7 @@ Before announcing a market:
 1. Verify the Vault, Controller, and AMM against the factory's `markets(index)` result.
 2. Confirm the token pair, oracle, monetary policy, supply limit, discounts, and AMM fee.
 3. Confirm who controls the Configurator, the factory, and the market's fee receiver.
-4. Submit and pass a Curve DAO ownership vote calling `Configurator.set_borrow_cap()`, or assigning a controller-specific administrator that sets the reviewed cap. New markets start at zero.
+4. Submit and pass a Curve DAO ownership vote calling `Configurator.set_borrow_cap()` through the `LendingOwnerProxy`, or assigning a controller-specific administrator that sets the reviewed cap. New markets start at zero.
 5. Confirm the governance action executed successfully and read the new borrow cap onchain.
 6. Seed or attract enough borrowed-token liquidity for the intended borrowing demand.
 7. Test lender deposits and withdrawals, borrower previews, and loan lifecycle operations on a fork before production use.

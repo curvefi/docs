@@ -9,7 +9,7 @@ Llamalend v2 markets are deployed permissionlessly through the `LendFactory`. A 
 
 :::warning[Deployment is not activation]
 
-New Controllers start with a borrow cap of zero. Deploying a market does not enable borrowing or give the deployer administrative rights. The deployed Configurators are administered by Curve DAO ownership agents, so activation requires a DAO ownership vote unless the DAO assigns a controller-specific administrator.
+New Controllers start with a borrow cap of zero. Deploying a market does not enable borrowing or give the deployer administrative rights. The Configurator is administered by a `LendingOwnerProxy` that the Curve DAO controls, so activation requires a Curve DAO ownership vote unless the DAO assigns a controller-specific administrator.
 
 :::
 
@@ -98,7 +98,7 @@ After confirmation:
 
 ## Activate the Market
 
-On both current deployments, the Configurator's default administrator is a Curve DAO ownership agent. Submit a DAO ownership vote that calls `Configurator.set_borrow_cap(controller, cap)`. The proposal may also call `set_custom_admin(controller, admin)` if the DAO intends to delegate later parameter management for that market. On Optimism, the passed DAO action is executed through Curve's cross-chain governance path.
+On Ethereum and Optimism, the Configurator's default administrator is a `LendingOwnerProxy` whose `dao` is the Curve DAO ownership agent. Submit a DAO ownership vote that calls `Configurator.set_borrow_cap(controller, cap)` through the proxy's `execute` function. See [Parameters and Access Control](../parameters-and-access-control.md). The proposal may also call `set_custom_admin(controller, admin)` if the DAO intends to delegate later parameter management for that market. On Optimism, the passed DAO action is executed through Curve's cross-chain governance path.
 
 A market is ready for borrowers only after:
 
