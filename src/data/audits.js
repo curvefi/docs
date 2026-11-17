@@ -68,6 +68,15 @@ export const ALL_AUDITS = [
 
   // DEX Audits
   {
+    id: 'dex-0',
+    category: 'dex',
+    auditor: 'TrailOfBits',
+    date: 'January, 2020',
+    reportUrl: '/pdf/audits/00-ToB.pdf',
+    logo: 'tob_light.svg',
+    info: 'Scope: Curve smart contracts'
+  },
+  {
     id: 'dex-1',
     category: 'dex',
     auditor: 'Quantstamp',
