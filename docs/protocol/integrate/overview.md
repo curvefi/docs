@@ -19,6 +19,12 @@ crvUSD is Curve's stablecoin, governed by the Curve DAO. It is the borrowed asse
 
 Resupply's reUSD/sfrxUSD Curve LP token is collateral in a Llamalend market on Ethereum, so its liquidity providers borrow crvUSD against their position.
 
+## Quickstarts
+
+- [Read pool and lending market data](./quickstart-prices-api.md) from the Curve Prices API.
+- [Deploy a Stableswap pool and its gauge](./quickstart-deploy-pool.md) from code.
+- [Deposit into a Llamalend vault](./quickstart-lend.md) from code.
+
 ## Where to Start
 
 | You want to | Start here |

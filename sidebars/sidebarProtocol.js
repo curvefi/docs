@@ -207,9 +207,27 @@ export default {
             },
         },
         {
-            type: 'doc',
-            id: 'integrate/overview',
+            type: 'category',
             label: 'Integrate',
+            collapsed: true,
+            items: [
+                {
+                    type: 'doc',
+                    id: 'integrate/quickstart-prices-api',
+                },
+                {
+                    type: 'doc',
+                    id: 'integrate/quickstart-deploy-pool',
+                },
+                {
+                    type: 'doc',
+                    id: 'integrate/quickstart-lend',
+                },
+            ],
+            link: {
+                type: 'doc',
+                id: 'integrate/overview',
+            },
         },
         {
             type: 'category',
