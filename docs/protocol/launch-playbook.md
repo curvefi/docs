@@ -35,4 +35,4 @@ A Llamalend market lets holders borrow against your token, or lets lenders suppl
 
 Watch pool balances, fee income, lending utilization and incentive spend. The Curve DAO can change pool and market parameters by vote. See [Pool Parameters](./pool/pool-parameters.md) and [Llamalend Post-Deployment](./lending/post-deployment.md).
 
-Next, find the setup for your token type in [Start Here](./why-curve.md#where-should-you-start).
+Next, find the setup for your token type in [Use Cases](./use-cases/overview.md).

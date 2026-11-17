@@ -13,8 +13,8 @@ const summaries = {
   developer: 'Contract references and integration guides for Curve pools, factories, routers, Llamalend, crvUSD, gauges and the Curve DAO.',
   protocol: 'Guides for stablecoin, LST and wrapped BTC, RWA and project token issuers, DeFi protocols and chains launching liquidity pools, Llamalend lending markets and gauge incentives on Curve.',
 };
-// Start Here pages lead the Build on Curve index so retrieval finds the audience overviews first.
-const firstPages = ['/protocol/why-curve', '/protocol/start-here/', '/protocol/launch-playbook'];
+// Why Curve and Use Cases lead the Build on Curve index so retrieval finds the audience overviews first.
+const firstPages = ['/protocol/why-curve', '/protocol/use-cases/', '/protocol/launch-playbook'];
 const rank = (page) => { const i = firstPages.findIndex((prefix) => page.html.startsWith(prefix)); return i < 0 ? firstPages.length : i; };
 const maxBundleBytes = 512 * 1024;
 

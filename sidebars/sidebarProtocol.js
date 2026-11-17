@@ -6,58 +6,36 @@ export default {
         },
         {
             type: 'category',
-            label: 'Start Here',
-            collapsed: false,
+            label: 'Use Cases',
+            collapsed: true,
             items: [
                 {
                     type: 'doc',
-                    id: 'start-here/stablecoin-issuers',
+                    id: 'use-cases/stablecoin-issuers',
                 },
                 {
                     type: 'doc',
-                    id: 'start-here/lst-lrt-btc-issuers',
+                    id: 'use-cases/rwa-issuers',
                 },
                 {
                     type: 'doc',
-                    id: 'start-here/rwa-issuers',
-                },
-                {
-                    type: 'doc',
-                    id: 'start-here/token-projects',
-                },
-                {
-                    type: 'doc',
-                    id: 'start-here/defi-protocols',
-                },
-                {
-                    type: 'doc',
-                    id: 'start-here/chains',
-                },
-                {
-                    type: 'doc',
-                    id: 'start-here/integrators',
+                    id: 'use-cases/chains',
                 },
             ],
-        },
-        {
-            type: 'doc',
-            id: 'launch-playbook',
+            link: {
+                type: 'doc',
+                id: 'use-cases/overview',
+            },
         },
         {
             type: 'category',
-            label: 'Liquidity Pools (DEX)',
+            label: 'Launch Liquidity',
+            collapsed: true,
             items: [
                 {
-                    type: 'doc',
-                    id: 'pool/overview',
-                },
-                {
-                    type: 'doc',
-                    id: 'pool/compare-amm',
-                },
-                {
                     type: 'category',
-                    label: 'Understanding Pools',
+                    label: 'Concepts',
+                    collapsed: true,
                     items: [
                         {
                             type: 'doc',
@@ -73,70 +51,108 @@ export default {
                         },
                         {
                             type: 'doc',
-                            id: 'pool/pool-parameters',
+                            id: 'pool/compare-amm',
                         },
                     ],
                 },
                 {
-                    type: 'doc',
-                    id: 'pool/guides/deploy-stableswap',
+                    type: 'category',
+                    label: 'Guides',
+                    collapsed: true,
+                    items: [
+                        {
+                            type: 'doc',
+                            id: 'launch-playbook',
+                        },
+                        {
+                            type: 'doc',
+                            id: 'pool/guides/deploy-stableswap',
+                        },
+                        {
+                            type: 'doc',
+                            id: 'pool/guides/deploy-cryptoswap',
+                        },
+                        {
+                            type: 'doc',
+                            id: 'pool/guides/deploy-fxswap',
+                        },
+                        {
+                            type: 'doc',
+                            id: 'pool/post-deployment',
+                        },
+                        {
+                            type: 'doc',
+                            id: 'pool/guides/donation-streamer',
+                        },
+                        {
+                            type: 'doc',
+                            id: 'pool/guides/enable-big-blocks-hyperevm',
+                        },
+                    ],
                 },
                 {
-                    type: 'doc',
-                    id: 'pool/guides/deploy-cryptoswap',
-                },
-                {
-                    type: 'doc',
-                    id: 'pool/guides/deploy-fxswap',
-                },
-                {
-                    type: 'doc',
-                    id: 'pool/guides/donation-streamer',
-                },
-                {
-                    type: 'doc',
-                    id: 'pool/guides/enable-big-blocks-hyperevm',
-                },
-                {
-                    type: 'doc',
-                    id: 'pool/post-deployment',
+                    type: 'category',
+                    label: 'Reference',
+                    collapsed: true,
+                    items: [
+                        {
+                            type: 'doc',
+                            id: 'pool/pool-parameters',
+                        },
+                    ],
                 },
             ],
+            link: {
+                type: 'doc',
+                id: 'pool/overview',
+            },
         },
         {
             type: 'category',
-            label: 'Lending Markets',
+            label: 'Launch and Run a Lending Market',
+            collapsed: true,
             items: [
                 {
-                    type: 'doc',
-                    id: 'lending/launch-isolated-lending-market',
+                    type: 'category',
+                    label: 'Concepts',
+                    collapsed: true,
+                    items: [
+                        {
+                            type: 'doc',
+                            id: 'lending/oracles-and-parameters',
+                        },
+                        {
+                            type: 'doc',
+                            id: 'lending/llamalend-vs-morpho-vs-euler',
+                        },
+                    ],
                 },
                 {
-                    type: 'doc',
-                    id: 'lending/llamalend-vs-morpho-vs-euler',
-                },
-                {
-                    type: 'doc',
-                    id: 'lending/oracles-and-parameters',
-                },
-                {
-                    type: 'doc',
-                    id: 'lending/guides/deploy-lending-market',
-                },
-                {
-                    type: 'doc',
-                    id: 'lending/post-deployment',
+                    type: 'category',
+                    label: 'Guides',
+                    collapsed: true,
+                    items: [
+                        {
+                            type: 'doc',
+                            id: 'lending/guides/deploy-lending-market',
+                        },
+                        {
+                            type: 'doc',
+                            id: 'lending/post-deployment',
+                        },
+                    ],
                 },
             ],
+            link: {
+                type: 'doc',
+                id: 'lending/launch-isolated-lending-market',
+            },
         },
         {
             type: 'category',
-            label: 'Gauges & Incentive Mechanics',
+            label: 'Incentives and Governance',
+            collapsed: true,
             items: [
-                {
-                    type: 'doc',
-                    id: 'gauge/overview',
-                },
                 {
                     type: 'doc',
                     id: 'gauge/incentive-routes',
@@ -154,10 +170,20 @@ export default {
                     id: 'gauge/guides/adding-direct-gauge-rewards',
                 },
             ],
+            link: {
+                type: 'doc',
+                id: 'gauge/overview',
+            },
+        },
+        {
+            type: 'doc',
+            id: 'integrate/overview',
+            label: 'Integrate',
         },
         {
             type: 'category',
             label: 'Curve API',
+            collapsed: true,
             items: [
                 {
                     type: 'doc',

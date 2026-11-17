@@ -38,7 +38,7 @@ A Curve Lite deployment needs:
 
 ## Case Studies
 
-As of 17 November 2026, Curve's API lists Curve Lite deployments on Sonic, Taiko, Unichain, Ink and HyperEVM, among others. [Why Curve](../why-curve.md#which-chains-does-curve-run-on) shows the full list.
+As of 17 November 2026, Curve's API lists Curve Lite deployments on Sonic, Taiko, Unichain, Ink and HyperEVM, among others. [Why Curve](../why-curve.md#chains) shows the full list.
 
 On HyperEVM, deploying pools and gauges requires large blocks. See [Enabling Big Blocks on HyperEVM](../pool/guides/enable-big-blocks-hyperevm.md).
 
