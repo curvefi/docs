@@ -95,7 +95,7 @@ A Curve pool and a Llamalend market work best together. The pool gives your toke
 
 ## Curve's Chain Presence
 
-Curve runs on many networks. Full DEX deployments deliver the complete Curve experience: gauges, CRV emissions and full frontend support. **Curve Lite** lets new rollups launch with production-grade swapping from day one. It rolls out Curve's core DEX stack (permissionless Stableswap and Cryptoswap factories), direct frontend integration, and Curve DAO ownership and fees. See [Curve for Chains and L2s](/protocol/start-here/chains).
+Curve runs on many networks. Full DEX deployments deliver the complete Curve experience: gauges, CRV emissions and full frontend support. **Curve Lite** lets new rollups launch with production-grade swapping from day one. It deploys Curve's core pool factories, a router, gauges for your own rewards and frontend support, all owned by the Curve DAO. See [Curve for Chains and L2s](/protocol/start-here/chains).
 
 <ChainPresence />
 
@@ -110,7 +110,7 @@ Curve pools provide:
 - **Algorithms for every asset type** - from pegged stablecoins to volatile pairs, and for ERC-20, ERC-4626, rebasing and oracle-priced tokens. Yield from rebasing tokens goes to LPs.
 - **Permissionless deployment** - deploy pools without DAO approval and with **no deployment fees**.
 - **Built-in onchain oracles** - every pool has an EMA price oracle that other protocols, including Llamalend, can read.
-- **Routing from day one** - aggregators such as 1inch, CowSwap and Paraswap pick up new pools.
+- **Open to routing** - pools are open contracts that Curve's router and other routing services can trade through.
 
 ### Llamalend
 Curve's permissionless lending protocol. Anyone can deploy an isolated, one-way lending market for any ERC-20 pair:
