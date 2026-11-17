@@ -186,10 +186,10 @@ export const ALL_GUIDES = {
     link: '/protocol/pool/overview',
   },
   LendingMarkets: {
-    title: 'Build with LlamaLend v2',
-    description: 'Understand, deploy, and integrate isolated LlamaLend v2 markets.',
+    title: 'Launch a Lending Market',
+    description: 'Deploy an isolated Llamalend market for your token.',
     image: '',
-    link: '/protocol/lending/overview',
+    link: '/protocol/lending/launch-isolated-lending-market',
   },
   GaugesAndIncentives: {
     title: 'Learn About Gauges and Incentives',

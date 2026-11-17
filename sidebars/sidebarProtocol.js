@@ -66,11 +66,15 @@ export default {
         },
         {
             type: 'category',
-            label: 'Lending Markets (LlamaLend v2)',
+            label: 'Lending Markets',
             items: [
                 {
                     type: 'doc',
-                    id: 'lending/overview',
+                    id: 'lending/launch-isolated-lending-market',
+                },
+                {
+                    type: 'doc',
+                    id: 'lending/llamalend-vs-morpho-vs-euler',
                 },
                 {
                     type: 'doc',
