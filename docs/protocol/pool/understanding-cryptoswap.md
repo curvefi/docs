@@ -170,74 +170,9 @@ The algorithm is designed to protect LPs from rebalancing losses (as much as pos
 
 This efficiency stands in contrast to classic AMMs with the `x*y=k` invariant, which use the $x \cdot y = k$ formula. In those models, liquidity is spread thinly across all possible prices (from zero to infinity). By concentrating liquidity around the current market price, Cryptoswap offers significantly lower slippage for traders and generates more fees for LPs from the same amount of capital.
 
-## Stale Pools - How Cryptoswap Pools Can Become Stuck
+## Stale Pools
 
-A Cryptoswap pool's main safety feature is its refusal to rebalance at a loss to LPs. However, this can sometimes cause a pool to become **stuck**, meaning it has a **stale liquidity concentration** because the center of liquidity (`price_scale`) is very different from the current price. This can trigger a negative feedback loop during periods of high volatility:
-
-As the market price moves away from the pool's center of liquidity, the available liquidity for traders decreases. This leads to fewer swaps and, consequently, lower fee generation. Without enough profit from fees, the pool cannot afford to rebalance and follow the price, leaving its liquidity stranded.
-
-<figure style={{ textAlign: 'center' }}>
-  <ThemedImage
-    alt=""
-    sources={{
-      light: '/img/protocol/amm/cryptoswap-stale-pools-light.svg',
-      dark: '/img/protocol/amm/cryptoswap-stale-pools-dark.svg',
-    }}
-    style={{ 
-      width: "1000px",
-      height: 'auto',
-      border: '1px solid var(--Layer-2-Outline)',
-    }}
-  />
-</figure>
-
-1. Another swap happens, generating more profit for LPs.  This increases **price to $1.11, outside adjustment step range**.  However, if the **pool hasn’t generated enough profit, a rebalance cannot occur**.
-2. **Rebalances must cost less than 50% of profit** generated from swaps.  So if the price continues increasing, there’s less liquidity available, and so less swaps happen and less profit is generated.  Also, rebalancing becomes more expensive.  So **rebalancing is unlikely unless price decreases or enough profit is generated.**
-
-## Monitoring Liquidity Balance within Pools
-
-To see how balanced liquidity is within a pool, navigate to the pool's page, for example, the [EURe/USDC pool on Arbitrum](https://www.curve.finance/dex/arbitrum/pools/factory-twocrypto-89/deposit). At the bottom of the pool details, click the `Advanced` tab. You will then see the following details:
-
-<figure>
-  <ThemedImage
-    alt=""
-    sources={{
-      light: require('@site/static/img/protocol/amm/price-scale.png').default,
-      dark: require('@site/static/img/protocol/amm/price-scale.png').default,
-    }}
-    style={{ 
-      width: "1000px",
-      display: "block",
-      margin: "0 auto"
-    }}
-  />
-</figure>
-
-In the image above, you can see two key parameters:
-
-- **Price Scale**: This is the price at which liquidity was last rebalanced, also called the center of liquidity.
-- **Price Oracle**: This is an Exponential Moving Average (EMA) of recent market prices. Rebalances are triggered by this price, not the current market price, which helps prevent manipulation of the rebalancing mechanism.
-
-## How to Prevent Stale Liquidity within Pools
-
-The best prevention for stale liquidity is **proper parameterization**.
-
-Choosing a higher `gamma` and a lower `A` spreads liquidity across a wider price range. This makes a pool more resilient to volatility in two ways:
-
-1.  It ensures the pool can continue to facilitate trades and earn fees even during large price swings.
-2.  It makes the eventual rebalance cheaper because the liquidity is less concentrated.
-
-For assistance with simulations to find reasonable parameters for your pool, refer to [Llamarisk](https://www.llamarisk.com/).
-
-## Help! My Pool's Liquidity is Stale!
-
-If your pool's liquidity becomes stale, you have three primary options:
-
-1.  **Change Pool Parameters:** Through a DAO vote, parameters can be gradually changed (a process called "ramping"). Reducing `A` and adjusting `gamma` will spread out liquidity, adding depth at the current price. If parameterization was not the root cause, these parameters can be ramped back to their original values once the pool recovers.
-
-2.  **Seed a New Pool:** This option is typically only viable for protocols that own most of the pool's liquidity (POL). It involves deploying a new pool with better parameters and "killing" the old gauge, if applicable.
-
-3.  **Wash Trade the Pool:** This involves generating high trading volume (often via flash loans) to create enough fee profit for the pool to rebalance. This requires careful coding and simulation, and is performed at a loss with no guarantee of a lasting fix, as another market swing can immediately undo the rebalance. This strategy should only be considered as a last resort.
+Because a pool won't rebalance at a loss to liquidity providers, a large price move can leave its liquidity stuck away from the market price. [Troubleshooting Curve Pools](./troubleshooting.md#cryptoswap-liquidity-is-stale) explains how to spot a stale pool, prevent it with parameters and fix it.
 
 ## Why Not Use Stableswap with an External Oracle?
 

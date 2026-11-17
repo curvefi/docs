@@ -99,7 +99,15 @@ export default {
                             type: 'doc',
                             id: 'pool/pool-parameters',
                         },
+                        {
+                            type: 'doc',
+                            id: 'pool/presets',
+                        },
                     ],
+                },
+                {
+                    type: 'doc',
+                    id: 'pool/troubleshooting',
                 },
             ],
             link: {

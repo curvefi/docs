@@ -17,7 +17,7 @@ The frontend filters out liquidity pools with less than $10k TVL. The pool will 
 
 ## Integrations
 
-Liquidity pools deployed via the Curve UI are automatically picked up by major aggregators like 1inch, Odos, CowSwap, etc. No need to hustle for integrations!
+Aggregators such as [0x](https://docs.0x.org/evm/need-help/faq), 1inch, [CoW Swap](https://docs.cow.fi/cow-protocol), [KyberSwap](https://docs.kyberswap.com/getting-started/supported-exchanges-and-networks), Odos and ParaSwap route swaps through Curve pools, and they pick up new pools without a listing step.
 
 ## Token Logo Submission
 
@@ -29,7 +29,7 @@ After deployment, it's important to monitor your pool's performance regularly. C
 
 Some pools are later optimized by external contributors or protocols. However, **it's still a good idea to monitor your own pool** and explore whether tuning the parameters could improve performance.
 
-If you'd like help evaluating or optimizing your pool, feel free to reach out in the official Curve channels.
+Compare your pool with [Pool Parameter Presets](./presets.md), and see [Troubleshooting Curve Pools](./troubleshooting.md) for skewed or stale pools. The Curve team answers parameter questions in [Telegram](https://t.me/curvefi) and [Discord](https://discord.gg/twUngQYz85).
 
 ## Add Refuels (FXSwap Pools)
 
