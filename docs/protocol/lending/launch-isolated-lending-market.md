@@ -2,12 +2,12 @@
 id: launch-isolated-lending-market
 title: Launch an Isolated Lending Market for Your Token
 sidebar_label: Launch a Market
-description: Llamalend lets anyone deploy a permissionless, isolated lending market for any ERC-20 pair, with one collateral token and one borrowed token.
+description: Llamalend lets anyone deploy a permissionless, isolated lending market for any ERC-20 pair, including yield-bearing tokens and Curve LP tokens, with liquidation protection for borrowers.
 ---
 
 import GuideCardGrid from '@site/src/components/GuideCardGrid';
 
-Llamalend lets anyone deploy an isolated, one-way lending market for any ERC-20 pair on Ethereum and Optimism. Each market has one collateral token and one borrowed token, so its risk stays inside that market. Borrowers get liquidation protection from LLAMMA, which converts collateral gradually across a price range instead of liquidating it at a single price.
+Llamalend is Curve's lending protocol. Anyone can deploy an isolated, one-way lending market for any ERC-20 pair on Ethereum and Optimism. Each market has one collateral token and one borrowed token, so its risk stays inside that market. Borrowers get liquidation protection from LLAMMA, which converts collateral gradually across a price range instead of liquidating it at a single price.
 
 :::info[About Llamalend v1]
 
@@ -16,6 +16,46 @@ Llamalend v1 is deprecated. New markets and integrations should use the v2 contr
 :::
 
 <GuideCardGrid guideKeys={['LendingOraclesAndParameters', 'deployLendingMarket']} />
+
+## Why Launch a Lending Market for Your Token
+
+**For you, the asset issuer or protocol:**
+
+- **More uses for your token.** Holders can borrow against it, so the token earns a place in leverage, looping and treasury strategies.
+- **Holders borrow instead of selling.** A holder who needs liquidity can take a loan against your token and keep their position.
+- **One venue for liquidity and credit.** Your Curve pool and your lending market share the same protocol, the same Curve DAO and the same gauge system for incentives.
+- **No risk from other markets.** A bad oracle or a crash in another market does not touch yours.
+
+**For your users:**
+
+- **Time to react.** LLAMMA soft liquidation sells collateral gradually as the price falls, instead of seizing it all at one price.
+- **High LTV on correlated pairs.** Live markets for yield-bearing stablecoins allow a maximum LTV of up to about 98%.
+- **They keep their yield.** Yield-bearing collateral, such as ERC-4626 vault shares, keeps earning while it backs a loan.
+- **Leverage in one transaction.** The Controller accepts a callback that builds a leveraged position in a single transaction.
+- **Lenders get a standard vault.** Lenders deposit into an ERC-4626 vault and earn interest paid by borrowers.
+
+## Supported Collateral
+
+Any ERC-20 token can be collateral if you can give the market a reliable price for it in the borrowed token. Llamalend provides reusable oracle contracts for these collateral types:
+
+| Collateral type | How the oracle prices it |
+| --- | --- |
+| **Tokens with a Curve pool** | Reads the pool's built-in EMA price oracle, chained across several pools if needed. |
+| **Tokens with a Chainlink feed** | An EMA of the Chainlink price. |
+| **Yield-bearing vault shares (ERC-4626)**, such as sDOLA, sfrxUSD, syrupUSDC and svZCHF | The underlying asset's price times the vault's share price. |
+| **Curve LP tokens**, such as reUSD/sfrxUSD | The LP token of a 2-coin Stableswap-NG pool, priced from the pool's virtual price. |
+
+Oracles can be stacked, for example a Curve pool price multiplied by a vault share price. See [Oracles & Parameters](./oracles-and-parameters.md#price-oracle) and the [oracle reference](/developer/llamalend-v2/oracles) for the full list.
+
+## How Llamalend Works With the Curve DEX
+
+A Curve pool and a Llamalend market strengthen each other:
+
+- **The pool prices the market.** Every Curve pool has a built-in EMA price oracle. A Llamalend oracle can read it directly, so a token with a deep Curve pool already has a price source.
+- **The pool supports liquidations.** LLAMMA relies on arbitrageurs to buy and sell collateral as prices move. Deep liquidity for your token on Curve makes that trading cheaper and safer.
+- **LP tokens become collateral.** Liquidity providers can borrow against their Curve LP tokens and keep earning trading fees on the liquidity underneath.
+- **Borrowers can earn CRV on collateral.** On Ethereum, a market can have a collateral gauge that pays CRV to borrowers based on the collateral they hold, once the gauge receives gauge weight.
+- **One incentive system.** You can direct CRV emissions and your own rewards to your pool, your lending vault and your collateral through the same [gauge system](/protocol/gauge/overview).
 
 ## Is Llamalend Right for Your Token?
 
@@ -40,7 +80,7 @@ The factory deploys three contracts for each market:
 | **LendController** | Entry point for borrowers and liquidators. Holds the borrow cap. |
 | **AMM (LLAMMA)** | Holds collateral in price bands and runs liquidation protection. |
 
-For oracle and parameter choices, read [Oracles & Parameters](./oracles-and-parameters.md). For contract interfaces, see the [developer reference](/developer/llamalend-v2/overview). After launch, use [Post-Deployment & Integration](./post-deployment.md) to monitor and grow the market.
+For contract interfaces, see the [developer reference](/developer/llamalend-v2/overview). After launch, use [Post-Deployment & Integration](./post-deployment.md) to monitor and grow the market.
 
 :::warning[Liquidation protection is not free]
 
@@ -50,11 +90,17 @@ Each conversion in LLAMMA loses a little value to fees and arbitrage, even when 
 
 ## Live Examples
 
-| Market | Supplied | Borrowed | Borrow APR |
-| --- | --- | --- | --- |
-| [sDOLA / crvUSD](https://www.curve.finance/lend/ethereum/markets/0xC77d97cF01737EB7aCE46cAb7cd9F60eC51a40c0) on Ethereum | 11.29M crvUSD | 9.01M crvUSD | 4.64% |
+| Market | Chain | Collateral type | Supplied | Borrowed | Borrow APR | Max LTV |
+| --- | --- | --- | --- | --- | --- | --- |
+| [sfrxUSD / crvUSD](https://www.curve.finance/lend/ethereum/markets/0x3cD4d86a2c65e57ce4b4121b67E2D2224BA41bbe) | Ethereum | ERC-4626 vault share | 13.97M crvUSD | 12.46M crvUSD | 4.97% | 98.0% |
+| [sDOLA / crvUSD](https://www.curve.finance/lend/ethereum/markets/0xC77d97cF01737EB7aCE46cAb7cd9F60eC51a40c0) | Ethereum | ERC-4626 vault share | 11.27M crvUSD | 9.01M crvUSD | 4.65% | 98.0% |
+| [syrupUSDC / crvUSD](https://www.curve.finance/lend/ethereum/markets/0x2fb54c8eae57767A9A509A395b9C4FA0702e2675) | Ethereum | ERC-4626 vault share | 1.46M crvUSD | 0.79M crvUSD | 2.91% | 95.9% |
+| [reUSD/sfrxUSD LP / crvUSD](https://www.curve.finance/lend/ethereum/markets/0x4922995d8CbF9e1f368B2EE521bD2fa2F49eADb1) | Ethereum | Curve LP token | 0.50M crvUSD | 0.46M crvUSD | 5.96% | 96.6% |
+| [svZCHF / crvUSD](https://www.curve.finance/lend/ethereum/markets/0xFd85e847cDd2549f213E276e4B57B0690169F043) | Ethereum | ERC-4626 vault share | 0.29M crvUSD | 0.24M crvUSD | 6.04% | 94.1% |
+| [wstETH / USDC](https://www.curve.finance/lend/optimism/markets/0xb5EC7A3D591877A66BE4f3eafdC4205E98A1BCAA) | Optimism | Volatile asset | 90.2K USDC | 78.5K USDC | 5.84% | 83.9% |
+| [WBTC / USDC](https://www.curve.finance/lend/optimism/markets/0x9fC15ac3EF97093832f49B7997A58E29b49C56dE) | Optimism | Volatile asset | 37.1K USDC | 32.9K USDC | 6.66% | 90.1% |
 
-Figures as of 2026-11-17, from the [Curve Prices API](https://prices.curve.finance/v1/lending/markets/ethereum). Open the market for current values.
+Figures as of 2026-11-17, from the Curve Prices API for [Ethereum](https://prices.curve.finance/v1/lending/markets/ethereum) and [Optimism](https://prices.curve.finance/v1/lending/markets/optimism). Open a market for current values.
 
 ## How It Compares
 
@@ -63,6 +109,20 @@ Figures as of 2026-11-17, from the [Curve Prices API](https://prices.curve.finan
 - **Euler:** anyone deploys a vault; its governor sets collateral and LTVs; liquidations use a reverse Dutch auction.
 
 See [Llamalend vs Morpho vs Euler](./llamalend-vs-morpho-vs-euler.md) for the full comparison.
+
+## FAQ
+
+**Can I create a Llamalend market without permission?**
+Yes. Anyone can deploy a market through the factory. Borrowing starts after a Curve DAO vote raises the market's borrow cap.
+
+**Can a Curve LP token be collateral?**
+Yes. LP tokens of 2-coin Stableswap-NG pools have a dedicated oracle, and a reUSD/sfrxUSD LP market is live on Ethereum.
+
+**Which tokens can be borrowed?**
+Each market lends one ERC-20 token of your choice. Live markets lend crvUSD on Ethereum and USDC or WETH on Optimism.
+
+**Which chains support Llamalend?**
+Ethereum and Optimism.
 
 ## Get Help
 

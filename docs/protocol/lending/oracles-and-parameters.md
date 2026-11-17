@@ -1,10 +1,10 @@
 ---
 id: oracles-and-parameters
-title: LlamaLend v2 Oracles & Parameters
+title: Llamalend Oracles & Parameters
 sidebar_label: Oracles & Parameters
 ---
 
-A LlamaLend v2 market combines independently supplied contracts and risk parameters. Deployment is permissionless, but that does not make every configuration safe. Validate the token pair, oracle, monetary policy, and liquidation assumptions together before creating a market.
+A Llamalend v2 market combines independently supplied contracts and risk parameters. Deployment is permissionless, but that does not make every configuration safe. Validate the token pair, oracle, monetary policy, and liquidation assumptions together before creating a market.
 
 :::warning[Risk review required]
 
@@ -39,13 +39,15 @@ When a market is created, the factory calls both functions and requires the retu
 
 A Curve pool oracle can be one input to an oracle design, but the v2 factory does not automatically derive an oracle from a pool. The address passed to `create()` must already be a complete, initialized oracle implementing the required interface.
 
+You don't need to write an oracle from scratch. Llamalend provides reusable oracle contracts that price tokens from Curve pools, Chainlink feeds, ERC-4626 vault shares and 2-coin Stableswap-NG LP tokens, and you can stack them. See the [oracle reference](/developer/llamalend-v2/oracles).
+
 The Configurator can later replace the oracle through a deviation-checked update. On the current deployments, this requires a Curve DAO ownership vote unless the DAO has assigned a controller-specific administrator. Upgradability helps respond to changing conditions, but it also makes the market's administration and monitoring model part of the risk assessment.
 
 ## Monetary Policy
 
 The monetary-policy contract determines the market's borrow rate. It is passed to the factory at deployment and is queried through the Controller as debt and utilization change.
 
-LlamaLend v2 does not take minimum and maximum rates directly in `LendFactory.create()`. Those rules belong to the selected monetary-policy implementation. Confirm its rate units, bounds, initialization, and behavior under low and high utilization before using it.
+Llamalend v2 does not take minimum and maximum rates directly in `LendFactory.create()`. Those rules belong to the selected monetary-policy implementation. Confirm its rate units, bounds, initialization, and behavior under low and high utilization before using it.
 
 ## Deployment-Time Parameters
 

@@ -1,10 +1,10 @@
 ---
 id: deploy-lending-market
-title: Deploying a LlamaLend v2 Market
+title: Deploying a Llamalend Market
 sidebar_label: Deploy a Market
 ---
 
-LlamaLend v2 markets are deployed permissionlessly through the `LendFactory`. A successful deployment creates and registers a Vault, LendController, and AMM for one isolated token pair.
+Llamalend v2 markets are deployed permissionlessly through the `LendFactory`. A successful deployment creates and registers a Vault, LendController, and AMM for one isolated token pair.
 
 :::warning[Deployment is not activation]
 
@@ -14,7 +14,7 @@ New Controllers start with a borrow cap of zero. Deploying a market does not ena
 
 ## Supported Deployments
 
-LlamaLend v2 is currently deployed only on **Ethereum** and **Optimism**. Both verified factories report version `2.0.0`. Addresses are chain-specific: use the [LlamaLend v2 deployment table](/developer/llamalend-v2/overview#deployments) as the canonical reference and verify the selected factory's `version()` before sending a transaction.
+Llamalend v2 is currently deployed only on **Ethereum** and **Optimism**. Both verified factories report version `2.0.0`. Addresses are chain-specific: use the [Llamalend v2 deployment table](/developer/llamalend-v2/overview#deployments) as the canonical reference and verify the selected factory's `version()` before sending a transaction.
 
 Do not use an address from another network or a deprecated factory.
 

@@ -32,4 +32,5 @@ As of 17 November 2026.
 - You want borrowers protected from instant liquidation by LLAMMA.
 - You want a Curve DAO review before borrowing opens.
 - You want CRV emissions through a Curve gauge.
+- Your collateral is a Curve LP token or a yield-bearing token, and you want borrowers to earn CRV on it ([collateral types](./launch-isolated-lending-market.md#supported-collateral)).
 - Your token already has deep liquidity on Curve.

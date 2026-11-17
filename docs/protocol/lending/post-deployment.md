@@ -1,12 +1,12 @@
 ---
 id: post-deployment
-title: LlamaLend v2 Post-Deployment & Integration
+title: Llamalend Post-Deployment & Integration
 sidebar_label: Post-Deployment & Integration
 ---
 
 import GuideCardGrid from '@site/src/components/GuideCardGrid';
 
-Deploying a LlamaLend v2 market creates its contracts, but a useful market also needs deliberate activation, lender liquidity, integrations, monitoring, and distribution.
+Deploying a Llamalend v2 market creates its contracts, but a useful market also needs deliberate activation, lender liquidity, integrations, monitoring, and distribution.
 
 ## Activation Checklist
 
@@ -63,7 +63,7 @@ Borrowers interact with the market's LendController to:
 - add or remove collateral;
 - borrow more;
 - repay debt;
-- reset a soft-liquidated position through LlamaLend v2's `repay(..., shrink=true)` path.
+- reset a soft-liquidated position through Llamalend v2's `repay(..., shrink=true)` path.
 
 Before constructing a transaction, use `max_borrowable`, `min_collateral`, and the operation-specific health preview matching the intended action. These calculations account for market state, available lender liquidity, and the borrow cap. Do not reproduce LLAMMA health or band math in an integration when the Controller's view methods are available.
 
