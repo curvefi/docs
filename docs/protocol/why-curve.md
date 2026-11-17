@@ -2,7 +2,7 @@
 id: why-curve
 title: Why Build on Curve
 sidebar_label: Why Curve
-description: Curve is a permissionless DEX and lending protocol, owned by the Curve DAO, where stablecoin, LST, RWA and token issuers, DeFi protocols and chains deploy liquidity pools, Llamalend lending markets and gauge incentives.
+description: Curve is a permissionless DEX and lending protocol owned by the Curve DAO. Stablecoin, LST, RWA and token issuers, DeFi protocols and chains use it to deploy liquidity pools, Llamalend lending markets and gauge incentives.
 ---
 
 import GuideCardGrid from '@site/src/components/GuideCardGrid'
@@ -10,11 +10,13 @@ import ProtocolCardGrid from '@site/src/components/ProtocolCardGrid'
 import ChainPresence from '@site/src/components/ChainPresence'
 import GhostPosts from '@site/src/components/GhostPosts';
 
-Curve is a permissionless decentralized exchange (DEX) and lending protocol, owned and governed by the Curve DAO. Anyone can deploy a liquidity pool, a Llamalend lending market and gauge incentives for any ERC-20 token, without asking a central team and without a listing fee. Your token gets a place to trade, a place to borrow and lend, and one incentive system for both.
+Curve is a decentralized exchange (DEX) and lending protocol owned by the [Curve DAO](/user/dao/overview). Anyone can deploy a liquidity pool, a [Llamalend](/protocol/lending/launch-isolated-lending-market) lending market or a gauge for any ERC-20 token. There is no listing process and no fee beyond gas.
 
-## Curve in Numbers
+A token on Curve can trade in a pool, serve as collateral in a lending market and earn incentives through the same gauge system.
 
-| | |
+## How Large Is Curve?
+
+| Metric | Value |
 | --- | --- |
 | Liquidity pools | About 2,400 |
 | Liquidity in pools | About $1.15B |
@@ -22,47 +24,38 @@ Curve is a permissionless decentralized exchange (DEX) and lending protocol, own
 | Llamalend v2 markets | 11, on Ethereum and Optimism |
 | Live since | 2020 |
 
-As of 17 November 2026. Pool figures cover the 10 chains tracked by the [Curve Prices API](https://prices.curve.finance/v1/chains/). The market count is read onchain from the Llamalend v2 factories.
+Pool figures are from the [Curve Prices API](https://prices.curve.finance/v1/chains/) as of 17 November 2026 and cover the 10 chains it tracks. The market count is read onchain from the Llamalend v2 factories.
 
-## Start Here
+## Where Should You Start?
 
-Choose the page that matches what you are building. Each one explains what you get, what your users get and how to set it up.
+Each page below covers one type of builder. It explains what Curve provides, what your users get and which guides to follow.
 
 <GuideCardGrid guideKeys={['StartStablecoinIssuers', 'StartLstBtcIssuers', 'StartRwaIssuers', 'StartTokenProjects', 'StartDefiProtocols', 'StartChains', 'StartIntegrators', 'LaunchPlaybook']} />
 
-## What Each Participant Gets
+## What Does Each Participant Get?
 
-**Asset issuers and protocols**
-- A deep, passive liquidity pool for your token, with a built-in price oracle.
-- A lending market where holders borrow against your token instead of selling it.
-- CRV emissions, your own rewards and vote incentives through one gauge system.
+| Participant | What Curve provides |
+| --- | --- |
+| Asset issuers | A pool with a built-in price oracle, a lending market for holders and gauges for incentives |
+| Liquidity providers | Trading fees without range management, plus gauge rewards |
+| Borrowers | Loans against volatile, yield-bearing and LP tokens, with gradual liquidation through LLAMMA |
+| Lenders | ERC-4626 vaults that earn interest in isolated markets |
 
-**Liquidity providers**
-- Liquidity that is always in range, with no rebalancing.
-- Trading fees, plus CRV and token rewards through gauges.
-- The option to borrow against Curve LP tokens in a Llamalend market and keep earning fees.
+## How Do Pools and Lending Markets Work Together?
 
-**Borrowers**
-- Loans against volatile assets, yield-bearing tokens and Curve LP tokens.
-- LLAMMA liquidation protection that sells collateral gradually instead of all at once.
-- High LTV on correlated pairs and one-transaction leverage.
+A Curve pool gives your token a price oracle and the trading liquidity that liquidations depend on. A Llamalend market can read that oracle, and it lets holders borrow against the token and keep it. Liquidity providers can post their LP tokens as collateral and keep earning trading fees. One gauge system pays incentives on both. See [How Llamalend Works With the Curve DEX](/protocol/lending/launch-isolated-lending-market#how-llamalend-works-with-the-curve-dex).
 
-**Lenders**
-- ERC-4626 vaults that earn interest from borrowers.
-- Isolated markets, so a loss in one market does not spread to others.
+## Who Controls Curve?
 
-## Liquidity and Lending in One Place
+The Curve DAO controls Curve's contracts on every chain. veCRV holders vote onchain on Ethereum, and passed votes are relayed to other chains.
 
-A Curve pool and a Llamalend market work best together. The pool gives your token a price oracle and the liquidity that liquidations need. The market gives holders and liquidity providers a reason to keep their tokens and borrow against them. Both use the same gauges to direct incentives. See [How Llamalend Works With the Curve DEX](/protocol/lending/launch-isolated-lending-market#how-llamalend-works-with-the-curve-dex).
+The [Emergency DAO](/user/dao/emergency-dao), a 5-of-9 multisig, holds narrower powers. It can reduce risk, for example by lowering debt ceilings, and it cannot move user funds.
 
-## Security and Neutrality
+Curve's contracts have been audited by ChainSecurity, MixBytes, Quantstamp, StateMind and Trail of Bits. A bug bounty pays up to $250,000. See [Security](/developer/security).
 
-- **Owned by the Curve DAO.** veCRV holders control Curve's contracts on every chain. Changes need an onchain vote on Ethereum. See [Curve DAO](/user/dao/overview).
-- **Limited emergency powers.** The Emergency DAO, a 5-of-9 multisig, can only reduce risk, such as lowering debt ceilings, and cannot move user funds. See [Emergency DAO](/user/dao/emergency-dao).
-- **Audited and covered by a bug bounty.** Audits by ChainSecurity, MixBytes, Quantstamp, Trail of Bits and StateMind, and a bug bounty of up to $250,000. See [Security](/developer/security).
-- **The same rules for every token.** Deploying a pool or lending market needs no approval and no fee beyond gas. CRV emissions and lending borrow caps go through public DAO votes. See [Whitelisting a Gauge](/protocol/gauge/whitelisting-gauge).
+Every token follows the same rules. Deploying a pool or a lending market needs no approval. CRV emissions and the borrow cap of a new lending market each need a public Curve DAO vote, described in [Whitelisting a Gauge](/protocol/gauge/whitelisting-gauge).
 
-## Who Builds on Curve
+## Who Builds on Curve?
 
 <ProtocolCardGrid protocols={[
   {
@@ -87,75 +80,59 @@ A Curve pool and a Llamalend market work best together. The pool gives your toke
   }
 ]} />
 
-- **Lido** provides stETH liquidity through the ETH/stETH pool on Curve.
-- **Inverse Finance** pairs DOLA against a Curve base pool and has an sDOLA lending market on Llamalend.
-- **Resupply**: the reUSD/sfrxUSD Curve LP token is collateral in a Llamalend market.
-- **YieldBasis** runs crvUSD/WBTC and crvUSD/cbBTC pools on Curve, using crvUSD minted for it.
-- **Convex, Yearn and StakeDAO** build products on veCRV and Curve gauges.
+- Convex and StakeDAO hold veCRV and let their token holders direct its votes.
+- Inverse Finance pairs DOLA with Curve base pools and has an sDOLA market on Llamalend.
+- Lido's stETH trades in the ETH/stETH pool.
+- Resupply's reUSD/sfrxUSD LP token is collateral in a Llamalend market.
+- YieldBasis runs crvUSD/WBTC and crvUSD/cbBTC pools, funded with crvUSD minted for it.
 
-## Curve's Chain Presence
+## Which Chains Does Curve Run On?
 
-Curve runs on many networks. Full DEX deployments deliver the complete Curve experience: gauges, CRV emissions and full frontend support. **Curve Lite** lets new rollups launch with production-grade swapping from day one. It deploys Curve's core pool factories, a router, gauges for your own rewards and frontend support, all owned by the Curve DAO. See [Curve for Chains and L2s](/protocol/start-here/chains).
+**Curve Lite** is a smaller deployment for new chains: Curve's pool factories, a router, gauges and frontend support, owned by the Curve DAO. Its gauges can receive CRV emissions once the Curve DAO adds them by vote. Full deployments add frontend analytics, and Llamalend runs on Ethereum and Optimism. See [Curve for Chains and L2s](/protocol/start-here/chains).
 
 <ChainPresence />
 
-## Three Core Pillars
+## What Does Curve Offer?
 
 ### Curve DEX
-Curve started as a DEX. Its **Stableswap algorithm**, launched in 2020, trades stable-like assets with low slippage. The **Cryptoswap algorithm** for volatile pairs followed in 2021, and **FXSwap** for low-volatility pairs priced elsewhere came later.
 
-Curve pools provide:
+Curve started as a DEX in 2020 with the Stableswap algorithm for pegged assets. Cryptoswap for volatile pairs followed in 2021, and FXSwap for pairs priced on an external market came later.
 
-- **Passive liquidity** - no range-setting, rebalancing or manual upkeep; liquidity is always in range, so LPs always earn trading fees.
-- **Algorithms for every asset type** - from pegged stablecoins to volatile pairs, and for ERC-20, ERC-4626, rebasing and oracle-priced tokens. Yield from rebasing tokens goes to LPs.
-- **Permissionless deployment** - deploy pools without DAO approval and with **no deployment fees**.
-- **Built-in onchain oracles** - every pool has an EMA price oracle that other protocols, including Llamalend, can read.
-- **Open to routing** - pools are open contracts that Curve's router and other routing services can trade through.
+Liquidity providers don't set price ranges. Their liquidity stays active as prices move, so it keeps earning trading fees. Stableswap-NG pools accept standard, rebasing, ERC-4626 and oracle-priced tokens, and yield from rebasing tokens goes to liquidity providers. Every pool has an EMA price oracle that other contracts, including Llamalend, can read. Aggregators such as [0x](https://docs.0x.org/evm/need-help/faq), 1inch, [CoW Swap](https://docs.cow.fi/cow-protocol), [KyberSwap](https://docs.kyberswap.com/getting-started/supported-exchanges-and-networks), Odos and ParaSwap route swaps through Curve pools, and they pick up new pools without a listing step.
 
 ### Llamalend
-Curve's permissionless lending protocol. Anyone can deploy an isolated, one-way lending market for any ERC-20 pair:
 
-- **Liquidation protection** - LLAMMA converts collateral gradually as the price falls, which gives borrowers time to react.
-- **Isolated markets** - each market has one collateral token and one borrowed token, so its risk stays inside that market.
-- **Broad collateral** - volatile assets, yield-bearing ERC-4626 tokens and Curve LP tokens.
-- **High LTV ratios** - live markets for yield-bearing stablecoins allow a maximum LTV of up to about 98%.
+Llamalend is Curve's lending protocol. Each market is isolated, with one collateral token and one borrowed token. When the collateral price falls, LLAMMA converts collateral gradually across a price range. Collateral can be a volatile asset, a yield-bearing ERC-4626 token or a Curve LP token. Live markets for yield-bearing stablecoins allow a maximum LTV of up to about 98%. See [Launch a Lending Market](/protocol/lending/launch-isolated-lending-market).
 
-See [Launch a Lending Market](/protocol/lending/launch-isolated-lending-market) for supported collateral and live examples.
+Llamalend v1 is deprecated. New markets use Llamalend v2.
 
-:::info
+### Gauges and Incentives
 
-Llamalend v1 is deprecated. New lending markets should use Llamalend v2.
-
-:::
-
-### Gauges & Incentives
-Curve's gauge system lets you bootstrap and sustain liquidity for your token:
-
-- **CRV emissions** - a share of Curve's weekly CRV inflation, directed by veCRV gauge weight votes.
-- **Direct gauge rewards** - your own token rewards in your gauge, with no governance vote.
-- **Vote incentives** - rewards to veCRV holders who vote for your gauge.
-- **Owned voting power** - hold veCRV or vlCVX to vote for your own gauge.
-
-You can combine these routes. See [Incentivizing a Pool](/protocol/gauge/incentive-routes).
+A gauge pays rewards to liquidity providers who stake their LP tokens in it. It can pay CRV emissions, which veCRV holders direct with weekly votes, and rewards in a token you choose, which need no vote. You can also pay vote incentives to veCRV holders, or hold veCRV or vlCVX and vote for your own gauge. See [Incentivizing a Pool](/protocol/gauge/incentive-routes).
 
 ## FAQ
 
-**What is Curve?**
-A permissionless DEX and lending protocol owned by the Curve DAO. It runs liquidity pools for stable and volatile assets, Llamalend lending markets and a gauge system that directs CRV emissions and other rewards.
+### What is Curve?
 
-**Do I need approval to list my token on Curve?**
-No. Anyone can deploy a pool or a lending market for any ERC-20 token, with no fee beyond gas. CRV emissions and the borrow cap of a new lending market need a Curve DAO vote.
+A DEX and lending protocol owned by the Curve DAO. It runs liquidity pools for stable and volatile assets, Llamalend lending markets and a gauge system for CRV emissions and other rewards.
 
-**Which chains does Curve support?**
-Curve pools run on many EVM chains, listed above. Llamalend v2 runs on Ethereum and Optimism.
+### Do I need approval to list a token on Curve?
 
-**How do I attract liquidity to my pool?**
-Deploy a gauge and fund it with your own rewards, request CRV emissions through a DAO vote, or pay vote incentives to veCRV holders. See [Incentivizing a Pool](/protocol/gauge/incentive-routes).
+No. Anyone can deploy a pool or lending market for an ERC-20 token. CRV emissions and the borrow cap of a new lending market need a Curve DAO vote.
 
-## Getting Started
+### Which chains does Curve support?
 
-Follow the [Launch Playbook](/protocol/launch-playbook) for every step, or go straight to a product:
+Curve pools run on the chains listed above. Llamalend v2 runs on Ethereum and Optimism.
 
-<GuideCardGrid guideKeys={['LiquidityPools', 'LendingMarkets', 'GaugesAndIncentives']} />
+### How do I attract liquidity to a pool?
+
+Deploy a gauge. Fund it with your own token, request CRV emissions through a DAO vote, or pay vote incentives to veCRV holders.
+
+## Related
+
+- [Launch Playbook](/protocol/launch-playbook)
+- [Pool Types](/protocol/pool/overview)
+- [Launch a Lending Market](/protocol/lending/launch-isolated-lending-market)
+- [Gauges & Incentives](/protocol/gauge/overview)
 
 <GhostPosts tag="why-curve" limit={3} sectionTitle="Latest Articles" compact={true} enablePagination={true} />

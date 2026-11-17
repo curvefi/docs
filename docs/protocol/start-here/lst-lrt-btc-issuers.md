@@ -5,65 +5,75 @@ sidebar_label: LST, LRT & BTC Issuers
 description: How liquid staking, restaking and wrapped BTC issuers use Curve for correlated-asset pools, rate-oracle and rebasing token support, high-LTV Llamalend markets and CRV incentives.
 ---
 
-Curve is where issuers of liquid staking tokens (LSTs), liquid restaking tokens (LRTs) and wrapped BTC build deep liquidity against the asset they track, such as ETH or BTC, and let holders borrow against their token.
+Issuers of liquid staking tokens (LSTs), liquid restaking tokens (LRTs) and wrapped BTC use Curve for exit liquidity against ETH or BTC and for lending markets where holders borrow against the token.
 
-## What You Get
+## What Curve Provides
 
-- **A pool for correlated assets.** Stableswap concentrates liquidity around the expected price ratio, so holders can exit to ETH or BTC with low slippage.
-- **Support for how your token accrues value.** Stableswap-NG handles rebasing tokens, such as stETH, and tokens whose value grows against the base asset through a rate oracle, such as wstETH. The pool prices your token at its current rate instead of treating it as 1:1.
-- **Exit liquidity that stays in place.** Liquidity providers don't manage ranges, so the pool keeps quoting through volatile markets.
-- **A price oracle.** Every pool has a built-in EMA price oracle that lending protocols, including Llamalend, can read onchain.
-- **Lending for your holders.** A Llamalend market lets holders borrow against your token, with high LTV when the borrowed asset tracks the same underlying.
-- **One incentive system.** CRV emissions, your own rewards and vote incentives run through the same gauges.
+A [Stableswap](../pool/understanding-stableswap.md) pool concentrates liquidity around the expected price ratio between your token and the asset it tracks. Holders can exit to ETH or BTC with low slippage, and liquidity providers don't have to manage ranges when the market moves.
+
+Stableswap-NG follows how your token accrues value. A rebasing token such as stETH uses the rebasing asset type. A token whose rate grows against ETH, such as wstETH, uses the oracle asset type, and the pool prices it at its current rate.
+
+Every pool has a built-in EMA price oracle that lending protocols, including Llamalend, can read.
+
+A [Llamalend](../lending/launch-isolated-lending-market.md) market lets holders borrow against your token. When the borrowed asset tracks the same underlying, as in wstETH against WETH, the market can allow a high LTV. Gauges pay incentives on the pool and the market.
 
 ## What Your Users Get
 
-- **Holders** can exit to ETH or BTC on Curve at a price close to the token's rate.
-- **Liquidity providers** earn trading fees with no range management, plus gauge rewards. Rebasing yield goes to them.
-- **Borrowers** keep their staking or restaking yield while the token backs a loan, with LLAMMA liquidation protection.
-- **Lenders** supply to an ERC-4626 vault and earn interest from borrowers.
+- Holders exit to ETH or BTC on Curve at a price close to the token's rate.
+- Liquidity providers earn trading fees and gauge rewards, and rebasing yield goes to them.
+- Borrowers keep earning staking or restaking yield on their collateral, and LLAMMA converts it gradually if the price falls.
+- Lenders supply to an ERC-4626 vault and earn the interest borrowers pay.
 
 ## Recommended Setup
 
 | Your token | Pool | Lending | Guide |
 | --- | --- | --- | --- |
-| Rebasing LST (balance grows) | Stableswap-NG pool with ETH or WETH, using the rebasing asset type | Optional | [Deploy a Stableswap Pool](../pool/guides/deploy-stableswap.md#rebasing-tokens) |
-| Value-accruing LST or LRT (rate grows) | Stableswap-NG pool with ETH or WETH, using the oracle asset type | Llamalend market against ETH or a stablecoin | [Deploy a Stableswap Pool](../pool/guides/deploy-stableswap.md#oracle-based-tokens) |
-| Wrapped BTC | Stableswap pool with another BTC wrapper | Llamalend market against a stablecoin | [Launch a Lending Market](../lending/launch-isolated-lending-market.md) |
-| Pair with a different asset, such as wrapped BTC against crvUSD | Cryptoswap or FXSwap pool | Optional | [Understanding FXSwap](../pool/understanding-fxswap.md) |
-
-Then deploy a gauge and choose an incentive route. See [Incentivizing a Pool](../gauge/incentive-routes.md).
+| Rebasing LST | Stableswap-NG with ETH or WETH, rebasing asset type | Optional | [Rebasing tokens](../pool/guides/deploy-stableswap.md#rebasing-tokens) |
+| LST or LRT with a growing rate | Stableswap-NG with ETH or WETH, oracle asset type | Against ETH or a stablecoin | [Oracle-based tokens](../pool/guides/deploy-stableswap.md#oracle-based-tokens) |
+| Wrapped BTC | Stableswap with another BTC wrapper | Against a stablecoin | [Launch a Lending Market](../lending/launch-isolated-lending-market.md) |
+| Wrapped BTC against crvUSD | FXSwap or Cryptoswap | Optional | [Understanding FXSwap](../pool/understanding-fxswap.md) |
 
 ## Case Studies
 
-Figures as of 17 November 2026, from the Curve Prices API.
+Figures are from the Curve Prices API as of 17 November 2026.
 
-- **Lido (stETH).** The [ETH/stETH pool](https://etherscan.io/address/0xDC24316b9AE028F1497c275EB9192a3Ea0f67022) holds about $67.4M.
-- **ether.fi (weETH).** The [weETH/WETH pool](https://etherscan.io/address/0xDB74dfDD3BB46bE8Ce6C33dC9D82777BCFc3dEd5) holds about $7.7M.
-- **Threshold (tBTC).** The [tBTC/WBTC pool](https://etherscan.io/address/0xB7ECB2AA52AA64a717180E030241bC75Cd946726) holds about $9.2M and traded about $8.6M in 24 hours.
-- **YieldBasis.** Runs its BTC liquidity in FXSwap pools against crvUSD, such as crvUSD/WBTC and crvUSD/cbBTC.
-- **Llamalend on Optimism.** Live v2 markets lend USDC against wstETH and WBTC, and WETH against wstETH.
+ether.fi's [weETH/WETH pool](https://etherscan.io/address/0xDB74dfDD3BB46bE8Ce6C33dC9D82777BCFc3dEd5) held about $7.7M.
+
+Lido's [ETH/stETH pool](https://etherscan.io/address/0xDC24316b9AE028F1497c275EB9192a3Ea0f67022) held about $67.4M.
+
+Threshold's [tBTC/WBTC pool](https://etherscan.io/address/0xB7ECB2AA52AA64a717180E030241bC75Cd946726) held about $9.2M and traded about $8.6M in 24 hours.
+
+YieldBasis runs its BTC liquidity in FXSwap pools against crvUSD, such as crvUSD/WBTC and crvUSD/cbBTC.
+
+On Optimism, Llamalend v2 markets lend USDC against wstETH and WBTC, and WETH against wstETH.
 
 ## Requirements and Limits
 
-- **Rate oracles.** An oracle-priced token needs a rate oracle that returns 18-decimal values, never decreases and never reads a spot price. Fast rate jumps can be exploited, so read the oracle risks in [Understanding Stableswap](../pool/understanding-stableswap.md) before you deploy.
-- **CRV emissions need a DAO vote.** The DAO generally rejects gauges for tokens with transfer restrictions, transfer taxes or blacklists. See [Whitelisting a Gauge](../gauge/whitelisting-gauge.md).
-- **Lending needs a reliable oracle and a DAO vote.** A Llamalend market needs a price for your token in the borrowed asset, and its borrow cap starts at zero until a Curve DAO vote raises it. See [Oracles & Parameters](../lending/oracles-and-parameters.md).
-- **High LTV is not risk-free.** LLAMMA protection loses a little value on each conversion, and a long stay in liquidation protection can still end in hard liquidation.
+A rate oracle must return 18-decimal values, must never decrease and must not read a spot price. If one rate update moves the price by more than the cost of a swap, a trader can buy before it and sell after it at the liquidity providers' expense. Read the oracle risks in [Understanding Stableswap](../pool/understanding-stableswap.md) before you deploy.
+
+CRV emissions need a Curve DAO vote. The DAO generally rejects gauges for tokens with transfer restrictions, transfer taxes or blacklists. See [Whitelisting a Gauge](../gauge/whitelisting-gauge.md).
+
+A Llamalend market needs a manipulation-resistant price for your token in the borrowed asset. Its borrow cap starts at zero until a Curve DAO vote raises it. See [Oracles & Parameters](../lending/oracles-and-parameters.md).
+
+A high LTV still carries risk. Each LLAMMA conversion loses some value to fees and arbitrage, and a long stay in liquidation protection can end in hard liquidation.
 
 ## FAQ
 
-**Should an LST pool use Stableswap or Cryptoswap?**
-Stableswap, when the token tracks ETH. Use the rebasing or oracle asset type so the pool follows the token's rate.
+### Should an LST pool use Stableswap or Cryptoswap?
 
-**Can holders borrow against my LST or wrapped BTC on Curve?**
+Stableswap, with the rebasing or oracle asset type so the pool follows the token's rate.
+
+### Can holders borrow against my LST or wrapped BTC?
+
 Yes, through a Llamalend market. Borrowing opens after a Curve DAO vote sets the borrow cap.
 
-**Does the pool account for staking rewards?**
-Yes. Rebasing yield goes to liquidity providers, and an oracle-priced token is valued at its current rate.
+### Who receives the staking yield of tokens in the pool?
 
-## Next Steps
+Liquidity providers. Rebasing yield accrues to the pool, and an oracle-priced token is valued at its current rate.
 
-- Follow the [Launch Playbook](../launch-playbook.md) from pool to lending market.
-- Read [Pool Types](../pool/overview.md) for the supported asset types.
-- Ask the Curve team in [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).
+## Related
+
+- [Launch Playbook](../launch-playbook.md)
+- [Pool Types](../pool/overview.md)
+- [Launch a Lending Market](../lending/launch-isolated-lending-market.md)
+- Curve [Telegram](https://t.me/curvefi) and [Discord](https://discord.gg/twUngQYz85)

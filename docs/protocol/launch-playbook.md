@@ -2,41 +2,37 @@
 id: launch-playbook
 title: "Launch Playbook: Liquidity and Lending for Your Token on Curve"
 sidebar_label: Launch Playbook
-description: A step-by-step checklist for launching a token on Curve, from choosing and deploying a pool to gauges, incentives, a Llamalend lending market, integrations and monitoring.
+description: The order of steps for launching a token on Curve, from choosing and deploying a pool to gauges, incentives, a Llamalend lending market and monitoring.
 ---
 
-This checklist takes your token from no liquidity to a Curve pool with incentives and a lending market. Each step links to the guide that covers it. You can stop after any step: a pool works without a gauge, and a gauge works without a lending market.
-
-:::note[Draft]
-
-This page is a skeleton. Each step will get a short explanation of what you decide and what it costs.
-
-:::
+This page lists the steps for taking a token from no liquidity to a Curve pool with incentives and a lending market. Each step links to the guide that covers it. Later steps are optional: a pool works without a gauge, and a gauge works without a lending market.
 
 ## 1. Choose a Pool Type
 
-Pick Stableswap for pegged assets, Cryptoswap for volatile pairs, or FXSwap for low-volatility pairs priced elsewhere. See [Pool Types](./pool/overview.md).
+Use Stableswap for assets that hold the same peg, such as two USD stablecoins or an LST against ETH. Use Cryptoswap when the Curve pool will be a main market for a volatile token. Use FXSwap for pairs whose price is set on a deeper external market, such as EUR against USD. [Pool Types](./pool/overview.md) compares them.
 
 ## 2. Deploy the Pool
 
-Pool deployment is permissionless and has no fee beyond gas. Follow the guide for your pool type: [Stableswap](./pool/guides/deploy-stableswap.md), [Cryptoswap](./pool/guides/deploy-cryptoswap.md) or [FXSwap](./pool/guides/deploy-fxswap.md).
+You deploy the pool yourself in the Curve app or onchain. Deployment needs no approval and costs only gas. Follow the guide for your pool type: [Stableswap](./pool/guides/deploy-stableswap.md), [Cryptoswap](./pool/guides/deploy-cryptoswap.md) or [FXSwap](./pool/guides/deploy-fxswap.md).
 
-## 3. Seed Liquidity and Get Listed
+## 3. Seed Liquidity and Submit Your Logo
 
-Add initial liquidity in balanced amounts, submit your token logo and check that aggregators pick up the pool. See [Post Deployment](./pool/post-deployment.md).
+A pool can't process trades until it holds liquidity, so add the first deposit in balanced amounts. Then submit your token logo so the pool displays correctly. See [Post Deployment](./pool/post-deployment.md).
 
 ## 4. Deploy a Gauge
 
-Anyone can deploy a gauge for a pool. It can pay your own token rewards as soon as it exists. See [Gauges & Incentives](./gauge/overview.md).
+The factory allows one gauge per pool, and the wallet that deploys it becomes the gauge manager. Only the manager can register reward tokens, so deploy your pool's gauge yourself. See [Gauges & Incentives](./gauge/overview.md).
 
 ## 5. Fund Incentives
 
-Choose how to fund LP yield: direct gauge rewards, CRV emissions after a DAO vote, vote incentives, or Merkl campaigns. See [Incentivizing a Pool](./gauge/incentive-routes.md) and [Whitelisting a Gauge](./gauge/whitelisting-gauge.md).
+Direct gauge rewards in your own token can start right away. CRV emissions need a Curve DAO whitelisting vote, then veCRV gauge weight votes. Vote incentives and Merkl campaigns are other routes. [Incentivizing a Pool](./gauge/incentive-routes.md) compares what each route needs.
 
 ## 6. Launch a Lending Market
 
-Let holders borrow against your token, or let lenders supply it, through an isolated Llamalend market. See [Launch a Lending Market](./lending/launch-isolated-lending-market.md).
+A Llamalend market lets holders borrow against your token, or lets lenders supply it. You deploy the market, and a Curve DAO vote raises its borrow cap from zero before anyone can borrow. See [Launch a Lending Market](./lending/launch-isolated-lending-market.md).
 
-## 7. Integrate and Monitor
+## 7. Monitor the Pool and Market
 
-Watch pool balance, parameters, lending utilization and incentive spend after launch. See [Pool Parameters](./pool/pool-parameters.md) and [Llamalend Post-Deployment](./lending/post-deployment.md).
+Watch pool balances, fee income, lending utilization and incentive spend. The Curve DAO can change pool and market parameters by vote. See [Pool Parameters](./pool/pool-parameters.md) and [Llamalend Post-Deployment](./lending/post-deployment.md).
+
+Next, find the setup for your token type in [Start Here](./why-curve.md#where-should-you-start).

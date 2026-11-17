@@ -29,7 +29,7 @@ Once a factory is deployed, anyone can create a new pool of that type — either
 **Pool deployment is completely free of charge** beyond standard gas costs. There are no additional fees, no protocol charges, and no hidden costs associated with deploying a new pool on Curve.
 :::
 
-Pools deployed via a factory appear automatically on the Curve frontend after a short propagation period and are picked up by aggregators such as 1inch and CowSwap. You don't need to chase integrations.
+Pools deployed through a factory appear on the Curve frontend after a short delay. Aggregators such as [0x](https://docs.0x.org/evm/need-help/faq), 1inch, [CoW Swap](https://docs.cow.fi/cow-protocol), [KyberSwap](https://docs.kyberswap.com/getting-started/supported-exchanges-and-networks), Odos and ParaSwap route swaps through Curve pools, and they pick up new pools without a listing step.
 
 ## Choosing the Right Pool Type
 

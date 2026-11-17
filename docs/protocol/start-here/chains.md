@@ -2,69 +2,62 @@
 id: chains
 title: Curve for Chains and L2s
 sidebar_label: Chains & L2s
-description: How chain and L2 teams bring Curve to their network, from Curve Lite with Stableswap and Cryptoswap pool factories, a router and DAO ownership on day one, to full deployments with CRV emissions and Llamalend.
+description: How chain and L2 teams bring Curve to their network with Curve Lite, which deploys Stableswap and Cryptoswap pool factories, a router, gauges and Curve DAO ownership, and how CRV emissions reach the chain.
 ---
 
-Curve gives a new chain or L2 production-grade swapping from day one. Curve Lite deploys Curve's core DEX contracts on your network under Curve DAO ownership, and full deployments add CRV emissions and, on selected networks, Llamalend lending.
+Chain and L2 teams use Curve Lite to give their network stable and volatile swapping from day one. The deployment is owned by the Curve DAO, and its gauges can receive CRV emissions once the DAO adds them by vote.
 
-## What You Get
+## What Curve Lite Deploys
 
-- **A DEX for stable and volatile assets.** Curve Lite deploys the Stableswap-NG, Twocrypto-NG and Tricrypto-NG pool factories, so anyone on your chain can create pools.
-- **Routing and helpers.** A router for multi-pool trades, zaps for depositing and staking in one transaction, and registries that list every pool.
-- **Curve DAO ownership.** Your deployment is governed from Ethereum by the Curve DAO through a cross-chain agent and relayer, and pool fees go to a Curve DAO vault.
-- **Gauges for incentives.** Curve Lite includes gauges that pay rewards in tokens that projects choose.
-- **Frontend support.** Your network, its pools and swaps appear in the Curve app.
-- **A neutral venue for your ecosystem.** Every project on your chain can deploy pools on the same terms, with no listing approval.
+Curve Lite deploys the Stableswap-NG, Twocrypto-NG and Tricrypto-NG pool factories. Anyone on your chain can then create pools for stable or volatile assets.
 
-## What Your Users Get
+A router handles trades across several pools. Zaps let users deposit and stake in one transaction, and registries list every pool.
 
-- **Projects** on your chain can launch stablecoin, LST and token liquidity on day one.
-- **Traders** get low-slippage swaps for pegged assets and liquidity for volatile pairs.
-- **Liquidity providers** earn fees without managing ranges.
+The Curve DAO governs the deployment from Ethereum through a cross-chain agent and relayer, and pool fees go to a Curve DAO vault.
 
-## Curve Lite and Full Deployments
+Gauges pay rewards in tokens that projects choose. They can also receive CRV emissions after the Curve DAO adds them by vote. That CRV arrives through a root gauge on Ethereum, about a week after it is allocated. See [Gauge Weights on L2s](/user/dao/gauge-weights#gauge-weights-on-l2s).
 
-| | Curve Lite | Full deployment |
-| --- | --- | --- |
-| Stableswap and Cryptoswap pool factories | Yes | Yes |
-| Router, zaps and registries | Yes | Yes |
-| Curve DAO ownership and fee collection | Yes | Yes |
-| Gauges with your own rewards | Yes | Yes |
-| CRV emissions | Ask the Curve team | Yes, after a DAO whitelisting vote, through a root gauge on Ethereum |
-| Llamalend lending | No | On selected networks |
+Your network, its pools and swaps appear in the Curve app.
 
-CRV for a gauge on another chain comes through a root gauge on Ethereum, about a week after the vote. See [Gauge Weights on L2s](/user/dao/gauge-weights#gauge-weights-on-l2s).
+The deployment scripts are open source in [curvefi/curve-core](https://github.com/curvefi/curve-core). Llamalend is not part of Curve Lite and runs on Ethereum and Optimism.
 
-## Case Studies
+## What Your Ecosystem Gets
 
-As of 17 November 2026, Curve's API lists Curve Lite deployments on networks including Sonic, Taiko, Unichain, Ink and HyperEVM. See the full list in [Why Curve](../why-curve.md#curves-chain-presence).
+Every project on your chain can deploy pools on the same terms, with no listing approval. Traders get low-slippage swaps for pegged assets, and liquidity providers earn fees without managing ranges.
 
-On HyperEVM, deploying pools and gauges needs large blocks. See [Enabling Big Blocks on HyperEVM](../pool/guides/enable-big-blocks-hyperevm.md).
+## How to Bring Curve to Your Chain
 
-## Requirements and Limits
+Contact the Curve team in [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85) before you deploy. This keeps the deployment under Curve DAO governance and gets it listed in the app.
 
-The Curve Lite deployment scripts are open source in [curvefi/curve-core](https://github.com/curvefi/curve-core). A deployment needs:
+A Curve Lite deployment needs:
 
 - an EVM chain with Multicall3 deployed;
 - a wrapped native token;
 - CRV and crvUSD bridged to the chain through native bridges;
-- a supported chain type: OP Stack, Arbitrum Orbit, Polygon CDK, Taiko or a non-rollup chain. zkSync-based chains are not fully supported.
+- an OP Stack, Arbitrum Orbit, Polygon CDK, Taiko or non-rollup chain. zkSync-based chains are not fully supported.
 
-Contact the Curve team before you deploy, so the deployment can be governed by the DAO and listed in the Curve app.
+## Case Studies
+
+As of 17 November 2026, Curve's API lists Curve Lite deployments on Sonic, Taiko, Unichain, Ink and HyperEVM, among others. [Why Curve](../why-curve.md#which-chains-does-curve-run-on) shows the full list.
+
+On HyperEVM, deploying pools and gauges requires large blocks. See [Enabling Big Blocks on HyperEVM](../pool/guides/enable-big-blocks-hyperevm.md).
 
 ## FAQ
 
-**What is Curve Lite?**
-A minimal Curve deployment with the core pool factories, a router, registries, gauges and Curve DAO ownership, built for new chains.
+### What is Curve Lite?
 
-**Who owns a Curve Lite deployment?**
+A Curve deployment for new chains with the core pool factories, a router, registries and gauges, owned by the Curve DAO.
+
+### Who owns a Curve Lite deployment?
+
 The Curve DAO, which governs it from Ethereum through a cross-chain agent and relayer.
 
-**Can pools on my chain receive CRV emissions?**
-On full deployments, yes, after a DAO whitelisting vote and through veCRV gauge weight votes. For Curve Lite, ask the Curve team.
+### Can pools on my chain receive CRV emissions?
 
-## Next Steps
+Yes, once the Curve DAO adds their gauges by vote. Each gauge then receives CRV in proportion to its veCRV gauge weight votes.
 
-- Read the [curve-core repository](https://github.com/curvefi/curve-core).
-- See which networks Curve runs on in [Supported Chains & Assets](/user/cross-chain/supported-chains).
-- Contact the Curve team in [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).
+## Related
+
+- [curvefi/curve-core](https://github.com/curvefi/curve-core)
+- [Supported Chains & Assets](/user/cross-chain/supported-chains)
+- [Gauge Weights on L2s](/user/dao/gauge-weights#gauge-weights-on-l2s)
