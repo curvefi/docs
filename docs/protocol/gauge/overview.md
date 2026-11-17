@@ -1,7 +1,8 @@
 ---
 id: overview
-title: Gauges & Incentives Overview
+title: Curve Gauges and Incentives
 sidebar_label: Overview
+description: How Curve gauges pay CRV emissions and direct rewards to liquidity providers who stake LP or vault tokens, and what each reward type requires.
 ---
 
 import GuideCardGrid from '@site/src/components/GuideCardGrid';

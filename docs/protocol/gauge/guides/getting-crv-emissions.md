@@ -2,6 +2,7 @@
 id: getting-crv-emissions
 title: Getting CRV Emissions
 sidebar_label: Getting CRV Emissions
+description: How a whitelisted Curve gauge receives CRV through weekly veCRV gauge weight votes, and how to attract votes.
 ---
 
 import GaugeWeightDistribution from '@site/src/components/Charts/GaugeWeightDistribution';

@@ -2,6 +2,7 @@
 id: post-deployment
 title: Llamalend Post-Deployment & Integration
 sidebar_label: Post-Deployment & Integration
+description: "What a Llamalend market needs after deployment: activation, lender liquidity, ERC-4626 and borrower integrations, monitoring and incentives."
 ---
 
 import GuideCardGrid from '@site/src/components/GuideCardGrid';

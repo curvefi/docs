@@ -2,14 +2,15 @@
 id: deploy-cryptoswap
 title: "Deploying a Cryptoswap Pool"
 sidebar_label: "Deploying a Cryptoswap Pool"
+description: Step-by-step guide to deploying a Curve Cryptoswap pool for two or three volatile tokens, with parameter presets.
 ---
 
 import ThemedImage from '@theme/ThemedImage';
 import ButtonGrid from '@site/src/components/ButtonGrid';
 
-Cryptoswap pools are appropriate for **two or three volatile assets** that are not pegged to each other — such as ETH/USDC or BTC/ETH. The creation wizard will guide you through the process, but if you have questions at any point, feel free to reach out to the Curve team in the [**Telegram**](https://t.me/curvefi) or [**Discord**](https://discord.gg/rgrfS7W).
+A Cryptoswap pool holds two or three volatile tokens that are not pegged to each other, such as ETH/USDC or BTC/ETH. The pool creation wizard in the Curve app walks you through each step. Questions go to the Curve team in [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/rgrfS7W).
 
-For a basic explanation of Cryptoswap mechanics, see: [**Understanding Curve Pools**](../overview).
+[Understanding Cryptoswap](../understanding-cryptoswap.md) explains how the pool prices trades.
 
 <ButtonGrid buttonKeys={['gotoPoolDeployment']} />
 

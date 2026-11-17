@@ -1,19 +1,19 @@
 ---
 id: overview
-title: Overview & Pool Types
+title: "Curve Pool Types: Stableswap, Cryptoswap and FXSwap"
 sidebar_label: Overview & Pool Types
+description: "How to choose and deploy a permissionless Curve liquidity pool: Stableswap for pegged assets, Cryptoswap for volatile pairs, FXSwap for externally priced pairs, plus metapools and supported token types."
 ---
 
 import GuideCardGrid from '@site/src/components/GuideCardGrid';
 import ThemedImage from '@theme/ThemedImage';
 
-Curve offers a **permissionless** system for deploying liquidity pools — no DAO vote, no approval process, and no technical barrier beyond the gas cost to deploy. A full-featured interface is available in the Curve app, so you can launch a custom pool without writing any code.
+Anyone can deploy a Curve liquidity pool. Deployment needs no DAO vote or approval and costs only gas, and the Curve app has a pool creation interface, so no code is required.
 
 To get started quickly, follow one of the deployment guides:
 
 <GuideCardGrid guideKeys={['deployStableswapPool', 'deployCryptoswapPool', 'deployFXSwapPool']} />
 
-Factories make launching pools on Curve fast, flexible, and accessible to any project—whether you're a stablecoin issuer, LST protocol, synthetic-asset platform, or any other DeFi team looking to bootstrap deep, reliable liquidity.
 
 ## How are Pools Deployed?
 

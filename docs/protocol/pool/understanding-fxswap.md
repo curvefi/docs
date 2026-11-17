@@ -1,6 +1,7 @@
 ---
 title: Understanding FXSwap
 sidebar_label: Understanding FXSwap
+description: How Curve's FXSwap AMM serves pairs priced on an external market, such as FX rates, using concentrated pricing, oracle-guided recentering and refuels.
 ---
 
 import ThemedImage from '@theme/ThemedImage'
@@ -12,7 +13,7 @@ FXSwap is a two-asset automated market maker (AMM) for markets whose primary pri
 
 For contract interfaces and integration guidance, see the [FXSwap developer documentation](/developer/amm/fxswap/overview).
 
-As with all Curve AMM pools, providing liquidity in FXSwap is completely passive. All liquidity is full-range (no active range management required), so anyone can participate easily.
+As with all Curve AMM pools, providing liquidity in FXSwap is completely passive. All liquidity is full-range (no active range management required), so anyone can provide liquidity.
 
 <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%' }}>
   <iframe

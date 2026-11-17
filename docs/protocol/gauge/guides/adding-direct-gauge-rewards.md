@@ -2,6 +2,7 @@
 id: adding-direct-gauge-rewards
 title: Adding Direct Gauge Rewards
 sidebar_label: Adding Direct Gauge Rewards
+description: How the gauge manager registers a reward token and deposits rewards into a Curve gauge, in the Curve app or on a block explorer.
 ---
 
 **Direct gauge rewards** are tokens you deposit into a Curve gauge, which streams them to staked LPs. They need no DAO vote, but only the gauge manager can register a reward token, which keeps scam tokens out of gauges.

@@ -1,7 +1,8 @@
 ---
 id: incentive-routes
-title: Incentivizing a Pool
+title: Incentivizing a Curve Pool
 sidebar_label: Incentivizing a Pool
+description: Every way a token issuer can fund liquidity on a Curve pool, including direct gauge rewards, veCRV, vlCVX, Merkl and vote incentives, with what each route needs.
 ---
 
 Liquidity providers deposit where the yield is. This page lists the ways a token issuer can fund or attract that yield on a Curve pool, what each route needs and when it fits. Routes appear in alphabetical order, and many issuers combine several.

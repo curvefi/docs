@@ -1,6 +1,7 @@
 ---
 title: Understanding Cryptoswap
 sidebar_label: Understanding Cryptoswap
+description: How Curve's Cryptoswap AMM concentrates liquidity for volatile pairs, re-centers it around an internal EMA price, charges dynamic fees and why low-volume pools can go stale.
 ---
 
 import ThemedImage from '@theme/ThemedImage'
@@ -8,6 +9,8 @@ import ThemedVideo from '@site/src/components/ThemedVideo';
 import CryptoswapParamsChart from '@site/src/components/Charts/CryptoswapParams';
 import FXSwapDynamicFeeChart from '@site/src/components/Charts/FXSwapDynamicFee';
 
+
+Cryptoswap is Curve's AMM for volatile pairs, such as ETH/USDC or BTC/ETH. It concentrates liquidity around an internal EMA price and re-centers it as the market moves, so liquidity providers don't manage price ranges.
 
 ## Historical Background
 

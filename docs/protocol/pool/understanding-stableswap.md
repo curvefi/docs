@@ -1,12 +1,15 @@
 ---
 title: Understanding Stableswap
 sidebar_label: Understanding Stableswap
+description: How Curve's Stableswap AMM concentrates liquidity around a peg, its amplification factor and dynamic fees, base pools and metapools, and how rate oracles work for yield-bearing tokens.
 ---
 
 import ThemedImage from '@theme/ThemedImage'
 import ThemedVideo from '@site/src/components/ThemedVideo';
 import StableswapAmplificationChart from '@site/src/components/Charts/StableswapAmplification';
 import StableswapDynamicFeeChart from '@site/src/components/Charts/StableswapDynamicFee';
+
+Stableswap is Curve's AMM for assets that trade near the same price, such as two USD stablecoins or an LST and ETH. It concentrates liquidity around the peg, so trades near the peg have low slippage, and it keeps quoting prices when a pool moves away from the peg.
 
 ## Historical Background
 

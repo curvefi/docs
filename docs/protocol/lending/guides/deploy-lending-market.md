@@ -2,6 +2,7 @@
 id: deploy-lending-market
 title: Deploying a Llamalend Market
 sidebar_label: Deploy a Market
+description: Step-by-step guide to deploying a Llamalend v2 market through the LendFactory, verifying it and activating borrowing through a Curve DAO vote.
 ---
 
 Llamalend v2 markets are deployed permissionlessly through the `LendFactory`. A successful deployment creates and registers a Vault, LendController, and AMM for one isolated token pair.

@@ -1,8 +1,11 @@
 ---
 id: pool-parameters
-title: Pool Parameters
+title: Curve Pool Parameters
 sidebar_label: Pool Parameters
+description: What each Stableswap, Cryptoswap and FXSwap pool parameter controls, how to set it at deployment and how the Curve DAO can change it later.
 ---
+
+A Curve pool's parameters control how it concentrates liquidity, charges fees and follows the market. You set them at deployment, and the Curve DAO can change most of them later by vote.
 
 ## Setting Parameters at Deployment
 

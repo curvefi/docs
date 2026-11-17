@@ -2,6 +2,7 @@
 id: oracles-and-parameters
 title: Llamalend Oracles & Parameters
 sidebar_label: Oracles & Parameters
+description: How to choose the token pair, price oracle, monetary policy and risk parameters for a Llamalend market before deployment.
 ---
 
 A Llamalend v2 market combines independently supplied contracts and risk parameters. Deployment is permissionless, but that does not make every configuration safe. Validate the token pair, oracle, monetary policy, and liquidation assumptions together before creating a market.

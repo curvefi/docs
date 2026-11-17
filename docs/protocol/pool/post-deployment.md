@@ -1,12 +1,13 @@
 ---
 id: post-deployment
-title: Post Deployment
+title: After Deploying a Curve Pool
 sidebar_label: Post Deployment
+description: "What to do after deploying a Curve pool: seed initial liquidity, check integrations, submit the token logo, monitor parameters, add refuels and plan incentives."
 ---
 
 import GuideCardGrid from '@site/src/components/GuideCardGrid';
 
-After deploying a pool, there are a few important steps to ensure it’s visible, functional, and capable of attracting liquidity and rewards.
+A new pool can't trade until it holds liquidity. After seeding it, check that it appears in the Curve app and aggregators, submit your token logo and plan incentives.
 
 ## Seed Initial Liquidity
 

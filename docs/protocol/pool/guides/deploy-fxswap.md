@@ -2,14 +2,15 @@
 id: deploy-fxswap
 title: Deploying an FXSwap Pool
 sidebar_label: Deploying an FXSwap Pool
+description: Step-by-step guide to deploying a Curve FXSwap pool for two low-volatility assets priced on an external market, such as FX pairs.
 ---
 
 import ThemedImage from '@theme/ThemedImage';
 import ButtonGrid from '@site/src/components/ButtonGrid';
 
-FXSwap pools are appropriate for **two uncorrelated but low-volatility assets** — such as Forex pairs like `crvUSD/EURC` or other stable foreign exchange pairs. The creation wizard will guide you through the process, but if you have questions at any point, feel free to reach out to the Curve team in the [**Telegram**](https://t.me/curvefi) or [**Discord**](https://discord.gg/rgrfS7W).
+An FXSwap pool holds two low-volatility assets whose price is set on an external market, such as the FX pair `crvUSD/EURC`. The pool creation wizard in the Curve app walks you through each step. Questions go to the Curve team in [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/rgrfS7W).
 
-For a basic explanation of FXSwap mechanics, see: [**Understanding FXSwap**](../understanding-fxswap.md).
+[Understanding FXSwap](../understanding-fxswap.md) explains how the pool prices trades.
 
 <ButtonGrid buttonKeys={['gotoPoolDeployment']} />
 

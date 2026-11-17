@@ -2,6 +2,7 @@
 id: whitelisting-gauge
 title: Whitelisting a Gauge
 sidebar_label: Whitelisting a Gauge
+description: How to get a Curve gauge whitelisted for CRV emissions through a Curve DAO vote, what the vote needs and which tokens the DAO generally rejects.
 ---
 
 A gauge can receive CRV emissions only after the Curve DAO whitelists it: a 7-day on-chain vote adds the gauge to the `GaugeController` contract. Creating that vote needs a deployed gauge and 2,500 veCRV. Once whitelisted, the gauge earns a share of weekly CRV equal to its share of veCRV gauge weight votes. A gauge on another chain is whitelisted through its root gauge on Ethereum.

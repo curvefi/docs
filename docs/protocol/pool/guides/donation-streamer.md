@@ -1,8 +1,11 @@
 ---
 id: donation-streamer
-title: "Automating Refuels"
+title: Automating FXSwap Refuels
 sidebar_label: "Automating Refuels"
+description: How to schedule FXSwap refuels with the DonationStreamer contract, so tokens reach a pool's refuel buffer each period without manual top-ups.
 ---
+
+A refuel stream sends tokens to an FXSwap pool's refuel buffer on a schedule. You lock the tokens and a small ETH bounty per period, and anyone, including an automated bot, can trigger each refuel. This guide sets up a stream with the `DonationStreamer` contract.
 
 :::vyper[`DonationStreamer.vy`]
 

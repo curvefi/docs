@@ -2,7 +2,10 @@
 id: enable-big-blocks-hyperevm
 title: "Enabling Big Blocks on HyperEVM"
 sidebar_label: "Enabling Big Blocks on HyperEVM"
+description: How to enable large blocks for your wallet on HyperEVM, which is required to deploy Curve pools and gauges there.
 ---
+
+To deploy a Curve pool or gauge on HyperEVM, your wallet must send transactions in large blocks. This guide enables that setting.
 
 [HyperEVM](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm) uses a [dual-block architecture](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm/dual-block-architecture) where throughput is split between small blocks produced at a fast rate and large blocks produced at a slower rate.
 

@@ -2,14 +2,15 @@
 id: deploy-stableswap
 title: "Deploying a Stableswap Pool"
 sidebar_label: "Deploying a Stableswap Pool"
+description: Step-by-step guide to deploying a Curve Stableswap pool for up to eight pegged tokens, including rebasing, ERC-4626 and oracle-priced tokens.
 ---
 
 import ThemedImage from '@theme/ThemedImage';
 import ButtonGrid from '@site/src/components/ButtonGrid';
 
-The Stableswap pool creation is appropriate for assets expected to hold a price peg very close to each other, like a pair of dollarcoins. The creation wizard will guide you through the process of creating a pool, but if you have questions throughout you are encouraged to speak with a member of the Curve team in the [**Telegram**](https://t.me/curvefi) or [**Discord**](https://discord.gg/rgrfS7W).
+A Stableswap pool holds up to eight tokens that are expected to trade near the same price, such as two USD stablecoins. The pool creation wizard in the Curve app walks you through each step. Questions go to the Curve team in [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/rgrfS7W).
 
-Stableswap pools are liquidity pools containing **up to eight tokens** using the StableSwap algorithm. For a better understanding of StableSwap, please see here: [**Understanding Curve Pools**](../overview).
+[Understanding Stableswap](../understanding-stableswap.md) explains how the pool prices trades.
 
 <ButtonGrid buttonKeys={['gotoPoolDeployment']} />
 
