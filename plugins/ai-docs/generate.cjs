@@ -172,7 +172,19 @@ async function generate({docs, siteDir, outDir, siteUrl}) {
     await flush();
     await write(`/${section}/llms.txt`, index(sections[section], `${curveSummary} ${summaries[section]}`, pages.filter((page) => page.section === section), siteUrl));
   }
-  const extras = `## Retrieval\n\n- [Users](${siteUrl}/user/llms.txt): Guides for swapping, liquidity, lending, crvUSD, CRV and governance\n- [Developers](${siteUrl}/developer/llms.txt): Contract references and integration guides\n- [Build on Curve](${siteUrl}/protocol/llms.txt): Launching pools, lending markets and incentives on Curve for stablecoins, LSTs and wrapped BTC, RWAs, project tokens, DeFi protocols and chains\n- [Deployment data](${siteUrl}/deployments.json): Contract addresses by chain\n- [Manifest](${siteUrl}/llms-manifest.json): Canonical URLs, export hashes, and bounded bundles\n\n`;
+  const route = (task, links) => `- ${task}: ${links.map(([label, url]) => `[${label}](${siteUrl}${url})`).join(', ')}`;
+  const whenToUse = '## When to use the Curve docs\n\n' + [
+    route('What Curve is, its key figures and who controls it', [['Why Build on Curve', '/protocol/why-curve.md']]),
+    route('Which setup fits a stablecoin, LST, RWA, project token, protocol or chain', [['Use Cases', '/protocol/use-cases/overview.md']]),
+    route('Launching a liquidity pool and choosing parameters', [['Pool Types', '/protocol/pool/overview.md'], ['Presets', '/protocol/pool/presets.md'], ['Troubleshooting', '/protocol/pool/troubleshooting.md']]),
+    route('Launching or running a Llamalend lending market', [['Launch a Lending Market', '/protocol/lending/launch-isolated-lending-market.md'], ['Risk and Roles', '/protocol/lending/risk-and-roles.md'], ['Parameters and Access Control', '/protocol/lending/parameters-and-access-control.md']]),
+    route('Gauges, CRV emissions, incentive costs and DAO vote timing', [['Incentivizing a Pool', '/protocol/gauge/incentive-routes.md'], ['Incentive Costs', '/protocol/gauge/incentive-costs.md'], ['Launch Timeline', '/protocol/launch-playbook.md']]),
+    route('Reading Curve data or integrating Curve contracts', [['Integrate', '/protocol/integrate/overview.md'], ['Prices API quickstart', '/protocol/integrate/quickstart-prices-api.md']]),
+    route('Contract interfaces and source', [['Developer docs', '/developer/llms.txt']]),
+    route('Swapping, providing liquidity, borrowing, crvUSD, CRV and governance as a user', [['User docs', '/user/llms.txt']]),
+    route('Contract addresses by chain', [['deployments.json', '/deployments.json']]),
+  ].join('\n') + '\n\n';
+  const extras = whenToUse + `## Retrieval\n\n- [Users](${siteUrl}/user/llms.txt): Guides for swapping, liquidity, lending, crvUSD, CRV and governance\n- [Developers](${siteUrl}/developer/llms.txt): Contract references and integration guides\n- [Build on Curve](${siteUrl}/protocol/llms.txt): Launching pools, lending markets and incentives on Curve for stablecoins, LSTs and wrapped BTC, RWAs, project tokens, DeFi protocols and chains\n- [Deployment data](${siteUrl}/deployments.json): Contract addresses by chain\n- [Manifest](${siteUrl}/llms-manifest.json): Canonical URLs, export hashes, and bounded bundles\n\n`;
   const optional = '\n## Optional\n\n' + bundles.map((bundle) => `- [${bundle.url}](${siteUrl}${bundle.url}): ${bundle.bytes} bytes`).join('\n') + `\n- [Full documentation](${siteUrl}/llms-full.txt): Large combined export; prefer individual pages or bounded bundles\n- [Governance map](${siteUrl}/governance): Interactive governance overview\n- [Emissions cycle](${siteUrl}/emissions): Interactive emissions overview\n- [Fee architecture](${siteUrl}/fee-architecture): Interactive fee overview\n`;
   await write('/llms.txt', index('Curve Finance Documentation', curveSummary, pages, siteUrl, extras) + optional);
   await write('/llms-full.txt', '# Curve Finance Documentation\n\n> Combined reference. Prefer individual pages for focused retrieval.\n\n' + pages.map((page) => page.content).join('\n---\n\n'));
