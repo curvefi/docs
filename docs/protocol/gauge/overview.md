@@ -14,7 +14,7 @@ Rewards reach a gauge in two ways:
 - **CRV emissions:** a share of Curve's weekly CRV inflation, set by veCRV [gauge weight](/user/dao/gauge-weights) votes. The gauge must first be whitelisted by the Curve DAO.
 - **Direct gauge rewards:** tokens you deposit into the gauge yourself. No vote is needed.
 
-For every way to fund LP yield, including vote incentives and Merkl, and when each fits, see [Incentivizing a Pool](./incentive-routes.md).
+For every way to fund LP yield, including vote incentives and Merkl, and when each fits, see [Incentivizing a Pool](./incentive-routes.md). [What Curve Incentives Cost](./incentive-costs.md) compares their costs, and the [Launch Timeline](../launch-playbook.md) shows how long each Curve DAO step takes.
 
 <GuideCardGrid guideKeys={['IncentivizingAPool', 'HowToGetAGauge']} />
 

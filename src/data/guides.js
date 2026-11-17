@@ -222,8 +222,8 @@ export const ALL_GUIDES = {
     link: '/protocol/integrate/overview',
   },
   LaunchPlaybook: {
-    title: 'Launch Playbook',
-    description: 'Every step from pool deployment to incentives, a lending market and monitoring.',
+    title: 'Launch Timeline',
+    description: 'Every step from pool to lending market, with DAO vote times and the weekly gauge cycle.',
     image: '',
     link: '/protocol/launch-playbook',
   },

@@ -186,6 +186,10 @@ export default {
                 },
                 {
                     type: 'doc',
+                    id: 'gauge/incentive-costs',
+                },
+                {
+                    type: 'doc',
                     id: 'gauge/whitelisting-gauge',
                 },
                 {

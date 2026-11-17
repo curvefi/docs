@@ -83,7 +83,7 @@ No. A pool works without a gauge. Rewards help attract liquidity.
 ## Related
 
 - [Why Build on Curve](../why-curve.md)
-- [Launch Playbook](../launch-playbook.md)
+- [Launch Timeline](../launch-playbook.md)
 - [Understanding Stableswap](../pool/understanding-stableswap.md)
 - [Incentivizing a Pool](../gauge/incentive-routes.md)
 - Curve [Telegram](https://t.me/curvefi) and [Discord](https://discord.gg/twUngQYz85)

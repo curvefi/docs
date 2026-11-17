@@ -1,38 +1,48 @@
 ---
 id: launch-playbook
-title: "Launch Playbook: Liquidity and Lending for Your Token on Curve"
-sidebar_label: Launch Playbook
-description: The order of steps for launching a token on Curve, from choosing and deploying a pool to gauges, incentives, a Llamalend lending market and monitoring.
+title: "Launch Timeline: From a Curve Pool to a Lending Market"
+sidebar_label: Launch Timeline
+description: How long each step of launching a token on Curve takes, from pool and gauge deployment to the 7-day Curve DAO votes for CRV emissions and a Llamalend borrow cap, and the weekly gauge weight cycle.
 ---
 
-This page lists the steps for taking a token from no liquidity to a Curve pool with incentives and a lending market. Each step links to the guide that covers it. Later steps are optional: a pool works without a gauge, and a gauge works without a lending market.
+This page lists the steps for taking a token from no liquidity to a Curve pool with incentives and a lending market, with how long each one takes. Later steps are optional: a pool works without a gauge, and a gauge works without CRV emissions or a lending market.
 
-## 1. Choose a Pool Type
+## Timeline
 
-Use Stableswap for assets that hold the same peg, such as two USD stablecoins or an LST against ETH. Use Cryptoswap when the Curve pool will be a main market for a volatile token. Use FXSwap for pairs whose price is set on a deeper external market, such as EUR against USD. [Pool Types](./pool/overview.md) compares them.
+| Step | Who acts | Time |
+| --- | --- | --- |
+| Deploy the pool and seed liquidity | You | One transaction each |
+| Deploy the pool's gauge | You | One transaction |
+| Pay direct gauge rewards | You, as gauge manager | Live from the next deposit; each deposit streams over 3 days to 48 weeks |
+| Post a forum proposal for CRV emissions or a lending market | You | Before the vote; recommended |
+| Curve DAO vote to whitelist the gauge or set a borrow cap | veCRV holders | 7 days, then anyone can execute it |
+| Gauge receives CRV | veCRV holders, through gauge weight votes | From the next Thursday 00:00 UTC update after votes are cast |
+| CRV reaches a gauge on another chain | Automatic, through the root gauge | About one more week |
 
-## 2. Deploy the Pool
+## Steps
 
-You deploy the pool yourself in the Curve app or onchain. Deployment needs no approval and costs only gas. Follow the guide for your pool type: [Stableswap](./pool/guides/deploy-stableswap.md), [Cryptoswap](./pool/guides/deploy-cryptoswap.md) or [FXSwap](./pool/guides/deploy-fxswap.md).
+### 1. Choose a Pool Type
 
-## 3. Seed Liquidity and Submit Your Logo
+Use Stableswap for assets that hold the same peg, such as two USD stablecoins or an LST against ETH. Use Cryptoswap when the Curve pool will be a main market for a volatile token. Use FXSwap for pairs priced on a deeper external market, such as EUR against USD. [Curve Pool Types](./pool/overview.md) compares them, and [Pool Parameter Presets](./pool/presets.md) lists starting parameters.
 
-A pool can't process trades until it holds liquidity, so add the first deposit in balanced amounts. Then submit your token logo so the pool displays correctly. See [Post Deployment](./pool/post-deployment.md).
+### 2. Deploy the Pool and Seed It
 
-## 4. Deploy a Gauge
+Deploy the pool in the Curve app or onchain. It needs no approval and costs only gas. A pool can't trade until it holds liquidity, so make the first deposit in balanced amounts. See the guide for [Stableswap](./pool/guides/deploy-stableswap.md), [Cryptoswap](./pool/guides/deploy-cryptoswap.md) or [FXSwap](./pool/guides/deploy-fxswap.md), then [After Deploying a Curve Pool](./pool/post-deployment.md).
 
-The factory allows one gauge per pool, and the wallet that deploys it becomes the gauge manager. Only the manager can register reward tokens, so deploy your pool's gauge yourself. See [Gauges & Incentives](./gauge/overview.md).
+### 3. Deploy the Gauge
 
-## 5. Fund Incentives
+The factory allows one gauge per pool, and the wallet that deploys it becomes the gauge manager. Only the manager can register reward tokens, so deploy your pool's gauge yourself. See [Curve Gauges and Incentives](./gauge/overview.md).
 
-Direct gauge rewards in your own token can start right away. CRV emissions need a Curve DAO whitelisting vote, then veCRV gauge weight votes. Vote incentives and Merkl campaigns are other routes. [Incentivizing a Pool](./gauge/incentive-routes.md) compares what each route needs.
+### 4. Fund Incentives
 
-## 6. Launch a Lending Market
+Direct gauge rewards in your own token start as soon as you deposit them. CRV emissions take longer. The gauge needs a Curve DAO ownership vote to be whitelisted, then veCRV gauge weight votes. Creating the vote takes 2,500 veCRV. It runs for 7 days and passes with at least 51% support and a 30% quorum of yes votes. [Incentivizing a Curve Pool](./gauge/incentive-routes.md) compares every route, and [Incentive Costs](./gauge/incentive-costs.md) explains what each one costs.
 
-A Llamalend market lets holders borrow against your token, or lets lenders supply it. You deploy the market, and a Curve DAO vote raises its borrow cap from zero before anyone can borrow. See [Launch a Lending Market](./lending/launch-isolated-lending-market.md).
+### 5. Launch a Lending Market
 
-## 7. Monitor the Pool and Market
+Propose the market, have it reviewed by yRisk, the Curve DAO's elected risk manager, and deploy it. A Curve DAO ownership vote, with the same 7-day period and thresholds, raises its borrow cap from zero. See [Launch a Lending Market](./lending/launch-isolated-lending-market.md).
 
-Watch pool balances, fee income, lending utilization and incentive spend. The Curve DAO can change pool and market parameters by vote. See [Pool Parameters](./pool/pool-parameters.md) and [Llamalend Post-Deployment](./lending/post-deployment.md).
+### 6. Monitor the Pool and Market
 
-Next, find the setup for your token type in [Use Cases](./use-cases/overview.md).
+Watch pool balances, fee income, lending utilization and incentive spend. The Curve DAO can change pool and market parameters by vote. See [Troubleshooting Curve Pools](./pool/troubleshooting.md) and [Running a Llamalend Market](./lending/running-a-market.md).
+
+Vote thresholds were read onchain from the Curve DAO's ownership voting contract on 17 November 2026. See [Governance Proposals](/user/dao/proposals).
