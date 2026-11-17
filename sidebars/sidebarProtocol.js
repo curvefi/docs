@@ -6,6 +6,45 @@ export default {
         },
         {
             type: 'category',
+            label: 'Start Here',
+            collapsed: false,
+            items: [
+                {
+                    type: 'doc',
+                    id: 'start-here/stablecoin-issuers',
+                },
+                {
+                    type: 'doc',
+                    id: 'start-here/lst-lrt-btc-issuers',
+                },
+                {
+                    type: 'doc',
+                    id: 'start-here/rwa-issuers',
+                },
+                {
+                    type: 'doc',
+                    id: 'start-here/token-projects',
+                },
+                {
+                    type: 'doc',
+                    id: 'start-here/defi-protocols',
+                },
+                {
+                    type: 'doc',
+                    id: 'start-here/chains',
+                },
+                {
+                    type: 'doc',
+                    id: 'start-here/integrators',
+                },
+            ],
+        },
+        {
+            type: 'doc',
+            id: 'launch-playbook',
+        },
+        {
+            type: 'category',
             label: 'Liquidity Pools (DEX)',
             items: [
                 {
