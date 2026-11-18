@@ -451,6 +451,7 @@ export default {
             items: [
                 { type: 'doc', id: 'llamalend-v2/overview', label: 'Overview' },
                 { type: 'doc', id: 'llamalend-v2/lend-factory', label: 'LendFactory' },
+                { type: 'doc', id: 'llamalend-v2/configurator', label: 'Configurator' },
                 {
                     type: 'category',
                     label: 'Oracles',
@@ -471,8 +472,16 @@ export default {
                 { type: 'doc', id: 'llamalend-v2/vault', label: 'Vault' },
                 { type: 'doc', id: 'llamalend-v2/lend-controller', label: 'LendController' },
                 { type: 'doc', id: 'llamalend-v2/lend-controller-view', label: 'LendControllerView' },
-                { type: 'doc', id: 'llamalend-v2/configurator', label: 'Configurator' },
                 { type: 'doc', id: 'llamalend-v2/amm', label: 'AMM (LLAMMA)' },
+                {
+                    type: 'category',
+                    label: 'Leverage',
+                    items: [
+                        { type: 'doc', id: 'llamalend-v2/leverage-overview', label: 'Overview' },
+                        { type: 'doc', id: 'llamalend-v2/transient-leverage-zap', label: 'TransientLeverageZap' },
+                        { type: 'doc', id: 'llamalend-v2/leverage-zap', label: 'LeverageZap' },
+                    ],
+                },
                 { type: 'doc', id: 'llamalend-v2/lm-callback-factory', label: 'LMCallbackFactory' },
                 { type: 'doc', id: 'llamalend-v2/lm-callback', label: 'LMCallback' },
                 { type: 'doc', id: 'llamalend-v2/integration-guide', label: 'Integration Guide' },
