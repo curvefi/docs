@@ -5,48 +5,56 @@ sidebar_label: Running a Market
 description: How a live Llamalend market is monitored, how its parameters change through yRisk review and Curve DAO votes, how it is wound down, and what the Emergency DAO can do.
 ---
 
-After launch, a Llamalend market's settings change only through the Curve DAO, or through a market-specific admin the DAO has assigned. The market team watches the market, yRisk reviews proposed changes, and DAO votes apply them.
+When you finish, a change you proposed for your live market has passed yRisk review and a Curve DAO vote and is set onchain.
 
-## Monitor the Market
+Each change takes a 7-day Curve DAO ownership vote, unless the DAO has assigned your market a market-specific admin.
 
-Watch lender liquidity and utilization, borrow rates, oracle behavior, borrower health and positions in soft liquidation, and collateral liquidity on external markets. [Post-Deployment & Integration](./post-deployment.md#monitor-the-market) lists every value to track. Set alert thresholds and decide who responds to each before you raise the borrow cap.
+## Before You Start
 
-## Change Parameters
+You need the market's Controller and Vault addresses and a fork simulation of the change.
 
-These settings can change after launch, each through the [Configurator](/developer/llamalend-v2/configurator):
+It costs gas to create and execute the vote. [Governance Proposals](/user/dao/proposals) explains who can create one.
 
-- the borrow cap;
-- loan and liquidation discounts;
-- the monetary policy;
-- the price oracle, within a deviation check;
-- the AMM fee;
-- the admin share of interest;
-- the liquidity-mining callback, which pays CRV on collateral.
+It takes a 7-day Curve DAO ownership vote for each change.
 
-The vault's supply limit and the fee receiver are set through the LendFactory's admin, the same proxy the Curve DAO controls.
+yRisk, the Curve DAO's elected risk manager, reviews the change, and the Curve DAO approves it.
 
-Every change goes through the Curve DAO by default. Simulate it and have yRisk review it before you propose it. [Llamalend Parameters and Access Control](./parameters-and-access-control.md) lists who can call each function.
+## Monitor the Market {#monitor-the-market}
+
+1. Track the values listed in [Post-Deployment & Integration](./post-deployment.md#monitor-the-market).
+2. Set alert thresholds and an owner for each before you raise the borrow cap.
+
+## Change a Parameter {#change-parameters}
+
+1. Find the setting and its function in [Parameters and Access Control](./parameters-and-access-control.md#changed-after-deployment).
+2. Simulate the call on a fork.
+3. Propose the change on the [Curve governance forum](https://gov.curve.finance/) and wait for yRisk's review.
+4. Submit a Curve DAO ownership vote that makes the call through the `LendingOwnerProxy`'s `execute` function.
+5. When the vote passes, execute it.
+
+A market-specific admin calls the [Configurator](/developer/llamalend-v2/configurator) directly and skips the vote.
 
 ## Wind Down a Market
 
-To stop new risk entering a market, the borrow cap is set to zero, which halts new borrowing, and the vault supply limit is set to zero, which halts new deposits. Existing loans can still be repaid or liquidated, and lenders withdraw as borrowers repay.
+1. Propose a vote that calls `Configurator.set_borrow_cap(controller, 0)`. New borrowing stops.
+2. Add a call to `Vault.set_max_supply(0)` to the same vote. New deposits stop.
+3. When the vote passes, execute it.
+
+Existing loans can still be repaid or liquidated, and lenders withdraw as borrowers repay.
 
 ## Emergencies
 
-The [Emergency DAO](/user/dao/emergency-dao), a 5-of-9 multisig, can act without waiting for a DAO vote. Through the `LendingOwnerProxy` that administers Llamalend v2, it can:
+The [Emergency DAO](/user/dao/emergency-dao), a 5-of-9 multisig, can make a fixed set of changes through the `LendingOwnerProxy` without a vote, such as setting a borrow cap to zero. It cannot move user funds. [Parameters and Access Control](./parameters-and-access-control.md#changed-after-deployment) lists each change it can make, and [Who the Admins Are](./parameters-and-access-control.md#who-the-admins-are) shows the addresses.
 
-- set a market's borrow cap to zero;
-- set a vault's supply limit to zero;
-- raise a market's loan discount;
-- change a market's monetary policy or liquidity-mining callback;
-- replace a market's oracle, only when the current oracle fails;
-- remove a market-specific admin;
-- pause the LendFactory.
+## Check It Worked
 
-It cannot move user funds, and the Curve DAO can replace or remove it. [Llamalend Parameters and Access Control](./parameters-and-access-control.md#who-the-admins-are) shows the addresses.
+- `borrow_cap()` on the Controller returns the cap the vote set.
+- `Vault.maxDeposit()` returns zero after a wind-down.
+- The market page at `https://www.curve.finance/lend/<network>/markets/<controller>` shows the new values.
+- The Curve Prices API reflects the change at `https://prices.curve.finance/v1/lending/markets/<network>`.
 
-## Related
+## Next Step
 
-- [Llamalend Market Risk and Roles](./risk-and-roles.md)
-- [Llamalend Parameters and Access Control](./parameters-and-access-control.md)
-- [Post-Deployment & Integration](./post-deployment.md)
+[Llamalend Market Risk and Roles](./risk-and-roles.md) explains what lenders and borrowers carry while the market runs.
+
+For help reviewing a parameter change or governance proposal, contact **SwissStake** through Curve's [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).

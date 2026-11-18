@@ -5,114 +5,60 @@ sidebar_label: Deploy a Market
 description: Step-by-step guide to deploying a Llamalend v2 market through the LendFactory, verifying it and activating borrowing through a Curve DAO vote.
 ---
 
-Llamalend v2 markets are deployed permissionlessly through the `LendFactory`. A successful deployment creates and registers a Vault, LendController, and AMM for one isolated token pair.
+When you finish, your Llamalend v2 market is registered in the LendFactory and open to borrowers.
 
-:::warning[Deployment is not activation]
+Deploying the market is one transaction. Opening it to borrowers adds a 7-day Curve DAO ownership vote that raises its borrow cap from zero.
 
-New Controllers start with a borrow cap of zero. Deploying a market does not enable borrowing or give the deployer administrative rights. The Configurator is administered by a `LendingOwnerProxy` that the Curve DAO controls, so activation requires a Curve DAO ownership vote unless the DAO assigns a controller-specific administrator.
+## Before You Start
 
-:::
+You need a wallet on Ethereum or Optimism, the two token addresses, an initialized price oracle and monetary policy, and a parameter set yRisk has reviewed.
 
-## Supported Deployments
+It costs gas for the `create()` transaction.
 
-Llamalend v2 is currently deployed only on **Ethereum** and **Optimism**. Both verified factories report version `2.0.0`. Addresses are chain-specific: use the [Llamalend v2 deployment table](/developer/llamalend-v2/overview#deployments) as the canonical reference and verify the selected factory's `version()` before sending a transaction.
+It takes one transaction to deploy and a 7-day Curve DAO ownership vote to open borrowing.
 
-Do not use an address from another network or a deprecated factory.
+yRisk, the Curve DAO's elected risk manager, reviews the market, and a Curve DAO vote approves its borrow cap.
 
-## Requirements
+## Propose the Market
 
-Prepare and independently review:
+1. Prepare the token pair, oracle, monetary policy and parameters. [Oracles & Parameters](../oracles-and-parameters.md) covers each choice.
+2. Propose the market on the [Curve governance forum](https://gov.curve.finance/).
+3. Wait for yRisk to review the oracle, the parameters and the proposed borrow cap.
 
-- borrowed-token and collateral-token addresses;
-- an initialized price oracle implementing `price()` and `price_w()`;
-- an initialized monetary-policy contract;
-- simulated `A`, AMM fee, loan discount, and liquidation discount;
-- an initial Vault supply limit in raw borrowed-token units;
-- a Curve DAO ownership proposal for the initial borrow cap and any other post-deployment parameters, or for assigning a controller-specific administrator;
-- initial lender liquidity, monitoring, and incident-response ownership.
+[Llamalend Market Risk and Roles](../risk-and-roles.md) explains who does what.
 
-See [Oracles & Parameters](../oracles-and-parameters.md) before constructing the transaction.
+## Prepare the Transaction
 
-:::info[Need help?]
+1. Pick the LendFactory for your chain from the [deployment table](/developer/llamalend-v2/overview#deployments). Never use an address from another network.
+2. Call `version()` on the factory and confirm it returns `2.0.0`.
+3. Encode each `create()` argument as an integer in the units listed in [Parameters and Access Control](../parameters-and-access-control.md#set-at-deployment).
+4. Simulate `LendFactory.create()` from your deploying account on a fork.
 
-For help reviewing an oracle, parameter set, deployment, or governance proposal, contact **SwissStake** through Curve's [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).
+## Deploy the Market
 
-:::
+1. Send `LendFactory.create()` with the simulated arguments.
+2. Decode the `NewVault` event from the receipt and note the market index.
+3. Record the returned addresses in their order: `[vault, controller, amm]`.
 
-## The `create()` Call
+The [LendFactory reference](/developer/llamalend-v2/lend-factory#create) lists the full signature and the checks the factory runs. Deploying gives your address no admin rights over the market.
 
-The v2 factory exposes one market-creation function:
+## Activate the Market {#activate-the-market}
 
-```solidity
-create(
-  address borrowed_token,
-  address collateral_token,
-  uint256 A,
-  uint256 fee,
-  uint256 loan_discount,
-  uint256 liquidation_discount,
-  address price_oracle,
-  address monetary_policy,
-  uint256 supply_limit
-) returns (address[3])
-```
+1. Submit a Curve DAO ownership vote that calls `Configurator.set_borrow_cap(controller, cap)` through the `LendingOwnerProxy`'s `execute` function.
+2. To delegate later changes for this market, add a call to `Configurator.set_custom_admin(controller, admin)` to the same vote.
+3. When the 7-day vote passes, execute it. On Optimism, the action is relayed through Curve's cross-chain governance.
 
-The returned array is ordered as:
+[Parameters and Access Control](../parameters-and-access-control.md#who-the-admins-are) lists the proxy and DAO addresses on each chain.
 
-```text
-[vault, controller, amm]
-```
+## Check It Worked
 
-The transaction also emits `NewVault`, which contains the market index, token pair, deployed contract addresses, oracle, and monetary policy.
+- `LendFactory.markets(i)`, with the index from `NewVault`, returns your Vault, Controller, AMM, token pair, oracle and monetary policy.
+- `borrow_cap()` on the Controller reads zero before the vote and your approved cap after it executes.
+- The market page opens on curve.finance at `https://www.curve.finance/lend/<network>/markets/<controller>`.
+- Once indexed, the Curve Prices API lists the market at `https://prices.curve.finance/v1/lending/markets/<network>`.
 
-### Units
+## Next Step
 
-- `A` is an unscaled integer.
-- `fee`, `loan_discount`, and `liquidation_discount` use WAD precision: `10^18 = 100%`.
-- `supply_limit` uses the borrowed token's native decimals.
-- Pass `max(uint256)` for no supply cap. Passing `0` prevents deposits.
+[Llamalend Post-Deployment & Integration](../post-deployment.md) covers lender liquidity, monitoring and incentives.
 
-Never enter display-formatted decimals directly into a contract field. Convert amounts to integers using the relevant token decimals first.
-
-## Deploy and Verify
-
-This section assumes familiarity with contract deployment, integer encoding, transaction simulation, and receipt decoding.
-
-### 1. Prepare the Deployment
-
-Choose the factory for the transaction's chain and confirm its bytecode and `version()`. Validate the token metadata, oracle, and monetary policy, then encode all token amounts and WAD-scaled parameters as integers. The factory rejects identical tokens, unsupported decimal precision, invalid `A` or discount ordering, and an oracle whose initial `price()` and `price_w()` values are zero or unequal.
-
-### 2. Simulate and Submit `create()`
-
-Simulate `create()` from the intended account against current fork or RPC state. Review the decoded calldata and expected `[vault, controller, amm]` return order, then submit through a deployment script or contract client. Preserve the transaction hash and deployment manifest. Passing contract validation does not prove the economic configuration is safe.
-
-### 3. Verify the Registered Market
-
-After confirmation:
-
-1. Decode `NewVault` from the receipt.
-2. Confirm the three returned addresses have bytecode.
-3. Read the new entry from `LendFactory.markets(index)`.
-4. Confirm the Vault, Controller, and AMM point to the intended tokens, oracle, and monetary policy.
-5. Confirm `controller.borrow_cap()` is zero before activation.
-
-## Activate the Market
-
-On Ethereum and Optimism, the Configurator's default administrator is a `LendingOwnerProxy` whose `dao` is the Curve DAO ownership agent. Submit a DAO ownership vote that calls `Configurator.set_borrow_cap(controller, cap)` through the proxy's `execute` function. See [Parameters and Access Control](../parameters-and-access-control.md). The proposal may also call `set_custom_admin(controller, admin)` if the DAO intends to delegate later parameter management for that market. On Optimism, the passed DAO action is executed through Curve's cross-chain governance path.
-
-A market is ready for borrowers only after:
-
-- the DAO vote has passed and executed, and the borrow cap is confirmed above zero;
-- the Vault has enough available borrowed-token liquidity;
-- the oracle and monetary policy are operating as expected;
-- frontend and monitoring systems recognize the new market;
-- ownership and emergency procedures are documented.
-
-Continue with [Post-Deployment & Integration](../post-deployment.md).
-
-## Low-Level References
-
-- [LendFactory contract reference](/developer/llamalend-v2/lend-factory)
-- [Configurator contract reference](/developer/llamalend-v2/configurator)
-- [Vault contract reference](/developer/llamalend-v2/vault)
-- [LendController contract reference](/developer/llamalend-v2/lend-controller)
+For help reviewing an oracle, parameter set, deployment or governance proposal, contact **SwissStake** through Curve's [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).

@@ -5,99 +5,65 @@ sidebar_label: Post-Deployment & Integration
 description: "What a Llamalend market needs after deployment: activation, lender liquidity, ERC-4626 and borrower integrations, monitoring and incentives."
 ---
 
-import GuideCardGrid from '@site/src/components/GuideCardGrid';
+When you finish, your market holds lender liquidity, shows correctly on curve.finance and has monitoring with an owner for each alert.
 
-Deploying a Llamalend v2 market creates its contracts, but a useful market also needs deliberate activation, lender liquidity, integrations, monitoring, and distribution.
+Seeding and monitoring start as soon as you set them up. CRV emissions for lenders add a 7-day Curve DAO vote after you deploy a gauge.
 
-## Activation Checklist
+## Before You Start
 
-Before announcing a market:
+You need the market's Vault and Controller addresses and a wallet holding the borrowed token.
 
-1. Verify the Vault, Controller, and AMM against the factory's `markets(index)` result.
-2. Confirm the token pair, oracle, monetary policy, supply limit, discounts, and AMM fee.
-3. Confirm who controls the Configurator, the factory, and the market's fee receiver.
-4. Submit and pass a Curve DAO ownership vote calling `Configurator.set_borrow_cap()` through the `LendingOwnerProxy`, or assigning a controller-specific administrator that sets the reviewed cap. New markets start at zero.
-5. Confirm the governance action executed successfully and read the new borrow cap onchain.
-6. Seed or attract enough borrowed-token liquidity for the intended borrowing demand.
-7. Test lender deposits and withdrawals, borrower previews, and loan lifecycle operations on a fork before production use.
+It costs gas and the borrowed tokens you deposit as the first lender liquidity.
 
-## Discover Markets Programmatically
+It takes a few transactions, plus a 7-day Curve DAO vote if you want CRV emissions.
 
-Use the v2 `LendFactory` as the market registry:
+Nobody approves the deposit or the monitoring. The borrow cap and CRV emissions each need a Curve DAO vote.
 
-- `market_count()` returns the number of registered markets.
-- `markets(index)` returns the Vault, Controller, AMM, token pair, oracle, and monetary policy.
-- `vaults_index(vault)` resolves a registered Vault back to its market index.
+## Confirm the Market Is Active {#activation-checklist}
 
-Read factory addresses from the [canonical deployment table](/developer/llamalend-v2/overview#deployments). Do not combine data from factories on different chains or from older protocol versions.
+1. Read `borrow_cap()` on the Controller and confirm it is above zero. [Deploying a Llamalend Market](./guides/deploy-lending-market.md#activate-the-market) covers the vote that raises it.
+2. Test a deposit, a withdrawal and a loan on a fork before you announce the market.
 
-## Integrate the Lender Side
+## Seed Lender Liquidity
 
-Each market's Vault is an ERC-4626 vault whose asset is the borrowed token.
+1. Approve the Vault to spend the borrowed token.
+2. Call `Vault.deposit(assets, receiver)` with the first deposit. Borrowers can only borrow what the Vault holds.
 
-### Deposits and Withdrawals
+## Add the Token Icons {#frontend-and-token-metadata}
 
-Use the standard methods:
+1. Open the market page at `https://www.curve.finance/lend/<network>/markets/<controller>` and check both token icons.
+2. If one is missing, open a pull request to the [curve-assets repository](https://github.com/curvefi/curve-assets#adding-a-token-icon).
 
-- `deposit(assets, receiver)` and `mint(shares, receiver)` to supply assets;
-- `withdraw(assets, receiver, owner)` and `redeem(shares, receiver, owner)` to exit;
-- the corresponding `preview*` methods to estimate conversions;
-- `maxDeposit`, `maxMint`, `maxWithdraw`, and `maxRedeem` to respect caps and available liquidity.
+## Monitor the Market {#monitor-the-market}
 
-Integrators should approve the Vault to spend the borrowed token before deposits. Use the Vault's conversion and preview functions rather than assuming a 1:1 asset-to-share exchange rate.
+1. Set alerts on these values:
+   - Vault total assets, available liquidity, supply cap and lender APR
+   - total debt, borrow cap, utilization and borrow APR
+   - oracle freshness, deviation, dependencies and failed updates
+   - borrower health and positions in soft liquidation
+   - collateral market depth, liquidation profitability and bad-debt risk
+   - admin percentage, accrued fees and fee receiver
+   - Configurator, factory-owner and Emergency DAO changes
+2. Name an owner who responds to each alert before you raise the borrow cap.
 
-### Caps and Available Liquidity
+## Add Lender Incentives {#grow-lender-liquidity}
 
-The Vault's supply limit caps total managed assets. A value of `max(uint256)` is unlimited, while `0` disables new deposits.
+1. Deploy a gauge for the Vault's shares. [Curve Gauges and Incentives](/protocol/gauge/overview) explains how.
+2. Deposit your own ERC-20 rewards into the gauge. Lenders earn them by staking their Vault shares in it.
+3. For CRV emissions, propose a Curve DAO vote to whitelist the gauge. CRV then follows the gauge weight veCRV holders vote for it.
 
-Withdrawals are also limited by borrowed tokens currently available in the Controller. `maxWithdraw` and `maxRedeem` account for that liquidity; an integration should handle a temporarily lower withdrawable amount without treating it as an accounting failure.
+## Point Integrators to the Docs {#integrate-the-lender-side}
 
-Interest accrues into the value of vault shares. Use `pricePerShare()`, `lend_apr()`, and `borrow_apr()` for display, while preserving integer precision until the presentation boundary.
+Lenders, aggregators and borrower tools integrate through the Vault and the LendController. Send them to [Quickstart: Lend](../integrate/quickstart-lend.md) and the [Vault Integration Guide](/developer/llamalend-v2/integration-guide).
 
-See the [Vault Integration Guide](/developer/llamalend-v2/integration-guide) for code examples and edge cases.
+## Check It Worked
 
-## Integrate the Borrower Side
+- `Vault.totalAssets()` includes your deposit.
+- The market page on curve.finance shows the supplied amount and both token icons.
+- The Curve Prices API returns the market's supply and rates at `https://prices.curve.finance/v1/lending/markets/<network>`.
 
-Borrowers interact with the market's LendController to:
+## Next Step
 
-- create a loan;
-- add or remove collateral;
-- borrow more;
-- repay debt;
-- reset a soft-liquidated position through Llamalend v2's `repay(..., shrink=true)` path.
+[Running a Llamalend Market](./running-a-market.md) covers parameter changes, wind-down and emergencies.
 
-Before constructing a transaction, use `max_borrowable`, `min_collateral`, and the operation-specific health preview matching the intended action. These calculations account for market state, available lender liquidity, and the borrow cap. Do not reproduce LLAMMA health or band math in an integration when the Controller's view methods are available.
-
-Treat negative health, oracle failures, insufficient available balance, cap exhaustion, and changing preview results as expected failure modes. Re-read state immediately before submitting a transaction and apply explicit user-facing slippage or minimum-output protection where the called method supports it.
-
-Liquidation-protection conversions erode collateral value and health. Borrower integrations should present close and v2 reset actions prominently once a position enters its bands, and warn that remaining in liquidation protection requires active monitoring and can still end in hard liquidation.
-
-See the [LendController](/developer/llamalend-v2/lend-controller) and [LendControllerView](/developer/llamalend-v2/lend-controller-view) references for exact interfaces.
-
-## Frontend and Token Metadata
-
-Confirm that the intended application discovers the new v2 factory entry. Contract deployment alone does not guarantee a curated name, token icon, risk label, or promoted placement in every interface.
-
-If a token icon is missing from Curve interfaces, follow the contribution instructions in the [curve-assets repository](https://github.com/curvefi/curve-assets#adding-a-token-icon). Provide the chain, token addresses, market index, transaction hash, and verified contract triplet when requesting integration support.
-
-## Monitor the Market
-
-Monitor at least:
-
-- Vault total assets, available liquidity, supply cap, and lender APR;
-- total debt, borrow cap, utilization, and borrow APR;
-- oracle freshness, deviation, dependencies, and failed updates;
-- borrower health distribution and positions in soft liquidation;
-- collateral market depth, liquidation profitability, and bad-debt risk;
-- admin percentage, accrued fees, and fee receiver;
-- Configurator, factory-owner, and emergency-governance changes.
-
-Define alert thresholds and an owner for each response before raising caps materially. Parameter changes should be simulated and reviewed with the same care as the initial deployment.
-
-## Grow Lender Liquidity
-
-Vault shares can be paired with a Curve gauge. A newly deployed gauge can distribute external ERC-20 rewards; eligibility for CRV emissions additionally requires Curve DAO approval and ongoing gauge weight.
-
-Avoid promising a fixed APR or emissions level. Incentives can change, and users may need to stake their Vault shares in the gauge to earn them.
-
-<GuideCardGrid guideKeys={['GaugesAndIncentives']} />
+For help with a deployment or governance proposal, contact **SwissStake** through Curve's [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).
