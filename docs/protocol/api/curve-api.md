@@ -1,7 +1,7 @@
 ---
 id: curve-api
 title: Curve API Reference
-sidebar_label: curve-api
+sidebar_label: "Curve API"
 description: Reference for the Curve API at api.curve.finance, which returns pool lists, gauges, APYs, TVL, volumes and lending vaults by chain.
 hide_table_of_contents: true
 ---

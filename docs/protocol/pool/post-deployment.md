@@ -1,7 +1,7 @@
 ---
 id: post-deployment
-title: After Deploying a Curve Pool
-sidebar_label: Post Deployment
+title: "After Deploying a Pool"
+sidebar_label: "After Deploying a Pool"
 description: "What to do after deploying a Curve pool: seed initial liquidity, check integrations, submit the token logo, deploy a gauge, add refuels and plan incentives."
 ---
 

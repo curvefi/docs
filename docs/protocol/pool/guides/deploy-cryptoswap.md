@@ -1,7 +1,7 @@
 ---
 id: deploy-cryptoswap
-title: "Deploying a Cryptoswap Pool"
-sidebar_label: "Deploying a Cryptoswap Pool"
+title: "Deploy a Cryptoswap Pool"
+sidebar_label: "Deploy a Cryptoswap Pool"
 description: Step-by-step guide to deploying a Curve Cryptoswap pool for two or three volatile tokens, with parameter presets.
 ---
 
@@ -94,6 +94,6 @@ If the pool doesn't show up or its liquidity drifts from the market price, see [
 
 ## Next Step
 
-[After Deploying a Curve Pool](../post-deployment.md) covers the token logo, integrations and incentives, starting with deploying your pool's gauge.
+[After Deploying a Pool](../post-deployment.md) covers the token logo, integrations and incentives, starting with deploying your pool's gauge.
 
 Questions go to the Curve team in [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85). [Understanding Cryptoswap](../understanding-cryptoswap.md) explains how the pool prices trades.

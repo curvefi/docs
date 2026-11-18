@@ -1,7 +1,7 @@
 ---
 id: deploy-fxswap
-title: Deploying an FXSwap Pool
-sidebar_label: Deploying an FXSwap Pool
+title: "Deploy an FXSwap Pool"
+sidebar_label: "Deploy an FXSwap Pool"
 description: Step-by-step guide to deploying a Curve FXSwap pool for two low-volatility assets priced on an external market, such as FX pairs.
 ---
 

@@ -47,7 +47,7 @@ await walletClient.writeContract({ address: asset, abi: erc20Abi, functionName: 
 await walletClient.writeContract({ address: VAULT, abi: vaultAbi, functionName: 'deposit', args: [amount, account.address] })
 ```
 
-A deposit fails if it would push the vault past its supply limit. A withdrawal can only take what borrowers haven't borrowed. See [Llamalend Market Risk and Roles](../lending/risk-and-roles.md#what-lenders-and-borrowers-risk).
+A deposit fails if it would push the vault past its supply cap. A withdrawal can only take what borrowers haven't borrowed. See [Llamalend Market Risk and Roles](../lending/risk-and-roles.md#what-lenders-and-borrowers-risk).
 
 ## Check It Worked
 

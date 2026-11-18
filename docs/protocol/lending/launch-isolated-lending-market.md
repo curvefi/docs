@@ -72,7 +72,7 @@ A Curve pool and a Llamalend market strengthen each other:
 
 1. Prepare the token pair, oracle, monetary policy and parameters, then propose the market on the [Curve governance forum](https://gov.curve.finance/). See [Oracles & Parameters](./oracles-and-parameters.md).
 2. yRisk, the risk manager elected by the Curve DAO, reviews the oracle, the parameters and the proposed borrow cap.
-3. Deploy the market with `LendFactory.create()`. Deployment is permissionless and does not make you the market's admin. See [Deploying a Llamalend Market](./guides/deploy-lending-market.md).
+3. Deploy the market with `LendFactory.create()`. Deployment is permissionless and does not make you the market's admin. See [Deploy a Lending Market](./guides/deploy-lending-market.md).
 4. A Curve DAO vote raises the borrow cap from zero. Until it passes, nobody can borrow.
 5. Seed lender liquidity by depositing the borrowed token into the market's Vault.
 6. Optionally, deploy a gauge to pay rewards to lenders. See [Curve Gauges and Incentives](/protocol/gauge/overview).
@@ -89,7 +89,7 @@ The factory deploys three contracts for each market:
 | **LendController** | Entry point for borrowers and liquidators. Holds the borrow cap. |
 | **AMM (LLAMMA)** | Holds collateral in price bands and runs liquidation protection. |
 
-For contract interfaces, see the [developer reference](/developer/llamalend-v2/overview). After launch, use [Post-Deployment & Integration](./post-deployment.md) to monitor and grow the market.
+For contract interfaces, see the [developer reference](/developer/llamalend-v2/overview). After launch, use [After Deploying a Lending Market](./post-deployment.md) to monitor and grow the market.
 
 :::warning[Liquidation protection is not free]
 

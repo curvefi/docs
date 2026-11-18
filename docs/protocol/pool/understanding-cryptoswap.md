@@ -14,11 +14,11 @@ Cryptoswap is Curve's AMM for volatile pairs, such as ETH/USDC or BTC/ETH. It co
 
 ## Historical Background
 
-The CryptoSwap algorithm was also invented by Michael Egorov as an evolution of the original StableSwap model.
+The Cryptoswap algorithm was also invented by Michael Egorov as an evolution of the original Stableswap model.
 
 It was introduced in late 2021, alongside the launch of Curve’s “TriCrypto” pools (e.g., USDT–wBTC–ETH), which allowed swaps between uncorrelated assets — not just stablecoins.
 
-CryptoSwap extended the StableSwap formula by introducing a dynamic amplification coefficient (A) that automatically adjusts based on market volatility. This made it possible to offer tight spreads and deep liquidity when prices are stable, but also greater resilience and arbitrage opportunities during large price moves.
+Cryptoswap extended the Stableswap formula by introducing a dynamic amplification coefficient (A) that automatically adjusts based on market volatility. This made it possible to offer tight spreads and deep liquidity when prices are stable, but also greater resilience and arbitrage opportunities during large price moves.
 
 The underlying math was formalized in the paper [“CryptoSwap: Constant Product and Constant Sum Market Maker with Dynamic Parameters”](../../../static/pdf/whitepapers/whitepaper_cryptoswap.pdf), published by Curve in 2021, and it marked Curve’s transition from being a purely stablecoin-focused AMM to a generalized DEX capable of efficiently trading volatile crypto pairs.
 

@@ -1,7 +1,7 @@
 ---
 id: deploy-lending-market
-title: Deploying a Llamalend Market
-sidebar_label: Deploy a Market
+title: "Deploy a Lending Market"
+sidebar_label: "Deploy a Lending Market"
 description: Step-by-step guide to deploying a Llamalend v2 market through the LendFactory, verifying it and activating borrowing through a Curve DAO vote.
 ---
 
@@ -59,6 +59,6 @@ The [LendFactory reference](/developer/llamalend-v2/lend-factory#create) lists t
 
 ## Next Step
 
-[Llamalend Post-Deployment & Integration](../post-deployment.md) covers lender liquidity, monitoring and incentives.
+[After Deploying a Lending Market](../post-deployment.md) covers lender liquidity, monitoring and incentives.
 
 For help reviewing an oracle, parameter set, deployment or governance proposal, contact **SwissStake** through Curve's [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).

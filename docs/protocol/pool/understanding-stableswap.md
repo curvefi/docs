@@ -15,7 +15,7 @@ Stableswap is Curve's AMM for assets that trade near the same price, such as two
 
 Curve’s Stableswap algorithm was invented by Michael Egorov, the founder of Curve, in November 2019.
 
-It was introduced in the paper [“Stableswap: Efficient Mechanism for Stablecoin Liquidity”](../../../static/pdf/whitepapers/whitepaper_stableswap.pdf), which proposed a new type of Automated Market Maker (AMM) optimized for trading assets pegged to the same value — such as stablecoins (e.g., USDC/USDT) or tokenized versions of the same asset (e.g., wBTC/cbBTC).
+It was introduced in the paper [“StableSwap: Efficient Mechanism for Stablecoin Liquidity”](../../../static/pdf/whitepapers/whitepaper_stableswap.pdf), which proposed a new type of Automated Market Maker (AMM) optimized for trading assets pegged to the same value — such as stablecoins (e.g., USDC/USDT) or tokenized versions of the same asset (e.g., wBTC/cbBTC).
 
 The algorithm **combines features of both constant sum (fixed swap price) and constant product (`x*y=k`) curves**, allowing for **low-slippage trades near the peg while maintaining deep liquidity and arbitrage incentives when prices drift**.
 
@@ -135,18 +135,16 @@ The chart below demonstrates how this mechanism functions. Note that base fees a
 
 ---
 
-## Basepools and Metapools
+## Base Pools and Metapools {#basepools-and-metapools}
+Base pools form a foundational liquidity layer on Curve, composed of widely-used, highly-liquid stablecoins. Anyone can permissionlessly build new liquidity pools - called metapools - on top of a base pool.
 
+A **Metapool combines a asset with the LP tokens of an existing base pool**. This structure allows metapools to instantly benefit from the liquidity and stability provided by the underlying base pool.
 
-Basepools form a foundational liquidity layer on Curve, composed of widely-used, highly-liquid stablecoins. Anyone can permissionlessly build new liquidity pools - called Metapools - on top of a Basepool.
-
-A **Metapool combines a asset with the LP tokens of an existing Basepool**. This structure allows Metapools to instantly benefit from the liquidity and stability provided by the underlying Basepool.
-
-See the image below for a visual representation of the [Curve.fi Strategic USD Reserves Basepool](https://curve.finance/dex/ethereum/pools/factory-stable-ng-355/deposit/?ref=news.curve.finance) and the [DOLA Strategic Reserves Metapool](https://curve.finance/dex/ethereum/pools/factory-stable-ng-396/deposit/?ref=news.curve.finance):
+See the image below for a visual representation of the [Curve.fi Strategic USD Reserves base pool](https://curve.finance/dex/ethereum/pools/factory-stable-ng-355/deposit/?ref=news.curve.finance) and the [DOLA Strategic Reserves metapool](https://curve.finance/dex/ethereum/pools/factory-stable-ng-396/deposit/?ref=news.curve.finance):
 
 <figure style={{ textAlign: 'center' }}>
   <ThemedImage
-    alt="Basepools and Metapools"
+    alt="Base pools and metapools"
     sources={{
       light: '/img/user/dex/dex-basepools-light.svg',
       dark: '/img/user/dex/dex-basepools-dark.svg',
@@ -163,22 +161,21 @@ See the image below for a visual representation of the [Curve.fi Strategic USD R
 
 In the above structure:
 
-- **Basepool**: When USDC and USDT have equal value, liquidity will naturally balance to 50% USDC and 50% USDT.
-- **Metapool**: When DOLA, USDC, and USDT all have equal value, liquidity will naturally balance to 50% DOLA, 25% USDC, and 25% USDT (via Basepool LP tokens).
+- **Base pool**: When USDC and USDT have equal value, liquidity will naturally balance to 50% USDC and 50% USDT.
+- **Metapool**: When DOLA, USDC, and USDT all have equal value, liquidity will naturally balance to 50% DOLA, 25% USDC, and 25% USDT (via base pool LP tokens).
 
-#### Benefits of Basepools and Metapools
+#### Benefits of Base Pools and Metapools
 
-Curve’s Basepool-Metapool architecture offers distinct benefits for liquidity providers (LPs), stablecoin issuers, and traders:
+Curve's base pool and metapool architecture offers distinct benefits for liquidity providers (LPs), stablecoin issuers, and traders:
 
-- **Deep Liquidity & Low Slippage**: Metapools directly benefit from the liquidity of Basepools, resulting in lower slippage even for newly issued or less liquid stablecoins.
-- **Risk Isolation**: LPs in Basepools aren’t directly exposed to tokens within the Metapools, minimizing their risk. Metapools are also isolated from each other; the only shared risk is de-pegging risk of Basepool assets, which is why adding new Basepools requires a DAO vote.
-- **Positive Liquidity Loop (Reflexivity)**: Deposits into Metapools also increase liquidity within Basepools. This creates a positive feedback loop that enhances overall liquidity and trading efficiency across all pools.
-- **Built-in Yield Generation**: Basepool LP tokens continuously earn trading fees. Since Metapools hold these LP tokens, Metapool LPs automatically receive a portion of the Basepool’s trading yield, providing immediate organic returns even before trading volumes pick up.
-- **Seamless Stablecoin Integration**: Stablecoin issuers can permissionlessly pair their tokens with a Basepool, accelerating their token’s liquidity and adoption within the Curve ecosystem.
+- **Deep Liquidity & Low Slippage**: Metapools directly benefit from the liquidity of base pools, resulting in lower slippage even for newly issued or less liquid stablecoins.
+- **Risk Isolation**: LPs in base pools aren’t directly exposed to tokens within the metapools, minimizing their risk. Metapools are also isolated from each other; the only shared risk is de-pegging risk of base pool assets, which is why adding new base pools requires a DAO vote.
+- **Positive Liquidity Loop (Reflexivity)**: Deposits into metapools also increase liquidity within base pools. This creates a positive feedback loop that enhances overall liquidity and trading efficiency across all pools.
+- **Built-in Yield Generation**: base pool LP tokens continuously earn trading fees. Since metapools hold these LP tokens, metapool LPs automatically receive a portion of the base pool’s trading yield, providing immediate organic returns even before trading volumes pick up.
+- **Seamless Stablecoin Integration**: Stablecoin issuers can permissionlessly pair their tokens with a base pool, accelerating their token’s liquidity and adoption within the Curve ecosystem.
 
-#### Basepool List
-
-| Network | Basepool |
+#### Base Pool List {#basepool-list}
+| Network | Base pool |
 | :--- | :--- |
 | <img src="/img/logos/ethereum.svg" alt="ETH" style={{height: '1.2em', verticalAlign: 'middle'}} /> **Ethereum** | [**DAI/USDC/USDT**](https://curve.finance/dex/#/ethereum/pools/3pool/deposit) |
 | <img src="/img/logos/ethereum.svg" alt="ETH" style={{height: '1.2em', verticalAlign: 'middle'}} /> **Ethereum** | [**PYUSD/USDC**](https://curve.finance/dex/#/ethereum/pools/factory-stable-ng-43/deposit) |
@@ -196,7 +193,7 @@ Curve’s Basepool-Metapool architecture offers distinct benefits for liquidity 
 These asset types are to allow the assets with underlying accruing interest to be added and work natively in a Stableswap pool.  The vault or oracle let's the pool know the true value of the underlying asset against other assets in the pool, so as it accrues interest, the pool stays balanced around the true value price of each asset.
 
 :::tip-green
-Swiss Stake, the service provider developing Curve's technology, offers consulting services to guide protocols and asset issuers in the design and integration of price feed oracles for StableSwap liquidity pools. Additionally, Swiss Stake provides thorough audits of client-implemented oracle solutions to ensure correctness and security. Inquiries: [inquiries@curve.finance](mailto:inquiries@curve.finance).
+Swiss Stake, the service provider developing Curve's technology, offers consulting services to guide protocols and asset issuers in the design and integration of price feed oracles for Stableswap liquidity pools. Additionally, Swiss Stake provides thorough audits of client-implemented oracle solutions to ensure correctness and security. Inquiries: [inquiries@curve.finance](mailto:inquiries@curve.finance).
 :::
 
 Tho achieve this, the Stablswap pool needs to shift it's center of liquidity (balanced price) over time as the oracle or vault asset accrues interest.  Let's have a look at how Stableswap deals with this in practice.  Here is the live [crvUSD/sUSDe pool](https://www.curve.finance/dex/ethereum/pools/factory-stable-ng-169/deposit) over the past year, note how as the fundamental value of sUSDe increases, Stableswap changes the center of liquidity to this new price:
@@ -263,7 +260,7 @@ Since Stableswap centers liquidity around a specific value `p`, any update to th
 
 ### 1. The Oracle Sandwich (2× Fee Rule)
 
-The most critical risk in Stableswap-NG oracles is the "Oracle Sandwich." When an oracle updates the price `p` on-chain, the pool's internal exchange rate shifts instantly. 
+The most critical risk in Stableswap-NG oracles is the "Oracle Sandwich." When an oracle updates the price `p` onchain, the pool's internal exchange rate shifts instantly. 
 
 If the price shift is larger than the cost of swapping (fees), an attacker can guarantee a profit and cause a loss for LPs by: 
 
@@ -294,9 +291,9 @@ Frequent oracle updates force the pool to repeatedly re-center its liquidity, wh
 For volatile pairs, prefer **[Cryptoswap](understanding-cryptoswap.md)** or **[FXSwap](understanding-fxswap.md)** pools, which are designed specifically for such use cases.
 
 :::info
-Read more about best oracle practices and risks here: [MixBytes: Safe StableSwap-NG Deployment: How to Avoid Risks from Volatile Oracles](https://mixbytes.io/blog/safe-stableswap-ng-deployment-how-to-avoid-risks-from-volatile-oracles)
+Read more about best oracle practices and risks here: [MixBytes: Safe Stableswap-NG Deployment: How to Avoid Risks from Volatile Oracles](https://mixbytes.io/blog/safe-stableswap-ng-deployment-how-to-avoid-risks-from-volatile-oracles)
 :::
 
 :::tip-green
-Swiss Stake, the service provider developing Curve's technology, offers consulting services to guide protocols and asset issuers in the design and integration of price feed oracles for StableSwap liquidity pools. Additionally, Swiss Stake provides thorough audits of client-implemented oracle solutions to ensure correctness and security. Inquiries: [inquiries@curve.finance](mailto:inquiries@curve.finance).
+Swiss Stake, the service provider developing Curve's technology, offers consulting services to guide protocols and asset issuers in the design and integration of price feed oracles for Stableswap liquidity pools. Additionally, Swiss Stake provides thorough audits of client-implemented oracle solutions to ensure correctness and security. Inquiries: [inquiries@curve.finance](mailto:inquiries@curve.finance).
 :::

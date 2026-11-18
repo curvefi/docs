@@ -79,4 +79,4 @@ The `deploy_plain_pool` call above was simulated with `eth_call` against Ethereu
 
 ## Next Step
 
-[After Deploying a Curve Pool](../pool/post-deployment.md) covers seeding, the token logo and incentives.
+[After Deploying a Pool](../pool/post-deployment.md) covers seeding, the token logo and incentives.

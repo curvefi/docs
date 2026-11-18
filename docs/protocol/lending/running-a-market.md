@@ -21,7 +21,7 @@ yRisk, the Curve DAO's elected risk manager, reviews the change, and the Curve D
 
 ## Monitor the Market {#monitor-the-market}
 
-1. Track the values listed in [Post-Deployment & Integration](./post-deployment.md#monitor-the-market).
+1. Track the values listed in [After Deploying a Lending Market](./post-deployment.md#monitor-the-market).
 2. Set alert thresholds and an owner for each before you raise the borrow cap.
 
 ## Change a Parameter {#change-parameters}

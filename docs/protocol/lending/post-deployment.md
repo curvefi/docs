@@ -1,7 +1,7 @@
 ---
 id: post-deployment
-title: Llamalend Post-Deployment & Integration
-sidebar_label: Post-Deployment & Integration
+title: "After Deploying a Lending Market"
+sidebar_label: "After Deploying a Lending Market"
 description: "What a Llamalend market needs after deployment: activation, lender liquidity, ERC-4626 and borrower integrations, monitoring and incentives."
 ---
 
@@ -21,7 +21,7 @@ Nobody approves the deposit or the monitoring. The borrow cap and CRV emissions 
 
 ## Confirm the Market Is Active {#activation-checklist}
 
-1. Read `borrow_cap()` on the Controller and confirm it is above zero. [Deploying a Llamalend Market](./guides/deploy-lending-market.md#activate-the-market) covers the vote that raises it.
+1. Read `borrow_cap()` on the Controller and confirm it is above zero. [Deploy a Lending Market](./guides/deploy-lending-market.md#activate-the-market) covers the vote that raises it.
 2. Test a deposit, a withdrawal and a loan on a fork before you announce the market.
 
 ## Seed Lender Liquidity

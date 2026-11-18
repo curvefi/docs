@@ -36,7 +36,7 @@ The factory and LLAMMA reject invalid combinations. Passing those checks does no
 | Price oracle | From deployment | `Configurator.set_price_oracle`, with a deviation check of at most 50% unless skipped | Curve DAO vote; the Emergency DAO only when the current oracle fails |
 | AMM fee | From deployment | `Configurator.set_amm_fee` | Curve DAO vote |
 | Liquidity-mining callback | None | `Configurator.set_callback` | Curve DAO vote or Emergency DAO |
-| Vault supply limit | From `supply_limit` | `Vault.set_max_supply` | Curve DAO vote; the Emergency DAO can set it to zero |
+| Vault supply cap | From `supply_limit` | `Vault.set_max_supply` | Curve DAO vote; the Emergency DAO can set it to zero |
 | Fee receiver | Factory default | `LendFactory.set_custom_fee_receiver` | Curve DAO vote |
 | New market creation | Open | `LendFactory.pause` | Curve DAO vote or Emergency DAO |
 

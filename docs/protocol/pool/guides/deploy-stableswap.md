@@ -1,7 +1,7 @@
 ---
 id: deploy-stableswap
-title: "Deploying a Stableswap Pool"
-sidebar_label: "Deploying a Stableswap Pool"
+title: "Deploy a Stableswap Pool"
+sidebar_label: "Deploy a Stableswap Pool"
 description: Step-by-step guide to deploying a Curve Stableswap pool for up to eight pegged tokens, including rebasing, ERC-4626 and oracle-priced tokens.
 ---
 
@@ -141,6 +141,6 @@ If the pool doesn't show up, see [Troubleshooting Curve Pools](../troubleshootin
 
 ## Next Step
 
-[After Deploying a Curve Pool](../post-deployment.md) covers the token logo, integrations and incentives, starting with deploying your pool's gauge.
+[After Deploying a Pool](../post-deployment.md) covers the token logo, integrations and incentives, starting with deploying your pool's gauge.
 
 Questions go to the Curve team in [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).

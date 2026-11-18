@@ -32,7 +32,7 @@ Monitoring parameters is crucial for optimal pool performance. Depending on fact
 
 ## Cryptoswap Parameters
 
-CryptoSwap extends StableSwap by keeping **A** and adding parameters that adapt the curve and the fees to volatile assets.
+Cryptoswap extends Stableswap by keeping **A** and adding parameters that adapt the curve and the fees to volatile assets.
 
 | Name | Variable Name | Role |
 |------|:------:|-------------------|
@@ -47,7 +47,7 @@ CryptoSwap extends StableSwap by keeping **A** and adding parameters that adapt 
 
 ## FXSwap Parameters
 
-FXSwap reuses CryptoSwap's oracle, fee, and recentering parameter families, but uses a StableSwap-style invariant. It also adds governable parameters for refuels:
+FXSwap reuses Cryptoswap's oracle, fee, and recentering parameter families, but uses a Stableswap-style invariant. It also adds governable parameters for refuels:
 
 | Name | Variable Name | Role |
 |------|:------:|-------------------|

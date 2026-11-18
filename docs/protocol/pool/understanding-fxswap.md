@@ -71,7 +71,7 @@ It is generally not recommended to use FXSwap for primary price discovery. For e
 
 Refuels are assets added to a finite pool buffer specifically to subsidize rebalancing. The contract accounts for them as refuel shares, but does not assign those shares to the provider. As shares unlock, the pool can burn them to help move liquidity toward the external market price.
 
-Protocols can treat refuels as a transparent market-liquidity budget: the balance, unlock schedule, and depletion are visible on-chain. The provider receives no direct claim or guaranteed return. The potential benefit is indirect—a better-centered pool may offer tighter execution, attract more routing, and improve the market for the provider's asset.
+Protocols can treat refuels as a transparent market-liquidity budget: the balance, unlock schedule, and depletion are visible onchain. The provider receives no direct claim or guaranteed return. The potential benefit is indirect—a better-centered pool may offer tighter execution, attract more routing, and improve the market for the provider's asset.
 
 **Key Mechanics:**
 

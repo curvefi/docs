@@ -78,6 +78,6 @@ FXSwap recenters using a refuel budget. When the budget runs out, the pool can l
 
 ## Related
 
-- [After Deploying a Curve Pool](./post-deployment.md)
+- [After Deploying a Pool](./post-deployment.md)
 - [Curve Pool Parameters](./pool-parameters.md)
 - [Understanding Cryptoswap](./understanding-cryptoswap.md)

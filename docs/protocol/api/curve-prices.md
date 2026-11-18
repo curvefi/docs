@@ -1,7 +1,7 @@
 ---
 id: curve-prices
 title: Curve Prices API Reference
-sidebar_label: curve-prices
+sidebar_label: "Prices API"
 description: Reference for the Curve Prices API at prices.curve.finance, which returns pool, lending market, crvUSD, oracle, trade, volume and chain data with history.
 hide_table_of_contents: true
 ---

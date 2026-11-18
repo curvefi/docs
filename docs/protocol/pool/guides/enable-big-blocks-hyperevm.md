@@ -50,4 +50,4 @@ Deploy from [Pool Creation](https://www.curve.finance/dex/hyperliquid/create-poo
 
 ## Next Step {#step-3-deploy-pool-or-gauge}
 
-[Deploying a Stableswap Pool](./deploy-stableswap.md) walks through the deployment. The other pool types follow the same flow.
+[Deploy a Stableswap Pool](./deploy-stableswap.md) walks through the deployment. The other pool types follow the same flow.
