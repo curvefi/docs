@@ -25,6 +25,8 @@ A [Llamalend](../lending/launch-isolated-lending-market.md) market lets holders 
 
 ## What Holders and LPs Get
 
+![Holders can borrow against your token, earn swap fees by providing liquidity, or borrow against the LP token.](/img/protocol/pool/token-holder-options.png)
+
 - Traders swap in and out of your stablecoin with low slippage, on Curve or through DEX aggregators.
 - Liquidity providers earn trading fees and gauge rewards without managing a position.
 - Borrowers keep the savings yield on their collateral, and LLAMMA converts collateral gradually if the price falls.

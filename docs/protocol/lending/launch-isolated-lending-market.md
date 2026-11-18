@@ -77,6 +77,8 @@ A Curve pool and a Llamalend market strengthen each other:
 5. Seed lender liquidity by depositing the borrowed token into the market's Vault.
 6. Optionally, deploy a gauge to pay rewards to lenders. See [Curve Gauges and Incentives](/protocol/gauge/overview).
 
+![A Llamalend market deploys on day 0 with a zero borrow cap; borrowing opens once a 7-day Curve DAO vote raises the cap.](/img/protocol/lending/lending-market-go-live.png)
+
 Once the market is live, parameter changes, wind-down and emergencies go through yRisk and the Curve DAO. See [Running a Llamalend Market](./running-a-market.md).
 
 The factory deploys three contracts for each market:

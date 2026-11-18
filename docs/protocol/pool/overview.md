@@ -10,6 +10,8 @@ import ThemedImage from '@theme/ThemedImage';
 
 Deploy a pool in one transaction, without permission. Major aggregators route through Curve pools, so your token becomes swappable across DeFi.
 
+![Holders can borrow against your token, earn swap fees by providing liquidity, or borrow against the LP token.](/img/protocol/pool/token-holder-options.png)
+
 It takes the tokens' addresses, a pool type that fits your pair, gas and the liquidity you seed it with. Curve charges no fee to deploy a pool.
 
 <GuideCardGrid guideKeys={['deployStableswapPool', 'deployCryptoswapPool', 'deployFXSwapPool']} />
