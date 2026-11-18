@@ -92,6 +92,6 @@ If the pool drifts from the external price, see [Troubleshooting Curve Pools](..
 
 ## Next Step
 
-Fund refuels on the pool's **Manage pool** page, or schedule them with [Automating FXSwap Refuels](./donation-streamer.md).
+Fund refuels on the pool's **Manage pool** page, or schedule them with [Automate FXSwap Refuels](./donation-streamer.md).
 
 Questions go to the Curve team in [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).

@@ -1,7 +1,7 @@
 ---
 id: running-a-market
-title: Running a Llamalend Market
-sidebar_label: Running a Market
+title: "Run a Lending Market"
+sidebar_label: "Run a Lending Market"
 description: How a live Llamalend market is monitored, how its parameters change through yRisk review and Curve DAO votes, how it is wound down, and what the Emergency DAO can do.
 ---
 

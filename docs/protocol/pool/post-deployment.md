@@ -17,7 +17,7 @@ It costs gas, the tokens you deposit as initial liquidity and whatever you spend
 
 It takes a few transactions and one pull request for the logo.
 
-Nobody approves the steps on this page. CRV emissions need a Curve DAO vote, covered in [Whitelisting a Gauge](../gauge/whitelisting-gauge.md).
+Nobody approves the steps on this page. CRV emissions need a Curve DAO vote, covered in [Whitelist a Gauge](../gauge/whitelisting-gauge.md).
 
 ## Seed the Pool {#seed-initial-liquidity}
 
@@ -47,7 +47,7 @@ The factory allows one gauge per pool, and the wallet that deploys it becomes th
 Skip this section for Stableswap and Cryptoswap pools.
 
 1. Open the pool's **Manage pool** page from its Advanced Details.
-2. Fund a refuel in **Refuel setup**, or schedule refuels with [Automating FXSwap Refuels](./guides/donation-streamer.md).
+2. Fund a refuel in **Refuel setup**, or schedule refuels with [Automate FXSwap Refuels](./guides/donation-streamer.md).
 
 [Understanding FXSwap](./understanding-fxswap.md#refuels) explains how refuels are spent.
 
@@ -63,6 +63,6 @@ Watch volume, [TVL](/protocol/glossary#tvl) (total value locked) and token balan
 
 ## Next Step {#grow-liquidity-using-incentives}
 
-[Incentivizing a Curve Pool](../gauge/incentive-routes.md) compares every way to fund liquidity, from rewards in your own token to CRV emissions.
+[Incentivize a Curve Pool](../gauge/incentive-routes.md) compares every way to fund liquidity, from rewards in your own token to CRV emissions.
 
 Questions go to the Curve team in [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).

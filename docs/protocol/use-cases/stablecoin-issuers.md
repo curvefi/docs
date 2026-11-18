@@ -51,7 +51,7 @@ A [Llamalend](../lending/launch-isolated-lending-market.md) market lets holders 
 
 A rate oracle for a savings token has strict rules; read [Oracle-Based Tokens](../pool/guides/deploy-stableswap.md#oracle-based-tokens) before you deploy.
 
-CRV emissions need a Curve DAO vote, and the DAO generally rejects gauges for tokens with transfer restrictions, transfer taxes or blacklists. Direct rewards in your own token need no vote. See [Whitelisting a Gauge](../gauge/whitelisting-gauge.md).
+CRV emissions need a Curve DAO vote, and the DAO generally rejects gauges for tokens with transfer restrictions, transfer taxes or blacklists. Direct rewards in your own token need no vote. See [Whitelist a Gauge](../gauge/whitelisting-gauge.md).
 
 You can deploy a metapool only on an existing base pool. A new lending market can't lend until a DAO vote raises its borrow cap from zero.
 

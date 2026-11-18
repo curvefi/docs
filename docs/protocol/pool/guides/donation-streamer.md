@@ -1,7 +1,7 @@
 ---
 id: donation-streamer
-title: Automating FXSwap Refuels
-sidebar_label: "Automating Refuels"
+title: "Automate FXSwap Refuels"
+sidebar_label: "Automate Refuels"
 description: How to schedule FXSwap refuels with the DonationStreamer contract, so tokens reach a pool's refuel buffer each period without manual top-ups.
 ---
 

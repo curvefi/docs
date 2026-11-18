@@ -1,7 +1,7 @@
 ---
 id: incentive-routes
-title: Incentivizing a Curve Pool
-sidebar_label: Incentivizing a Pool
+title: "Incentivize a Curve Pool"
+sidebar_label: "Incentivize a Pool"
 description: Every way an issuer can fund liquidity on a Curve pool, including direct rewards, veCRV, vlCVX, Merkl and vote incentives, with what each route needs.
 ---
 
@@ -11,7 +11,7 @@ Liquidity providers (LPs) deposit where the yield is. This page lists the ways a
 
 Most routes pay LPs through the pool's **gauge**, a contract that rewards LPs who stake their LP tokens (tokens that represent a share of the pool) in it. Anyone can deploy a gauge for any pool, and it can pay your own token rewards as soon as it exists.
 
-CRV emissions take more. The Curve DAO must first whitelist the gauge in a 7-day onchain vote, and creating that vote needs 2,500 [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power). After that, the gauge earns a share of weekly CRV inflation equal to its share of veCRV gauge votes, updated every Thursday at 00:00 UTC. CRV emissions cost you nothing directly, but their value to LPs moves with the CRV price. A gauge on another chain receives CRV through a root gauge on Ethereum, so whitelisting and voting both happen there. Its CRV arrives about a week later than on Ethereum: CRV accumulates in the root gauge for one week, then is bridged and streamed to LPs on the other chain ([Gauge Weights on L2s](/user/dao/gauge-weights#gauge-weights-on-l2s)). See [Whitelisting a Gauge](./whitelisting-gauge.md) and [Getting CRV Emissions](./guides/getting-crv-emissions.md).
+CRV emissions take more. The Curve DAO must first whitelist the gauge in a 7-day onchain vote, and creating that vote needs 2,500 [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power). After that, the gauge earns a share of weekly CRV inflation equal to its share of veCRV gauge votes, updated every Thursday at 00:00 UTC. CRV emissions cost you nothing directly, but their value to LPs moves with the CRV price. A gauge on another chain receives CRV through a root gauge on Ethereum, so whitelisting and voting both happen there. Its CRV arrives about a week later than on Ethereum: CRV accumulates in the root gauge for one week, then is bridged and streamed to LPs on the other chain ([Gauge Weights on L2s](/user/dao/gauge-weights#gauge-weights-on-l2s)). See [Whitelist a Gauge](./whitelisting-gauge.md) and [Get CRV Emissions](./guides/getting-crv-emissions.md).
 
 | Route | Needs a gauge | Needs DAO whitelist | Who pays LPs |
 | ----- | ------------- | ------------------- | ------------ |
@@ -35,7 +35,7 @@ Only the gauge manager can register a reward token, so a third party needs the m
 
 **When it fits:** you want rewards live on day one, in your own token or a stablecoin, with a budget you control. No vote is involved, so it works on any chain with Curve gauges.
 
-Guide: [Adding Direct Gauge Rewards](./guides/adding-direct-gauge-rewards.md).
+Guide: [Add Direct Gauge Rewards](./guides/adding-direct-gauge-rewards.md).
 
 ### Holding veCRV
 

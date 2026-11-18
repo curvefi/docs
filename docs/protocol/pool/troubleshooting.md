@@ -74,7 +74,7 @@ Parameters set at deployment are the main defense. A higher `gamma` and a lower 
 
 ## An FXSwap Pool Drifts From the External Price {#an-fxswap-pool-drifts-from-the-market-price}
 
-FXSwap recenters using a refuel budget. When the budget runs out, the pool can lag the external price. Add refuels on the pool's **Manage pool** page in the Curve app, linked from its Advanced Details, or schedule them with [Automating FXSwap Refuels](./guides/donation-streamer.md). The Manage pool page also charts recent refuels and the pool's price scale. See [Understanding FXSwap](./understanding-fxswap.md#refuels) for how refuels are spent.
+FXSwap recenters using a refuel budget. When the budget runs out, the pool can lag the external price. Add refuels on the pool's **Manage pool** page in the Curve app, linked from its Advanced Details, or schedule them with [Automate FXSwap Refuels](./guides/donation-streamer.md). The Manage pool page also charts recent refuels and the pool's price scale. See [Understanding FXSwap](./understanding-fxswap.md#refuels) for how refuels are spent.
 
 ## Related
 

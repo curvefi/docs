@@ -5,7 +5,7 @@ sidebar_label: Incentive Costs
 description: What sets the cost of each way to fund liquidity on a Curve pool, including direct rewards, veCRV and vlCVX locks, vote incentives on Votemarket and Votium, and Merkl campaigns, and which platform fees apply.
 ---
 
-No route has a fixed price. What you pay depends on the route, the going price of votes and how much liquidity you want. This page explains what sets each cost so you can compare them before you commit a budget. [Incentivizing a Curve Pool](./incentive-routes.md) explains how each route works.
+No route has a fixed price. What you pay depends on the route, the going price of votes and how much liquidity you want. This page explains what sets each cost so you can compare them before you commit a budget. [Incentivize a Curve Pool](./incentive-routes.md) explains how each route works.
 
 ## Cost by Route
 
@@ -25,7 +25,7 @@ Vote incentives buy votes, and votes direct CRV emissions. LPs then receive CRV,
 
 Holding veCRV or vlCVX turns a recurring cost into capital tied up in a lock. The emissions you direct cost nothing further while the lock lasts, but veCRV voting power decays as the lock runs down, and the locked tokens carry price risk.
 
-Every route except direct rewards and Merkl needs a whitelisted gauge first, which takes a 7-day Curve DAO vote. See [Whitelisting a Gauge](./whitelisting-gauge.md).
+Every route except direct rewards and Merkl needs a whitelisted gauge first, which takes a 7-day Curve DAO vote. See [Whitelist a Gauge](./whitelisting-gauge.md).
 
 ## Where to Check Current Prices
 
@@ -35,6 +35,6 @@ Every route except direct rewards and Merkl needs a whitelisted gauge first, whi
 
 ## Related
 
-- [Incentivizing a Curve Pool](./incentive-routes.md)
-- [Getting CRV Emissions](./guides/getting-crv-emissions.md)
+- [Incentivize a Curve Pool](./incentive-routes.md)
+- [Get CRV Emissions](./guides/getting-crv-emissions.md)
 - [Launch Timeline](../launch-playbook.md)

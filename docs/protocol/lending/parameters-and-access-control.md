@@ -56,5 +56,5 @@ The `dao` can make any call through the proxy, so every setting above can change
 ## Related
 
 - [Llamalend Market Risk and Roles](./risk-and-roles.md)
-- [Running a Llamalend Market](./running-a-market.md)
+- [Run a Lending Market](./running-a-market.md)
 - [Oracles & Parameters](./oracles-and-parameters.md)

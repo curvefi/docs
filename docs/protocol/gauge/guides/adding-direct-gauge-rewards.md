@@ -1,7 +1,7 @@
 ---
 id: adding-direct-gauge-rewards
-title: Adding Direct Gauge Rewards
-sidebar_label: Adding Direct Gauge Rewards
+title: "Add Direct Gauge Rewards"
+sidebar_label: "Add Direct Gauge Rewards"
 description: How the gauge manager registers a reward token and deposits rewards into a Curve gauge, in the Curve app or on a block explorer.
 ---
 

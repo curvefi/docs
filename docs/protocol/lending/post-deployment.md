@@ -64,6 +64,6 @@ Lenders, aggregators and borrower tools integrate through the Vault and the Lend
 
 ## Next Step
 
-[Running a Llamalend Market](./running-a-market.md) covers parameter changes, wind-down and emergencies.
+[Run a Lending Market](./running-a-market.md) covers parameter changes, wind-down and emergencies.
 
 For help with a deployment or governance proposal, contact **SwissStake** through Curve's [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).

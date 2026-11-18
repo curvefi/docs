@@ -31,6 +31,6 @@ The price oracle prices the collateral in the borrowed token, and liquidation fo
 
 ## Related
 
-- [Running a Llamalend Market](./running-a-market.md)
+- [Run a Lending Market](./running-a-market.md)
 - [Llamalend Parameters and Access Control](./parameters-and-access-control.md)
 - [Llamalend vs Morpho vs Euler](./llamalend-vs-morpho-vs-euler.md)

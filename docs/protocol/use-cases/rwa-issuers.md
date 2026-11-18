@@ -38,7 +38,7 @@ A [Llamalend](../lending/launch-isolated-lending-market.md) market lets holders 
 
 ## Before You Deploy
 
-Tokens with transfer restrictions, transfer taxes, blacklists or allowlists are generally refused CRV emissions by the Curve DAO, which considers only freely transferable, openly accessible tokens. Direct rewards in your own token need no vote. See [Whitelisting a Gauge](../gauge/whitelisting-gauge.md).
+Tokens with transfer restrictions, transfer taxes, blacklists or allowlists are generally refused CRV emissions by the Curve DAO, which considers only freely transferable, openly accessible tokens. Direct rewards in your own token need no vote. See [Whitelist a Gauge](../gauge/whitelisting-gauge.md).
 
 If your token moves only between approved addresses, the pool, its [gauge](/protocol/glossary#gauge) (the contract that distributes incentives) and every user must be able to receive it.
 

@@ -33,7 +33,7 @@ The contract that changes a lending market's settings, such as its borrow cap, a
 
 ### CRV Emissions {#crv-emissions}
 
-CRV paid to a gauge each week, in proportion to the votes veCRV holders give it. See [Getting CRV Emissions](./gauge/guides/getting-crv-emissions.md).
+CRV paid to a gauge each week, in proportion to the votes veCRV holders give it. See [Get CRV Emissions](./gauge/guides/getting-crv-emissions.md).
 
 ### Cryptoswap {#cryptoswap}
 
@@ -49,7 +49,7 @@ A Curve deployment for new chains with the core pool factories, a router and gau
 
 ### Direct Rewards {#direct-rewards}
 
-Tokens you deposit in a gauge for its stakers. They need no vote. See [Adding Direct Gauge Rewards](./gauge/guides/adding-direct-gauge-rewards.md).
+Tokens you deposit in a gauge for its stakers. They need no vote. See [Add Direct Gauge Rewards](./gauge/guides/adding-direct-gauge-rewards.md).
 
 ### EMA {#ema}
 
@@ -81,7 +81,7 @@ A liquidity provider's shortfall versus holding the tokens, caused by price move
 
 ### Incentives {#incentives}
 
-What you fund to attract liquidity: direct rewards, CRV emissions, vote incentives or campaigns. See [Incentivizing a Curve Pool](./gauge/incentive-routes.md).
+What you fund to attract liquidity: direct rewards, CRV emissions, vote incentives or campaigns. See [Incentivize a Curve Pool](./gauge/incentive-routes.md).
 
 ### Issuer {#issuer}
 
@@ -197,15 +197,15 @@ CRV locked for voting power in the Curve DAO. See [veCRV](/user/curve-tokens/vec
 
 ### vlCVX {#vlcvx}
 
-CVX locked for Convex voting power. Convex votes its large veCRV holding as vlCVX holders direct. See [Incentivizing a Curve Pool](./gauge/incentive-routes.md#holding-vlcvx).
+CVX locked for Convex voting power. Convex votes its large veCRV holding as vlCVX holders direct. See [Incentivize a Curve Pool](./gauge/incentive-routes.md#holding-vlcvx).
 
 ### Vote Incentives {#vote-incentives}
 
-Payments to veCRV or vlCVX holders who vote for your gauge, often called bribes. See [Incentivizing a Curve Pool](./gauge/incentive-routes.md#vote-incentives).
+Payments to veCRV or vlCVX holders who vote for your gauge, often called bribes. See [Incentivize a Curve Pool](./gauge/incentive-routes.md#vote-incentives).
 
 ### Whitelist {#whitelist}
 
-The Curve DAO vote that makes a gauge eligible for CRV emissions. See [Whitelisting a Gauge](./gauge/whitelisting-gauge.md).
+The Curve DAO vote that makes a gauge eligible for CRV emissions. See [Whitelist a Gauge](./gauge/whitelisting-gauge.md).
 
 ### yRisk {#yrisk}
 

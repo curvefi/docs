@@ -26,7 +26,7 @@ Llamalend v1 is deprecated. New markets and integrations should use the v2 contr
 | Price oracle | A manipulation-resistant oracle prices your token in the borrowed token | The only price you have is a spot price, pool balances or trading liquidity thinner than the market it would secure ([Oracles & Parameters](./oracles-and-parameters.md#price-oracle)) |
 | Collateral liquidity | Liquidators and arbitrageurs can sell the collateral into deep trading liquidity when prices fall | Liquidity is thin, so soft liquidation may not convert enough collateral and lenders could take the loss ([Risk and Roles](./risk-and-roles.md)) |
 | Token behavior | A standard ERC-20 | Transfer taxes, rebasing or callbacks, which are not guaranteed to work in a market ([Token Pair](./oracles-and-parameters.md#token-pair)) |
-| Demand and support | Holders want to borrow, and you can seed lender liquidity and watch the market | Nobody owns monitoring or the response to a problem ([Running a Llamalend Market](./running-a-market.md)) |
+| Demand and support | Holders want to borrow, and you can seed lender liquidity and watch the market | Nobody owns monitoring or the response to a problem ([Run a Lending Market](./running-a-market.md)) |
 
 ## Why Deploy a Lending Market for Your Token {#why-launch-a-lending-market-for-your-token}
 
@@ -79,7 +79,7 @@ A Curve pool and a Llamalend market strengthen each other:
 
 ![A Llamalend market deploys on day 0 with a zero borrow cap; borrowing opens once a 7-day DAO vote raises the cap.](/img/protocol/lending/lending-market-go-live.png)
 
-Once the market is live, parameter changes, wind-down and emergencies go through yRisk and the Curve DAO. See [Running a Llamalend Market](./running-a-market.md).
+Once the market is live, parameter changes, wind-down and emergencies go through yRisk and the Curve DAO. See [Run a Lending Market](./running-a-market.md).
 
 The factory deploys three contracts for each market:
 

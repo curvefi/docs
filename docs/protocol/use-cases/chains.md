@@ -38,7 +38,7 @@ A Curve Lite deployment needs:
 - CRV and crvUSD bridged to the chain through native bridges;
 - an OP Stack, Arbitrum Orbit, Polygon CDK, Taiko or non-rollup chain. zkSync-based chains are not fully supported.
 
-The [curve-core README](https://github.com/curvefi/curve-core) has the full requirements. On HyperEVM, deploying pools and gauges requires large blocks; see [Enabling Big Blocks on HyperEVM](../pool/guides/enable-big-blocks-hyperevm.md).
+The [curve-core README](https://github.com/curvefi/curve-core) has the full requirements. On HyperEVM, deploying pools and gauges requires large blocks; see [Enable Big Blocks on HyperEVM](../pool/guides/enable-big-blocks-hyperevm.md).
 
 ## Case Studies
 

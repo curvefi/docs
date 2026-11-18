@@ -1,7 +1,7 @@
 ---
 id: enable-big-blocks-hyperevm
-title: "Enabling Big Blocks on HyperEVM"
-sidebar_label: "Enabling Big Blocks on HyperEVM"
+title: "Enable Big Blocks on HyperEVM"
+sidebar_label: "Enable Big Blocks on HyperEVM"
 description: How to enable large blocks for your wallet on HyperEVM, which is required to deploy Curve pools and gauges there.
 ---
 

@@ -1,7 +1,7 @@
 ---
 id: whitelisting-gauge
-title: Whitelisting a Gauge
-sidebar_label: Whitelisting a Gauge
+title: "Whitelist a Gauge"
+sidebar_label: "Whitelist a Gauge"
 description: How to get a Curve gauge whitelisted for CRV emissions through a Curve DAO vote, what the vote needs and which tokens the DAO generally rejects.
 ---
 
@@ -84,4 +84,4 @@ If you hold less than 2,500 veCRV, ask on the [Curve Governance Forum](https://g
 
 ## Next Step
 
-[Getting CRV Emissions](./guides/getting-crv-emissions.md) shows how to win the gauge weight votes that send CRV to your gauge.
+[Get CRV Emissions](./guides/getting-crv-emissions.md) shows how to win the gauge weight votes that send CRV to your gauge.

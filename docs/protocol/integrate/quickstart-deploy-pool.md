@@ -69,7 +69,7 @@ const { request: gaugeRequest } = await publicClient.simulateContract({
 await walletClient.writeContract(gaugeRequest)
 ```
 
-The account that deploys the gauge becomes its manager. See [Adding Direct Gauge Rewards](../gauge/guides/adding-direct-gauge-rewards.md).
+The account that deploys the gauge becomes its manager. See [Add Direct Gauge Rewards](../gauge/guides/adding-direct-gauge-rewards.md).
 
 ## Check It Worked
 
