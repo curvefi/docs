@@ -7,7 +7,9 @@ description: Llamalend lets anyone deploy a permissionless, isolated lending mar
 
 import GuideCardGrid from '@site/src/components/GuideCardGrid';
 
-Llamalend is Curve's lending protocol. Anyone can deploy an isolated, one-way lending market for any ERC-20 pair on Ethereum and Optimism. Each market has one collateral token and one borrowed token, so its risk stays inside that market. Borrowers get liquidation protection from LLAMMA, which converts collateral gradually across a price range instead of liquidating it at a single price.
+Let holders borrow against your token in its own isolated market. You deploy it; a 7-day Curve DAO vote sets the borrow cap.
+
+Llamalend is Curve's lending protocol, on Ethereum and Optimism. Each market has one collateral token and one borrowed token, so its risk stays inside that market. When the collateral price falls, LLAMMA converts collateral gradually across a price range.
 
 :::info[About Llamalend v1]
 
@@ -16,6 +18,15 @@ Llamalend v1 is deprecated. New markets and integrations should use the v2 contr
 :::
 
 <GuideCardGrid guideKeys={['LendingOraclesAndParameters', 'deployLendingMarket']} />
+
+## Should You Launch a Lending Market? {#is-llamalend-right-for-your-token}
+
+| Check | Ready | Not yet |
+| --- | --- | --- |
+| Price oracle | A manipulation-resistant oracle prices your token in the borrowed token | The only price you have is a spot price, pool balances or a market thinner than the one it would secure ([Oracles & Parameters](./oracles-and-parameters.md#price-oracle)) |
+| Collateral liquidity | Liquidators and arbitrageurs can sell the collateral on deep markets when prices fall | Liquidity is thin, so LLAMMA may not convert enough collateral and lenders could take the loss ([Risk and Roles](./risk-and-roles.md)) |
+| Token behavior | A standard ERC-20 | Transfer taxes, rebasing or callbacks, which are not guaranteed to work in a market ([Token Pair](./oracles-and-parameters.md#token-pair)) |
+| Demand and support | Holders want to borrow, and you can seed lender liquidity and watch the market | Nobody owns monitoring or the response to a problem ([Running a Llamalend Market](./running-a-market.md)) |
 
 ## Why Launch a Lending Market for Your Token
 
@@ -56,14 +67,6 @@ A Curve pool and a Llamalend market strengthen each other:
 - **LP tokens become collateral.** Liquidity providers can borrow against their Curve LP tokens and keep earning trading fees on the liquidity underneath.
 - **Borrowers can earn CRV on collateral.** On Ethereum, a market can have a collateral gauge that pays CRV to borrowers based on the collateral they hold, once the gauge receives gauge weight.
 - **One incentive system.** You can direct CRV emissions and your own rewards to your pool, your lending vault and your collateral through the same [gauge system](/protocol/gauge/overview).
-
-## Is Llamalend Right for Your Token?
-
-A market works when three things are in place:
-
-- **A reliable oracle** that prices your collateral in the borrowed token and resists manipulation and stale data.
-- **Deep collateral liquidity**, so liquidators and arbitrageurs can sell collateral when prices fall.
-- **Borrow demand**, so lenders earn interest and the market grows.
 
 ## Launch Steps
 

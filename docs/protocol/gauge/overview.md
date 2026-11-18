@@ -7,6 +7,8 @@ description: How Curve gauges pay CRV emissions and direct rewards to liquidity 
 
 import GuideCardGrid from '@site/src/components/GuideCardGrid';
 
+Pay rewards to everyone who provides liquidity to your pool or lending vault. Deploying a gauge is one transaction with no approval; CRV emissions add a 7-day Curve DAO vote.
+
 A **gauge** is a contract that pays rewards to LPs who stake their LP or vault tokens in it. A pool or lending vault works without one. LPs who don't stake in the gauge earn trading fees or interest, but not the gauge's rewards.
 
 Rewards reach a gauge in two ways:

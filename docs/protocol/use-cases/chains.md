@@ -5,7 +5,9 @@ sidebar_label: Chains & L2s
 description: How chain and L2 teams bring Curve to their network with Curve Lite, which deploys Stableswap and Cryptoswap pool factories, a router, gauges and Curve DAO ownership, and how CRV emissions reach the chain.
 ---
 
-Chain and L2 teams use Curve Lite to give their network stable and volatile swapping from day one. The deployment is owned by the Curve DAO, and its gauges can receive CRV emissions once the DAO adds them by vote.
+Give your chain Curve's stable and volatile swapping from day one with Curve Lite. It takes a chain that meets the curve-core requirements and a conversation with the Curve team before you deploy.
+
+The deployment is owned by the Curve DAO, and its gauges can receive CRV emissions once the DAO adds them by vote.
 
 ## What Curve Lite Deploys
 

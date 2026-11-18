@@ -5,7 +5,9 @@ sidebar_label: Integrate
 description: How DeFi protocols, aggregators, wallets and data providers integrate Curve pools, LP tokens, price oracles, Llamalend vaults and APIs, with links into the developer reference.
 ---
 
-Curve's pools, LP tokens, price oracles and Llamalend markets are open contracts. Protocols, aggregators, wallets and data providers can build on them without permission. This page lists what you can integrate and where the developer reference covers it.
+Build on Curve's pools, prices and lending markets without asking anyone. You need an RPC endpoint, or the Curve Prices API, which takes no key.
+
+Curve's pools, LP tokens, price oracles and Llamalend markets are open contracts. This page lists what you can integrate and where the developer reference covers it.
 
 ## What You Can Build On
 
