@@ -59,8 +59,8 @@ Nobody approves it. Only CRV emissions need a Curve DAO vote, after you deploy a
   <ThemedImage
     alt="FXSwap parameter presets"
     sources={{
-      light: require('@site/static/img/protocol/deploy-fxswap/presets_light.png').default,
-      dark: require('@site/static/img/protocol/deploy-fxswap/presets_dark.png').default,
+      light: require('@site/static/img/protocol/deploy-fxswap/preset_light.png').default,
+      dark: require('@site/static/img/protocol/deploy-fxswap/preset_dark.png').default,
     }}
     style={{ width: "500px", display: "block", margin: "0 auto" }}
   />
