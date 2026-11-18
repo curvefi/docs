@@ -75,7 +75,7 @@ A Curve pool and a Llamalend market strengthen each other:
 3. Deploy the market with `LendFactory.create()`. Deployment is permissionless and does not make you the market's admin. See [Deploy a Lending Market](./guides/deploy-lending-market.md).
 4. A DAO vote raises the borrow cap from zero. Until it passes, nobody can borrow.
 5. Seed lender liquidity by depositing the borrowed token into the market's Vault.
-6. Optionally, deploy a gauge to pay rewards to lenders. See [Incentivize Liquidity](/protocol/gauge/overview).
+6. Optionally, pay incentives to lenders, borrowers or both. See [Incentivize a Lending Market](/protocol/gauge/incentive-routes#incentivize-a-lending-market).
 
 ![A Llamalend market deploys on day 0 with a zero borrow cap; borrowing opens once a 7-day DAO vote raises the cap.](/img/protocol/lending/lending-market-go-live.png)
 

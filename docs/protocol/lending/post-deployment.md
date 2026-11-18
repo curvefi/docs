@@ -52,6 +52,8 @@ Nobody approves the deposit or the monitoring. The borrow cap and CRV emissions 
 2. Deposit your own ERC-20 rewards into the gauge. Lenders earn them by staking their Vault shares in it.
 3. For CRV emissions, propose a DAO vote to whitelist the gauge, which makes it eligible for CRV emissions. CRV then follows the gauge weight that [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power) holders vote for it.
 
+To pay borrowers too, see [Incentivize a Lending Market](/protocol/gauge/incentive-routes#incentivize-a-lending-market).
+
 ## Point Integrators to the Docs {#integrate-the-lender-side}
 
 Lenders, aggregators and borrower tools integrate through the Vault and the LendController. Send them to [Quickstart: Lend](../integrate/quickstart-lend.md) and the [Vault Integration Guide](/developer/llamalend-v2/integration-guide).

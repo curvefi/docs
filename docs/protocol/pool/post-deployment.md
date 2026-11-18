@@ -63,6 +63,6 @@ Watch volume, [TVL](/protocol/glossary#tvl) (total value locked) and token balan
 
 ## Next Step {#grow-liquidity-using-incentives}
 
-[Incentivize a Curve Pool](../gauge/incentive-routes.md) compares every way to fund liquidity, from rewards in your own token to CRV emissions.
+[Incentivize a Pool or Lending Market](../gauge/incentive-routes.md) compares every way to fund liquidity, from rewards in your own token to CRV emissions.
 
 Questions go to the Curve team in [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).

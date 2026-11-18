@@ -258,8 +258,8 @@ export const ALL_GUIDES = {
     link: '/protocol/gauge/whitelisting-gauge',
   },
   IncentivizingAPool: {
-    title: 'Incentivize a Pool',
-    description: 'Compare the ways to fund LP yield on a Curve pool and when each fits.',
+    title: 'Incentivize a Pool or Lending Market',
+    description: 'Compare the ways to pay LPs, lenders and borrowers, and when each fits.',
     image: '',
     link: '/protocol/gauge/incentive-routes',
   },

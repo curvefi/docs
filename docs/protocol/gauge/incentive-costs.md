@@ -2,16 +2,16 @@
 id: incentive-costs
 title: What Curve Incentives Cost
 sidebar_label: Incentive Costs
-description: What sets the cost of each way to fund liquidity on a Curve pool, including direct rewards, veCRV and vlCVX locks, vote incentives on Votemarket and Votium, and Merkl campaigns, and which platform fees apply.
+description: What sets the cost of each way to fund liquidity on a Curve pool or lending market, including direct rewards, veCRV and vlCVX locks, vote incentives on Votemarket and Votium, and Merkl campaigns, and which platform fees apply.
 ---
 
-No route has a fixed price. What you pay depends on the route, the going price of votes and how much liquidity you want. This page explains what sets each cost so you can compare them before you commit a budget. [Incentivize a Curve Pool](./incentive-routes.md) explains how each route works.
+No route has a fixed price. What you pay depends on the route, the going price of votes and how much liquidity you want. This page explains what sets each cost so you can compare them before you commit a budget. [Incentivize a Pool or Lending Market](./incentive-routes.md) explains how each route works.
 
 ## Cost by Route
 
 | Route | What you pay | What sets the amount | Platform fee |
 | --- | --- | --- | --- |
-| Direct rewards | Your reward budget, streamed to staked [liquidity providers](/protocol/glossary#liquidity-provider) (LPs) | You choose the amount and the period, from 3 days to 48 weeks | None |
+| Direct rewards | Your reward budget, streamed to staked [liquidity providers](/protocol/glossary#liquidity-provider) (LPs) or lenders | You choose the amount and the period, from 3 days to 48 weeks | None |
 | Holding [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power) | The CRV you buy and lock, for up to four years | How many votes you need against the total veCRV voting for [gauges](./overview.md) | None |
 | Holding [vlCVX](/protocol/glossary#vlcvx) (CVX locked for Convex voting power) | The CVX you buy and lock, for 16 weeks | Your share of Convex's veCRV votes | None |
 | Vote incentives (bribes) | Payments to veCRV or vlCVX holders who vote for your gauge | The going price per vote, which changes every round | Charged by Votemarket and Votium; check before funding |
@@ -19,7 +19,9 @@ No route has a fixed price. What you pay depends on the route, the going price o
 
 ## How to Compare Routes
 
-Direct rewards and Merkl campaigns cost exactly the budget you spend, plus any fee. LPs receive that budget and nothing more.
+Direct rewards and Merkl campaigns cost exactly the budget you spend, plus any fee. LPs, lenders or borrowers receive that budget and nothing more.
+
+Lending market incentives cost the same as their pool equivalents: a vault gauge or a borrower collateral gauge follows the gauge routes above, and Merkl campaigns for lenders or borrowers follow the Merkl row.
 
 Vote incentives buy votes, and votes direct CRV emissions. LPs then receive CRV, whose value depends on the CRV price and on how many votes your budget bought. When the CRV directed to your gauge is worth more than your budget, LPs receive more than you paid. The price per vote changes each round, so compare the two before each one.
 
@@ -35,6 +37,6 @@ Every route except direct rewards and Merkl needs a whitelisted gauge first, whi
 
 ## Related
 
-- [Incentivize a Curve Pool](./incentive-routes.md)
+- [Incentivize a Pool or Lending Market](./incentive-routes.md)
 - [Get CRV Emissions](./guides/getting-crv-emissions.md)
 - [Launch Timeline](../launch-playbook.md)

@@ -55,6 +55,6 @@ The [Emergency DAO](/user/dao/emergency-dao), a 5-of-9 [multisig](/protocol/glos
 
 ## Next Step
 
-[Llamalend Market Risk and Roles](./risk-and-roles.md) explains what lenders and borrowers carry while the market runs.
+[Llamalend Market Risk and Roles](./risk-and-roles.md) explains what lenders and borrowers carry while the market runs. To attract more lenders or borrowers, see [Incentivize a Lending Market](/protocol/gauge/incentive-routes#incentivize-a-lending-market).
 
 For help reviewing a parameter change or governance proposal, contact **SwissStake** through Curve's [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).

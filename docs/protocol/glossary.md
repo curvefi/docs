@@ -73,7 +73,7 @@ Curve's pool design for pairs whose price is set on a deeper external venue, suc
 
 ### Gauge {#gauge}
 
-The contract that pays incentives to liquidity providers who stake their LP tokens in it. See [Incentivize Liquidity With Curve Gauges](./gauge/overview.md).
+The contract that pays incentives to liquidity providers who stake their LP tokens or lending vault shares in it. A lending market on Ethereum can also have one for borrowers' collateral. See [Incentivize Liquidity With Curve Gauges](./gauge/overview.md).
 
 ### Impermanent Loss {#impermanent-loss}
 
@@ -81,7 +81,7 @@ A liquidity provider's shortfall versus holding the tokens, caused by price move
 
 ### Incentives {#incentives}
 
-What you fund to attract liquidity: direct rewards, CRV emissions, vote incentives or campaigns. See [Incentivize a Curve Pool](./gauge/incentive-routes.md).
+What you fund to attract liquidity providers, lenders or borrowers: direct rewards, CRV emissions, vote incentives or campaigns. See [Incentivize a Pool or Lending Market](./gauge/incentive-routes.md).
 
 ### Issuer {#issuer}
 
@@ -197,11 +197,11 @@ CRV locked for voting power in the Curve DAO. See [veCRV](/user/curve-tokens/vec
 
 ### vlCVX {#vlcvx}
 
-CVX locked for Convex voting power. Convex votes its large veCRV holding as vlCVX holders direct. See [Incentivize a Curve Pool](./gauge/incentive-routes.md#holding-vlcvx).
+CVX locked for Convex voting power. Convex votes its large veCRV holding as vlCVX holders direct. See [Incentivize a Pool or Lending Market](./gauge/incentive-routes.md#holding-vlcvx).
 
 ### Vote Incentives {#vote-incentives}
 
-Payments to veCRV or vlCVX holders who vote for your gauge, often called bribes. See [Incentivize a Curve Pool](./gauge/incentive-routes.md#vote-incentives).
+Payments to veCRV or vlCVX holders who vote for your gauge, often called bribes. See [Incentivize a Pool or Lending Market](./gauge/incentive-routes.md#vote-incentives).
 
 ### Whitelist {#whitelist}
 

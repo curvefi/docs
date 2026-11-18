@@ -2,7 +2,7 @@
 id: overview
 title: "Incentivize Liquidity With Curve Gauges"
 sidebar_label: Overview
-description: How Curve gauges pay CRV emissions and direct rewards to liquidity providers who stake LP or vault tokens, and what each reward type requires.
+description: How Curve gauges pay CRV emissions and direct rewards to liquidity providers, lenders and borrowers in Curve pools and Llamalend lending markets, and what each reward type requires.
 ---
 
 import GuideCardGrid from '@site/src/components/GuideCardGrid';
@@ -16,7 +16,9 @@ Rewards reach a gauge in two ways:
 - **CRV emissions:** a share of Curve's weekly CRV inflation, set by [gauge weight](/user/dao/gauge-weights) votes from [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power). The gauge must first be whitelisted, which makes it eligible for CRV emissions.
 - **Direct rewards:** tokens you deposit into the gauge yourself. No vote is needed.
 
-For every way to fund LP yield, including [vote incentives](/protocol/glossary#vote-incentives) (bribes paid to veCRV voters) and Merkl, and when each fits, see [Incentivize a Pool](./incentive-routes.md). [What Curve Incentives Cost](./incentive-costs.md) compares their costs, and the [Launch Timeline](../launch-playbook.md) shows how long each Curve DAO step takes.
+Lending markets can also pay borrowers, through Merkl campaigns or, on Ethereum, CRV on their collateral.
+
+For every way to fund LP, lender or borrower yield, including [vote incentives](/protocol/glossary#vote-incentives) (bribes paid to veCRV voters) and Merkl, and when each fits, see [Incentivize a Pool or Lending Market](./incentive-routes.md). [What Curve Incentives Cost](./incentive-costs.md) compares their costs, and the [Launch Timeline](../launch-playbook.md) shows how long each Curve DAO step takes.
 
 <GuideCardGrid guideKeys={['IncentivizingAPool', 'HowToGetAGauge']} />
 

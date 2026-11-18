@@ -37,7 +37,7 @@ A vote stays in place until you change it. [Voting for Gauge Weight](/user/dao/g
 
 ## Attract Other Voters
 
-1. Choose a route, such as holding [vlCVX](/protocol/glossary#vlcvx) (CVX locked for Convex voting power) or paying voters through [vote incentives](/protocol/glossary#vote-incentives) (bribes). [Incentivize a Curve Pool](../incentive-routes.md) compares them.
+1. Choose a route, such as holding [vlCVX](/protocol/glossary#vlcvx) (CVX locked for Convex voting power) or paying voters through [vote incentives](/protocol/glossary#vote-incentives) (bribes). [Incentivize a Pool or Lending Market](../incentive-routes.md) compares them.
 2. Check what that route costs in [What Curve Incentives Cost](../incentive-costs.md).
 3. Fund the route early enough that the votes land before Thursday 00:00 UTC.
 

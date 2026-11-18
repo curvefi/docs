@@ -1,11 +1,11 @@
 ---
 id: incentive-routes
-title: "Incentivize a Curve Pool"
-sidebar_label: "Incentivize a Pool"
-description: Every way an issuer can fund liquidity on a Curve pool, including direct rewards, veCRV, vlCVX, Merkl and vote incentives, with what each route needs.
+title: "Incentivize a Pool or Lending Market"
+sidebar_label: "Incentivize a Pool or Market"
+description: Every way an issuer can fund incentives on a Curve pool or a Llamalend lending market, for liquidity providers, lenders and borrowers, including direct rewards, veCRV, vlCVX, Merkl and vote incentives.
 ---
 
-Liquidity providers (LPs) deposit where the yield is. This page lists the ways an issuer can fund or attract that yield on a Curve pool, what each route needs and when it fits. Routes appear in alphabetical order, and many issuers combine several.
+Liquidity providers (LPs) deposit where the yield is. This page lists the ways an issuer can fund or attract that yield on a Curve pool, what each route needs and when it fits. Routes appear in alphabetical order, and many issuers combine several. Lending markets take incentives too, on both the lender and the borrower side; see [Incentivize a Lending Market](#incentivize-a-lending-market).
 
 ## Before You Start
 
@@ -75,6 +75,19 @@ Your budget buys votes, and those votes direct CRV emissions to your gauge, so L
 **What it needs:** a whitelisted gauge and a budget. Both platforms charge a fee; check it before funding.
 
 **When it fits:** you want CRV emissions without locking capital, and the CRV your votes direct is worth more to LPs than paying them the same budget directly. The price of a vote moves from round to round, so compare before each one.
+
+## Incentivize a Lending Market
+
+A Llamalend lending market can pay incentives to lenders, to borrowers, or both. The pool routes above work the same way for lenders, with the lender vault's gauge in place of the pool's.
+
+| Who earns | Route | What it needs |
+| --- | --- | --- |
+| Lenders | Direct rewards or CRV emissions through a gauge on the lender vault, where lenders stake their vault shares | A gauge for the vault; a Curve DAO whitelist vote for CRV emissions |
+| Lenders | Merkl campaigns | A reward budget |
+| Borrowers | CRV emissions on collateral through the market's LMCallback, a gauge that tracks the collateral borrowers hold | Ethereum only; a Curve DAO whitelist vote and gauge weight votes, like any gauge |
+| Borrowers | Merkl campaigns, as used for Llamalend v2 markets on Optimism | A reward budget |
+
+The LMCallback is set per market through the Configurator. See [Llamalend Parameters and Access Control](../lending/parameters-and-access-control.md) and the [LMCallback reference](/developer/llamalend-v2/lm-callback).
 
 ## Combining Routes
 
