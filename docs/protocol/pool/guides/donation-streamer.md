@@ -5,142 +5,80 @@ sidebar_label: "Automating Refuels"
 description: How to schedule FXSwap refuels with the DonationStreamer contract, so tokens reach a pool's refuel buffer each period without manual top-ups.
 ---
 
-A refuel stream sends tokens to an FXSwap pool's refuel buffer on a schedule. You lock the tokens and a small ETH bounty per period, and anyone, including an automated bot, can trigger each refuel. This guide sets up a stream with the `DonationStreamer` contract.
+When you finish, a refuel stream sends tokens to your FXSwap pool's refuel buffer on a schedule you set, and executes without your involvement.
 
-:::vyper[`DonationStreamer.vy`]
+Creating a stream takes one approval per token and one transaction. An automated bot executes due refuels every 8 hours.
 
-The technical documentation for the `DonationStreamer.vy` contract can be found [here](/developer/amm/fxswap/automation/donation-streamer). The contract is deployed at the same address on all supported chains:
+## Before You Start
 
-- :logos-ethereum: Ethereum: [`0x2b786BB995978CC2242C567Ae62fd617b0eBC828`](https://etherscan.io/address/0x2b786BB995978CC2242C567Ae62fd617b0eBC828)
-- :logos-gnosis: Gnosis: [`0x2b786BB995978CC2242C567Ae62fd617b0eBC828`](https://gnosisscan.io/address/0x2b786BB995978CC2242C567Ae62fd617b0eBC828)
-- :logos-base: Base: [`0x2b786BB995978CC2242C567Ae62fd617b0eBC828`](https://basescan.org/address/0x2b786BB995978CC2242C567Ae62fd617b0eBC828)
-- :logos-polygon: Polygon: [`0x2b786BB995978CC2242C567Ae62fd617b0eBC828`](https://polygonscan.com/address/0x2b786BB995978CC2242C567Ae62fd617b0eBC828)
+You need a wallet on a chain where the `DonationStreamer` contract is deployed (Ethereum, Gnosis, Base or Polygon, listed in the [contract reference](/developer/amm/fxswap/automation/donation-streamer)), the FXSwap pool's address and the tokens you want to stream.
 
-:::
+It costs the tokens you stream, a small ETH bounty per period for whoever executes it, and gas.
 
-[FXSwap pools](../understanding-fxswap.md) use **refuels** to subsidize rebalancing and keep liquidity tight around the current price. While refuels can be added manually on the pool's **Manage pool** page in the Curve app, linked from the pool's Advanced Details, the **Donation Streamer** lets you automate this process — depositing tokens once and having them streamed into the pool over a set schedule.
+It takes three transactions at most: an approval for each token you stream, then the stream itself.
 
-This is useful for projects that want to keep their FXSwap pools consistently refueled without manual intervention.
+Nobody approves it. You can cancel the stream at any time and recover what is left.
 
-:::info[Why the contract says “Donation”]
+The contract and the UI use the legacy name **donation**. The mechanism is a refuel: tokens go into a finite buffer that the pool uses to rebalance. [Understanding FXSwap](../understanding-fxswap.md#refuels) explains how refuels are spent.
 
-`DonationStreamer` and UI labels such as **Donation Shares** are legacy deployed names. The mechanism is called a **refuel**: tokens are allocated to a finite rebalancing buffer, and that buffer can be depleted as the pool uses it.
+## Load the Pool
 
-:::
-
-:::info
-The Donation Streamer UI is available at [**curvefi.github.io/refuel-automation**](https://curvefi.github.io/refuel-automation/).
-:::
-
-## How It Works
-
-1. You choose which pool to refuel and how many tokens to deposit in total.
-2. You set a schedule: how often refuels should happen (e.g. once per day) and for how many periods.
-3. You set a small ETH bounty per period to incentivize someone to trigger each refuel.
-4. Your tokens and ETH bounties are locked in the contract.
-5. Each period, anyone can trigger the refuel and collect the bounty. An automated bot also runs every 8 hours, so refuels generally happen without any manual effort.
-6. Once all periods are complete, the stream is finished. You can also cancel at any time to recover remaining tokens and unspent bounties.
-
-## Supported Chains
-
-The Donation Streamer is deployed at the same address on :logos-ethereum: Ethereum, :logos-gnosis: Gnosis, and :logos-base: Base.
-
-## Creating a Refuel Stream
-
-The UI has three sections: pool loading at the top, stream configuration in the middle, and the stream executor at the bottom.
+1. Open the [Donation Streamer UI](https://curvefi.github.io/refuel-automation/) and select **Connect Wallet**. Check that your wallet is on the pool's chain.
+2. Leave the pre-filled **DonationStreamer Address** as it is.
+3. Enter the FXSwap pool's **Pool Address** and select **Load Pool**. The **Coin 0** and **Coin 1** boxes show each token, your balance and your allowance.
 
 <figure>
   <img src={require('@site/static/img/protocol/automate-donations/overview.png').default} alt="Donation Streamer UI overview" style={{ width: '100%', maxWidth: '800px', display: 'block', margin: '0 auto' }} />
   <figcaption></figcaption>
 </figure>
 
-### Step 1: Connect Your Wallet
+## Configure the Stream
 
-Click **Connect Wallet** in the top-right corner. Make sure your wallet is set to the correct chain. The UI will show your connected address and chain ID.
+1. Enter **Amount Coin 0** and **Amount Coin 1**, the total of each token to stream across all periods. Set one to `0` to stream a single token.
+2. Set **Period Length (sec)**, how often a refuel happens. The default `86400` is once a day.
+3. Set **Number of Periods**, how many refuels to run. The default is `7`.
+4. Set **Reward per Period (ETH)**, the bounty for whoever executes each refuel. The default is `0.01`.
 
-### Step 2: Load the Pool
-
-The **DonationStreamer Address** is pre-filled. Enter the **Pool Address** of the FXSwap pool you want to refuel and click **Load Pool**. The two info boxes below will populate with the pool's tokens (**Coin 0** and **Coin 1**), showing each token's name, decimals, your balance, and your current allowance.
-
-### Step 3: Configure the Stream
-
-Once the pool is loaded, fill in the fields in the middle section:
-
-| Field | What it means |
-| --- | --- |
-| **Amount Coin 0** | Total amount of the first token (shown under Coin 0 above) to refuel across all periods |
-| **Amount Coin 1** | Total amount of the second token (shown under Coin 1 above) to refuel across all periods |
-| **Period Length (sec)** | How often a refuel should happen, in seconds (default `86400` = once per day) |
-| **Number of Periods** | How many refuels to execute in total (default `7`) |
-| **Reward per Period (ETH)** | A small ETH bounty paid to whoever triggers each refuel (default `0.01`) |
-
-The **Total Reward** displayed next to these fields is calculated automatically as `Reward per Period × Number of Periods`. This ETH is sent with the transaction and held by the contract until claimed by executors.
-
-:::tip
-You can refuel with just one of the two tokens — set the other amount to `0`.
-:::
-
-**Example:** The screenshot below shows a stream being configured to refuel a crvUSD/ZCHF pool with 30 crvUSD over 3 periods (once per day), with a bounty of 0.001 ETH per execution (0.003 ETH total).
+The UI shows the **Total Reward**, the bounty per period times the number of periods, which you send with the transaction.
 
 <figure>
   <img src={require('@site/static/img/protocol/automate-donations/overview-filled.png').default} alt="Donation Streamer UI with filled values" style={{ width: '100%', maxWidth: '800px', display: 'block', margin: '0 auto' }} />
   <figcaption></figcaption>
 </figure>
 
-### Step 4: Approve and Create
+The example above streams 30 crvUSD into a crvUSD/ZCHF pool over 3 daily periods, with a 0.001 ETH bounty per period.
 
-1. Click **Approve Coin 0** and/or **Approve Coin 1** to allow the contract to transfer your tokens. Only approve tokens where the amount is greater than zero. The status bar below will confirm the approval (e.g. "Approved crvUSD.").
-2. Click **Create Stream**. Your tokens and ETH bounties are locked in the contract, and the refuel schedule begins.
+## Create the Stream
 
-## Monitoring Streams
+1. Select **Approve Coin 0** and **Approve Coin 1** for each token with an amount above zero. The status bar confirms each approval.
+2. Select **Create Stream** and confirm the transaction. The tokens and the ETH bounty are now locked in the contract.
 
-Once a pool is loaded, you can view all active streams for that pool in the **Pool Streams** section. Enter a **Lookback (count)** to control how many recent streams to scan and click **Load Pool Streams**.
+## Check It Worked
+
+1. In **Pool Streams**, set **Lookback (count)** and select **Load Pool Streams**. Your stream is marked **(you)**, with its remaining periods, amounts and time to the next execution.
+2. Track refuels for the pool on the [Refuel Monitor](https://refuel.curvemonitor.com/ethereum). Its legacy labels show **Donation Shares**, the total refuel buffer, and **Unlocked Shares**, the part released for use.
 
 <figure>
   <img src={require('@site/static/img/protocol/automate-donations/pool-streams.png').default} alt="Pool Streams showing active refuel streams" style={{ width: '100%', maxWidth: '800px', display: 'block', margin: '0 auto' }} />
   <figcaption></figcaption>
 </figure>
 
-Each stream card shows:
-- **Stream ID and remaining periods** (e.g. "Stream #2 — Periods 2")
-- **Pool and provider addresses** (the current UI uses the legacy label **donor**; your own streams are marked with **(you)**)
-- **Remaining token amounts and ETH reward** still locked in the stream
-- **Time until next execution** (e.g. "Execute (in 23h 59m 0s)")
-
-## Execution
-
-An [automated bot](https://github.com/curvefi/refuel-automation) runs every 8 hours and executes all due refuel streams across all supported chains. In most cases, you don't need to do anything after creating a stream.
-
-To manually trigger due refuels (or to earn the ETH bounties yourself), use the **Stream Executor** section at the bottom of the UI. The **StreamExecutor Address** is pre-filled — just click **Execute via Executor** to batch-execute all currently due streams and collect the bounties.
-
-## Tracking Refuel Consumption
-
-:::info
-Track refuel activity for any pool on the [**Refuel Monitor**](https://refuel.curvemonitor.com/ethereum).
-:::
-
-Select your pool to view detailed stats. For example: [refuel.curvemonitor.com/ethereum/0x027B...](https://refuel.curvemonitor.com/ethereum/0x027B40F5917FCd0eac57d7015e120096A5F92ca9).
-
-The dashboard's legacy labels show **Donation Shares** (total refuel buffer) versus **Unlocked Shares** (the portion released for use), plus **Daily Donations** (daily refuels) in USD over the last seven days. Refuel shares can be depleted when the pool burns them during rebalancing.
-
 <figure>
   <img src={require('@site/static/img/protocol/automate-donations/donation-stats.png').default} alt="Refuel shares and daily refuel activity" style={{ width: '100%', maxWidth: '800px', display: 'block', margin: '0 auto' }} />
   <figcaption></figcaption>
 </figure>
-
-It also includes a **Top Donors** leaderboard—the current UI's legacy name for top refuel providers—showing each provider's total refuels in USD, number of refuel actions, and token breakdown.
 
 <figure>
   <img src={require('@site/static/img/protocol/automate-donations/top-donors.png').default} alt="Top refuel providers leaderboard" style={{ width: '100%', maxWidth: '800px', display: 'block', margin: '0 auto' }} />
   <figcaption></figcaption>
 </figure>
 
-## Cancelling a Stream
+## Execute or Cancel a Stream {#execution}
 
-You can cancel your stream at any time to recover remaining tokens and unspent ETH bounties. In the **Pool Streams** section, find your stream (marked with **(you)**) and click the **Cancel** button.
+The [automated bot](https://github.com/curvefi/refuel-automation) executes all due streams every 8 hours. To execute due streams yourself and collect the bounties, select **Execute via Executor** in the **Stream Executor** section.
 
-## Further Reading
+To stop a stream, find it in **Pool Streams** and select **Cancel**. You get back the remaining tokens and the unspent bounty.
 
-- [Understanding FXSwap — Refuels](../understanding-fxswap.md#refuels) — how refuels work and what they cost
-- [DonationStreamer Contract Reference](/developer/amm/fxswap/automation/donation-streamer) — technical documentation for the smart contract
-- [FXSwap Refuels](/developer/amm/fxswap/pools/refuels) — how refuels unlock, protect liquidity providers, and are depleted during rebalancing
+## Next Step
+
+[Troubleshooting Curve Pools](../troubleshooting.md#an-fxswap-pool-drifts-from-the-market-price) covers what to do if the pool still drifts from the market price.
