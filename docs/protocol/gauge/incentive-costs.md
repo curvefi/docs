@@ -11,9 +11,9 @@ No route has a fixed price. What you pay depends on the route, the going price o
 
 | Route | What you pay | What sets the amount | Platform fee |
 | --- | --- | --- | --- |
-| Direct rewards | Your reward budget, streamed to staked liquidity providers (LPs) | You choose the amount and the period, from 3 days to 48 weeks | None |
-| Holding veCRV (CRV locked for voting power) | The CRV you buy and lock, for up to four years | How many votes you need against the total veCRV voting for [gauges](./overview.md) | None |
-| Holding vlCVX (CVX locked for Convex voting power) | The CVX you buy and lock, for 16 weeks | Your share of Convex's veCRV votes | None |
+| Direct rewards | Your reward budget, streamed to staked [liquidity providers](/protocol/glossary#liquidity-provider) (LPs) | You choose the amount and the period, from 3 days to 48 weeks | None |
+| Holding [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power) | The CRV you buy and lock, for up to four years | How many votes you need against the total veCRV voting for [gauges](./overview.md) | None |
+| Holding [vlCVX](/protocol/glossary#vlcvx) (CVX locked for Convex voting power) | The CVX you buy and lock, for 16 weeks | Your share of Convex's veCRV votes | None |
 | Vote incentives (bribes) | Payments to veCRV or vlCVX holders who vote for your gauge | The going price per vote, which changes every round | Charged by Votemarket and Votium; check before funding |
 | Merkl campaigns | Your reward budget | You choose the amount and the rules | 3% for standard campaigns at the time of writing ([fee model](https://docs.merkl.xyz/distribute-with-merkl/fee-model)) |
 

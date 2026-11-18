@@ -21,7 +21,7 @@ yRisk, the Curve DAO's elected risk manager, reviews the market, and a DAO vote 
 
 ## Propose the Market
 
-1. Prepare the token pair, price oracle, monetary policy (the contract that sets the borrow rate) and parameters. [Oracles & Parameters](../oracles-and-parameters.md) covers each choice.
+1. Prepare the token pair, price oracle, [monetary policy](/protocol/glossary#monetary-policy) (the contract that sets the borrow rate) and parameters. [Oracles & Parameters](../oracles-and-parameters.md) covers each choice.
 2. Propose the market on the [Curve governance forum](https://gov.curve.finance/).
 3. Wait for yRisk to review the oracle, the parameters and the proposed borrow cap.
 

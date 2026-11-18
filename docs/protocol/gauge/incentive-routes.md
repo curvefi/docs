@@ -11,7 +11,7 @@ Liquidity providers (LPs) deposit where the yield is. This page lists the ways a
 
 Most routes pay LPs through the pool's **gauge**, a contract that rewards LPs who stake their LP tokens (tokens that represent a share of the pool) in it. Anyone can deploy a gauge for any pool, and it can pay your own token rewards as soon as it exists.
 
-CRV emissions take more. The Curve DAO must first whitelist the gauge in a 7-day onchain vote, and creating that vote needs 2,500 veCRV (CRV locked for voting power). After that, the gauge earns a share of weekly CRV inflation equal to its share of veCRV gauge votes, updated every Thursday at 00:00 UTC. CRV emissions cost you nothing directly, but their value to LPs moves with the CRV price. A gauge on another chain receives CRV through a root gauge on Ethereum, so whitelisting and voting both happen there. Its CRV arrives about a week later than on Ethereum: CRV accumulates in the root gauge for one week, then is bridged and streamed to LPs on the other chain ([Gauge Weights on L2s](/user/dao/gauge-weights#gauge-weights-on-l2s)). See [Whitelisting a Gauge](./whitelisting-gauge.md) and [Getting CRV Emissions](./guides/getting-crv-emissions.md).
+CRV emissions take more. The Curve DAO must first whitelist the gauge in a 7-day onchain vote, and creating that vote needs 2,500 [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power). After that, the gauge earns a share of weekly CRV inflation equal to its share of veCRV gauge votes, updated every Thursday at 00:00 UTC. CRV emissions cost you nothing directly, but their value to LPs moves with the CRV price. A gauge on another chain receives CRV through a root gauge on Ethereum, so whitelisting and voting both happen there. Its CRV arrives about a week later than on Ethereum: CRV accumulates in the root gauge for one week, then is bridged and streamed to LPs on the other chain ([Gauge Weights on L2s](/user/dao/gauge-weights#gauge-weights-on-l2s)). See [Whitelisting a Gauge](./whitelisting-gauge.md) and [Getting CRV Emissions](./guides/getting-crv-emissions.md).
 
 | Route | Needs a gauge | Needs DAO whitelist | Who pays LPs |
 | ----- | ------------- | ------------------- | ------------ |
@@ -49,7 +49,7 @@ To hold veCRV voting power indirectly, use a liquid locker such as [StakeDAO](ht
 
 ### Holding vlCVX
 
-You lock CVX on [Convex](https://www.convexfinance.com) for 16 weeks. Convex holds a large share of veCRV and votes it every 2 weeks as holders of vlCVX (CVX locked for Convex voting power) direct.
+You lock CVX on [Convex](https://www.convexfinance.com) for 16 weeks. Convex holds a large share of veCRV and votes it every 2 weeks as holders of [vlCVX](/protocol/glossary#vlcvx) (CVX locked for Convex voting power) direct.
 
 **What it needs:** a whitelisted gauge and enough vlCVX for your share of Convex's votes to matter.
 

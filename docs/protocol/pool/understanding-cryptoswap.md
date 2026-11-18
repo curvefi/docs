@@ -10,7 +10,7 @@ import CryptoswapParamsChart from '@site/src/components/Charts/CryptoswapParams'
 import FXSwapDynamicFeeChart from '@site/src/components/Charts/FXSwapDynamicFee';
 
 
-Cryptoswap is Curve's AMM for volatile pairs, such as ETH/USDC or BTC/ETH. It concentrates liquidity around an internal exponential moving average (EMA) price and re-centers it as the price moves, so liquidity providers (LPs) don't manage price ranges.
+Cryptoswap is Curve's AMM for volatile pairs, such as ETH/USDC or BTC/ETH. It concentrates liquidity around an internal [exponential moving average](/protocol/glossary#ema) (EMA) price and re-centers it as the price moves, so [liquidity providers](/protocol/glossary#liquidity-provider) (LPs) don't manage price ranges.
 
 ## Historical Background
 
@@ -168,7 +168,7 @@ The algorithm is designed to protect LPs from rebalancing losses (as much as pos
 
 **3. Capital Efficiency**
 
-This efficiency stands in contrast to classic AMMs with the `x*y=k` invariant, which use the $x \cdot y = k$ formula. In those models, liquidity is spread thinly across all possible prices (from zero to infinity). By concentrating liquidity around the current price, Cryptoswap offers significantly lower slippage (price impact of a trade) for traders and generates more fees for LPs from the same amount of capital.
+This efficiency stands in contrast to classic AMMs with the `x*y=k` invariant, which use the $x \cdot y = k$ formula. In those models, liquidity is spread thinly across all possible prices (from zero to infinity). By concentrating liquidity around the current price, Cryptoswap offers significantly lower [slippage](/protocol/glossary#slippage) (price impact of a trade) for traders and generates more fees for LPs from the same amount of capital.
 
 ## Stale Pools
 

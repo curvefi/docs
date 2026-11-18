@@ -61,7 +61,7 @@ The Curve DAO, which governs it from Ethereum through a cross-chain agent and re
 
 ### Can pools on my chain receive CRV emissions?
 
-Yes, once a DAO vote whitelists their gauges. Each gauge then receives CRV in proportion to its gauge weight votes from veCRV (CRV locked for voting power).
+Yes, once a DAO vote whitelists their gauges. Each gauge then receives CRV in proportion to its gauge weight votes from [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power).
 
 ## Related
 

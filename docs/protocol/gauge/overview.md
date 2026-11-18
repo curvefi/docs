@@ -7,22 +7,22 @@ description: How Curve gauges pay CRV emissions and direct rewards to liquidity 
 
 import GuideCardGrid from '@site/src/components/GuideCardGrid';
 
-Pay incentives to every liquidity provider (LP) in your pool or lending vault. Deploying a gauge is one transaction with no approval; CRV emissions add a 7-day Curve DAO vote.
+Pay incentives to every [liquidity provider](/protocol/glossary#liquidity-provider) (LP) in your pool or lending vault. Deploying a gauge is one transaction with no approval; CRV emissions add a 7-day Curve DAO vote.
 
 A **gauge** is a contract that pays rewards to LPs who stake their LP tokens (tokens that represent a share of the pool) or vault tokens in it. A pool or lending vault works without one. LPs who don't stake in the gauge earn trading fees or interest, but not the gauge's rewards.
 
 Rewards reach a gauge in two ways:
 
-- **CRV emissions:** a share of Curve's weekly CRV inflation, set by [gauge weight](/user/dao/gauge-weights) votes from veCRV (CRV locked for voting power). The gauge must first be whitelisted, which makes it eligible for CRV emissions.
+- **CRV emissions:** a share of Curve's weekly CRV inflation, set by [gauge weight](/user/dao/gauge-weights) votes from [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power). The gauge must first be whitelisted, which makes it eligible for CRV emissions.
 - **Direct rewards:** tokens you deposit into the gauge yourself. No vote is needed.
 
-For every way to fund LP yield, including vote incentives (bribes paid to veCRV voters) and Merkl, and when each fits, see [Incentivizing a Pool](./incentive-routes.md). [What Curve Incentives Cost](./incentive-costs.md) compares their costs, and the [Launch Timeline](../launch-playbook.md) shows how long each Curve DAO step takes.
+For every way to fund LP yield, including [vote incentives](/protocol/glossary#vote-incentives) (bribes paid to veCRV voters) and Merkl, and when each fits, see [Incentivizing a Pool](./incentive-routes.md). [What Curve Incentives Cost](./incentive-costs.md) compares their costs, and the [Launch Timeline](../launch-playbook.md) shows how long each Curve DAO step takes.
 
 <GuideCardGrid guideKeys={['IncentivizingAPool', 'HowToGetAGauge']} />
 
 ## Why Use a Gauge
 
-Incentives give LPs a reason to deposit. More liquidity means lower slippage (price movement per trade) for anyone trading your token.
+Incentives give LPs a reason to deposit. More liquidity means lower [slippage](/protocol/glossary#slippage) (price impact of a trade) for anyone trading your token.
 
 Gauges also connect three groups:
 

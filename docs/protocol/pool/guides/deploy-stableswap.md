@@ -49,7 +49,7 @@ Nobody approves it. Only CRV emissions need a Curve DAO vote, after you deploy a
 3. For an **Oracle** token, enter the oracle's **Address** and its **Function**, such as `stEthPerToken()`. The app checks that the rate has 18 decimals.
 4. Select **Next**.
 
-To build a metapool, pick a base pool's LP token (the token that represents a share of the pool), marked **BASE** in the token list. A metapool holds two tokens: yours and the base pool's LP token.
+To build a metapool, pick a base pool's [LP token](/protocol/glossary#lp-token) (the token that represents a share of the pool), marked **BASE** in the token list. A metapool holds two tokens: yours and the base pool's LP token.
 
 | Asset type | Use it for | Example |
 | --- | --- | --- |
@@ -77,9 +77,9 @@ Skip this section if none of your tokens uses the **Oracle** type.
 
 A Stableswap rate oracle returns a redemption rate: the value of one token in the pool's base asset, with 18 decimals. It is not a trading price. Before you deploy, confirm three things:
 
-1. **The rate never decreases.** A lower rate shifts the pool's center of liquidity down, and anyone who can push it down can trade around the update at the expense of liquidity providers (LPs). Yield-bearing tokens such as staking or savings tokens only accrue, so their redemption rate qualifies.
+1. **The rate never decreases.** A lower rate shifts the pool's center of liquidity down, and anyone who can push it down can trade around the update at the expense of [liquidity providers](/protocol/glossary#liquidity-provider) (LPs). Yield-bearing tokens such as staking or savings tokens only accrue, so their redemption rate qualifies.
 2. **The rate moves slowly.** One update must not move the rate by more than twice the pool fee. See [The Oracle Sandwich](../understanding-stableswap.md#1-the-oracle-sandwich-2-fee-rule).
-3. **You know who controls the rate oracle.** A multisig (a wallet controlled by several signers) or a single address that can change the rate at will is a risk to the pool.
+3. **You know who controls the rate oracle.** A [multisig](/protocol/glossary#multisig) (a wallet controlled by several signers) or a single address that can change the rate at will is a risk to the pool.
 
 Never use a spot price, a withdrawal simulation such as `calc_withdraw_one_coin()` or token balances as the rate. [Best Practices for Rate Oracles](../understanding-stableswap.md#best-practices-for-oracles) lists the rest.
 

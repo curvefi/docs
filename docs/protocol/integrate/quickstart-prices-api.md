@@ -5,7 +5,7 @@ sidebar_label: "Quickstart: Read Data"
 description: Fetch a Curve pool's TVL, volume and coins, and list Llamalend markets with their rates, from the Curve Prices API with curl or TypeScript.
 ---
 
-When you finish, you can read a Curve pool's TVL (total value locked), volume and balances, and list the Llamalend markets on a chain, with curl or TypeScript.
+When you finish, you can read a Curve pool's [TVL](/protocol/glossary#tvl) (total value locked), volume and balances, and list the Llamalend markets on a chain, with curl or TypeScript.
 
 Two requests, with no API key or sign-up.
 

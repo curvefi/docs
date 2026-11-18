@@ -44,7 +44,7 @@ Existing loans can still be repaid or liquidated, and lenders withdraw as borrow
 
 ## Emergencies
 
-The [Emergency DAO](/user/dao/emergency-dao), a 5-of-9 multisig (a wallet that needs several signers to act), can make a fixed set of changes through the `LendingOwnerProxy` without a vote, such as setting a borrow cap to zero. It cannot move user funds. [Parameters and Access Control](./parameters-and-access-control.md#changed-after-deployment) lists each change it can make, and [Who the Admins Are](./parameters-and-access-control.md#who-the-admins-are) shows the addresses.
+The [Emergency DAO](/user/dao/emergency-dao), a 5-of-9 [multisig](/protocol/glossary#multisig) (a wallet that needs several signers to act), can make a fixed set of changes through the `LendingOwnerProxy` without a vote, such as setting a borrow cap to zero. It cannot move user funds. [Parameters and Access Control](./parameters-and-access-control.md#changed-after-deployment) lists each change it can make, and [Who the Admins Are](./parameters-and-access-control.md#who-the-admins-are) shows the addresses.
 
 ## Check It Worked
 

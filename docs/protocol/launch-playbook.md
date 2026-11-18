@@ -5,7 +5,7 @@ sidebar_label: Launch Timeline
 description: How long each step of launching a token on Curve takes, from pool and gauge deployment to the 7-day Curve DAO votes for CRV emissions and a Llamalend borrow cap, and the weekly gauge weight cycle.
 ---
 
-This page lists the steps for taking a token from no liquidity to a Curve pool with incentives and a lending market, with how long each one takes. Later steps are optional: a pool works without a gauge (the contract that pays incentives to the pool's liquidity providers, or LPs), and a gauge works without CRV emissions or a lending market.
+This page lists the steps for taking a token from no liquidity to a Curve pool with incentives and a lending market, with how long each one takes. Later steps are optional: a pool works without a [gauge](/protocol/glossary#gauge) (the contract that pays incentives to the pool's liquidity providers, or LPs), and a gauge works without CRV emissions or a lending market.
 
 ## Timeline
 
@@ -15,7 +15,7 @@ This page lists the steps for taking a token from no liquidity to a Curve pool w
 | Deploy the pool's gauge | You | One transaction |
 | Pay direct rewards | You, as gauge manager | Live from the next deposit; each deposit streams over 3 days to 48 weeks |
 | Post a forum proposal for CRV emissions or a lending market | You | Before the vote; recommended |
-| Curve DAO vote to whitelist the gauge (make it eligible for CRV emissions) or set a borrow cap | Holders of veCRV (CRV locked for voting power) | 7 days, then anyone can execute it |
+| Curve DAO vote to whitelist the gauge (make it eligible for CRV emissions) or set a borrow cap | Holders of [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power) | 7 days, then anyone can execute it |
 | Gauge receives CRV | veCRV holders, through gauge weight votes | From the next Thursday 00:00 UTC update after votes are cast |
 | CRV reaches a gauge on another chain | Automatic, through the root gauge | About one more week |
 

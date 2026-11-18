@@ -11,11 +11,11 @@ A Llamalend market is permissionless to deploy, but it can't lend until the Curv
 
 | Role | What it does |
 | --- | --- |
-| Issuer (you, when you propose the market) | Prepares the token pair, price oracle, monetary policy (the contract that sets the borrow rate) and parameters, deploys the market, proposes it to the DAO and seeds lender liquidity |
+| Issuer (you, when you propose the market) | Prepares the token pair, price oracle, [monetary policy](/protocol/glossary#monetary-policy) (the contract that sets the borrow rate) and parameters, deploys the market, proposes it to the DAO and seeds lender liquidity |
 | yRisk, the Curve DAO's elected risk manager | Reviews a market's oracle, parameters and caps, and advises on changes while the market runs |
 | Curve DAO | Votes to set the borrow cap and change market parameters. Its ownership agent controls the `LendingOwnerProxy`, the admin contract the Curve DAO and Emergency DAO act through. The proxy administers the Configurator, the contract that changes a market's settings, and the LendFactory, the contract that deploys and registers markets |
-| [Emergency DAO](/user/dao/emergency-dao) | A 5-of-9 multisig (a wallet that needs several signers to act) that can make a fixed set of emergency changes through the same proxy, such as setting a borrow cap to zero. It cannot move user funds |
-| Liquidators and arbitrageurs | Trade against LLAMMA (Llamalend's liquidation AMM) as prices move and close unhealthy loans |
+| [Emergency DAO](/user/dao/emergency-dao) | A 5-of-9 [multisig](/protocol/glossary#multisig) (a wallet that needs several signers to act) that can make a fixed set of emergency changes through the same proxy, such as setting a borrow cap to zero. It cannot move user funds |
+| Liquidators and arbitrageurs | Trade against [LLAMMA](/protocol/glossary#llamma) (Llamalend's liquidation AMM) as prices move and close unhealthy loans |
 
 A Curve DAO vote can also assign a market-specific admin, who can then change that market's settings without a vote each time. See [Llamalend Parameters and Access Control](./parameters-and-access-control.md).
 

@@ -78,7 +78,7 @@ You can treat refuels as a transparent liquidity budget: the balance, unlock sch
 - **Open Access:** Refuels can be added by anyone.
 - **Unlock Period:** Refuel shares are initially locked and unlock linearly over a set duration (default is 7 days, configurable via `donation_duration`) to prevent immediate depletion.
 - **Priority Usage:** Unlocked refuel shares are available to be burned first when recentering needs a subsidy. Unlocking makes shares available; only a rebalance burns and depletes them.
-- **Finite Buffer:** Refuel shares can decline to zero as the pool uses them. Refuels do not guarantee a fixed price, volume, or liquidity provider (LP) return.
+- **Finite Buffer:** Refuel shares can decline to zero as the pool uses them. Refuels do not guarantee a fixed price, volume, or [liquidity provider](/protocol/glossary#liquidity-provider) (LP) return.
 
 ### How much do refuels cost?
 
@@ -140,7 +140,7 @@ Yes, but be aware that FXSwap pools use the simpler Stableswap invariant (no `ga
 
 ### Amplification Factor (`A`)
 
-The amplification factor in FXSwap pools works similarly to the [amplification factor in Stableswap pools](understanding-stableswap.md#amplification-factor-a), with one key distinction: the liquidity centers around a variable called `price_scale` rather than a fixed 1.0 peg (target price).
+The amplification factor in FXSwap pools works similarly to the [amplification factor in Stableswap pools](understanding-stableswap.md#amplification-factor-a), with one key distinction: the liquidity centers around a variable called `price_scale` rather than a fixed 1.0 [peg](/protocol/glossary#peg) (target price).
 
 The chart below shows what this means in terms of balance in the pools and prices:
 

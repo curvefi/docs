@@ -9,7 +9,7 @@ import ThemedVideo from '@site/src/components/ThemedVideo';
 import StableswapAmplificationChart from '@site/src/components/Charts/StableswapAmplification';
 import StableswapDynamicFeeChart from '@site/src/components/Charts/StableswapDynamicFee';
 
-Stableswap is Curve's AMM for assets that trade near the same price, such as two USD stablecoins or an LST (liquid staking token) and ETH. It concentrates liquidity around the peg (the shared target price), so trades near the peg have low slippage (price impact of a trade), and it keeps quoting prices when a pool moves away from the peg.
+Stableswap is Curve's AMM for assets that trade near the same price, such as two USD stablecoins or an [LST](/protocol/glossary#lst) (liquid staking token) and ETH. It concentrates liquidity around the [peg](/protocol/glossary#peg) (the shared target price), so trades near the peg have low [slippage](/protocol/glossary#slippage) (price impact of a trade), and it keeps quoting prices when a pool moves away from the peg.
 
 ## Historical Background
 
@@ -25,7 +25,7 @@ In October 2023, the initial Stableswap implementation was reworked into **Stabl
 
 ## How it Works
 
-Stableswap was designed for pools of similarly priced assets, such as stablecoins of the same denomination (e.g., USD), to concentrate liquidity around their pegged price (e.g., USDC/USDT at 1.0). Unlike concentrated liquidity AMMs (CLAMMs) where liquidity providers (LPs) must actively set price ranges, **Stableswap's liquidity concentration is fully passive**: users deposit tokens, and the protocol automatically concentrates liquidity around the peg through a **single continuous bonding curve**. No range management or active position adjustments are required.
+Stableswap was designed for pools of similarly priced assets, such as stablecoins of the same denomination (e.g., USD), to concentrate liquidity around their pegged price (e.g., USDC/USDT at 1.0). Unlike concentrated liquidity AMMs (CLAMMs) where [liquidity providers](/protocol/glossary#liquidity-provider) (LPs) must actively set price ranges, **Stableswap's liquidity concentration is fully passive**: users deposit tokens, and the protocol automatically concentrates liquidity around the peg through a **single continuous bonding curve**. No range management or active position adjustments are required.
 
 <figure style={{ textAlign: 'center' }}>
   <ThemedImage
@@ -78,7 +78,7 @@ Stableswap pools support up to 8 assets in a single pool. These can be a range o
 
 - **Standard**: Normal stable assets. For a USD pool, this includes tokens like crvUSD or USDC. For a BTC pool, this includes WBTC, tBTC, or cbBTC.
 - **Rebasing**: Assets where yield is distributed by automatically increasing the token balance in the user's wallet (e.g., stETH).
-- **Oracle**: Assets whose underlying value increases relative to the peg, utilizing a rate oracle (a contract that reports the token's redemption rate) to track the exchange rate. This is used for yield-bearing assets that are not ERC-4626 tokens (e.g., wstETH).
+- **Oracle**: Assets whose underlying value increases relative to the peg, utilizing a [rate oracle](/protocol/glossary#rate-oracle) (a contract that reports the token's redemption rate) to track the exchange rate. This is used for yield-bearing assets that are not ERC-4626 tokens (e.g., wstETH).
 - **ERC-4626**: Also known as **Tokenized Vaults**. These tokens increase in value over time and utilize the standard `convertToAssets` function to track value. They function similarly to Oracle assets but require no configuration due to their standardized structure.  *Note: these tokens should be strictly increasing in value over time.*
 
 Curve allows these different asset types to be integrated into a single pool seamlessly. For example, a valid pool could contain:

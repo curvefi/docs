@@ -11,11 +11,11 @@ Issuers of tokenized real-world assets (RWAs), such as treasuries, credit, commo
 
 You deploy the pool yourself, with no approval and no fee beyond gas. The pool type depends on how your asset is priced. [Stableswap](../pool/understanding-stableswap.md) fits tokens that hold a stable value against a stablecoin. [FXSwap](../pool/understanding-fxswap.md) fits pairs whose price is set by an external price source, such as FX rates.
 
-A token whose value grows over time, such as a tokenized treasury, can use Stableswap-NG's ERC-4626 (the standard yield-bearing deposit token) or rate-oracle token types and trade at its current rate.
+A token whose value grows over time, such as a tokenized treasury, can use Stableswap-NG's [ERC-4626](/protocol/glossary#erc-4626) (the standard yield-bearing deposit token) or rate-oracle token types and trade at its current rate.
 
 ## Borrowing Against Your Token
 
-A [Llamalend](../lending/launch-isolated-lending-market.md) market lets holders borrow against your token and keep it. Each market is isolated, so a loss in one market does not reach another. Liquidity providers (LPs) in a 2-coin Stableswap-NG pool can also borrow against their LP token (the token that represents a share of the pool).
+A [Llamalend](../lending/launch-isolated-lending-market.md) market lets holders borrow against your token and keep it. Each market is isolated, so a loss in one market does not reach another. Liquidity providers (LPs) in a 2-coin Stableswap-NG pool can also borrow against their [LP token](/protocol/glossary#lp-token) (the token that represents a share of the pool).
 
 ## What Holders and LPs Get
 
@@ -40,7 +40,7 @@ A [Llamalend](../lending/launch-isolated-lending-market.md) market lets holders 
 
 Tokens with transfer restrictions, transfer taxes, blacklists or allowlists are generally refused CRV emissions by the Curve DAO, which considers only freely transferable, openly accessible tokens. Direct rewards in your own token need no vote. See [Whitelisting a Gauge](../gauge/whitelisting-gauge.md).
 
-If your token moves only between approved addresses, the pool, its gauge (the contract that distributes incentives) and every user must be able to receive it.
+If your token moves only between approved addresses, the pool, its [gauge](/protocol/glossary#gauge) (the contract that distributes incentives) and every user must be able to receive it.
 
 A rate oracle has strict rules, and you should know who controls it. Read [Oracle-Based Tokens](../pool/guides/deploy-stableswap.md#oracle-based-tokens).
 

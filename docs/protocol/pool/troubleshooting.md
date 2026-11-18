@@ -21,7 +21,7 @@ A pool holding much more of one token than the other can mean the amplification 
 
 ## Cryptoswap Liquidity Is Stale
 
-A Cryptoswap pool rebalances only when the cost is less than half of the trading fees liquidity providers (LPs) have earned. During a large price move this can leave the pool stuck: its center of liquidity, `price_scale`, sits far from the current price. Less liquidity near the current price means fewer trades and less fee income, so the pool can't afford to rebalance.
+A Cryptoswap pool rebalances only when the cost is less than half of the trading fees [liquidity providers](/protocol/glossary#liquidity-provider) (LPs) have earned. During a large price move this can leave the pool stuck: its center of liquidity, `price_scale`, sits far from the current price. Less liquidity near the current price means fewer trades and less fee income, so the pool can't afford to rebalance.
 
 <figure style={{ textAlign: 'center' }}>
   <ThemedImage
@@ -43,7 +43,7 @@ A Cryptoswap pool rebalances only when the cost is less than half of the trading
 Open the pool in the Curve app and find the **Price Oracle** and **Price Scale** cards in its Advanced Details. Compare the two values:
 
 - **Price Scale** is the price at which liquidity was last rebalanced, the center of liquidity.
-- **Price Oracle** is the pool oracle, an exponential moving average (EMA) of recent prices. Rebalances follow this price, which makes them hard to manipulate.
+- **Price Oracle** is the pool oracle, an [exponential moving average](/protocol/glossary#ema) (EMA) of recent prices. Rebalances follow this price, which makes them hard to manipulate.
 
 A large gap between them that persists means the pool is stale.
 
@@ -70,7 +70,7 @@ Parameters set at deployment are the main defense. A higher `gamma` and a lower 
 
 1. **Change parameters by DAO vote.** `A` and `gamma` can be ramped gradually. Lowering `A` and adjusting `gamma` spreads liquidity and adds depth at the current price. They can be ramped back once the pool recovers.
 2. **Seed a new pool.** This works mainly if you own most of the pool's liquidity. Deploy a pool with better parameters and, if there is one, have the old gauge killed.
-3. **Generate volume.** Large trades, often funded with flash loans (borrowed and repaid in one transaction), can earn enough fees for the pool to rebalance. This costs money, needs careful simulation and can be undone by the next price move. Treat it as a last resort.
+3. **Generate volume.** Large trades, often funded with [flash loans](/protocol/glossary#flash-loan) (borrowed and repaid in one transaction), can earn enough fees for the pool to rebalance. This costs money, needs careful simulation and can be undone by the next price move. Treat it as a last resort.
 
 ## An FXSwap Pool Drifts From the External Price {#an-fxswap-pool-drifts-from-the-market-price}
 

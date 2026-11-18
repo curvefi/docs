@@ -17,7 +17,7 @@ Preset values below are from the Curve app's pool creation code (`apps/main/src/
 | Crypto-collateralized stablecoins | 0.04% | 100 | 20 |
 | Liquid restaking tokens | 0.01% | 500 | 10 |
 
-All three use a 600-second exponential moving average (EMA) half-life for the pool oracle. The contract stores it as `ma_exp_time` = 866 (600 / ln 2).
+All three use a 600-second [exponential moving average](/protocol/glossary#ema) (EMA) half-life for the pool oracle. The contract stores it as `ma_exp_time` = 866 (600 / ln 2).
 
 ## Cryptoswap and FXSwap Presets
 
@@ -25,7 +25,7 @@ All three use a 600-second exponential moving average (EMA) half-life for the po
 | --- | --- | --- | --- |
 | Crypto | Most volatile pairs, such as LDO/ETH | 0.26% | 0.45% |
 | Low volatility | Pairs with low relative volatility | 0.05% | 0.45% |
-| Liquid staking derivatives | LSTs (liquid staking tokens) soft-pegged to their underlying | 0.03% | 0.45% |
+| Liquid staking derivatives | [LSTs](/protocol/glossary#lst) (liquid staking tokens) soft-pegged to their underlying | 0.03% | 0.45% |
 | Liquid restaking tokens | LRTs | 0.005% | 0.08% |
 | Tricrypto | USD stablecoin, BTC and ETH | 0.01% | 1.4% |
 | Three coin volatile | A volatile token with ETH and a USD stablecoin | 0.03% | 0.8% |

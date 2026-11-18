@@ -5,14 +5,14 @@ sidebar_label: Whitelisting a Gauge
 description: How to get a Curve gauge whitelisted for CRV emissions through a Curve DAO vote, what the vote needs and which tokens the DAO generally rejects.
 ---
 
-When you finish, your gauge is in the `GaugeController` and holders of veCRV (CRV locked for voting power) can vote CRV emissions to it.
+When you finish, your gauge is in the `GaugeController` and holders of [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power) can vote CRV emissions to it.
 
 The Curve DAO vote runs for 7 days, and creating it needs 2,500 veCRV.
 
 :::warning
 The DAO generally rejects gauges for pools or lending markets with tokens that have transfer restrictions, transfer taxes, blacklists or other non-standard behavior. Only freely transferable, openly accessible tokens are considered.
 
-The DAO decides each vote, but it has historically put protecting liquidity providers (LPs) and the protocol from value extraction first. Check that your token behaves as a standard ERC-20 before you propose a gauge.
+The DAO decides each vote, but it has historically put protecting [liquidity providers](/protocol/glossary#liquidity-provider) (LPs) and the protocol from value extraction first. Check that your token behaves as a standard ERC-20 before you propose a gauge.
 :::
 
 [Incentivize Liquidity](./overview.md) explains what a gauge does, and [Governance Proposals](/user/dao/proposals) explains how a vote passes.

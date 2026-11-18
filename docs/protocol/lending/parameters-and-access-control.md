@@ -15,7 +15,7 @@ These values are passed to `LendFactory.create()`.
 | --- | --- | --- |
 | `borrowed_token` | ERC-20 address | Asset supplied to the Vault and borrowed from the market |
 | `collateral_token` | A different ERC-20 address | Asset securing borrower debt |
-| `A` | Integer from 2 to 10,000 | LLAMMA (Llamalend's liquidation AMM) band width; larger values create narrower bands |
+| `A` | Integer from 2 to 10,000 | [LLAMMA](/protocol/glossary#llamma) (Llamalend's liquidation AMM) band width; larger values create narrower bands |
 | `fee` | WAD-scaled, `10^18` = 100% | Swap fee inside the AMM; its allowed range depends on `A` |
 | `loan_discount` | WAD-scaled, below `10^18` | Discount used to calculate maximum borrowing power |
 | `liquidation_discount` | WAD-scaled, above zero and below `loan_discount` | Discount used for hard-liquidation calculations |

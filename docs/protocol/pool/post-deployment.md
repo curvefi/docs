@@ -5,7 +5,7 @@ sidebar_label: "After Deploying a Pool"
 description: "What to do after deploying a Curve pool: seed initial liquidity, check integrations, submit the token logo, deploy a gauge, add refuels and plan incentives."
 ---
 
-When you finish, your pool holds liquidity, shows your token's logo, has a gauge (the contract that streams rewards to liquidity providers) for rewards and has a plan for incentives.
+When you finish, your pool holds liquidity, shows your token's logo, has a [gauge](/protocol/glossary#gauge) (the contract that streams rewards to liquidity providers) for rewards and has a plan for incentives.
 
 Most steps take one transaction or one pull request. CRV emissions, if you want them, add a 7-day Curve DAO vote.
 
@@ -53,7 +53,7 @@ Skip this section for Stableswap and Cryptoswap pools.
 
 ## Monitor the Pool {#monitor-performance-and-update-parameters}
 
-Watch volume, TVL (total value locked) and token balances. Heavily skewed balances can mean a parameter is off, such as an amplification factor (`A`, how tightly liquidity concentrates around the balanced price) that is too high. Compare your pool with [Pool Parameter Presets](./presets.md), and use [Troubleshooting Curve Pools](./troubleshooting.md) for skewed or stale pools. Parameter changes need a Curve DAO vote.
+Watch volume, [TVL](/protocol/glossary#tvl) (total value locked) and token balances. Heavily skewed balances can mean a parameter is off, such as an [amplification factor](/protocol/glossary#amplification) (`A`, how tightly liquidity concentrates around the balanced price) that is too high. Compare your pool with [Pool Parameter Presets](./presets.md), and use [Troubleshooting Curve Pools](./troubleshooting.md) for skewed or stale pools. Parameter changes need a Curve DAO vote.
 
 ## Check It Worked
 

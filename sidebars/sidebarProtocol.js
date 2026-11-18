@@ -230,6 +230,10 @@ export default {
             },
         },
         {
+            type: 'doc',
+            id: 'glossary',
+        },
+        {
             type: 'category',
             label: 'Curve API',
             collapsed: true,

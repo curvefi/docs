@@ -15,7 +15,7 @@ When deploying pools via the Curve UI, recommended parameters are automatically 
 
 ## Monitoring Parameters
 
-Monitoring parameters is crucial for optimal pool performance. Depending on factors like trading conditions, asset liquidity, trading volume, parameters can be optimized to help liquidity providers (LPs) earn more fees and provide better exchange rates for traders. Regular parameter adjustments ensure pools remain competitive and efficient.
+Monitoring parameters is crucial for optimal pool performance. Depending on factors like trading conditions, asset liquidity, trading volume, parameters can be optimized to help [liquidity providers](/protocol/glossary#liquidity-provider) (LPs) earn more fees and provide better exchange rates for traders. Regular parameter adjustments ensure pools remain competitive and efficient.
 
 :::info
 **Struggling with parameters?** Ask the Curve team in <a href="https://t.me/curvefi" target="_blank" rel="noopener noreferrer">Telegram</a> about any of them, from A to γ.
@@ -25,10 +25,10 @@ Monitoring parameters is crucial for optimal pool performance. Depending on fact
 
 | Name | Variable Name | Description |
 | :--: | :-----------: | ----------- |
-| Amplification coefficient | `A` | Controls liquidity concentration around the 1:1 price. Higher values reduce slippage (price impact of a trade) near the peg (the shared target price), lower values spread liquidity more evenly. More here: [Stableswap `A`](understanding-stableswap.md#amplification-factor-a) |
+| Amplification coefficient | `A` | Controls liquidity concentration around the 1:1 price. Higher values reduce [slippage](/protocol/glossary#slippage) (price impact of a trade) near the [peg](/protocol/glossary#peg) (the shared target price), lower values spread liquidity more evenly. More here: [Stableswap `A`](understanding-stableswap.md#amplification-factor-a) |
 | Regular fee | `fee` | Regular trading fee charged on swaps when pool is perfectly balanced |
 | Off-peg fee multiplier | `offpeg_fee_multiplier` | Multiplier applied to fees when pool is imbalanced. The greater the imbalance, the higher the multiplier. More here: [Dynamic Fees](understanding-stableswap.md#offpeg-fee-multiplier-and-dynamic-fees) |
-| EMA time | `ma_exp_time` | Time constant for the pool oracle's exponential moving average (EMA) price |
+| EMA time | `ma_exp_time` | Time constant for the pool oracle's [exponential moving average](/protocol/glossary#ema) (EMA) price |
 
 ## Cryptoswap Parameters
 

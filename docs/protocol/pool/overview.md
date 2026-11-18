@@ -20,9 +20,9 @@ It takes the tokens' addresses, a pool type that fits your pair, gas and the liq
 
 | Asset pair | Pool type | Why |
 | --- | --- | --- |
-| Two USD stablecoins, such as USDC/USDT | Stableswap | Liquidity sits at the peg (the shared target price), so trades near 1:1 have the lowest slippage (price impact of a trade) |
-| A savings or yield-bearing stablecoin and its base, such as sfrxUSD/frxUSD | Stableswap-NG with the ERC-4626 (standard yield-bearing token) or oracle token type | The pool prices the savings token at its current rate |
-| An LST or LRT (liquid staking or restaking token) and ETH, such as wstETH/WETH or weETH/WETH | Stableswap-NG with the oracle or rebasing (balance grows in the wallet) token type | The pool follows the token's staking rate |
+| Two USD stablecoins, such as USDC/USDT | Stableswap | Liquidity sits at the [peg](/protocol/glossary#peg) (the shared target price), so trades near 1:1 have the lowest [slippage](/protocol/glossary#slippage) (price impact of a trade) |
+| A savings or yield-bearing stablecoin and its base, such as sfrxUSD/frxUSD | Stableswap-NG with the [ERC-4626](/protocol/glossary#erc-4626) (standard yield-bearing token) or oracle token type | The pool prices the savings token at its current rate |
+| An LST or [LRT](/protocol/glossary#lst) (liquid staking or restaking token) and ETH, such as wstETH/WETH or weETH/WETH | Stableswap-NG with the oracle or [rebasing](/protocol/glossary#rebasing) (balance grows in the wallet) token type | The pool follows the token's staking rate |
 | Two wrapped BTC tokens, such as tBTC/WBTC | Stableswap | Both track BTC |
 | Your stablecoin and a DAO-approved base pool | Stableswap metapool | Traders reach your token from every coin in the base pool |
 | A volatile token and ETH or a stablecoin, such as CVX/ETH or YB/crvUSD | Cryptoswap | The pool can be where the token mainly trades, and it re-centers as the price moves |
@@ -51,7 +51,7 @@ For two low-volatility assets whose price is set on a deeper external trading ve
 
 ## Base Pools and Metapools
 
-A base pool is a Stableswap pool that the Curve DAO has approved for metapools. A metapool pairs one token with a base pool's LP token (the token that represents a share of the pool), so traders can swap the token against every coin in the base pool. A new token reaches the base pool's existing liquidity without attracting all of it itself.
+A base pool is a Stableswap pool that the Curve DAO has approved for metapools. A metapool pairs one token with a base pool's [LP token](/protocol/glossary#lp-token) (the token that represents a share of the pool), so traders can swap the token against every coin in the base pool. A new token reaches the base pool's existing liquidity without attracting all of it itself.
 
 <figure>
 <ThemedImage

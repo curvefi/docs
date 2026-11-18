@@ -40,7 +40,7 @@ Llamalend v1 is deprecated. New markets and integrations should use the v2 contr
 **For your users:**
 
 - **Time to react.** Soft liquidation sells collateral gradually as the price falls, instead of seizing it all at one price.
-- **High LTV (loan-to-value) on correlated pairs.** Live markets for yield-bearing stablecoins allowed a maximum LTV of up to about 98% as of 17 November 2026, per the Curve Prices API.
+- **High [LTV](/protocol/glossary#ltv) (loan-to-value) on correlated pairs.** Live markets for yield-bearing stablecoins allowed a maximum LTV of up to about 98% as of 17 November 2026, per the Curve Prices API.
 - **They keep their yield.** Yield-bearing collateral, such as ERC-4626 tokens (the standard for yield-bearing deposit tokens), keeps earning while it backs a loan.
 - **Leverage in one transaction.** The Controller accepts a callback that builds a leveraged position in a single transaction.
 - **Lenders get a standard vault.** Lenders deposit into an ERC-4626 vault and earn interest paid by borrowers.
@@ -51,7 +51,7 @@ Any ERC-20 token can be collateral if you can give the market a reliable price f
 
 | Collateral type | How the price oracle prices it |
 | --- | --- |
-| **Tokens with a Curve pool** | Reads the pool oracle, the pool's built-in EMA (exponential moving average) price, chained across several pools if needed. |
+| **Tokens with a Curve pool** | Reads the pool oracle, the pool's built-in [EMA](/protocol/glossary#ema) (exponential moving average) price, chained across several pools if needed. |
 | **Tokens with a Chainlink feed** | An EMA of the Chainlink price. |
 | **Yield-bearing ERC-4626 tokens**, such as sDOLA, sfrxUSD, syrupUSDC and svZCHF | The underlying asset's price times the token's share price. |
 | **Curve LP tokens**, such as reUSD/sfrxUSD | The LP token of a 2-coin Stableswap-NG pool, priced from the pool's virtual price. |
@@ -70,7 +70,7 @@ A Curve pool and a Llamalend market strengthen each other:
 
 ## Launch Steps
 
-1. Prepare the token pair, price oracle, monetary policy (the contract that sets the borrow rate) and parameters, then propose the market on the [Curve governance forum](https://gov.curve.finance/). See [Oracles & Parameters](./oracles-and-parameters.md).
+1. Prepare the token pair, price oracle, [monetary policy](/protocol/glossary#monetary-policy) (the contract that sets the borrow rate) and parameters, then propose the market on the [Curve governance forum](https://gov.curve.finance/). See [Oracles & Parameters](./oracles-and-parameters.md).
 2. yRisk, the risk manager elected by the Curve DAO, reviews the oracle, the parameters and the proposed borrow cap.
 3. Deploy the market with `LendFactory.create()`. Deployment is permissionless and does not make you the market's admin. See [Deploy a Lending Market](./guides/deploy-lending-market.md).
 4. A DAO vote raises the borrow cap from zero. Until it passes, nobody can borrow.
@@ -99,7 +99,7 @@ Each soft-liquidation conversion loses a little value to fees and arbitrage, eve
 
 ## Live Examples
 
-| Market | Chain | Collateral type | Supplied | Borrowed | Borrow APR (annual percentage rate) | Max LTV |
+| Market | Chain | Collateral type | Supplied | Borrowed | Borrow [APR](/protocol/glossary#apr) (annual percentage rate) | Max LTV |
 | --- | --- | --- | --- | --- | --- | --- |
 | [sfrxUSD / crvUSD](https://www.curve.finance/lend/ethereum/markets/0x3cD4d86a2c65e57ce4b4121b67E2D2224BA41bbe) | Ethereum | ERC-4626 vault share | 13.97M crvUSD | 12.46M crvUSD | 4.97% | 98.0% |
 | [sDOLA / crvUSD](https://www.curve.finance/lend/ethereum/markets/0xC77d97cF01737EB7aCE46cAb7cd9F60eC51a40c0) | Ethereum | ERC-4626 vault share | 11.27M crvUSD | 9.01M crvUSD | 4.65% | 98.0% |

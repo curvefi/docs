@@ -37,10 +37,10 @@ Nobody approves the deposit or the monitoring. The borrow cap and CRV emissions 
 ## Monitor the Market {#monitor-the-market}
 
 1. Set alerts on these values:
-   - Vault total assets, available liquidity, supply cap and lender APR (annual percentage rate)
+   - Vault total assets, available liquidity, supply cap and lender [APR](/protocol/glossary#apr) (annual percentage rate)
    - total debt, borrow cap, utilization and borrow APR
    - price oracle freshness, deviation, dependencies and failed updates
-   - borrower health and positions in soft liquidation (collateral converting gradually as the price falls, instead of being sold at one price)
+   - borrower health and positions in [soft liquidation](/protocol/glossary#soft-liquidation) (collateral converting gradually as the price falls, instead of being sold at one price)
    - collateral trading liquidity depth, liquidation profitability and bad-debt risk
    - admin percentage, accrued fees and fee receiver
    - Configurator, factory-owner and Emergency DAO changes
@@ -50,7 +50,7 @@ Nobody approves the deposit or the monitoring. The borrow cap and CRV emissions 
 
 1. Deploy a gauge for the Vault's shares. [Incentivize Liquidity](/protocol/gauge/overview) explains how.
 2. Deposit your own ERC-20 rewards into the gauge. Lenders earn them by staking their Vault shares in it.
-3. For CRV emissions, propose a DAO vote to whitelist the gauge, which makes it eligible for CRV emissions. CRV then follows the gauge weight that veCRV (CRV locked for voting power) holders vote for it.
+3. For CRV emissions, propose a DAO vote to whitelist the gauge, which makes it eligible for CRV emissions. CRV then follows the gauge weight that [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power) holders vote for it.
 
 ## Point Integrators to the Docs {#integrate-the-lender-side}
 

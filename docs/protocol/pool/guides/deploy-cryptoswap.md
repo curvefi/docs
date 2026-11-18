@@ -71,7 +71,7 @@ The pool concentrates liquidity around the starting price, so set it close to th
 ## Name the Pool
 
 1. Under **POOL INFO**, enter a name, such as `ETH/USDC`, and a symbol, such as `ETHUSDC`.
-2. Check both for typos. They become the name and symbol of the LP token (the token that represents a share of the pool) and can't be changed after deployment.
+2. Check both for typos. They become the name and symbol of the [LP token](/protocol/glossary#lp-token) (the token that represents a share of the pool) and can't be changed after deployment.
 
 ## Deploy the Pool {#create-the-pool}
 
