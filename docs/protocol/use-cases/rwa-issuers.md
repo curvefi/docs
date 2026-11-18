@@ -9,19 +9,19 @@ Issuers of tokenized real-world assets (RWAs), such as treasuries, credit, commo
 
 ## Liquidity Without a Listing Process
 
-You deploy the pool yourself, with no approval and no fee beyond gas. The pool type depends on how your asset is priced. [Stableswap](../pool/understanding-stableswap.md) fits tokens that hold a stable value against a stablecoin. [FXSwap](../pool/understanding-fxswap.md) fits pairs whose price is set on an external market, such as FX rates.
+You deploy the pool yourself, with no approval and no fee beyond gas. The pool type depends on how your asset is priced. [Stableswap](../pool/understanding-stableswap.md) fits tokens that hold a stable value against a stablecoin. [FXSwap](../pool/understanding-fxswap.md) fits pairs whose price is set by an external price source, such as FX rates.
 
-A token whose value grows over time, such as a tokenized treasury, can use Stableswap-NG's ERC-4626 or rate-oracle token types and trade at its current rate.
+A token whose value grows over time, such as a tokenized treasury, can use Stableswap-NG's ERC-4626 (the standard yield-bearing deposit token) or rate-oracle token types and trade at its current rate.
 
 ## Borrowing Against Your Token
 
-A [Llamalend](../lending/launch-isolated-lending-market.md) market lets holders borrow against your token and keep it. Each market is isolated, so a loss in one market does not reach another. Liquidity providers in a 2-coin Stableswap-NG pool can also borrow against their LP token.
+A [Llamalend](../lending/launch-isolated-lending-market.md) market lets holders borrow against your token and keep it. Each market is isolated, so a loss in one market does not reach another. Liquidity providers (LPs) in a 2-coin Stableswap-NG pool can also borrow against their LP token (the token that represents a share of the pool).
 
 ## What Holders and LPs Get
 
 - Holders can sell to stablecoins onchain whenever the pool has liquidity, without waiting for a redemption window.
-- Liquidity providers earn trading fees without managing a position.
-- Borrowers keep the asset's yield while it backs a loan, and LLAMMA converts collateral gradually if the price falls.
+- LPs earn trading fees without managing a position.
+- Borrowers keep the asset's yield while it backs a loan, and soft liquidation converts collateral gradually as the price falls, instead of selling it at one price.
 - Lenders supply to an ERC-4626 vault and earn the interest borrowers pay.
 
 ## Recommended Setup
@@ -38,13 +38,13 @@ A [Llamalend](../lending/launch-isolated-lending-market.md) market lets holders 
 
 ## Before You Deploy
 
-Tokens with transfer restrictions, transfer taxes, blacklists or allowlists are generally refused CRV emissions by the Curve DAO, which considers only freely transferable, openly accessible tokens. Rewards in your own token need no vote. See [Whitelisting a Gauge](../gauge/whitelisting-gauge.md).
+Tokens with transfer restrictions, transfer taxes, blacklists or allowlists are generally refused CRV emissions by the Curve DAO, which considers only freely transferable, openly accessible tokens. Direct rewards in your own token need no vote. See [Whitelisting a Gauge](../gauge/whitelisting-gauge.md).
 
-If your token moves only between approved addresses, the pool, its gauge and every user must be able to receive it.
+If your token moves only between approved addresses, the pool, its gauge (the contract that distributes incentives) and every user must be able to receive it.
 
 A rate oracle has strict rules, and you should know who controls it. Read [Oracle-Based Tokens](../pool/guides/deploy-stableswap.md#oracle-based-tokens).
 
-FXSwap needs traders who arbitrage the pool against a deeper external market, and keeping it centered can require a refuel budget.
+FXSwap needs traders who arbitrage the pool against deeper trading liquidity elsewhere, and keeping it centered can require a refuel budget.
 
 A Llamalend market needs a manipulation-resistant price for your token, and its borrow cap starts at zero until a Curve DAO vote raises it.
 
@@ -60,7 +60,7 @@ Stableswap-NG against a stablecoin, with the ERC-4626 or oracle token type so th
 
 ### Can holders borrow against an RWA token or its LP token?
 
-Yes, if a reliable price oracle exists. Llamalend accepts the token itself, or the LP token of a 2-coin Stableswap-NG pool, as collateral. Borrowing opens after a Curve DAO vote sets the borrow cap.
+Yes, if a reliable price oracle exists. Llamalend accepts the token itself, or the LP token of a 2-coin Stableswap-NG pool, as collateral. Borrowing opens after a DAO vote sets the borrow cap.
 
 ## Related
 

@@ -5,7 +5,7 @@ sidebar_label: "Quickstart: Deploy a Pool"
 description: Deploy a Curve Stableswap-NG plain pool and its gauge from code with viem, using the factory's deploy_plain_pool and deploy_gauge functions on Ethereum.
 ---
 
-When you finish, a Stableswap-NG pool and its gauge exist onchain, deployed from your script or multisig.
+When you finish, a Stableswap-NG pool and its gauge (the contract that pays incentives to the pool's liquidity providers) exist onchain, deployed from your script or multisig (a wallet that needs several signers to act).
 
 Two transactions: one for the pool and one for the gauge.
 

@@ -17,7 +17,7 @@ It costs gas.
 
 It takes two transactions.
 
-Nobody approves it. Lenders supply a market through its vault, a standard ERC-4626 contract described in the [Vault reference](/developer/llamalend-v2/vault).
+Nobody approves it. Lenders supply a market through its vault, a standard ERC-4626 contract (the tokenized-vault standard) described in the [Vault reference](/developer/llamalend-v2/vault).
 
 ## Preview, Approve and Deposit
 

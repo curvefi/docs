@@ -7,7 +7,7 @@ description: How a whitelisted Curve gauge receives CRV through weekly veCRV gau
 
 import GaugeWeightDistribution from '@site/src/components/Charts/GaugeWeightDistribution';
 
-When you finish, your whitelisted gauge holds veCRV gauge weight votes and streams CRV to its stakers.
+When you finish, your whitelisted gauge holds gauge weight votes from veCRV (CRV locked for voting power) and streams CRV to its stakers.
 
 Gauge weights update every Thursday at 00:00 UTC, and CRV reaches gauges on other chains about a week later.
 
@@ -15,7 +15,7 @@ Gauge weights update every Thursday at 00:00 UTC, and CRV reaches gauges on othe
 
 ## Before You Start
 
-You need a gauge the Curve DAO has whitelisted.
+You need a gauge that a Curve DAO vote has whitelisted, which makes it eligible for CRV emissions.
 
 Receiving CRV costs nothing, and winning votes costs whatever your chosen route costs.
 
@@ -37,7 +37,7 @@ A vote stays in place until you change it. [Voting for Gauge Weight](/user/dao/g
 
 ## Attract Other Voters
 
-1. Choose a route, such as holding vlCVX or paying voters through vote incentives. [Incentivizing a Curve Pool](../incentive-routes.md) compares them.
+1. Choose a route, such as holding vlCVX (CVX locked for Convex voting power) or paying voters through vote incentives (bribes). [Incentivizing a Curve Pool](../incentive-routes.md) compares them.
 2. Check what that route costs in [What Curve Incentives Cost](../incentive-costs.md).
 3. Fund the route early enough that the votes land before Thursday 00:00 UTC.
 

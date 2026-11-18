@@ -5,11 +5,11 @@ sidebar_label: Adding Direct Gauge Rewards
 description: How the gauge manager registers a reward token and deposits rewards into a Curve gauge, in the Curve app or on a block explorer.
 ---
 
-When you finish, your gauge streams your reward token to staked LPs.
+When you finish, your gauge streams your reward token to staked liquidity providers (LPs).
 
 Each deposit streams over a period you choose, from 3 days to 48 weeks.
 
-[Curve Gauges and Incentives](../overview.md#direct-gauge-rewards) explains what direct gauge rewards are and their limits.
+[Curve Gauges and Incentives](../overview.md#direct-gauge-rewards) explains what direct rewards are and their limits.
 
 ## Before You Start
 

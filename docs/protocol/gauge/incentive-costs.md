@@ -2,19 +2,19 @@
 id: incentive-costs
 title: What Curve Incentives Cost
 sidebar_label: Incentive Costs
-description: What sets the cost of each way to fund liquidity on a Curve pool, including direct gauge rewards, veCRV and vlCVX locks, vote incentives on Votemarket and Votium, and Merkl campaigns, and which platform fees apply.
+description: What sets the cost of each way to fund liquidity on a Curve pool, including direct rewards, veCRV and vlCVX locks, vote incentives on Votemarket and Votium, and Merkl campaigns, and which platform fees apply.
 ---
 
-No route has a fixed price. What you pay depends on the route, the market price of votes and how much liquidity you want. This page explains what sets each cost so you can compare them before you commit a budget. [Incentivizing a Curve Pool](./incentive-routes.md) explains how each route works.
+No route has a fixed price. What you pay depends on the route, the going price of votes and how much liquidity you want. This page explains what sets each cost so you can compare them before you commit a budget. [Incentivizing a Curve Pool](./incentive-routes.md) explains how each route works.
 
 ## Cost by Route
 
 | Route | What you pay | What sets the amount | Platform fee |
 | --- | --- | --- | --- |
-| Direct gauge rewards | Your reward budget, streamed to staked LPs | You choose the amount and the period, from 3 days to 48 weeks | None |
-| Holding veCRV | The CRV you buy and lock, for up to four years | How many votes you need against the total veCRV voting for gauges | None |
-| Holding vlCVX | The CVX you buy and lock, for 16 weeks | Your share of Convex's veCRV votes | None |
-| Vote incentives | Payments to veCRV or vlCVX holders who vote for your gauge | The market price per vote, which changes every round | Charged by Votemarket and Votium; check before funding |
+| Direct rewards | Your reward budget, streamed to staked liquidity providers (LPs) | You choose the amount and the period, from 3 days to 48 weeks | None |
+| Holding veCRV (CRV locked for voting power) | The CRV you buy and lock, for up to four years | How many votes you need against the total veCRV voting for [gauges](./overview.md) | None |
+| Holding vlCVX (CVX locked for Convex voting power) | The CVX you buy and lock, for 16 weeks | Your share of Convex's veCRV votes | None |
+| Vote incentives (bribes) | Payments to veCRV or vlCVX holders who vote for your gauge | The going price per vote, which changes every round | Charged by Votemarket and Votium; check before funding |
 | Merkl campaigns | Your reward budget | You choose the amount and the rules | 3% for standard campaigns at the time of writing ([fee model](https://docs.merkl.xyz/distribute-with-merkl/fee-model)) |
 
 ## How to Compare Routes

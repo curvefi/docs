@@ -7,9 +7,9 @@ description: Curve is a permissionless DEX and lending protocol owned by the Cur
 
 import ChainPresence from '@site/src/components/ChainPresence'
 
-Curve is a decentralized exchange (DEX) and lending protocol owned by the [Curve DAO](/user/dao/overview). Anyone can deploy a liquidity pool, a [Llamalend](./lending/launch-isolated-lending-market.md) lending market or a gauge for an ERC-20 token, with no listing process and no fee beyond gas.
+Curve is a decentralized exchange (DEX) and lending protocol owned by the [Curve DAO](/user/dao/overview). Anyone can deploy a liquidity pool, a [Llamalend](./lending/launch-isolated-lending-market.md) lending market or a gauge (the contract that pays incentives to a pool's liquidity providers, or LPs) for an ERC-20 token, with no listing process and no fee beyond gas.
 
-A token on Curve can trade in a pool, back loans in a lending market and earn incentives through one gauge system. The pool's built-in price oracle and trading liquidity are what a lending market for the token relies on.
+A token on Curve can trade in a pool, back loans in a lending market and earn incentives through one gauge system. The pool oracle (the pool's own moving-average price) and trading liquidity are what a lending market for the token relies on.
 
 ## Key Figures
 
@@ -25,9 +25,9 @@ Pool figures are from the [Curve Prices API](https://prices.curve.finance/v1/cha
 
 ## Who Controls Curve
 
-The Curve DAO controls Curve's contracts on every chain. veCRV holders vote onchain on Ethereum, and passed votes are relayed to other chains. CRV emissions for a gauge and the borrow cap of a new lending market each need a public Curve DAO vote.
+The Curve DAO controls Curve's contracts on every chain. Holders of veCRV (CRV locked for voting power) vote onchain on Ethereum, and passed votes are relayed to other chains. CRV emissions for a gauge and the borrow cap of a new lending market each need a public Curve DAO vote.
 
-The [Emergency DAO](/user/dao/emergency-dao), a 5-of-9 multisig, can reduce risk, for example by lowering debt ceilings. It cannot move user funds.
+The [Emergency DAO](/user/dao/emergency-dao), a 5-of-9 multisig (a wallet that needs several signers to act), can reduce risk, for example by lowering the debt ceilings of crvUSD mint markets. It cannot move user funds.
 
 Curve's contracts have been audited by ChainSecurity, MixBytes, Quantstamp, StateMind and Trail of Bits, and a bug bounty pays up to $250,000. See [Security](/developer/security).
 
@@ -36,8 +36,8 @@ Curve's contracts have been audited by ChainSecurity, MixBytes, Quantstamp, Stat
 | Job | Start here |
 | --- | --- |
 | Find the setup for your token or protocol | [Use Cases](./use-cases/overview.md) |
-| Launch a pool | [Launch Liquidity](./pool/overview.md) |
-| Launch a lending market | [Launch and Run a Lending Market](./lending/launch-isolated-lending-market.md) |
+| Deploy a pool | [Launch Liquidity](./pool/overview.md) |
+| Deploy a lending market | [Launch and Run a Lending Market](./lending/launch-isolated-lending-market.md) |
 | Fund liquidity and get CRV emissions | [Incentives and Governance](./gauge/overview.md) |
 | Integrate Curve contracts and data | [Integrate](./integrate/overview.md) |
 
