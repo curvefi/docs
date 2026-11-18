@@ -7,7 +7,7 @@ description: How to schedule FXSwap refuels with the DonationStreamer contract, 
 
 When you finish, a refuel stream sends tokens to your FXSwap pool's refuel buffer on a schedule you set, and executes without your involvement.
 
-Creating a stream takes one approval per token and one transaction. An automated bot executes due refuels every 8 hours.
+Setting up a stream takes one approval per token and one transaction. An automated bot executes due refuels every 8 hours.
 
 ## Before You Start
 
@@ -81,4 +81,4 @@ To stop a stream, find it in **Pool Streams** and select **Cancel**. You get bac
 
 ## Next Step
 
-[Troubleshooting Curve Pools](../troubleshooting.md#an-fxswap-pool-drifts-from-the-market-price) covers what to do if the pool still drifts from the market price.
+[Troubleshooting Curve Pools](../troubleshooting.md#an-fxswap-pool-drifts-from-the-market-price) covers what to do if the pool still drifts from the external price.

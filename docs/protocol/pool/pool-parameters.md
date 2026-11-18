@@ -5,30 +5,30 @@ sidebar_label: Pool Parameters
 description: What each Stableswap, Cryptoswap and FXSwap pool parameter controls, how to set it at deployment and how the Curve DAO can change it later.
 ---
 
-A Curve pool's parameters control how it concentrates liquidity, charges fees and follows the market. You set them at deployment, and the Curve DAO can change most of them later by vote. [Pool Parameter Presets](./presets.md) lists the Curve app's presets and the parameters of live pools.
+A Curve pool's parameters control how it concentrates liquidity, charges fees and follows the price. You set them at deployment, and the Curve DAO can change most of them later by vote. [Pool Parameter Presets](./presets.md) lists the Curve app's presets and the parameters of live pools.
 
 ## Setting Parameters at Deployment
 
-Pool parameters are set at the time of pool deployment, and most parameters can be changed by the DAO later through governance votes. This flexibility allows for parameter optimization as market conditions evolve and new data becomes available.
+Pool parameters are set at the time of pool deployment, and most parameters can be changed by the DAO later through governance votes. This flexibility allows for parameter optimization as trading conditions evolve and new data becomes available.
 
 When deploying pools via the Curve UI, recommended parameters are automatically suggested based on the algorithm type and tokens used.
 
 ## Monitoring Parameters
 
-Monitoring parameters is crucial for optimal pool performance. Depending on factors like market conditions, asset liquidity, trading volume, parameters can be optimized to help LPs earn more fees and provide better exchange rates for traders. Regular parameter adjustments ensure pools remain competitive and efficient.
+Monitoring parameters is crucial for optimal pool performance. Depending on factors like trading conditions, asset liquidity, trading volume, parameters can be optimized to help liquidity providers (LPs) earn more fees and provide better exchange rates for traders. Regular parameter adjustments ensure pools remain competitive and efficient.
 
 :::info
-**Struggling with parameters?** Don't worry, you're not alone! Jump into our <a href="https://t.me/curvefi" target="_blank" rel="noopener noreferrer">Telegram</a> and let the Curve wizards work their magic. From A to γ, we've got your back! 🧙‍♂️
+**Struggling with parameters?** Ask the Curve team in <a href="https://t.me/curvefi" target="_blank" rel="noopener noreferrer">Telegram</a> about any of them, from A to γ.
 :::
 
 ## Stableswap Parameters
 
 | Name | Variable Name | Description |
 | :--: | :-----------: | ----------- |
-| Amplification coefficient | `A` | Controls liquidity concentration around the 1:1 price. Higher values reduce slippage near the peg, lower values spread liquidity more evenly. More here: [Stableswap `A`](understanding-stableswap.md#amplification-factor-a) |
+| Amplification coefficient | `A` | Controls liquidity concentration around the 1:1 price. Higher values reduce slippage (price impact of a trade) near the peg (the shared target price), lower values spread liquidity more evenly. More here: [Stableswap `A`](understanding-stableswap.md#amplification-factor-a) |
 | Regular fee | `fee` | Regular trading fee charged on swaps when pool is perfectly balanced |
 | Off-peg fee multiplier | `offpeg_fee_multiplier` | Multiplier applied to fees when pool is imbalanced. The greater the imbalance, the higher the multiplier. More here: [Dynamic Fees](understanding-stableswap.md#offpeg-fee-multiplier-and-dynamic-fees) |
-| EMA time | `ma_exp_time` | Time constant for exponential moving average price oracle |
+| EMA time | `ma_exp_time` | Time constant for the pool oracle's exponential moving average (EMA) price |
 
 ## Cryptoswap Parameters
 
@@ -36,9 +36,9 @@ Cryptoswap extends Stableswap by keeping **A** and adding parameters that adapt 
 
 | Name | Variable Name | Role |
 |------|:------:|-------------------|
-| Amplification coefficient | `A` | Same meaning as in Stableswap, sets liquidity depth at balanced price.  However, `A`=10,000 in Cryptoswap is `A`=1 in Stableswap, giving extra precicion for Cryptoswap pools.  More here: [Cryptoswap Parameters](./understanding-cryptoswap.md#parameters)|
+| Amplification coefficient | `A` | Same meaning as in Stableswap, sets liquidity depth at balanced price.  However, `A`=10,000 in Cryptoswap is `A`=1 in Stableswap, giving extra precision for Cryptoswap pools.  More here: [Cryptoswap Parameters](./understanding-cryptoswap.md#parameters)|
 | Curve-width modifier | `γ` (gamma) | Controls how fast prices degrade when pools become unbalanced, lower values mean price declines are more gradual.  More here: [Cryptoswap Parameters](./understanding-cryptoswap.md#parameters) |
-| EMA half-life | `ma_time` | Time constant (in seconds) of the exponential moving average that tracks the market price |
+| EMA half-life | `ma_time` | Time constant (in seconds) of the exponential moving average that tracks the pool's price |
 | Allowed extra profit | `allowed_extra_profit` | Minimum theoretical arbitrage gain (in bp) before the contract updates its internal price scale, preventing micro-adjustments |
 | Adjustment step | `adjustment_step` | The minimum rebalancing step (min movement of `price_scale`) |
 | Mid fee | `fee_mid` | Swap fee when the pool is perfectly balanced.  More here: [Cryptoswap Dynamic Fees](./understanding-cryptoswap.md#dynamic-fees)|
@@ -47,12 +47,12 @@ Cryptoswap extends Stableswap by keeping **A** and adding parameters that adapt 
 
 ## FXSwap Parameters
 
-FXSwap reuses Cryptoswap's oracle, fee, and recentering parameter families, but uses a Stableswap-style invariant. It also adds governable parameters for refuels:
+FXSwap reuses Cryptoswap's pool oracle, fee, and recentering parameter families, but uses a Stableswap-style invariant. It also adds governable parameters for refuels:
 
 | Name | Variable Name | Role |
 |------|:------:|-------------------|
 | Amplification coefficient | `A` | Controls liquidity concentration around the balanced price. Higher values reduce slippage near the peg, lower values spread liquidity more evenly. Same meaning as Stableswap `A`. More here: [FXSwap `A`](understanding-fxswap.md#amplification-factor-a) |
-| EMA half-life | `ma_time` | Time constant (in seconds) of the exponential moving average that tracks the market price |
+| EMA half-life | `ma_time` | Time constant (in seconds) of the exponential moving average that tracks the pool's price |
 | Allowed extra profit | `allowed_extra_profit` | Minimum theoretical arbitrage gain (in bp) before the contract updates its internal price scale, preventing micro-adjustments |
 | Adjustment step | `adjustment_step` | The minimum rebalancing step (min movement of `price_scale`) |
 | Mid fee | `mid_fee` | Swap fee when the pool is perfectly balanced.  More here: [Cryptoswap Dynamic Fees](./understanding-cryptoswap.md#dynamic-fees)|

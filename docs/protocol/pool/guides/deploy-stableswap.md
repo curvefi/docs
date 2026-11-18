@@ -10,7 +10,7 @@ import ButtonGrid from '@site/src/components/ButtonGrid';
 
 When you finish, a Stableswap pool for your pegged tokens is live onchain and holds its first liquidity.
 
-Creating the pool is one transaction, and seeding it is another. Getting CRV emissions later adds a 7-day Curve DAO vote.
+Deploying the pool is one transaction, and seeding it is another. Getting CRV emissions later adds a 7-day Curve DAO vote.
 
 <ButtonGrid buttonKeys={['gotoPoolDeployment']} />
 
@@ -20,7 +20,7 @@ You need a wallet on the chain you deploy to, the tokens' addresses, and a rate 
 
 It costs gas and the tokens you deposit as initial liquidity. Curve charges no fee to deploy a pool.
 
-It takes two transactions: one to create the pool and one to seed it.
+It takes two transactions: one to deploy the pool and one to seed it.
 
 Nobody approves it. Only CRV emissions need a Curve DAO vote, after you deploy a gauge.
 
@@ -49,14 +49,14 @@ Nobody approves it. Only CRV emissions need a Curve DAO vote, after you deploy a
 3. For an **Oracle** token, enter the oracle's **Address** and its **Function**, such as `stEthPerToken()`. The app checks that the rate has 18 decimals.
 4. Select **Next**.
 
-To build a metapool, pick a base pool's LP token, marked **BASE** in the token list. A metapool holds two tokens: yours and the base pool's LP token.
+To build a metapool, pick a base pool's LP token (the token that represents a share of the pool), marked **BASE** in the token list. A metapool holds two tokens: yours and the base pool's LP token.
 
 | Asset type | Use it for | Example |
 | --- | --- | --- |
 | **Standard** | A plain ERC-20 token | USDC |
 | **Oracle** | A token whose value grows against the others, priced by a rate oracle | wstETH |
 | **Rebasing** | A token whose balance changes on its own | stETH |
-| **ERC4626** | A vault share that follows the ERC-4626 standard | sDAI |
+| **ERC4626** | A yield-bearing token that follows the ERC-4626 standard | sDAI |
 
 [Understanding Stableswap](../understanding-stableswap.md#supported-asset-types) explains how each type is priced. Curve contracts can't detect tokens with transfer fees or other non-standard behavior, so check your token before you add it.
 
@@ -75,15 +75,15 @@ To build a metapool, pick a base pool's LP token, marked **BASE** in the token l
 
 Skip this section if none of your tokens uses the **Oracle** type.
 
-A Stableswap oracle returns a redemption rate: the value of one token in the pool's base asset, with 18 decimals. It is not a market price. Before you deploy, confirm three things:
+A Stableswap rate oracle returns a redemption rate: the value of one token in the pool's base asset, with 18 decimals. It is not a trading price. Before you deploy, confirm three things:
 
-1. **The rate never decreases.** A lower rate shifts the pool's center of liquidity down, and anyone who can push it down can trade around the update at liquidity providers' expense. Yield-bearing tokens such as staking or savings tokens only accrue, so their redemption rate qualifies.
+1. **The rate never decreases.** A lower rate shifts the pool's center of liquidity down, and anyone who can push it down can trade around the update at the expense of liquidity providers (LPs). Yield-bearing tokens such as staking or savings tokens only accrue, so their redemption rate qualifies.
 2. **The rate moves slowly.** One update must not move the rate by more than twice the pool fee. See [The Oracle Sandwich](../understanding-stableswap.md#1-the-oracle-sandwich-2-fee-rule).
-3. **You know who controls the oracle.** A multisig or a single address that can change the rate at will is a risk to the pool.
+3. **You know who controls the rate oracle.** A multisig (a wallet controlled by several signers) or a single address that can change the rate at will is a risk to the pool.
 
-Never use a spot price, a withdrawal simulation such as `calc_withdraw_one_coin()` or token balances as the rate. [Best Practices for Oracles](../understanding-stableswap.md#best-practices-for-oracles) lists the rest.
+Never use a spot price, a withdrawal simulation such as `calc_withdraw_one_coin()` or token balances as the rate. [Best Practices for Rate Oracles](../understanding-stableswap.md#best-practices-for-oracles) lists the rest.
 
-Pools with an oracle the Curve team hasn't verified stay hidden on curve.finance until it is verified. You can still deploy. Swiss Stake reviews oracle designs for protocols and issuers: [inquiries@curve.finance](mailto:inquiries@curve.finance).
+Pools with a rate oracle the Curve team hasn't verified stay hidden on curve.finance until it is verified. You can still deploy. Swiss Stake reviews rate oracle designs for issuers: [inquiries@curve.finance](mailto:inquiries@curve.finance).
 
 ## Set the Parameters
 
@@ -109,7 +109,7 @@ Pools with an oracle the Curve team hasn't verified stay hidden on curve.finance
 1. Under **POOL INFO**, enter a name, such as `stETH/ETH`, and a symbol, such as `stETHETH`.
 2. Check both for typos. They become the LP token's name and symbol and can't be changed after deployment.
 
-## Create the Pool
+## Deploy the Pool {#create-the-pool}
 
 1. Review the **Pool Summary**: the tokens and their types, the parameters, and the name and symbol.
 2. Select **Create Pool** and confirm the transaction in your wallet.

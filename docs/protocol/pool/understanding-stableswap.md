@@ -9,13 +9,13 @@ import ThemedVideo from '@site/src/components/ThemedVideo';
 import StableswapAmplificationChart from '@site/src/components/Charts/StableswapAmplification';
 import StableswapDynamicFeeChart from '@site/src/components/Charts/StableswapDynamicFee';
 
-Stableswap is Curve's AMM for assets that trade near the same price, such as two USD stablecoins or an LST and ETH. It concentrates liquidity around the peg, so trades near the peg have low slippage, and it keeps quoting prices when a pool moves away from the peg.
+Stableswap is Curve's AMM for assets that trade near the same price, such as two USD stablecoins or an LST (liquid staking token) and ETH. It concentrates liquidity around the peg (the shared target price), so trades near the peg have low slippage (price impact of a trade), and it keeps quoting prices when a pool moves away from the peg.
 
 ## Historical Background
 
 Curve’s Stableswap algorithm was invented by Michael Egorov, the founder of Curve, in November 2019.
 
-It was introduced in the paper [“StableSwap: Efficient Mechanism for Stablecoin Liquidity”](../../../static/pdf/whitepapers/whitepaper_stableswap.pdf), which proposed a new type of Automated Market Maker (AMM) optimized for trading assets pegged to the same value — such as stablecoins (e.g., USDC/USDT) or tokenized versions of the same asset (e.g., wBTC/cbBTC).
+It was introduced in the paper [“StableSwap: Efficient Mechanism for Stablecoin Liquidity”](../../../static/pdf/whitepapers/whitepaper_stableswap.pdf), which proposed a new type of Automated Market Maker (AMM) optimized for trading assets pegged to the same value, such as stablecoins (e.g., USDC/USDT) or tokenized versions of the same asset (e.g., wBTC/cbBTC).
 
 The algorithm **combines features of both constant sum (fixed swap price) and constant product (`x*y=k`) curves**, allowing for **low-slippage trades near the peg while maintaining deep liquidity and arbitrage incentives when prices drift**.
 
@@ -25,7 +25,7 @@ In October 2023, the initial Stableswap implementation was reworked into **Stabl
 
 ## How it Works
 
-Stableswap was designed for pools of similarly priced assets, such as stablecoins of the same denomination (e.g., USD), to concentrate liquidity around their pegged price (e.g., USDC/USDT at 1.0). Unlike concentrated liquidity AMMs (CLAMMs) where liquidity providers must actively set price ranges, **Stableswap's liquidity concentration is fully passive** — users simply deposit tokens, and the protocol automatically concentrates liquidity around the peg through a **single continuous bonding curve**. No range management or active position adjustments are required.
+Stableswap was designed for pools of similarly priced assets, such as stablecoins of the same denomination (e.g., USD), to concentrate liquidity around their pegged price (e.g., USDC/USDT at 1.0). Unlike concentrated liquidity AMMs (CLAMMs) where liquidity providers (LPs) must actively set price ranges, **Stableswap's liquidity concentration is fully passive**: users deposit tokens, and the protocol automatically concentrates liquidity around the peg through a **single continuous bonding curve**. No range management or active position adjustments are required.
 
 <figure style={{ textAlign: 'center' }}>
   <ThemedImage
@@ -54,7 +54,7 @@ In this example most of the pool's liquidity (e.g., \$40M out of \$80M total) is
 
 3.  The pool is now imbalanced, it would only take a user selling 9M USDC to push the price up another 0.002.  The imbalance also creates an **arbitrage opportunity**: traders are now incentivized to swap crvUSD back into the pool to get USDC at a slight discount, which naturally pushes the pool back toward a 50/50 balance.  *Assuming the USDC can be redeemed for its underlying $1 of value*.
 
-Stableswap pools function effectively even when heavily imbalanced. Depending on the **Amplification Coefficient** (`A`), pools can maintain close to 1:1 pricing even under significant imbalance. If the imbalance causes a price deviation from the peg, it creates an arbitrage opportunity. This incentivizes traders to rebalance the pool, with each swap generating fees for liquidity providers (LPs).
+Stableswap pools function effectively even when heavily imbalanced. Depending on the **Amplification Coefficient** (`A`, how tightly liquidity concentrates around the peg), pools can maintain close to 1:1 pricing even under significant imbalance. If the imbalance causes a price deviation from the peg, it creates an arbitrage opportunity. This incentivizes traders to rebalance the pool, with each swap generating fees for LPs.
 
 While the blocks offer a helpful visual, Stableswap's liquidity is more accurately represented by a bonding curve:
 
@@ -78,15 +78,15 @@ Stableswap pools support up to 8 assets in a single pool. These can be a range o
 
 - **Standard**: Normal stable assets. For a USD pool, this includes tokens like crvUSD or USDC. For a BTC pool, this includes WBTC, tBTC, or cbBTC.
 - **Rebasing**: Assets where yield is distributed by automatically increasing the token balance in the user's wallet (e.g., stETH).
-- **Oracle**: Assets whose underlying value increases relative to the peg, utilizing an external oracle to track the exchange rate. This is used for yield-bearing assets that are not ERC-4626 vaults (e.g., wstETH).
-- **ERC-4626**: Also known as **Tokenized Vaults**. These tokens increase in value over time and utilize the standard `convertToAssets` function to track value. They function similarly to Oracle assets but require no configuration due to their standardized structure.  *Note: these vaults should be strictly increasing in value over time.*
+- **Oracle**: Assets whose underlying value increases relative to the peg, utilizing a rate oracle (a contract that reports the token's redemption rate) to track the exchange rate. This is used for yield-bearing assets that are not ERC-4626 tokens (e.g., wstETH).
+- **ERC-4626**: Also known as **Tokenized Vaults**. These tokens increase in value over time and utilize the standard `convertToAssets` function to track value. They function similarly to Oracle assets but require no configuration due to their standardized structure.  *Note: these tokens should be strictly increasing in value over time.*
 
 Curve allows these different asset types to be integrated into a single pool seamlessly. For example, a valid pool could contain:
 
 - WETH (Standard)
 - stETH (Rebasing)
 - wstETH (Oracle)
-- sfrxETH (ERC-4626 vault)
+- sfrxETH (ERC-4626)
 
 This configuration creates a highly efficient Stableswap pool. The integration process is streamlined and can be performed directly via the official Curve UI.
 
@@ -116,7 +116,7 @@ For a high-level understanding of `A`:
 
 By definition, the `A` parameter is a multiplier; it amplifies liquidity around the fair price (usually 1:1) compared to the [constant product formula (`x*y=k`)](https://www.reddit.com/r/ethereum/comments/55m04x/lets_run_onchain_decentralized_exchanges_the_way/)
 
-We can observe this behavior in a theoretical pool containing **crvUSD** (pegged at exactly $1.00) and **newUSD**, where the price of newUSD fluctuates based on the ratio of assets in the pool:
+This behavior shows in a theoretical pool containing **crvUSD** (pegged at exactly $1.00) and **newUSD**, where the price of newUSD fluctuates based on the ratio of assets in the pool:
 
 <StableswapAmplificationChart />
 
@@ -136,9 +136,9 @@ The chart below demonstrates how this mechanism functions. Note that base fees a
 ---
 
 ## Base Pools and Metapools {#basepools-and-metapools}
-Base pools form a foundational liquidity layer on Curve, composed of widely-used, highly-liquid stablecoins. Anyone can permissionlessly build new liquidity pools - called metapools - on top of a base pool.
+Base pools form a foundational liquidity layer on Curve, composed of widely-used, highly-liquid stablecoins. Anyone can permissionlessly deploy new pools, called metapools, on top of a base pool.
 
-A **Metapool combines a asset with the LP tokens of an existing base pool**. This structure allows metapools to instantly benefit from the liquidity and stability provided by the underlying base pool.
+A **Metapool combines an asset with the LP tokens of an existing base pool**. This structure allows metapools to instantly benefit from the liquidity and stability provided by the underlying base pool.
 
 See the image below for a visual representation of the [Curve.fi Strategic USD Reserves base pool](https://curve.finance/dex/ethereum/pools/factory-stable-ng-355/deposit/?ref=news.curve.finance) and the [DOLA Strategic Reserves metapool](https://curve.finance/dex/ethereum/pools/factory-stable-ng-396/deposit/?ref=news.curve.finance):
 
@@ -166,10 +166,10 @@ In the above structure:
 
 #### Benefits of Base Pools and Metapools
 
-Curve's base pool and metapool architecture offers distinct benefits for liquidity providers (LPs), stablecoin issuers, and traders:
+Curve's base pool and metapool architecture offers distinct benefits for LPs, stablecoin issuers, and traders:
 
 - **Deep Liquidity & Low Slippage**: Metapools directly benefit from the liquidity of base pools, resulting in lower slippage even for newly issued or less liquid stablecoins.
-- **Risk Isolation**: LPs in base pools aren’t directly exposed to tokens within the metapools, minimizing their risk. Metapools are also isolated from each other; the only shared risk is de-pegging risk of base pool assets, which is why adding new base pools requires a DAO vote.
+- **Risk Isolation**: LPs in base pools aren’t directly exposed to tokens within the metapools, minimizing their risk. Metapools are also isolated from each other; the only shared risk is de-pegging risk of base pool assets, which is why adding new base pools requires a Curve DAO vote.
 - **Positive Liquidity Loop (Reflexivity)**: Deposits into metapools also increase liquidity within base pools. This creates a positive feedback loop that enhances overall liquidity and trading efficiency across all pools.
 - **Built-in Yield Generation**: base pool LP tokens continuously earn trading fees. Since metapools hold these LP tokens, metapool LPs automatically receive a portion of the base pool’s trading yield, providing immediate organic returns even before trading volumes pick up.
 - **Seamless Stablecoin Integration**: Stablecoin issuers can permissionlessly pair their tokens with a base pool, accelerating their token’s liquidity and adoption within the Curve ecosystem.
@@ -188,15 +188,15 @@ Curve's base pool and metapool architecture offers distinct benefits for liquidi
 
 ---
 
-## Vault Assets & Assets with Oracles
+## ERC-4626 Assets & Assets with Rate Oracles {#vault-assets--assets-with-oracles}
 
-These asset types are to allow the assets with underlying accruing interest to be added and work natively in a Stableswap pool.  The vault or oracle let's the pool know the true value of the underlying asset against other assets in the pool, so as it accrues interest, the pool stays balanced around the true value price of each asset.
+These asset types are to allow the assets with underlying accruing interest to be added and work natively in a Stableswap pool.  The ERC-4626 rate or rate oracle lets the pool know the true value of the underlying asset against other assets in the pool, so as it accrues interest, the pool stays balanced around the true value price of each asset.
 
 :::tip-green
-Swiss Stake, the service provider developing Curve's technology, offers consulting services to guide protocols and asset issuers in the design and integration of price feed oracles for Stableswap liquidity pools. Additionally, Swiss Stake provides thorough audits of client-implemented oracle solutions to ensure correctness and security. Inquiries: [inquiries@curve.finance](mailto:inquiries@curve.finance).
+Swiss Stake, the service provider developing Curve's technology, offers consulting services to guide issuers in the design and integration of rate oracles for Stableswap liquidity pools. Additionally, Swiss Stake provides thorough audits of client-implemented oracle solutions to ensure correctness and security. Inquiries: [inquiries@curve.finance](mailto:inquiries@curve.finance).
 :::
 
-Tho achieve this, the Stablswap pool needs to shift it's center of liquidity (balanced price) over time as the oracle or vault asset accrues interest.  Let's have a look at how Stableswap deals with this in practice.  Here is the live [crvUSD/sUSDe pool](https://www.curve.finance/dex/ethereum/pools/factory-stable-ng-169/deposit) over the past year, note how as the fundamental value of sUSDe increases, Stableswap changes the center of liquidity to this new price:
+To achieve this, the Stableswap pool needs to shift its center of liquidity (balanced price) over time as the oracle or ERC-4626 asset accrues interest. Here is how Stableswap handles this in practice, in the live [crvUSD/sUSDe pool](https://www.curve.finance/dex/ethereum/pools/factory-stable-ng-169/deposit) over the past year, note how as the fundamental value of sUSDe increases, Stableswap changes the center of liquidity to this new price:
 
 <figure style={{ textAlign: 'center' }}>
   <ThemedVideo
@@ -211,13 +211,13 @@ Tho achieve this, the Stablswap pool needs to shift it's center of liquidity (ba
 
 ---
 
-## Oracles
+## Rate Oracles {#oracles}
 
 ### Specification Example
 
-While ERC-4626 vaults configure their oracles automatically, the **Oracle** asset type requires manual setup. This allows any token to be used, provided an accompanying oracle is specified that reports the asset’s **value per token** relative to the pool’s base unit (must return **18-decimal precision**).
+While ERC-4626 tokens need no rate oracle setup, the **Oracle** asset type requires manual setup. This allows any token to be used, provided an accompanying rate oracle is specified that reports the asset’s **value per token** relative to the pool’s base unit (must return **18-decimal precision**).
 
-For example, in a WETH/wstETH pool, the oracle reads the `stEthPerToken()` function. This tells the pool that **1 wstETH represents a fixed amount of underlying ETH**, ensuring liquidity is centered around the correct value (for example, ~1.12 ETH) rather than 1.0.
+For example, in a WETH/wstETH pool, the rate oracle reads the `stEthPerToken()` function. This tells the pool that **1 wstETH represents a fixed amount of underlying ETH**, ensuring liquidity is centered around the correct value (for example, ~1.12 ETH) rather than 1.0.
 
 **Configuration Example (wstETH):**
 
@@ -227,16 +227,16 @@ For example, in a WETH/wstETH pool, the oracle reads the `stEthPerToken()` funct
 
 ---
 
-### Best Practices for Oracles
+### Best Practices for Rate Oracles {#best-practices-for-oracles}
 
-When integrating an oracle, the safety of the pool depends entirely on the oracle’s resistance to manipulation and the behavior of its updates.
+When integrating a rate oracle, the safety of the pool depends entirely on the oracle’s resistance to manipulation and the behavior of its updates.
 
 
 **Best Practices:**
 
 :::tip-green
 
-* **Prefer value-accruing assets**: Assets whose value per token increases slowly and predictably (such as most ERC-4626 vaults or liquid staking derivatives, e.g., wstETH, scrvUSD) are best suited for oraclized Stableswap pools.
+* **Prefer value-accruing assets**: Assets whose value per token increases slowly and predictably (such as most ERC-4626 tokens or liquid staking derivatives, e.g., wstETH, scrvUSD) are best suited for oraclized Stableswap pools.
 * **Use rate smoothing or limits**: If the underlying asset value can change, the oracle should apply smoothing or enforce a maximum change per update so that large jumps are spread over time.  See [The Sandwich Rule](#1-the-oracle-sandwich-2-fee-rule).
 * **Ensure consistent units**: Oracle outputs must be normalized to the same base unit as the rest of the pool (for example, ETH or USD) and returned with exactly 18 decimals.
 
@@ -247,20 +247,20 @@ When integrating an oracle, the safety of the pool depends entirely on the oracl
 :::danger
 
 * **Never Use Spot Prices:** Do not use the spot price from any DeFi pool, these are highly manipulatable.  TWAPs/MAs of the spot price can be OK.
-* **Never use withdrawal simulations**: Functions such as `calc_withdraw_one_coin()` or similar balance-based simulations are easily manipulable and must never be used as oracle inputs.
+* **Never use withdrawal simulations**: Functions such as `calc_withdraw_one_coin()` or similar balance-based simulations are manipulable and must never be used as oracle inputs.
 * **Never Use Spot Balances:** Do not rely on spot token balances to calculate value.
-* **Avoid low-liquidity sources**: Do not derive an oracle from a market with less value than the Curve pool it secures.
+* **Avoid low-liquidity sources**: Do not derive a rate oracle from a price source with less value than the Curve pool it secures.
 :::
 
 ---
 
-## Oracle Risks & Limitations
+## Rate Oracle Risks & Limitations {#oracle-risks--limitations}
 
-Since Stableswap centers liquidity around a specific value `p`, any update to that value directly shifts the pool’s pricing. If oracle updates are too large or too fast, liquidity providers will incur guaranteed losses.
+Since Stableswap centers liquidity around a specific value `p`, any update to that value directly shifts the pool’s pricing. If oracle updates are too large or too fast, LPs will incur guaranteed losses.
 
 ### 1. The Oracle Sandwich (2× Fee Rule)
 
-The most critical risk in Stableswap-NG oracles is the "Oracle Sandwich." When an oracle updates the price `p` onchain, the pool's internal exchange rate shifts instantly. 
+The most critical risk in Stableswap-NG rate oracles is the "Oracle Sandwich." When an oracle updates the price `p` onchain, the pool's internal exchange rate shifts instantly. 
 
 If the price shift is larger than the cost of swapping (fees), an attacker can guarantee a profit and cause a loss for LPs by: 
 
@@ -274,7 +274,7 @@ $$
 \Delta P_{oracle} \le 2 \times Fee_{pool}
 $$ 
 
-**The oracle price used by the pool should never change by more than 2x the pool fee in a single block.** For example, if your base pool fee is 0.04%, the oracle should not shift by more than 0.08% per block. If the market moves 5%, your oracle contract should "smooth" this movement over many blocks.
+**The oracle price used by the pool should never change by more than 2x the pool fee in a single block.** For example, if your pool's base fee is 0.04%, the oracle should not shift by more than 0.08% per block. If the price moves 5%, your oracle contract should "smooth" this movement over many blocks.
 
 ### 2. Dynamic Fees Do Not Protect Against Oracle Attacks
 
@@ -286,7 +286,7 @@ Oracle updates change the **value** of balances, not the **token amounts**. As a
 
 Stableswap-NG is optimized for assets whose relative value changes slowly. It is not recommended for volatile asset pairs.
 
-Frequent oracle updates force the pool to repeatedly re-center its liquidity, which mathematically causes liquidity providers to sell the appreciating asset at a discount. Over time, this leads to persistent LP losses unless offset by higher fee generation or incentives.
+Frequent oracle updates force the pool to repeatedly re-center its liquidity, which mathematically causes LPs to sell the appreciating asset at a discount. Over time, this leads to persistent LP losses unless offset by higher fee generation or incentives.
 
 For volatile pairs, prefer **[Cryptoswap](understanding-cryptoswap.md)** or **[FXSwap](understanding-fxswap.md)** pools, which are designed specifically for such use cases.
 
@@ -295,5 +295,5 @@ Read more about best oracle practices and risks here: [MixBytes: Safe Stableswap
 :::
 
 :::tip-green
-Swiss Stake, the service provider developing Curve's technology, offers consulting services to guide protocols and asset issuers in the design and integration of price feed oracles for Stableswap liquidity pools. Additionally, Swiss Stake provides thorough audits of client-implemented oracle solutions to ensure correctness and security. Inquiries: [inquiries@curve.finance](mailto:inquiries@curve.finance).
+Swiss Stake, the service provider developing Curve's technology, offers consulting services to guide issuers in the design and integration of rate oracles for Stableswap liquidity pools. Additionally, Swiss Stake provides thorough audits of client-implemented oracle solutions to ensure correctness and security. Inquiries: [inquiries@curve.finance](mailto:inquiries@curve.finance).
 :::

@@ -2,7 +2,7 @@
 id: deploy-fxswap
 title: "Deploy an FXSwap Pool"
 sidebar_label: "Deploy an FXSwap Pool"
-description: Step-by-step guide to deploying a Curve FXSwap pool for two low-volatility assets priced on an external market, such as FX pairs.
+description: Step-by-step guide to deploying a Curve FXSwap pool for two low-volatility assets priced on an external price source, such as FX pairs.
 ---
 
 import ThemedImage from '@theme/ThemedImage';
@@ -10,17 +10,17 @@ import ButtonGrid from '@site/src/components/ButtonGrid';
 
 When you finish, an FXSwap pool for two low-volatility assets is live onchain, holds its first liquidity and can take refuels.
 
-Creating the pool is one transaction, and seeding it is another. Refuels and CRV emissions come after; CRV emissions add a 7-day Curve DAO vote.
+Deploying the pool is one transaction, and seeding it is another. Refuels and CRV emissions come after; CRV emissions add a 7-day Curve DAO vote.
 
 <ButtonGrid buttonKeys={['gotoPoolDeployment']} />
 
 ## Before You Start
 
-You need a wallet on a chain where FXSwap is available, two token addresses, a starting price, and a pair whose price is set on a deeper external market. FXSwap is not meant for a token's primary price discovery; use [Cryptoswap](./deploy-cryptoswap.md) for that.
+You need a wallet on a chain where FXSwap is available, two token addresses, a starting price, and a pair whose price is set on a deeper external trading venue. FXSwap is not meant for a token's primary price discovery; use [Cryptoswap](./deploy-cryptoswap.md) for that.
 
 It costs gas, the tokens you deposit as initial liquidity and, over time, a refuel budget to keep the pool centered. Curve charges no fee to deploy a pool.
 
-It takes two transactions to create and seed the pool.
+It takes two transactions to deploy and seed the pool.
 
 Nobody approves it. Only CRV emissions need a Curve DAO vote, after you deploy a gauge.
 
@@ -69,9 +69,9 @@ Nobody approves it. Only CRV emissions need a Curve DAO vote, after you deploy a
 ## Name the Pool
 
 1. Under **POOL INFO**, enter a name, such as `crvUSD/EURC`, and a symbol, such as `crvUSDEURC`.
-2. Check both for typos. They become the LP token's name and symbol and can't be changed after deployment.
+2. Check both for typos. They become the name and symbol of the LP token (the token that represents a share of the pool) and can't be changed after deployment.
 
-## Create the Pool
+## Deploy the Pool {#create-the-pool}
 
 1. Review the **Pool Summary**: the tokens, the starting price, the parameters, and the name and symbol.
 2. Select **Create Pool** and confirm the transaction in your wallet.
@@ -88,7 +88,7 @@ Nobody approves it. Only CRV emissions need a Curve DAO vote, after you deploy a
 - Its Advanced Details link to a **Manage pool** page, where you set up refuels.
 - Once the pool holds liquidity and is indexed, the Curve Prices API returns it at `https://prices.curve.finance/v1/pools/<network>/<pool address>`.
 
-If the pool drifts from the market price, see [Troubleshooting Curve Pools](../troubleshooting.md#an-fxswap-pool-drifts-from-the-market-price).
+If the pool drifts from the external price, see [Troubleshooting Curve Pools](../troubleshooting.md#an-fxswap-pool-drifts-from-the-market-price).
 
 ## Next Step
 

@@ -17,7 +17,7 @@ Preset values below are from the Curve app's pool creation code (`apps/main/src/
 | Crypto-collateralized stablecoins | 0.04% | 100 | 20 |
 | Liquid restaking tokens | 0.01% | 500 | 10 |
 
-All three use a 600-second EMA half-life for the pool's price oracle. The contract stores it as `ma_exp_time` = 866 (600 / ln 2).
+All three use a 600-second exponential moving average (EMA) half-life for the pool oracle. The contract stores it as `ma_exp_time` = 866 (600 / ln 2).
 
 ## Cryptoswap and FXSwap Presets
 
@@ -25,7 +25,7 @@ All three use a 600-second EMA half-life for the pool's price oracle. The contra
 | --- | --- | --- | --- |
 | Crypto | Most volatile pairs, such as LDO/ETH | 0.26% | 0.45% |
 | Low volatility | Pairs with low relative volatility | 0.05% | 0.45% |
-| Liquid staking derivatives | LSTs soft-pegged to their underlying | 0.03% | 0.45% |
+| Liquid staking derivatives | LSTs (liquid staking tokens) soft-pegged to their underlying | 0.03% | 0.45% |
 | Liquid restaking tokens | LRTs | 0.005% | 0.08% |
 | Tricrypto | USD stablecoin, BTC and ETH | 0.01% | 1.4% |
 | Three coin volatile | A volatile token with ETH and a USD stablecoin | 0.03% | 0.8% |
@@ -55,7 +55,7 @@ Parameters read onchain from Ethereum on 17 November 2026.
 | [USDtb/USDC](https://etherscan.io/address/0xC2921134073151490193AC7369313c8e0b08e1E7) | Stablecoin backed by real-world assets | 800 | 0.01% |
 | [DOLA/sUSDe](https://etherscan.io/address/0x744793B5110f6ca9cC7CDfe1CE16677c3Eb192ef) | Crypto-collateralized and yield-bearing stablecoins | 750 | 0.01% |
 | [sfrxUSD/frxUSD](https://etherscan.io/address/0xF292eB6c5dcb693Eaaf392D0562a01C3710E5978) | Savings token and its base stablecoin | 10,000 | 0.01% |
-| [ETH/stETH](https://etherscan.io/address/0xDC24316b9AE028F1497c275EB9192a3Ea0f67022) | Rebasing LST | 900 | 0.01% |
+| [ETH/stETH](https://etherscan.io/address/0xDC24316b9AE028F1497c275EB9192a3Ea0f67022) | Rebasing LST (balance grows in the wallet) | 900 | 0.01% |
 | [weETH/WETH](https://etherscan.io/address/0xDB74dfDD3BB46bE8Ce6C33dC9D82777BCFc3dEd5) | LRT | 5,000 | 0.005% |
 | [tBTC/WBTC](https://etherscan.io/address/0xB7ECB2AA52AA64a717180E030241bC75Cd946726) | Wrapped BTC | 300 | 0.01% |
 | [cbBTC/WBTC](https://etherscan.io/address/0x839d6bDeDFF886404A6d7a788ef241e4e28F4802) | Wrapped BTC | 800 | 0.02% |

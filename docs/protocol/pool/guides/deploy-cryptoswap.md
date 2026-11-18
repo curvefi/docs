@@ -10,7 +10,7 @@ import ButtonGrid from '@site/src/components/ButtonGrid';
 
 When you finish, a Cryptoswap pool for two or three volatile tokens is live onchain and holds its first liquidity.
 
-Creating the pool is one transaction, and seeding it is another. Getting CRV emissions later adds a 7-day Curve DAO vote.
+Deploying the pool is one transaction, and seeding it is another. Getting CRV emissions later adds a 7-day Curve DAO vote.
 
 <ButtonGrid buttonKeys={['gotoPoolDeployment']} />
 
@@ -20,7 +20,7 @@ You need a wallet on the chain you deploy to, the tokens' addresses and a starti
 
 It costs gas and the tokens you deposit as initial liquidity. Curve charges no fee to deploy a pool.
 
-It takes two transactions: one to create the pool and one to seed it.
+It takes two transactions: one to deploy the pool and one to seed it.
 
 Nobody approves it. Only CRV emissions need a Curve DAO vote, after you deploy a gauge.
 
@@ -55,7 +55,7 @@ Nobody approves it. Only CRV emissions need a Curve DAO vote, after you deploy a
 3. To change a value, open **Advanced** and edit it.
 4. Select **Next**.
 
-The pool concentrates liquidity around the starting price, so set it close to the market. [Pool Parameter Presets](../presets.md) lists each preset's values next to live pools, and [Curve Pool Parameters](../pool-parameters.md#cryptoswap-parameters) explains each parameter.
+The pool concentrates liquidity around the starting price, so set it close to the current trading price. [Pool Parameter Presets](../presets.md) lists each preset's values next to live pools, and [Curve Pool Parameters](../pool-parameters.md#cryptoswap-parameters) explains each parameter.
 
 <figure>
   <ThemedImage
@@ -71,9 +71,9 @@ The pool concentrates liquidity around the starting price, so set it close to th
 ## Name the Pool
 
 1. Under **POOL INFO**, enter a name, such as `ETH/USDC`, and a symbol, such as `ETHUSDC`.
-2. Check both for typos. They become the LP token's name and symbol and can't be changed after deployment.
+2. Check both for typos. They become the name and symbol of the LP token (the token that represents a share of the pool) and can't be changed after deployment.
 
-## Create the Pool
+## Deploy the Pool {#create-the-pool}
 
 1. Review the **Pool Summary**: the tokens, the starting price, the parameters, and the name and symbol.
 2. Select **Create Pool** and confirm the transaction in your wallet.
@@ -90,7 +90,7 @@ The pool concentrates liquidity around the starting price, so set it close to th
 - The creation transaction appears in your wallet's history and on the chain's block explorer.
 - Once the pool holds liquidity and is indexed, the Curve Prices API returns it at `https://prices.curve.finance/v1/pools/<network>/<pool address>`, and it appears in the pool list.
 
-If the pool doesn't show up or its liquidity drifts from the market price, see [Troubleshooting Curve Pools](../troubleshooting.md).
+If the pool doesn't show up or its liquidity drifts from the external price, see [Troubleshooting Curve Pools](../troubleshooting.md).
 
 ## Next Step
 
