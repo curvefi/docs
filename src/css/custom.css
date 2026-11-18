@@ -1045,3 +1045,32 @@ html[data-curve-theme='chad'] .menu__list-item-collapsible {
 html[data-curve-theme='chad'] .theme-doc-sidebar-container {
   border-right: 2px solid var(--Violet-300);
 }
+/* Copy page as Markdown (src/components/CopyMarkdownButton) */
+.copy-md {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--Spacing-sm);
+  margin-bottom: var(--Spacing-sm);
+  font-size: var(--Typography-FontSize-sm);
+}
+
+.copy-md__button {
+  padding: var(--Spacing-xxs) var(--Spacing-sm);
+  border: 1px solid var(--Layer-2-Outline);
+  border-radius: var(--Radius-sm);
+  background: var(--Layer-1-Fill);
+  color: var(--Text-TextColors-Secondary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.copy-md__button:hover,
+.copy-md__link:hover {
+  color: var(--Text-TextColors-Highlight);
+}
+
+.copy-md__link {
+  color: var(--Text-TextColors-Tertiary);
+  text-decoration: none;
+}

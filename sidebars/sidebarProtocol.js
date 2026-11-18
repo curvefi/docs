@@ -249,5 +249,10 @@ export default {
             href: 'https://curvefinance.notion.site/Brand-Assets-1a6599aae064802fba11ce6a9e642d74',
             label: 'Brand Assets',
         },
+        {
+            type: 'link',
+            href: 'pathname:///llms.txt',
+            label: 'For AI agents: llms.txt',
+        },
     ],
 };
