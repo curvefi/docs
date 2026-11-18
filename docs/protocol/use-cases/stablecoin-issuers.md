@@ -13,7 +13,7 @@ A [Stableswap](../pool/understanding-stableswap.md) pool concentrates liquidity 
 
 ## Savings and Yield-Bearing Versions
 
-Stableswap-NG pools accept rebasing tokens, ERC-4626 vault shares and tokens priced by a rate oracle, so a savings version of your stablecoin can trade next to the base token at its current rate. [Curve Pool Types](../pool/overview.md#stableswap-pool) lists the supported token types.
+Stableswap-NG pools accept rebasing tokens, ERC-4626 vault shares and tokens priced by a rate oracle, so a savings version of your stablecoin can trade next to the base token at its current rate. [Understanding Stableswap](../pool/understanding-stableswap.md#supported-asset-types) lists the supported token types.
 
 ## Reaching Existing Liquidity Through a Metapool
 
