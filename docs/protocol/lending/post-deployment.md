@@ -15,9 +15,9 @@ You need the market's Vault and Controller addresses and a wallet holding the bo
 
 It costs gas and the borrowed tokens you deposit as the first lender liquidity.
 
-It takes a few transactions, plus a 7-day Curve DAO vote if you want CRV emissions.
+It takes a few transactions, plus a 7-day DAO vote if you want CRV emissions.
 
-Nobody approves the deposit or the monitoring. The borrow cap and CRV emissions each need a Curve DAO vote.
+Nobody approves the deposit or the monitoring. The borrow cap and CRV emissions each need a DAO vote.
 
 ## Confirm the Market Is Active {#activation-checklist}
 
@@ -37,11 +37,11 @@ Nobody approves the deposit or the monitoring. The borrow cap and CRV emissions 
 ## Monitor the Market {#monitor-the-market}
 
 1. Set alerts on these values:
-   - Vault total assets, available liquidity, supply cap and lender APR
+   - Vault total assets, available liquidity, supply cap and lender APR (annual percentage rate)
    - total debt, borrow cap, utilization and borrow APR
-   - oracle freshness, deviation, dependencies and failed updates
-   - borrower health and positions in soft liquidation
-   - collateral market depth, liquidation profitability and bad-debt risk
+   - price oracle freshness, deviation, dependencies and failed updates
+   - borrower health and positions in soft liquidation (collateral converting gradually as the price falls, instead of being sold at one price)
+   - collateral trading liquidity depth, liquidation profitability and bad-debt risk
    - admin percentage, accrued fees and fee receiver
    - Configurator, factory-owner and Emergency DAO changes
 2. Name an owner who responds to each alert before you raise the borrow cap.
@@ -50,7 +50,7 @@ Nobody approves the deposit or the monitoring. The borrow cap and CRV emissions 
 
 1. Deploy a gauge for the Vault's shares. [Curve Gauges and Incentives](/protocol/gauge/overview) explains how.
 2. Deposit your own ERC-20 rewards into the gauge. Lenders earn them by staking their Vault shares in it.
-3. For CRV emissions, propose a Curve DAO vote to whitelist the gauge. CRV then follows the gauge weight veCRV holders vote for it.
+3. For CRV emissions, propose a DAO vote to whitelist the gauge, which makes it eligible for CRV emissions. CRV then follows the gauge weight that veCRV (CRV locked for voting power) holders vote for it.
 
 ## Point Integrators to the Docs {#integrate-the-lender-side}
 

@@ -7,7 +7,7 @@ description: Step-by-step guide to deploying a Llamalend v2 market through the L
 
 When you finish, your Llamalend v2 market is registered in the LendFactory and open to borrowers.
 
-Deploying the market is one transaction. Opening it to borrowers adds a 7-day Curve DAO ownership vote that raises its borrow cap from zero.
+Deploying the market is one transaction. Opening it to borrowers adds a 7-day Curve DAO vote that raises its borrow cap from zero.
 
 ## Before You Start
 
@@ -15,13 +15,13 @@ You need a wallet on Ethereum or Optimism, the two token addresses, an initializ
 
 It costs gas for the `create()` transaction.
 
-It takes one transaction to deploy and a 7-day Curve DAO ownership vote to open borrowing.
+It takes one transaction to deploy and a 7-day DAO vote to open borrowing.
 
-yRisk, the Curve DAO's elected risk manager, reviews the market, and a Curve DAO vote approves its borrow cap.
+yRisk, the Curve DAO's elected risk manager, reviews the market, and a DAO vote approves its borrow cap.
 
 ## Propose the Market
 
-1. Prepare the token pair, oracle, monetary policy and parameters. [Oracles & Parameters](../oracles-and-parameters.md) covers each choice.
+1. Prepare the token pair, price oracle, monetary policy (the contract that sets the borrow rate) and parameters. [Oracles & Parameters](../oracles-and-parameters.md) covers each choice.
 2. Propose the market on the [Curve governance forum](https://gov.curve.finance/).
 3. Wait for yRisk to review the oracle, the parameters and the proposed borrow cap.
 
@@ -44,7 +44,7 @@ The [LendFactory reference](/developer/llamalend-v2/lend-factory#create) lists t
 
 ## Activate the Market {#activate-the-market}
 
-1. Submit a Curve DAO ownership vote that calls `Configurator.set_borrow_cap(controller, cap)` through the `LendingOwnerProxy`'s `execute` function.
+1. Submit a DAO ownership vote that calls `Configurator.set_borrow_cap(controller, cap)` through the `LendingOwnerProxy`'s `execute` function.
 2. To delegate later changes for this market, add a call to `Configurator.set_custom_admin(controller, admin)` to the same vote.
 3. When the 7-day vote passes, execute it. On Optimism, the action is relayed through Curve's cross-chain governance.
 

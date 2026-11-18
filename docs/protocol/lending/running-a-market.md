@@ -7,7 +7,7 @@ description: How a live Llamalend market is monitored, how its parameters change
 
 When you finish, a change you proposed for your live market has passed yRisk review and a Curve DAO vote and is set onchain.
 
-Each change takes a 7-day Curve DAO ownership vote, unless the DAO has assigned your market a market-specific admin.
+Each change takes a 7-day DAO ownership vote, unless the DAO has assigned your market a market-specific admin.
 
 ## Before You Start
 
@@ -15,7 +15,7 @@ You need the market's Controller and Vault addresses and a fork simulation of th
 
 It costs gas to create and execute the vote. [Governance Proposals](/user/dao/proposals) explains who can create one.
 
-It takes a 7-day Curve DAO ownership vote for each change.
+It takes a 7-day DAO vote for each change.
 
 yRisk, the Curve DAO's elected risk manager, reviews the change, and the Curve DAO approves it.
 
@@ -29,7 +29,7 @@ yRisk, the Curve DAO's elected risk manager, reviews the change, and the Curve D
 1. Find the setting and its function in [Parameters and Access Control](./parameters-and-access-control.md#changed-after-deployment).
 2. Simulate the call on a fork.
 3. Propose the change on the [Curve governance forum](https://gov.curve.finance/) and wait for yRisk's review.
-4. Submit a Curve DAO ownership vote that makes the call through the `LendingOwnerProxy`'s `execute` function.
+4. Submit a DAO ownership vote that makes the call through the `LendingOwnerProxy`'s `execute` function.
 5. When the vote passes, execute it.
 
 A market-specific admin calls the [Configurator](/developer/llamalend-v2/configurator) directly and skips the vote.
@@ -44,7 +44,7 @@ Existing loans can still be repaid or liquidated, and lenders withdraw as borrow
 
 ## Emergencies
 
-The [Emergency DAO](/user/dao/emergency-dao), a 5-of-9 multisig, can make a fixed set of changes through the `LendingOwnerProxy` without a vote, such as setting a borrow cap to zero. It cannot move user funds. [Parameters and Access Control](./parameters-and-access-control.md#changed-after-deployment) lists each change it can make, and [Who the Admins Are](./parameters-and-access-control.md#who-the-admins-are) shows the addresses.
+The [Emergency DAO](/user/dao/emergency-dao), a 5-of-9 multisig (a wallet that needs several signers to act), can make a fixed set of changes through the `LendingOwnerProxy` without a vote, such as setting a borrow cap to zero. It cannot move user funds. [Parameters and Access Control](./parameters-and-access-control.md#changed-after-deployment) lists each change it can make, and [Who the Admins Are](./parameters-and-access-control.md#who-the-admins-are) shows the addresses.
 
 ## Check It Worked
 

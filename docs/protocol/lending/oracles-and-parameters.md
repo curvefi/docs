@@ -5,11 +5,11 @@ sidebar_label: Oracles & Parameters
 description: How to choose the token pair, price oracle, monetary policy and risk parameters for a Llamalend market before deployment.
 ---
 
-A Llamalend v2 market combines independently supplied contracts and risk parameters. Deployment is permissionless, but that does not make every configuration safe. Validate the token pair, oracle, monetary policy, and liquidation assumptions together before creating a market.
+A Llamalend v2 market combines independently supplied contracts and risk parameters. Deployment is permissionless, but that does not make every configuration safe. Validate the token pair, price oracle, monetary policy (the contract that sets the borrow rate), and liquidation assumptions together before deploying a market.
 
 :::warning[Risk review required]
 
-There is no universal safe parameter set. Model the assets' volatility, market depth, oracle failure modes, and expected utilization, and independently review every custom oracle or monetary policy before deployment.
+There is no universal safe parameter set. Model the assets' volatility, trading liquidity depth, price oracle failure modes, and expected utilization, and independently review every custom oracle or monetary policy before deployment.
 
 :::
 
@@ -29,18 +29,18 @@ The pair does not need to contain crvUSD. The factory does, however, rely on ERC
 
 ## Price Oracle
 
-The oracle reports the price of one unit of collateral in units of the borrowed token, multiplied by `10^18`. It must implement:
+The price oracle reports the price of one unit of collateral in units of the borrowed token, multiplied by `10^18`. It must implement:
 
 ```vyper
 def price() -> uint256: view
 def price_w() -> uint256: nonpayable
 ```
 
-When a market is created, the factory calls both functions and requires the returned prices to be equal and nonzero. The oracle should also be robust against manipulation, stale data, abrupt discontinuities, and failures in any underlying liquidity source.
+When a market is deployed, the factory calls both functions and requires the returned prices to be equal and nonzero. The oracle should also be robust against manipulation, stale data, abrupt discontinuities, and failures in any underlying liquidity source.
 
-A Curve pool oracle can be one input to an oracle design, but the v2 factory does not automatically derive an oracle from a pool. The address passed to `create()` must already be a complete, initialized oracle implementing the required interface.
+A Curve pool oracle (the pool's own moving-average price) can be one input to a price oracle design, but the v2 factory does not automatically derive a price oracle from a pool. The address passed to `create()` must already be a complete, initialized oracle implementing the required interface.
 
-You don't need to write an oracle from scratch. Llamalend provides reusable oracle contracts that price tokens from Curve pools, Chainlink feeds, ERC-4626 vault shares and 2-coin Stableswap-NG LP tokens, and you can stack them. See the [oracle reference](/developer/llamalend-v2/oracles).
+You don't need to write an oracle from scratch. Llamalend provides reusable price oracle contracts that price tokens from Curve pools, Chainlink feeds, ERC-4626 tokens (the standard for yield-bearing deposit tokens) and 2-coin Stableswap-NG LP tokens, and you can stack them. See the [oracle reference](/developer/llamalend-v2/oracles).
 
 The Configurator can later replace the oracle through a deviation-checked update. This requires a Curve DAO ownership vote unless the DAO has assigned a controller-specific administrator. The Emergency DAO can replace an oracle only when the current one fails. Upgradability helps respond to changing conditions, but it also makes the market's administration and monitoring model part of the risk assessment.
 
