@@ -36,7 +36,7 @@ A Curve pool fits pegged assets, such as stablecoins, LSTs (liquid staking token
 
 ## Related
 
-- [Curve Pool Types](./overview.md)
+- [Deploy a Pool](./overview.md)
 - [Understanding Stableswap](./understanding-stableswap.md)
 - [Understanding Cryptoswap](./understanding-cryptoswap.md)
 - [Understanding FXSwap](./understanding-fxswap.md)

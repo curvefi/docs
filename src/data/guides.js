@@ -228,19 +228,19 @@ export const ALL_GUIDES = {
     link: '/protocol/launch-playbook',
   },
   LiquidityPools: {
-    title: 'Learn About Liquidity Pools',
+    title: 'Deploy a Pool',
     description: 'Learn about Stable- and Cryptoswap pools and how they work.',
     image: '',
     link: '/protocol/pool/overview',
   },
   LendingMarkets: {
-    title: 'Launch a Lending Market',
+    title: 'Deploy and Run a Lending Market',
     description: 'Deploy an isolated Llamalend market for your token.',
     image: '',
     link: '/protocol/lending/launch-isolated-lending-market',
   },
   GaugesAndIncentives: {
-    title: 'Learn About Gauges and Incentives',
+    title: 'Incentivize Liquidity',
     description: 'Learn about gauges and incentives and how they work.',
     image: '',
     link: '/protocol/gauge/overview',

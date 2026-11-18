@@ -40,7 +40,7 @@ You don't need to request a listing. Aggregators such as [0x](https://docs.0x.or
 1. Open [Deploy Gauge](https://www.curve.finance/dex/ethereum/deploy-gauge) in the Curve app with the wallet that will manage rewards.
 2. Enter the **Pool Address** and deploy. On a sidechain, the app walks you through two steps: deploy the sidechain gauge, then a mirror gauge on Ethereum, using the same wallet for both.
 
-The factory allows one gauge per pool, and the wallet that deploys it becomes the gauge manager. See [Curve Gauges and Incentives](../gauge/overview.md).
+The factory allows one gauge per pool, and the wallet that deploys it becomes the gauge manager. See [Incentivize Liquidity](../gauge/overview.md).
 
 ## Add Refuels to an FXSwap Pool {#add-refuels-fxswap-pools}
 

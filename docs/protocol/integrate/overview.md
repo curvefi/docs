@@ -1,6 +1,6 @@
 ---
 id: overview
-title: Integrate With Curve
+title: "Integrate Curve"
 sidebar_label: Integrate
 description: How DeFi protocols, aggregators, wallets and data providers integrate Curve pools, LP tokens, pool oracles, Llamalend vaults and APIs, with links into the developer reference.
 ---

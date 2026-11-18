@@ -15,7 +15,7 @@ The DAO generally rejects gauges for pools or lending markets with tokens that h
 The DAO decides each vote, but it has historically put protecting liquidity providers (LPs) and the protocol from value extraction first. Check that your token behaves as a standard ERC-20 before you propose a gauge.
 :::
 
-[Gauges and Incentives](./overview.md) explains what a gauge does, and [Governance Proposals](/user/dao/proposals) explains how a vote passes.
+[Incentivize Liquidity](./overview.md) explains what a gauge does, and [Governance Proposals](/user/dao/proposals) explains how a vote passes.
 
 ## Before You Start
 

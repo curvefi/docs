@@ -75,4 +75,4 @@ CVX/ETH and YB/crvUSD use the Crypto preset unchanged.
 
 - [Curve Pool Parameters](./pool-parameters.md)
 - [Troubleshooting Curve Pools](./troubleshooting.md)
-- [Curve Pool Types](./overview.md)
+- [Deploy a Pool](./overview.md)

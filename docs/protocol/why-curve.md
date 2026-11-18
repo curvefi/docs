@@ -36,10 +36,10 @@ Curve's contracts have been audited by ChainSecurity, MixBytes, Quantstamp, Stat
 | Job | Start here |
 | --- | --- |
 | Find the setup for your token or protocol | [Use Cases](./use-cases/overview.md) |
-| Deploy a pool | [Launch Liquidity](./pool/overview.md) |
-| Deploy a lending market | [Launch and Run a Lending Market](./lending/launch-isolated-lending-market.md) |
-| Fund liquidity and get CRV emissions | [Incentives and Governance](./gauge/overview.md) |
-| Integrate Curve contracts and data | [Integrate](./integrate/overview.md) |
+| Deploy a pool | [Deploy a Pool](./pool/overview.md) |
+| Deploy a lending market | [Deploy and Run a Lending Market](./lending/launch-isolated-lending-market.md) |
+| Fund liquidity and get CRV emissions | [Incentivize Liquidity](./gauge/overview.md) |
+| Integrate Curve contracts and data | [Integrate Curve](./integrate/overview.md) |
 
 ## Chains
 

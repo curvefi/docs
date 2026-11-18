@@ -9,7 +9,7 @@ When you finish, your gauge streams your reward token to staked liquidity provid
 
 Each deposit streams over a period you choose, from 3 days to 48 weeks.
 
-[Curve Gauges and Incentives](../overview.md#direct-gauge-rewards) explains what direct rewards are and their limits.
+[Incentivize Liquidity](../overview.md#direct-gauge-rewards) explains what direct rewards are and their limits.
 
 ## Before You Start
 

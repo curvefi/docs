@@ -37,7 +37,7 @@ A [Llamalend](../lending/launch-isolated-lending-market.md) market lets holders 
 | Your token | Pool | Lending | Guide |
 | --- | --- | --- | --- |
 | USD stablecoin | Stableswap with USDC, USDT or crvUSD, or a metapool | Optional | [Deploy a Stableswap Pool](../pool/guides/deploy-stableswap.md) |
-| Savings or yield-bearing stablecoin | Stableswap-NG with the base stablecoin, ERC-4626 asset type | Savings token as collateral | [Launch a Lending Market](../lending/launch-isolated-lending-market.md) |
+| Savings or yield-bearing stablecoin | Stableswap-NG with the base stablecoin, ERC-4626 asset type | Savings token as collateral | [Deploy and Run a Lending Market](../lending/launch-isolated-lending-market.md) |
 | EUR, CHF, GBP or other non-USD stablecoin | Stableswap with a token on the same peg, or FXSwap against a USD stablecoin | Optional | [Understanding FXSwap](../pool/understanding-fxswap.md) |
 
 [Pool Parameter Presets](../pool/presets.md) gives starting parameters and live stablecoin pools to compare against.

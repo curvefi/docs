@@ -1,6 +1,6 @@
 ---
 id: launch-isolated-lending-market
-title: Launch an Isolated Lending Market for Your Token
+title: "Deploy and Run a Lending Market for Your Token"
 sidebar_label: Launch a Market
 description: Llamalend lets anyone deploy a permissionless, isolated lending market for any ERC-20 pair, including yield-bearing tokens and Curve LP tokens, with soft liquidation for borrowers.
 ---
@@ -19,7 +19,7 @@ Llamalend v1 is deprecated. New markets and integrations should use the v2 contr
 
 <GuideCardGrid guideKeys={['LendingOraclesAndParameters', 'deployLendingMarket']} />
 
-## Should You Launch a Lending Market? {#is-llamalend-right-for-your-token}
+## Should You Deploy a Lending Market? {#is-llamalend-right-for-your-token}
 
 | Check | Ready | Not yet |
 | --- | --- | --- |
@@ -28,7 +28,7 @@ Llamalend v1 is deprecated. New markets and integrations should use the v2 contr
 | Token behavior | A standard ERC-20 | Transfer taxes, rebasing or callbacks, which are not guaranteed to work in a market ([Token Pair](./oracles-and-parameters.md#token-pair)) |
 | Demand and support | Holders want to borrow, and you can seed lender liquidity and watch the market | Nobody owns monitoring or the response to a problem ([Running a Llamalend Market](./running-a-market.md)) |
 
-## Why Launch a Lending Market for Your Token
+## Why Deploy a Lending Market for Your Token {#why-launch-a-lending-market-for-your-token}
 
 **For you, the issuer:**
 
@@ -75,7 +75,7 @@ A Curve pool and a Llamalend market strengthen each other:
 3. Deploy the market with `LendFactory.create()`. Deployment is permissionless and does not make you the market's admin. See [Deploy a Lending Market](./guides/deploy-lending-market.md).
 4. A DAO vote raises the borrow cap from zero. Until it passes, nobody can borrow.
 5. Seed lender liquidity by depositing the borrowed token into the market's Vault.
-6. Optionally, deploy a gauge to pay rewards to lenders. See [Curve Gauges and Incentives](/protocol/gauge/overview).
+6. Optionally, deploy a gauge to pay rewards to lenders. See [Incentivize Liquidity](/protocol/gauge/overview).
 
 ![A Llamalend market deploys on day 0 with a zero borrow cap; borrowing opens once a 7-day DAO vote raises the cap.](/img/protocol/lending/lending-market-go-live.png)
 

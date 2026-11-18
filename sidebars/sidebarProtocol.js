@@ -5,6 +5,10 @@ export default {
             id: 'why-curve',
         },
         {
+            type: 'doc',
+            id: 'launch-playbook',
+        },
+        {
             type: 'category',
             label: 'Use Cases',
             collapsed: true,
@@ -29,7 +33,7 @@ export default {
         },
         {
             type: 'category',
-            label: 'Launch Liquidity',
+            label: 'Deploy a Pool',
             collapsed: true,
             items: [
                 {
@@ -60,10 +64,6 @@ export default {
                     label: 'Guides',
                     collapsed: true,
                     items: [
-                        {
-                            type: 'doc',
-                            id: 'launch-playbook',
-                        },
                         {
                             type: 'doc',
                             id: 'pool/guides/deploy-stableswap',
@@ -117,7 +117,7 @@ export default {
         },
         {
             type: 'category',
-            label: 'Launch and Run a Lending Market',
+            label: 'Deploy and Run a Lending Market',
             collapsed: true,
             items: [
                 {
@@ -177,7 +177,7 @@ export default {
         },
         {
             type: 'category',
-            label: 'Incentives and Governance',
+            label: 'Incentivize Liquidity',
             collapsed: true,
             items: [
                 {
@@ -208,7 +208,7 @@ export default {
         },
         {
             type: 'category',
-            label: 'Integrate',
+            label: 'Integrate Curve',
             collapsed: true,
             items: [
                 {

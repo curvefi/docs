@@ -31,7 +31,7 @@ Each step has its own guide.
 2. Deploy and seed the pool with the guide for [Stableswap](./pool/guides/deploy-stableswap.md), [Cryptoswap](./pool/guides/deploy-cryptoswap.md) or [FXSwap](./pool/guides/deploy-fxswap.md).
 3. Deploy the gauge and submit your logo with [After Deploying a Pool](./pool/post-deployment.md).
 4. Fund incentives, starting with [Adding Direct Gauge Rewards](./gauge/guides/adding-direct-gauge-rewards.md). For CRV emissions, follow [Whitelisting a Gauge](./gauge/whitelisting-gauge.md), then [Getting CRV Emissions](./gauge/guides/getting-crv-emissions.md). [Incentive Costs](./gauge/incentive-costs.md) compares what each route costs.
-5. Deploy a lending market. Read [Launch a Lending Market](./lending/launch-isolated-lending-market.md), then follow [Deploy a Lending Market](./lending/guides/deploy-lending-market.md).
+5. Deploy a lending market. Read [Deploy and Run a Lending Market](./lending/launch-isolated-lending-market.md), then follow [Deploy a Lending Market](./lending/guides/deploy-lending-market.md).
 6. Monitor the pool and market with [Troubleshooting Curve Pools](./pool/troubleshooting.md) and [Running a Llamalend Market](./lending/running-a-market.md).
 
 The 7-day vote period was read onchain from the Curve DAO's ownership voting contract on 17 November 2026.

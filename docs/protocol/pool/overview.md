@@ -1,6 +1,6 @@
 ---
 id: overview
-title: "Curve Pool Types: Stableswap, Cryptoswap and FXSwap"
+title: "Deploy a Pool: Choose Stableswap, Cryptoswap or FXSwap"
 sidebar_label: Overview & Pool Types
 description: "How to choose and deploy a permissionless Curve liquidity pool: Stableswap for pegged assets, Cryptoswap for volatile pairs, FXSwap for externally priced pairs, plus metapools and supported token types."
 ---

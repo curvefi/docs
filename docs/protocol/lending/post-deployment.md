@@ -48,7 +48,7 @@ Nobody approves the deposit or the monitoring. The borrow cap and CRV emissions 
 
 ## Add Lender Incentives {#grow-lender-liquidity}
 
-1. Deploy a gauge for the Vault's shares. [Curve Gauges and Incentives](/protocol/gauge/overview) explains how.
+1. Deploy a gauge for the Vault's shares. [Incentivize Liquidity](/protocol/gauge/overview) explains how.
 2. Deposit your own ERC-20 rewards into the gauge. Lenders earn them by staking their Vault shares in it.
 3. For CRV emissions, propose a DAO vote to whitelist the gauge, which makes it eligible for CRV emissions. CRV then follows the gauge weight that veCRV (CRV locked for voting power) holders vote for it.
 
