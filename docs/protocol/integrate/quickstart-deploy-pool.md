@@ -5,7 +5,19 @@ sidebar_label: "Quickstart: Deploy a Pool"
 description: Deploy a Curve Stableswap-NG plain pool and its gauge from code with viem, using the factory's deploy_plain_pool and deploy_gauge functions on Ethereum.
 ---
 
-The Curve app's pool creation wizard calls the same factory function shown here. Use code when you deploy from a script or a multisig. The full function reference is in the [Stableswap-NG factory deployer API](/developer/amm/factory/stableswap-ng/deployer-api#deploy_plain_pool).
+When you finish, a Stableswap-NG pool and its gauge exist onchain, deployed from your script or multisig.
+
+Two transactions: one for the pool and one for the gauge.
+
+## Before You Start
+
+You need viem, an account that can sign on Ethereum, and the addresses of the tokens for the pool. The Curve app's pool creation wizard calls the same factory function; use code when you deploy from a script or a multisig.
+
+It costs gas. Curve charges no fee to deploy a pool.
+
+It takes two transactions.
+
+Nobody approves it. The full function reference is in the [Stableswap-NG factory deployer API](/developer/amm/factory/stableswap-ng/deployer-api#deploy_plain_pool).
 
 ## Deploy the Pool
 
@@ -59,11 +71,12 @@ await walletClient.writeContract(gaugeRequest)
 
 The account that deploys the gauge becomes its manager. See [Adding Direct Gauge Rewards](../gauge/guides/adding-direct-gauge-rewards.md).
 
-## Testing Status
+## Check It Worked
+
+The pool address returned by the simulation is the address of your new pool. Open it at `https://www.curve.finance/dex/ethereum/pools/<pool address>` and seed it in the **Seed pool** tab.
 
 The `deploy_plain_pool` call above was simulated with `eth_call` against Ethereum mainnet on 17 November 2026, with PYUSD and USDC as the coins, and returned a pool address. No transaction was sent. The `deploy_gauge` call was not simulated. Simulate both with your own coins before sending.
 
-## Related
+## Next Step
 
-- [Deploying a Stableswap Pool](../pool/guides/deploy-stableswap.md)
-- [After Deploying a Curve Pool](../pool/post-deployment.md)
+[After Deploying a Curve Pool](../pool/post-deployment.md) covers seeding, the token logo and incentives.

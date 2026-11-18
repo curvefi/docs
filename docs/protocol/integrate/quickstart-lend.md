@@ -5,7 +5,19 @@ sidebar_label: "Quickstart: Lend"
 description: Supply the borrowed token to a Llamalend v2 market from code with viem, using the market's ERC-4626 vault, previewDeposit and deposit.
 ---
 
-Lenders supply a Llamalend market through its vault, a standard ERC-4626 contract. Get the vault address from the [Prices API](./quickstart-prices-api.md) or the [LendFactory](/developer/llamalend-v2/lend-factory). The full interface is in the [Vault reference](/developer/llamalend-v2/vault).
+When you finish, your account holds shares of a Llamalend market's vault and earns the interest borrowers pay.
+
+Two transactions: an approval and the deposit.
+
+## Before You Start
+
+You need viem, an account that holds the market's borrowed token, and the vault address. Get the address from the [Prices API](./quickstart-prices-api.md) or the [LendFactory](/developer/llamalend-v2/lend-factory).
+
+It costs gas.
+
+It takes two transactions.
+
+Nobody approves it. Lenders supply a market through its vault, a standard ERC-4626 contract described in the [Vault reference](/developer/llamalend-v2/vault).
 
 ## Preview, Approve and Deposit
 
@@ -37,11 +49,12 @@ await walletClient.writeContract({ address: VAULT, abi: vaultAbi, functionName: 
 
 A deposit fails if it would push the vault past its supply limit. A withdrawal can only take what borrowers haven't borrowed. See [Llamalend Market Risk and Roles](../lending/risk-and-roles.md#what-lenders-and-borrowers-risk).
 
-## Testing Status
+## Check It Worked
+
+Read `balanceOf(account)` on the vault: it returns your vault shares, close to the value `previewDeposit` gave. The market's page at `https://www.curve.finance/lend/ethereum/markets/<controller>` shows your supplied position.
 
 `asset` and `previewDeposit` were run against Ethereum mainnet on 17 November 2026. The `approve` and `deposit` transactions were not sent or simulated. Their signatures match the [Vault reference](/developer/llamalend-v2/vault).
 
-## Related
+## Next Step
 
-- [Llamalend integration guide](/developer/llamalend-v2/integration-guide)
-- [Launch a Lending Market](../lending/launch-isolated-lending-market.md)
+The [Llamalend integration guide](/developer/llamalend-v2/integration-guide) covers withdrawals, supply caps and available liquidity.

@@ -5,7 +5,19 @@ sidebar_label: "Quickstart: Read Data"
 description: Fetch a Curve pool's TVL, volume and coins, and list Llamalend markets with their rates, from the Curve Prices API with curl or TypeScript.
 ---
 
-The [Curve Prices API](../api/curve-prices.md) at `prices.curve.finance` needs no API key. These requests return a pool's current state and the Llamalend markets on a chain.
+When you finish, you can read a Curve pool's TVL, volume and balances, and list the Llamalend markets on a chain, with curl or TypeScript.
+
+Two requests, with no API key or sign-up.
+
+## Before You Start
+
+You need curl, or Node 18 or later for `fetch`.
+
+It costs nothing. The [Curve Prices API](../api/curve-prices.md) at `prices.curve.finance` needs no API key.
+
+It takes two requests.
+
+Nobody approves it.
 
 ## Read a Pool
 
@@ -37,9 +49,12 @@ for (const m of markets.filter((m: { version: number }) => m.version === 2)) {
 }
 ```
 
-These requests were run against the live API on 17 November 2026. Rates and TVL in the API are computed offchain. Read the contracts directly when a value must be exact at a given block.
+## Check It Worked
 
-## Related
+The pool request returns `"name": "pyUSD/crvUSD"` with a `tvl_usd` value, and the market request returns a `data` array with a `count` of markets. These requests were run against the live API on 17 November 2026.
 
-- [Curve Prices API Reference](../api/curve-prices.md)
-- [Integrate With Curve](./overview.md)
+Rates and TVL in the API are computed offchain. Read the contracts directly when a value must be exact at a given block.
+
+## Next Step
+
+The [Curve Prices API Reference](../api/curve-prices.md) lists every endpoint, including history, OHLC prices and trades.
