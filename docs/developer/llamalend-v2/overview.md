@@ -29,6 +29,7 @@ The registry currently lists LlamaLend v2 deployments on Ethereum and Optimism. 
 | LMCallbackFactory | [`0x2191…0A0D`](https://etherscan.io/address/0x2191718CD32d02B8E60BAdFFeA33E4B5DD9A0A0D) |                                                        
 | LMCallback blueprint | [`0x61C4…A956`](https://etherscan.io/address/0x61C404B60ee9c5fB09F70F9A645DD38fE5b3A956) |
 | LeverageZap | [`0x5D84…b85`](https://etherscan.io/address/0x5D847c892891B503c3483D3Abbc2a23774279b85) | [`0xdbeB…584a`](https://optimistic.etherscan.io/address/0xdbeBDaE6f2D47B553B984E4091693824cf38584a) |
+| TransientLeverageZap | [`0xFE02…9AE2`](https://etherscan.io/address/0xFE02553d3Ba4c3f39F36a4632F91404DF94b9AE2) | [`0xA7a4…299B`](https://optimistic.etherscan.io/address/0xA7a4bb50AF91f90b6fEb3388E7f8286aF45b299B) |
 
 On 2026-07-22, read-only RPC checks confirmed that both listed factories and Configurators have code and that the factories return `version() = "2.0.0"`. The Ethereum factory reported two markets and Optimism reported three; their blueprint getters also matched the addresses above. Examples in this reference use Ethereum market `0` resolved from that factory: Vault `0x2b5a321c3cb1f33e1abecd047c2649d0b4c47eba`, Controller `0xc77d97cf01737eb7ace46cab7cd9f60ec51a40c0`, AMM `0xbf6f64b741164c26023f97faaea8e02453c27442`, and ControllerView `0xcda563f85388e621e7d810387e5afdac5d395e2b`.
 
