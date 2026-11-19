@@ -521,6 +521,9 @@ export default {
                 { type: 'doc', id: 'fees/fee-distributor', label: 'FeeDistributor' },
                 { type: 'doc', id: 'fees/fee-splitter', label: 'FeeSplitter' },
                 { type: 'doc', id: 'fees/cow-swap-burner', label: 'CowSwapBurner' },
+                { type: 'doc', id: 'fees/dutch-auction-burner', label: 'DutchAuctionBurner' },
+                { type: 'doc', id: 'fees/adapter-registry', label: 'AdapterRegistry' },
+                { type: 'doc', id: 'fees/cow-adapter', label: 'CowAdapter' },
                 { type: 'doc', id: 'fees/hooker', label: 'Hooker' },
                 { type: 'doc', id: 'fees/fee-allocator', label: 'FeeAllocator' },
                 {
