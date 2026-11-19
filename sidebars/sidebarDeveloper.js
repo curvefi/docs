@@ -65,6 +65,7 @@ export default {
                         { type: 'doc', id: 'gauges/gauges/overview', label: 'Overview' },
                         { type: 'doc', id: 'gauges/gauges/gauge-factory', label: 'GaugeFactory'},
                         { type: 'doc', id: 'gauges/gauges/liquidity-gauge-v6', label: 'LiquidityGaugeV6' },
+                        { type: 'doc', id: 'gauges/gauges/liquidity-gauge-v6-2-0', label: 'LiquidityGauge v6.2.0' },
                     ],
                 },
                 {
@@ -75,6 +76,7 @@ export default {
                         { type: 'doc', id: 'gauges/xchain-gauges/root-gauge', label: 'RootGauge' },
                         { type: 'doc', id: 'gauges/xchain-gauges/root-gauge-factory', label: 'RootGaugeFactory' },
                         { type: 'doc', id: 'gauges/xchain-gauges/child-gauge', label: 'ChildGauge' },
+                        { type: 'doc', id: 'gauges/xchain-gauges/child-gauge-v1-2-0', label: 'ChildGauge v1.2.0' },
                         { type: 'doc', id: 'gauges/xchain-gauges/child-gauge-factory', label: 'ChildGaugeFactory' },
                         { type: 'doc', id: 'gauges/xchain-gauges/bridgers', label: 'Bridgers' },
                     ],
