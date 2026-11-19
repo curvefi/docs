@@ -1,6 +1,7 @@
 ---
 title: Understanding Cryptoswap
 sidebar_label: Understanding Cryptoswap
+description: How Curve's Cryptoswap AMM concentrates liquidity for volatile pairs, re-centers it around an internal EMA price, charges dynamic fees and why low-volume pools can go stale.
 ---
 
 import ThemedImage from '@theme/ThemedImage'
@@ -9,13 +10,15 @@ import CryptoswapParamsChart from '@site/src/components/Charts/CryptoswapParams'
 import FXSwapDynamicFeeChart from '@site/src/components/Charts/FXSwapDynamicFee';
 
 
+Cryptoswap is Curve's AMM for volatile pairs, such as ETH/USDC or BTC/ETH. It concentrates liquidity around an internal [exponential moving average](/protocol/glossary#ema) (EMA) price and re-centers it as the price moves, so [liquidity providers](/protocol/glossary#liquidity-provider) (LPs) don't manage price ranges.
+
 ## Historical Background
 
-The CryptoSwap algorithm was also invented by Michael Egorov as an evolution of the original StableSwap model.
+The Cryptoswap algorithm was also invented by Michael Egorov as an evolution of the original Stableswap model.
 
-It was introduced in late 2021, alongside the launch of Curve’s “TriCrypto” pools (e.g., USDT–wBTC–ETH), which allowed swaps between uncorrelated assets — not just stablecoins.
+It was introduced in late 2021, alongside the release of Curve’s Tricrypto pools (e.g., USDT–wBTC–ETH), which allowed swaps between uncorrelated assets, not only stablecoins.
 
-CryptoSwap extended the StableSwap formula by introducing a dynamic amplification coefficient (A) that automatically adjusts based on market volatility. This made it possible to offer tight spreads and deep liquidity when prices are stable, but also greater resilience and arbitrage opportunities during large price moves.
+Cryptoswap extended the Stableswap formula by introducing a dynamic amplification coefficient (A, how tightly liquidity concentrates around the center price) that automatically adjusts based on price volatility. This made it possible to offer tight spreads and deep liquidity when prices are stable, but also greater resilience and arbitrage opportunities during large price moves.
 
 The underlying math was formalized in the paper [“CryptoSwap: Constant Product and Constant Sum Market Maker with Dynamic Parameters”](../../../static/pdf/whitepapers/whitepaper_cryptoswap.pdf), published by Curve in 2021, and it marked Curve’s transition from being a purely stablecoin-focused AMM to a generalized DEX capable of efficiently trading volatile crypto pairs.
 
@@ -23,7 +26,7 @@ The underlying math was formalized in the paper [“CryptoSwap: Constant Product
 
 Cryptoswap is an automated market maker (AMM) pool developed by Curve for swapping between uncorrelated assets, such as `ETH` and `USDT`, where the exchange rate between these assets changes.
 
-Cryptoswap pools build upon the core Stableswap algorithm, but with a key innovation: *where* liquidity is concentrated. Instead of targeting a fixed peg, Cryptoswap automatically concentrates and rebalances liquidity around the pool's **recent average price**.  This allows it to efficiently support **volatile asset pairs** (e.g., `crvUSD/ETH`) while making the entire process **fully passive for liquidity providers**.
+Cryptoswap pools build upon the core Stableswap algorithm, but with a key innovation: *where* liquidity is concentrated. Instead of targeting a fixed peg, Cryptoswap automatically concentrates and rebalances liquidity around the pool's **recent average price**.  This allows it to efficiently support **volatile asset pairs** (e.g., `crvUSD/ETH`) while making the entire process **fully passive for LPs**.
 
 ## Parameters
 
@@ -53,23 +56,23 @@ Below you can see how they affect the shape of the liquidity curve in practice (
 
 As the image shows, a higher `A` means more liquidity is concentrated around the price at which it's center of liquidity, called the `price_scale`.  Whereas a higher `gamma` means liquidity is spread wider.
 
-Pricing is all about the balance of the pool, so let's look at how balance affects the value of the assets in the pool, based on `A` and `gamma`:
+Pricing is all about the balance of the pool. The chart below shows how balance affects the value of the assets in the pool, based on `A` and `gamma`:
 
 <CryptoswapParamsChart />
 
 ## Rebalancing
 
-Assets within Cryptoswap pools are volatile, so prices and exchange rates are constantly changing.  Cryptoswap's goal is to center most liquidity close to the current price, which allows more trading volume, and therefore more profit for LPs.  So, as prices move, the algorithm must re-center or "rebalance" its liquidity to follow it.  This process is handled carefully, because **rebalancing realizes impermanent loss**. To protect LPs, Cryptoswap only rebalances when two conditions are met:
+Assets within Cryptoswap pools are volatile, so prices and exchange rates are constantly changing.  Cryptoswap's goal is to center most liquidity close to the current price, which allows more trading volume, and therefore more profit for LPs.  So, as prices move, the algorithm must re-center or "rebalance" its liquidity to follow it.  This process is handled carefully, because **rebalancing realizes impermanent loss** (the shortfall versus holding the tokens, caused by price moves). To protect LPs, Cryptoswap only rebalances when two conditions are met:
 
 1.  The internal price must move beyond a minimum threshold, known as the **adjustment step**.
 2.  The cost of rebalancing must be less than 50% of the trading fees earned by LPs. **This core safeguard ensures that impermanent loss is only realized when it is sufficiently offset by trading profits**, helping to prevent the erosion of LP deposits from rebalancing fees over time.
 
-!!! info "Internal EMA Price Oracle"
-    For added safety, rebalances are triggered not by the last price of the pool, but by an **Exponential Moving Average** (EMA) of all recent prices. This internal price oracle helps prevent manipulation of rebalances.
+!!! info "Internal EMA Pool Oracle"
+    For added safety, rebalances are triggered not by the last price of the pool, but by an **Exponential Moving Average** (EMA) of all recent prices. This pool oracle helps prevent manipulation of rebalances.
 
     In the following examples, the EMA Price and current price are assumed to be the same. In reality, the EMA will lag the current price slightly.
 
-Let's look at an example using a forex pool trading Euros (EUR) against US Dollars (USD):
+Here is an example using a forex pool trading Euros (EUR) against US Dollars (USD):
 
 <figure style={{ textAlign: 'center' }}>
   <ThemedImage
@@ -96,7 +99,7 @@ Let's look at an example using a forex pool trading Euros (EUR) against US Dolla
 
 In this scenario, the pool performs a rebalance once the price hits the adjustment step, using up to 50% of its collected fees to cover the cost.
 
-To make this clearer, here's how the [CVX/WETH pool](https://www.curve.finance/dex/ethereum/pools/cvxeth/deposit)'s liquidity changed over a month period, notice how the center of liquidity (`price_scale`) updates frequently when it's close to the oracle price, and much more slowly otherwise.  Note that we've put the liquidity into discrete 0.5% range buckets below, so we can see a USD value for the liquidity available.
+To make this clearer, here's how the [CVX/WETH pool](https://www.curve.finance/dex/ethereum/pools/cvxeth/deposit)'s liquidity changed over a month period, notice how the center of liquidity (`price_scale`) updates frequently when it's close to the pool oracle price, and much more slowly otherwise. The chart below groups the liquidity into discrete 0.5% range buckets to show a USD value for the liquidity available.
 
 <figure style={{ textAlign: 'center' }}>
   <ThemedVideo
@@ -111,7 +114,7 @@ To make this clearer, here's how the [CVX/WETH pool](https://www.curve.finance/d
 
 ## Why Does Rebalancing Cost?
 
-Rebalancing costs because you are offering your assets to be swapped in return for trading fees.  As price increases, you are selling your assets.  When you rebalance, you are rebuying your assets, but at a higher price, causing a loss.  Let's look at a very simple example of a concentrated liquidity range AMM:
+Rebalancing costs because you are offering your assets to be swapped in return for trading fees.  As price increases, you are selling your assets.  When you rebalance, you are rebuying your assets, but at a higher price, causing a loss.  Here is a simple example of a concentrated liquidity range AMM:
 
 <figure style={{ textAlign: 'center' }}>
   <ThemedImage
@@ -157,7 +160,7 @@ Have a play below to see how the fee changes with the pool balance.  Note: For a
 
 **1. Passive LPing and Decentralization**
 
-Cryptoswap was built on the original cypherpunk ethos of DeFi: that anyone should be able to provide liquidity easily, passively, and profitably. Compared to protocols that require LPs to become active managers, Cryptoswap's design allows for broader participation, increasing the resilience of the ecosystem.
+Cryptoswap was built on the original cypherpunk ethos of DeFi: that anyone should be able to provide liquidity passively and profitably. Compared to protocols that require LPs to become active managers, Cryptoswap's design allows for broader participation, increasing the resilience of the ecosystem.
 
 **2. Automatic Impermanent Loss Management**
 
@@ -165,76 +168,11 @@ The algorithm is designed to protect LPs from rebalancing losses (as much as pos
 
 **3. Capital Efficiency**
 
-This efficiency stands in contrast to classic AMMs with the `x*y=k` invariant, which use the $x \cdot y = k$ formula. In those models, liquidity is spread thinly across all possible prices (from zero to infinity). By concentrating liquidity around the current market price, Cryptoswap offers significantly lower slippage for traders and generates more fees for LPs from the same amount of capital.
+This efficiency stands in contrast to classic AMMs with the `x*y=k` invariant, which use the $x \cdot y = k$ formula. In those models, liquidity is spread thinly across all possible prices (from zero to infinity). By concentrating liquidity around the current price, Cryptoswap offers significantly lower [slippage](/protocol/glossary#slippage) (price impact of a trade) for traders and generates more fees for LPs from the same amount of capital.
 
-## Stale Pools - How Cryptoswap Pools Can Become Stuck
+## Stale Pools
 
-A Cryptoswap pool's main safety feature is its refusal to rebalance at a loss to LPs. However, this can sometimes cause a pool to become **stuck**, meaning it has a **stale liquidity concentration** because the center of liquidity (`price_scale`) is very different from the current price. This can trigger a negative feedback loop during periods of high volatility:
-
-As the market price moves away from the pool's center of liquidity, the available liquidity for traders decreases. This leads to fewer swaps and, consequently, lower fee generation. Without enough profit from fees, the pool cannot afford to rebalance and follow the price, leaving its liquidity stranded.
-
-<figure style={{ textAlign: 'center' }}>
-  <ThemedImage
-    alt=""
-    sources={{
-      light: '/img/protocol/amm/cryptoswap-stale-pools-light.svg',
-      dark: '/img/protocol/amm/cryptoswap-stale-pools-dark.svg',
-    }}
-    style={{ 
-      width: "1000px",
-      height: 'auto',
-      border: '1px solid var(--Layer-2-Outline)',
-    }}
-  />
-</figure>
-
-1. Another swap happens, generating more profit for LPs.  This increases **price to $1.11, outside adjustment step range**.  However, if the **pool hasn’t generated enough profit, a rebalance cannot occur**.
-2. **Rebalances must cost less than 50% of profit** generated from swaps.  So if the price continues increasing, there’s less liquidity available, and so less swaps happen and less profit is generated.  Also, rebalancing becomes more expensive.  So **rebalancing is unlikely unless price decreases or enough profit is generated.**
-
-## Monitoring Liquidity Balance within Pools
-
-To see how balanced liquidity is within a pool, navigate to the pool's page, for example, the [EURe/USDC pool on Arbitrum](https://www.curve.finance/dex/arbitrum/pools/factory-twocrypto-89/deposit). At the bottom of the pool details, click the `Advanced` tab. You will then see the following details:
-
-<figure>
-  <ThemedImage
-    alt=""
-    sources={{
-      light: require('@site/static/img/protocol/amm/price-scale.png').default,
-      dark: require('@site/static/img/protocol/amm/price-scale.png').default,
-    }}
-    style={{ 
-      width: "1000px",
-      display: "block",
-      margin: "0 auto"
-    }}
-  />
-</figure>
-
-In the image above, you can see two key parameters:
-
-- **Price Scale**: This is the price at which liquidity was last rebalanced, also called the center of liquidity.
-- **Price Oracle**: This is an Exponential Moving Average (EMA) of recent market prices. Rebalances are triggered by this price, not the current market price, which helps prevent manipulation of the rebalancing mechanism.
-
-## How to Prevent Stale Liquidity within Pools
-
-The best prevention for stale liquidity is **proper parameterization**.
-
-Choosing a higher `gamma` and a lower `A` spreads liquidity across a wider price range. This makes a pool more resilient to volatility in two ways:
-
-1.  It ensures the pool can continue to facilitate trades and earn fees even during large price swings.
-2.  It makes the eventual rebalance cheaper because the liquidity is less concentrated.
-
-For assistance with simulations to find reasonable parameters for your pool, refer to [Llamarisk](https://www.llamarisk.com/).
-
-## Help! My Pool's Liquidity is Stale!
-
-If your pool's liquidity becomes stale, you have three primary options:
-
-1.  **Change Pool Parameters:** Through a DAO vote, parameters can be gradually changed (a process called "ramping"). Reducing `A` and adjusting `gamma` will spread out liquidity, adding depth at the current price. If parameterization was not the root cause, these parameters can be ramped back to their original values once the pool recovers.
-
-2.  **Seed a New Pool:** This option is typically only viable for protocols that own most of the pool's liquidity (POL). It involves deploying a new pool with better parameters and "killing" the old gauge, if applicable.
-
-3.  **Wash Trade the Pool:** This involves generating high trading volume (often via flash loans) to create enough fee profit for the pool to rebalance. This requires careful coding and simulation, and is performed at a loss with no guarantee of a lasting fix, as another market swing can immediately undo the rebalance. This strategy should only be considered as a last resort.
+Because a pool won't rebalance at a loss to LPs, a large price move can leave its liquidity stuck away from the external price. [Troubleshooting Curve Pools](./troubleshooting.md#cryptoswap-liquidity-is-stale) explains how to spot a stale pool, prevent it with parameters and fix it.
 
 ## Why Not Use Stableswap with an External Oracle?
 
@@ -244,6 +182,6 @@ While some protocols have attempted this, and it can work (e.g., [Spectra](https
 
 * **Rebalancing Costs:** Every time the oracle pushes a new price, the pool is forced to rebalance. For volatile assets, these frequent rebalances can accumulate into significant losses for LPs. Profitability depends on trading fees being high enough, or LPs being subsidized in other ways, such as with token emissions. However, for low-volatility assets (even USD/EUR volatility is too high), this technique can work well.
 
-* **Oracle Dependency:** This design requires a high-quality oracle. A malfunctioning, manipulated, or delayed oracle could report an incorrect price, leading to substantial losses for LPs.
+* **Oracle Dependency:** This design requires a high-quality external oracle. A malfunctioning, manipulated, or delayed oracle could report an incorrect price, leading to substantial losses for LPs.
 
 In contrast, Cryptoswap's **profit-aware rebalancing mechanisms** are designed specifically to mitigate these risks for highly volatile asset pairs.

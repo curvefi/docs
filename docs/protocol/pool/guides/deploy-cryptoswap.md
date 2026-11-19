@@ -1,210 +1,99 @@
 ---
 id: deploy-cryptoswap
-title: "Deploying a Cryptoswap Pool"
-sidebar_label: "Deploying a Cryptoswap Pool"
+title: "Deploy a Cryptoswap Pool"
+sidebar_label: "Deploy a Cryptoswap Pool"
+description: Step-by-step guide to deploying a Curve Cryptoswap pool for two or three volatile tokens, with parameter presets.
 ---
 
 import ThemedImage from '@theme/ThemedImage';
 import ButtonGrid from '@site/src/components/ButtonGrid';
 
-Cryptoswap pools are appropriate for **two or three volatile assets** that are not pegged to each other — such as ETH/USDC or BTC/ETH. The creation wizard will guide you through the process, but if you have questions at any point, feel free to reach out to the Curve team in the [**Telegram**](https://t.me/curvefi) or [**Discord**](https://discord.gg/rgrfS7W).
+When you finish, a Cryptoswap pool for two or three volatile tokens is live onchain and holds its first liquidity.
 
-For a basic explanation of Cryptoswap mechanics, see: [**Understanding Curve Pools**](../overview).
+Deploying the pool is one transaction, and seeding it is another. Getting CRV emissions later adds a 7-day Curve DAO vote.
 
 <ButtonGrid buttonKeys={['gotoPoolDeployment']} />
 
----
+## Before You Start
 
-## Step 1: Choose Pool Type
+You need a wallet on the chain you deploy to, the tokens' addresses and a starting price for each token.
 
-Make sure your wallet is connected (top right corner) and your network is set to the chain where you want to deploy the pool. Curve supports pool deployment on all networks where Curve is live — just switch chains in your wallet, and the UI will follow automatically.
+It costs gas and the tokens you deposit as initial liquidity. Curve charges no fee to deploy a pool.
 
-Select **Cryptoswap** as the pool type. This is used for volatile assets that do not share a common price peg — such as ETH, BTC, or volatile non-pegged pairs.
+It takes two transactions: one to deploy the pool and one to seed it.
+
+Nobody approves it. Only CRV emissions need a Curve DAO vote, after you deploy a gauge.
+
+## Choose the Pool Type
+
+1. Open [Pool Creation](https://www.curve.finance/dex/ethereum/create-pool) in the Curve app and connect your wallet.
+2. Switch your wallet to the chain where the pool will live. The app follows your wallet's network.
+3. Under **POOL TYPE**, select **Cryptoswap**.
+4. Select **Next**.
 
 <figure>
   <ThemedImage
-    alt="Select Pool Type"
+    alt="Pool type selection with Cryptoswap selected"
     sources={{
       light: require('@site/static/img/protocol/deploy-cryptoswap/pool_type_light.png').default,
       dark: require('@site/static/img/protocol/deploy-cryptoswap/pool_type_dark.png').default,
     }}
-    style={{ 
-      width: "500px",
-      display: "block",
-      margin: "0 auto"
-    }}
+    style={{ width: "500px", display: "block", margin: "0 auto" }}
   />
-  <figcaption></figcaption>
 </figure>
 
-## Step 2: Select Tokens
+## Add the Tokens
 
-In this step, you'll define which assets your pool will support. Cryptoswap pools support **two or three tokens**. To add a third token, click the blue **Add token** button.
+1. Under **TOKENS IN POOL**, choose two tokens. Select **Add token** for a third.
+2. Use WETH for ether. Cryptoswap pools don't accept plain ETH.
+3. Select **Next**.
+
+## Set the Starting Price and Parameters
+
+1. Under **PARAMETERS**, check the **Initial Liquidity Concentration Price**. The app fills in dollar prices from CoinGecko. Enter a price yourself if one is missing, and select **Update Quote** to refresh.
+2. Choose a preset in **Pool Parameters Presets**. Two-token pools offer **Crypto**, **Low volatility**, **Liquid Staking Derivatives** and **Liquid Restaking Tokens**. Three-token pools offer **Tricrypto** and **Three Coin Volatile**.
+3. To change a value, open **Advanced** and edit it.
+4. Select **Next**.
+
+The pool concentrates liquidity around the starting price, so set it close to the current trading price. [Pool Parameter Presets](../presets.md) lists each preset's values next to live pools, and [Curve Pool Parameters](../pool-parameters.md#cryptoswap-parameters) explains each parameter.
 
 <figure>
   <ThemedImage
-    alt="Tokens in Pool"
-    sources={{
-      light: require('@site/static/img/protocol/deploy-cryptoswap/tokens_in_pool_light.png').default,
-      dark: require('@site/static/img/protocol/deploy-cryptoswap/tokens_in_pool_dark.png').default,
-    }}
-    style={{ 
-      width: "600px",
-      display: "block",
-      margin: "0 auto"
-    }}
-  />
-  <figcaption></figcaption>
-</figure>
-
-:::warning
-Due to safety reasons, **plain ETH cannot be used** in Cryptoswap pools. Please use WETH instead.
-:::
-
-## Step 3: Set Pool Parameters
-
-You can choose a preset configuration or switch to advanced mode to fine-tune the pool's behavior.
-
-<figure>
-  <ThemedImage
-    alt="Parameters"
-    sources={{
-      light: require('@site/static/img/protocol/deploy-cryptoswap/parameters_light.png').default,
-      dark: require('@site/static/img/protocol/deploy-cryptoswap/parameters_dark.png').default,
-    }}
-    style={{ 
-      width: "500px",
-      display: "block",
-      margin: "0 auto"
-    }}
-  />
-  <figcaption></figcaption>
-</figure>
-
-> 💡 Initial price bounds are fetched automatically from [CoinGecko](https://www.coingecko.com/). If unavailable, you will need to input them manually.
-
-### Preset Options
-
-Presets vary depending on whether your pool contains two or three tokens.
-
-#### Two-Asset Pools
-
-- **Crypto:** For highly volatile pairs like ETH–LDO  
-- **Forex:** For relatively stable foreign exchange pairs like crvUSD–EURe  
-- **Liquid Staking Derivatives:** For LSDs such as cbETH–wETH  
-- **Liquid Restaking Tokens:** For restaking assets such as pufETH–wETH
-
-#### Three-Asset Pools
-
-- **Tricrypto:** For pools like USDT–wBTC–ETH  
-- **Three Coin Volatile:** For volatile tokens paired with ETH and a stablecoin
-
-<figure>
-  <ThemedImage
-    alt="Presets"
+    alt="Cryptoswap parameter presets"
     sources={{
       light: require('@site/static/img/protocol/deploy-cryptoswap/presets_light.png').default,
       dark: require('@site/static/img/protocol/deploy-cryptoswap/presets_dark.png').default,
     }}
-    style={{ 
-      width: "500px",
-      display: "block",
-      margin: "0 auto"
-    }}
+    style={{ width: "500px", display: "block", margin: "0 auto" }}
   />
-  <figcaption></figcaption>
 </figure>
 
-You can use these as-is or switch to **Advanced** mode to adjust parameters manually.
+## Name the Pool
 
-### Advanced Parameters
+1. Under **POOL INFO**, enter a name, such as `ETH/USDC`, and a symbol, such as `ETHUSDC`.
+2. Check both for typos. They become the name and symbol of the [LP token](/protocol/glossary#lp-token) (the token that represents a share of the pool) and can't be changed after deployment.
 
-To fine-tune the pool, enable the **Advanced** toggle:
+## Deploy the Pool {#create-the-pool}
 
-<figure>
-  <ThemedImage
-    alt="Advanced Parameters"
-    sources={{
-      light: require('@site/static/img/protocol/deploy-cryptoswap/parameters_advanced_light.png').default,
-      dark: require('@site/static/img/protocol/deploy-cryptoswap/parameters_advanced_dark.png').default,
-    }}
-    style={{ 
-      width: "500px",
-      display: "block",
-      margin: "0 auto"
-    }}
-  />
-  <figcaption></figcaption>
-</figure>
+1. Review the **Pool Summary**: the tokens, the starting price, the parameters, and the name and symbol.
+2. Select **Create Pool** and confirm the transaction in your wallet.
+3. When **Pool Creation Complete** appears, select **Go to pool**.
 
-| Parameter | Description |
-|----------|-------------|
-| **Mid Fee / Out Fee** | The base and maximum fee range, charged depending on pool imbalance. More here: [Cryptoswap Dynamic Fees](../understanding-cryptoswap.md#dynamic-fees)|
-| **Fee Gamma** | Controls how fee ramps up with imbalance. Suggested: `0.0023` (volatile) or `0.005` (less volatile). More here: [Cryptoswap Dynamic Fees](../understanding-cryptoswap.md#dynamic-fees)|
-| **Amplification (A)** | Higher = flatter curve = tighter prices near balance. Use lower for volatile pairs. More here: [Cryptoswap Parameters](../understanding-cryptoswap.md#parameters)|
-| **Gamma** | Shapes the bonding curve. Suggested: `0.000145` (volatile) or `0.0001` (less volatile).  More here: [Cryptoswap Parameters](../understanding-cryptoswap.md#parameters)|
-| **Allowed Extra Profit** | Sets profit-taking buffer. Suggested: `0.000002` (volatile) or `0.00000001` (less volatile). |
-| **Adjustment Step** | Step size for rebalancing. Suggested: `0.000146` (volatile) or `0.0000055` (less volatile). |
-| **Moving Average Time** | Smooths price changes over time using an EMA (in seconds). |
+## Seed the Pool
 
-> 📖 **Further reading**: [Deep Dive: Curve V2 Parameters](https://nagaking.substack.com/p/deep-dive-curve-v2-parameters?s=curve),  [Cryptoswap Explainer](../understanding-cryptoswap.md)
+1. On the new pool's page, open the **Seed pool** tab.
+2. Deposit the first liquidity at the starting price. A pool can't process trades until it holds liquidity.
 
-## Step 4: Enter Pool Info
+## Check It Worked
 
-After configuring your parameters, you’ll be prompted to set the **Pool Name** and **Pool Symbol**.
+- The pool page opens on curve.finance at `https://www.curve.finance/dex/<network>/pools/<pool address>`.
+- The creation transaction appears in your wallet's history and on the chain's block explorer.
+- Once the pool holds liquidity and is indexed, the Curve Prices API returns it at `https://prices.curve.finance/v1/pools/<network>/<pool address>`, and it appears in the pool list.
 
-These values will be used as the ERC‑20 metadata for the pool’s LP token and will appear in block explorers and in the Curve UI.
+If the pool doesn't show up or its liquidity drifts from the external price, see [Troubleshooting Curve Pools](../troubleshooting.md).
 
-- **Pool Name** – A human-readable label for the pool (e.g. `ETH/USDC Crypto`)
-- **Pool Symbol** – The LP token symbol (e.g. `ETHUSDC`, `crvETHUSDC`)
+## Next Step
 
-<figure>
-  <ThemedImage
-    alt="Pool Info"
-    sources={{
-      light: require('@site/static/img/protocol/deploy-cryptoswap/pool_info_light.png').default,
-      dark: require('@site/static/img/protocol/deploy-cryptoswap/pool_info_dark.png').default,
-    }}
-    style={{ 
-      width: "500px",
-      display: "block",
-      margin: "0 auto"
-    }}
-  />
-  <figcaption></figcaption>
-</figure>
+[After Deploying a Pool](../post-deployment.md) covers the token logo, integrations and incentives, starting with deploying your pool's gauge.
 
-> 💡 **Tip:** Use short, clear names that reflect the assets in the pool. These fields are immutable after deployment — double-check for typos.
-
-## Step 5: Deploy the Pool
-
-Before deploying, review all your settings in the **Summary panel** on the right. This includes:
-
-- Selected tokens
-- Pool parameters (A, Fees, Gamma, etc.)
-- Pool name and symbol
-
-Once everything looks correct, click the blue **Create Pool** button at the bottom of the page. Your wallet will prompt you to approve the transaction.
-
-<figure>
-  <ThemedImage
-    alt="Pool Summary"
-    sources={{
-      light: require('@site/static/img/protocol/deploy-cryptoswap/pool_summary_light.png').default,
-      dark: require('@site/static/img/protocol/deploy-cryptoswap/pool_summary_dark.png').default,
-    }}
-    style={{ 
-      width: "500px",
-      display: "block",
-      margin: "0 auto"
-    }}
-  />
-  <figcaption></figcaption>
-</figure>
-
----
-
-## What to do after deployment
-
-✅ **Seed initial liquidity** — a pool with zero balance cannot process trades.  
-✅ (Optional) **[Create a gauge](/protocol/gauge/overview)** to distribute CRV or other incentives to LPs.
+Questions go to the Curve team in [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85). [Understanding Cryptoswap](../understanding-cryptoswap.md) explains how the pool prices trades.

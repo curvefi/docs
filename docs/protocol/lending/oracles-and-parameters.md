@@ -1,14 +1,15 @@
 ---
 id: oracles-and-parameters
-title: LlamaLend v2 Oracles & Parameters
+title: Llamalend Oracles & Parameters
 sidebar_label: Oracles & Parameters
+description: How to choose the token pair, price oracle, monetary policy and risk parameters for a Llamalend market before deployment.
 ---
 
-A LlamaLend v2 market combines independently supplied contracts and risk parameters. Deployment is permissionless, but that does not make every configuration safe. Validate the token pair, oracle, monetary policy, and liquidation assumptions together before creating a market.
+A Llamalend v2 market combines independently supplied contracts and risk parameters. Deployment is permissionless, but that does not make every configuration safe. Validate the token pair, price oracle, [monetary policy](/protocol/glossary#monetary-policy) (the contract that sets the borrow rate), and liquidation assumptions together before deploying a market.
 
 :::warning[Risk review required]
 
-There is no universal safe parameter set. Model the assets' volatility, market depth, oracle failure modes, and expected utilization, and independently review every custom oracle or monetary policy before deployment.
+There is no universal safe parameter set. Model the assets' volatility, trading liquidity depth, price oracle failure modes, and expected utilization, and independently review every custom oracle or monetary policy before deployment.
 
 :::
 
@@ -28,54 +29,30 @@ The pair does not need to contain crvUSD. The factory does, however, rely on ERC
 
 ## Price Oracle
 
-The oracle reports the price of one unit of collateral in units of the borrowed token, multiplied by `10^18`. It must implement:
+The price oracle reports the price of one unit of collateral in units of the borrowed token, multiplied by `10^18`. It must implement:
 
 ```vyper
 def price() -> uint256: view
 def price_w() -> uint256: nonpayable
 ```
 
-When a market is created, the factory calls both functions and requires the returned prices to be equal and nonzero. The oracle should also be robust against manipulation, stale data, abrupt discontinuities, and failures in any underlying liquidity source.
+When a market is deployed, the factory calls both functions and requires the returned prices to be equal and nonzero. The oracle should also be robust against manipulation, stale data, abrupt discontinuities, and failures in any underlying liquidity source.
 
-A Curve pool oracle can be one input to an oracle design, but the v2 factory does not automatically derive an oracle from a pool. The address passed to `create()` must already be a complete, initialized oracle implementing the required interface.
+A Curve [pool oracle](/protocol/glossary#pool-oracle) (the pool's own moving-average price) can be one input to a price oracle design, but the v2 factory does not automatically derive a price oracle from a pool. The address passed to `create()` must already be a complete, initialized oracle implementing the required interface.
 
-The Configurator can later replace the oracle through a deviation-checked update. On the current deployments, this requires a Curve DAO ownership vote unless the DAO has assigned a controller-specific administrator. Upgradability helps respond to changing conditions, but it also makes the market's administration and monitoring model part of the risk assessment.
+You don't need to write an oracle from scratch. Llamalend provides reusable price oracle contracts that price tokens from Curve pools, Chainlink feeds, ERC-4626 tokens (the standard for yield-bearing deposit tokens) and 2-coin Stableswap-NG LP tokens, and you can stack them. See the [oracle reference](/developer/llamalend-v2/oracles).
+
+The Configurator can later replace the oracle through a deviation-checked update. This requires a Curve DAO ownership vote unless the DAO has assigned a controller-specific administrator. The Emergency DAO can replace an oracle only when the current one fails. Upgradability helps respond to changing conditions, but it also makes the market's administration and monitoring model part of the risk assessment.
 
 ## Monetary Policy
 
 The monetary-policy contract determines the market's borrow rate. It is passed to the factory at deployment and is queried through the Controller as debt and utilization change.
 
-LlamaLend v2 does not take minimum and maximum rates directly in `LendFactory.create()`. Those rules belong to the selected monetary-policy implementation. Confirm its rate units, bounds, initialization, and behavior under low and high utilization before using it.
+Llamalend v2 does not take minimum and maximum rates directly in `LendFactory.create()`. Those rules belong to the selected monetary-policy implementation. Confirm its rate units, bounds, initialization, and behavior under low and high utilization before using it.
 
-## Deployment-Time Parameters
+## Parameters and Who Changes Them
 
-| Parameter | Units and contract constraints | Effect |
-| --- | --- | --- |
-| `borrowed_token` | ERC-20 address | Asset supplied to the Vault and borrowed from the market. |
-| `collateral_token` | Different ERC-20 address | Asset securing borrower debt. |
-| `A` | Integer from 2 to 10,000 | Controls LLAMMA band width; larger values create narrower bands. |
-| `fee` | WAD-scaled, where `10^18 = 100%` | Swap fee charged inside the AMM. Its allowed range also depends on `A`. |
-| `loan_discount` | WAD-scaled and less than `10^18` | Discount used when calculating maximum borrowing power. |
-| `liquidation_discount` | WAD-scaled, greater than zero and less than `loan_discount` | Discount used for hard-liquidation calculations. |
-| `price_oracle` | Initialized contract address | Supplies the collateral price in borrowed-token units. |
-| `monetary_policy` | Initialized contract address | Supplies the per-second borrow rate used by the market. |
-| `supply_limit` | Raw borrowed-token units | Maximum assets the Vault accepts. `max(uint256)` means unlimited; `0` disables deposits. |
-
-The factory and AMM reject invalid combinations, but passing contract validation is not a substitute for economic analysis.
-
-## Post-Deployment Parameters
-
-The following settings are not controlled by the account that happens to deploy the market:
-
-| Setting | Initial behavior | Who can change it? |
-| --- | --- | --- |
-| **Borrow cap** | Starts at `0`, which prevents new debt | Curve DAO ownership agent by default; a controller-specific admin only after DAO assignment |
-| **Admin percentage** | Starts at `0` | Curve DAO ownership agent by default; assigned custom admin if configured |
-| **Supply limit** | Set from `supply_limit`; `max(uint256)` leaves it unlimited | LendFactory owner, directly through the Vault |
-| **Discounts, monetary policy, oracle, and AMM fee** | Set from deployment inputs | Curve DAO ownership agent by default; assigned custom admin if configured |
-| **Fee receiver** | Factory default unless a Controller-specific receiver is set | LendFactory owner |
-
-Values representing token amounts use the relevant token's native decimals. Percentages and discounts use WAD precision unless the referenced contract states otherwise.
+[Llamalend Parameters and Access Control](./parameters-and-access-control.md) lists every deployment-time parameter with its units and constraints, every setting that can change after deployment, and whether the Curve DAO, the Emergency DAO or a market-specific admin can change it.
 
 ## Review Checklist
 

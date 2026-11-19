@@ -1,6 +1,7 @@
 ---
 title: Understanding FXSwap
 sidebar_label: Understanding FXSwap
+description: How Curve's FXSwap AMM serves pairs priced on an external price source, such as FX rates, using concentrated pricing, pool-oracle-guided recentering and refuels.
 ---
 
 import ThemedImage from '@theme/ThemedImage'
@@ -8,11 +9,11 @@ import ThemedVideo from '@site/src/components/ThemedVideo';
 import FXSwapAmplificationChart from '@site/src/components/Charts/FXSwapAmplification';
 import FXSwapDynamicFeeChart from '@site/src/components/Charts/FXSwapDynamicFee';
 
-FXSwap is a two-asset automated market maker (AMM) for markets whose primary price discovery happens elsewhere. It combines the concentrated pricing of [Stableswap](understanding-stableswap.md), oracle-guided recentering inspired by [Cryptoswap](understanding-cryptoswap.md), and a finite external refuel budget. Suitable markets can range from fiat FX pairs to externally priced volatile pairs such as BTC/USD.
+FXSwap is a two-asset automated market maker (AMM) for pairs whose primary price discovery happens elsewhere. It combines the concentrated pricing of [Stableswap](understanding-stableswap.md), pool-oracle-guided recentering inspired by [Cryptoswap](understanding-cryptoswap.md), and a finite external refuel budget. Suitable pairs can range from fiat FX pairs to externally priced volatile pairs such as BTC/USD.
 
 For contract interfaces and integration guidance, see the [FXSwap developer documentation](/developer/amm/fxswap/overview).
 
-As with all Curve AMM pools, providing liquidity in FXSwap is completely passive. All liquidity is full-range (no active range management required), so anyone can participate easily.
+As with all Curve AMM pools, providing liquidity in FXSwap is completely passive. All liquidity is full-range (no active range management required), so anyone can provide liquidity.
 
 <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%' }}>
   <iframe
@@ -29,23 +30,23 @@ As with all Curve AMM pools, providing liquidity in FXSwap is completely passive
 
 **Cryptoswap** pools are designed to be self-sufficient, relying on trading profit to support recentering. This model fits assets for which the Cryptoswap pool contributes materially to price discovery.
 
-For pairs whose reference price comes primarily from external venues—such as fiat FX, BTC, or ETH—the pool instead needs to keep concentrated liquidity connected to that outside market. This is the design problem **FXSwap** addresses.
+For pairs whose reference price comes primarily from external venues, such as fiat FX, BTC, or ETH, the pool instead needs to keep concentrated liquidity connected to that external price. This is the design problem **FXSwap** addresses.
 
-**FXSwap** introduces **refuels** so a protocol can supply an explicit budget for recentering rather than relying only on accumulated trading profit. Refuels do not set the price or guarantee that the pool remains balanced; they help pay for the pool's normal recentering process.
+**FXSwap** introduces **refuels** so you can supply an explicit budget for recentering rather than relying only on accumulated trading profit. Refuels do not set the price or guarantee that the pool remains balanced; they help pay for the pool's normal recentering process.
 
 :::info
-**Note:** As FXSwap architecture is derived from these two predecessors, we recommend reviewing their documentation first. See [Stableswap explainer](understanding-stableswap.md) and [Cryptoswap explainer](understanding-cryptoswap.md).
+**Note:** As FXSwap architecture is derived from these two predecessors, review their documentation first. See [Stableswap explainer](understanding-stableswap.md) and [Cryptoswap explainer](understanding-cryptoswap.md).
 :::
 
 ## How it works
 
 FXSwap provides fully passive, full-range liquidity while concentrating most depth around a moving internal price. It combines:
 
-- **Stableswap Invariant:** To keep spreads tight, FXSwap utilizes the Stableswap invariant for pricing. This is ideal for assets where liquidity should remain highly concentrated near the current oracle price.
+- **Stableswap Invariant:** To keep spreads tight, FXSwap utilizes the Stableswap invariant for pricing. This is ideal for assets where liquidity should remain highly concentrated near the current pool oracle price.
 - **Hybrid Rebalancing:** A pool-configured profit buffer supports recentering, while refuels provide an additional finite buffer that can be consumed first.
 - **Dynamic Fees:** The pool charges fees according to balance and the configured `mid_fee`, `out_fee`, and `fee_gamma` parameters.
 
-Let's look at how an FXSwap pool prioritizes these resources while moving liquidity:
+This is how an FXSwap pool prioritizes these resources while moving liquidity:
 
 <figure style={{ textAlign: 'center' }}>
   <ThemedVideo
@@ -60,24 +61,24 @@ Let's look at how an FXSwap pool prioritizes these resources while moving liquid
 
 The video shows the priority between available refuel shares and the normal profit buffer as liquidity is recentered.
 
-## Recommended Markets
+## Recommended Pairs {#recommended-markets}
 
-FXSwap is best suited to pairs with a reliable external reference market, sufficient external depth for arbitrage, and a sustainable budget for the desired concentration. Lower-volatility markets generally require less recentering, but volatility alone does not determine suitability.
+FXSwap is best suited to pairs with a reliable external price source, sufficient external depth for arbitrage, and a sustainable budget for the desired concentration. Lower-volatility pairs generally require less recentering, but volatility alone does not determine suitability.
 
-It is generally not recommended to use FXSwap for primary price discovery. For example, YieldBasis uses FXSwap for its externally priced `BTC/crvUSD` pools, but a standard Cryptoswap pool for `YB/crvUSD`, where the Curve pool contributes to the governance token's primary market.
+It is generally not recommended to use FXSwap for primary price discovery. For example, YieldBasis uses FXSwap for its externally priced `BTC/crvUSD` pools, but a standard Cryptoswap pool for `YB/crvUSD`, where the Curve pool contributes to the governance token's primary price discovery.
 
 ## Refuels
 
-Refuels are assets added to a finite pool buffer specifically to subsidize rebalancing. The contract accounts for them as refuel shares, but does not assign those shares to the provider. As shares unlock, the pool can burn them to help move liquidity toward the external market price.
+Refuels are assets added to a finite pool buffer specifically to subsidize rebalancing. The contract accounts for them as refuel shares, but does not assign those shares to the provider. As shares unlock, the pool can burn them to help move liquidity toward the external price.
 
-Protocols can treat refuels as a transparent market-liquidity budget: the balance, unlock schedule, and depletion are visible on-chain. The provider receives no direct claim or guaranteed return. The potential benefit is indirect—a better-centered pool may offer tighter execution, attract more routing, and improve the market for the provider's asset.
+You can treat refuels as a transparent liquidity budget: the balance, unlock schedule, and depletion are visible onchain. The provider receives no direct claim or guaranteed return. The potential benefit is indirect: a better-centered pool may offer tighter execution, attract more routing, and improve trading liquidity for the provider's asset.
 
 **Key Mechanics:**
 
 - **Open Access:** Refuels can be added by anyone.
 - **Unlock Period:** Refuel shares are initially locked and unlock linearly over a set duration (default is 7 days, configurable via `donation_duration`) to prevent immediate depletion.
 - **Priority Usage:** Unlocked refuel shares are available to be burned first when recentering needs a subsidy. Unlocking makes shares available; only a rebalance burns and depletes them.
-- **Finite Buffer:** Refuel shares can decline to zero as the pool uses them. Refuels do not guarantee a fixed price, volume, or LP return.
+- **Finite Buffer:** Refuel shares can decline to zero as the pool uses them. Refuels do not guarantee a fixed price, volume, or [liquidity provider](/protocol/glossary#liquidity-provider) (LP) return.
 
 ### How much do refuels cost?
 
@@ -87,7 +88,7 @@ Three main factors influence refuel demand:
 2.  **Liquidity Concentration (`A`):** Higher `A` values create deeper liquidity, but increase the cost to move that liquidity when prices change.
 3.  **Swap Fees:** Higher volume generates more fees. A pool with more trading profit generally requires fewer external Refuels; the configured allocation must be read from that pool.
 
-These factors interact with oracle smoothing, external market depth, and arbitrage costs. Protocol teams should backtest a proposed configuration instead of extrapolating a fixed percentage from another pool. See [Mechanism and Parameter Design](/developer/amm/fxswap/pools/mechanism) and [FXSwap Simulations: Behind the Scenes](https://news.curve.finance/fxswap-simulations/) for the design workflow and its limitations.
+These factors interact with pool oracle smoothing, depth on external trading venues, and arbitrage costs. You should backtest a proposed configuration instead of extrapolating a fixed percentage from another pool. See [Mechanism and Parameter Design](/developer/amm/fxswap/pools/mechanism) and [FXSwap Simulations: Behind the Scenes](https://news.curve.finance/fxswap-simulations/) for the design workflow and its limitations.
 
 The resulting liquidity cycle is:
 
@@ -110,9 +111,9 @@ The resulting liquidity cycle is:
 
 ### How Can I Refuel a Pool?
 
-Refuels are added through the standard `add_liquidity` function using the deployed `donation = true` flag. A community UI is available at [crvhub.com/refuel](https://crvhub.com/refuel).
+Refuels are added through the standard `add_liquidity` function using the deployed `donation = true` flag. In the Curve app, refuels are set up on the pool's **Manage pool** page in the Curve app, linked from the pool's Advanced Details.
 
-To set up **recurring automated refuels**, use the [**Donation Streamer**](./guides/donation-streamer.md) — deposit tokens once and have them streamed into the pool on a schedule.
+To set up **recurring automated refuels**, use the [**Donation Streamer**](./guides/donation-streamer.md): deposit tokens once and have them streamed into the pool on a schedule.
 
 ### Can I add another Refuel while one is unlocking?
 
@@ -139,9 +140,9 @@ Yes, but be aware that FXSwap pools use the simpler Stableswap invariant (no `ga
 
 ### Amplification Factor (`A`)
 
-The amplification factor in FXSwap pools works similarly to the [amplification factor in Stableswap pools](understanding-stableswap.md#amplification-factor-a), with one key distinction: the liquidity centers around a variable called `price_scale` rather than a fixed 1.0 peg.
+The amplification factor in FXSwap pools works similarly to the [amplification factor in Stableswap pools](understanding-stableswap.md#amplification-factor-a), with one key distinction: the liquidity centers around a variable called `price_scale` rather than a fixed 1.0 [peg](/protocol/glossary#peg) (target price).
 
-Let's have a look at what this means in terms of balance in the pools and prices:
+The chart below shows what this means in terms of balance in the pools and prices:
 
 <FXSwapAmplificationChart />
 
@@ -165,6 +166,6 @@ Below you can see how these three parameters affect the shape of the dynamic fee
 
 ## Further Reading
 
-- [FXSwap](https://news.curve.finance/fxswap/) — dated execution-quality evidence and product context.
-- [FXSwap Simulations: Behind the Scenes](https://news.curve.finance/fxswap-simulations/) — parameter search, historical backtesting, and limitations.
-- [FXSwap developer documentation](/developer/amm/fxswap/overview) — integration, mechanism, pool interface, and refuel automation.
+- [FXSwap](https://news.curve.finance/fxswap/): dated execution-quality evidence and product context.
+- [FXSwap Simulations: Behind the Scenes](https://news.curve.finance/fxswap-simulations/): parameter search, historical backtesting, and limitations.
+- [FXSwap developer documentation](/developer/amm/fxswap/overview): integration, mechanism, pool interface, and refuel automation.

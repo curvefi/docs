@@ -1,41 +1,68 @@
 ---
 id: post-deployment
-title: Post Deployment
-sidebar_label: Post Deployment
+title: "After Deploying a Pool"
+sidebar_label: "After Deploying a Pool"
+description: "What to do after deploying a Curve pool: seed initial liquidity, check integrations, submit the token logo, deploy a gauge, add refuels and plan incentives."
 ---
 
-import GuideCardGrid from '@site/src/components/GuideCardGrid';
+When you finish, your pool holds liquidity, shows your token's logo, has a [gauge](/protocol/glossary#gauge) (the contract that streams rewards to liquidity providers) for rewards and has a plan for incentives.
 
-After deploying a pool, there are a few important steps to ensure it’s visible, functional, and capable of attracting liquidity and rewards.
+Most steps take one transaction or one pull request. CRV emissions, if you want them, add a 7-day Curve DAO vote.
 
-## Seed Initial Liquidity
+## Before You Start
 
-Before a pool can process any trades, it must be seeded with initial liquidity. To get the pool going, it's highly recommended to add liquidity in proportional balances. For two-coin pools 50/50, three-coin pools 33/33/33, etc.
+You need the pool's address and the wallet that will manage its gauge.
 
-The frontend filters out liquidity pools with less than $10k TVL. The pool will be hidden by default from the pool list. Users can still search for the pool using its name or contract address, or simply disable the "Hide very small pools" filter.
+It costs gas, the tokens you deposit as initial liquidity and whatever you spend on incentives.
 
-## Integrations
+It takes a few transactions and one pull request for the logo.
 
-Liquidity pools deployed via the Curve UI are automatically picked up by major aggregators like 1inch, Odos, CowSwap, etc. No need to hustle for integrations!
+Nobody approves the steps on this page. CRV emissions need a Curve DAO vote, covered in [Whitelist a Gauge](../gauge/whitelisting-gauge.md).
 
-## Token Logo Submission
+## Seed the Pool {#seed-initial-liquidity}
 
-Curve maintains a comprehensive list of token icons. If your pool's assets are not included in this list, they will display default logos in the Curve UI. To submit custom logos for your tokens, open a pull request to the [curve-assets repository](https://github.com/curvefi/curve-assets?tab=readme-ov-file#adding-a-token-icon).
+1. Open the pool's page on curve.finance and select the **Seed pool** tab.
+2. Deposit in balanced amounts: 50/50 for a two-token pool, a third each for three tokens.
 
-## Monitor Performance and Update Parameters
+The pool list hides pools with no liquidity, so the pool appears there once it is seeded.
 
-After deployment, it's important to monitor your pool's performance regularly. Check trading volumes, TVL, and token balances to ensure healthy operation. Heavily skewed token balances could indicate incorrect parameterization, such as an amplification coefficient that's too high.
+## Check Routing {#integrations}
 
-Some pools are later optimized by external contributors or protocols. However, **it's still a good idea to monitor your own pool** and explore whether tuning the parameters could improve performance.
+You don't need to request a listing. Aggregators such as [0x](https://docs.0x.org/evm/need-help/faq), 1inch, [CoW Swap](https://docs.cow.fi/cow-protocol), [KyberSwap](https://docs.kyberswap.com/getting-started/supported-exchanges-and-networks), Odos and ParaSwap route swaps through Curve pools and pick up new ones on their own.
 
-If you'd like help evaluating or optimizing your pool, feel free to reach out in the official Curve channels.
+## Submit Your Token Logo {#token-logo-submission}
 
-## Add Refuels (FXSwap Pools)
+1. Open a pull request to the [curve-assets repository](https://github.com/curvefi/curve-assets?tab=readme-ov-file#adding-a-token-icon) with your token's icon.
+2. Until it is merged, the Curve app shows a default logo for the token.
 
-If you deployed an **FXSwap pool**, consider adding refuels to subsidize rebalancing and keep liquidity tight around the current price. Refuels can be added manually via [crvhub.com/refuel](https://crvhub.com/refuel), or automated with the [`DonationStreamer` contract](./guides/donation-streamer.md). For more on how refuels work, see [Understanding FXSwap — Refuels](./understanding-fxswap.md#refuels).
+## Deploy the Gauge
 
-## Grow Liquidity Using Incentives
+1. Open [Deploy Gauge](https://www.curve.finance/dex/ethereum/deploy-gauge) in the Curve app with the wallet that will manage rewards.
+2. Enter the **Pool Address** and deploy. On a sidechain, the app walks you through two steps: deploy the sidechain gauge, then a mirror gauge on Ethereum, using the same wallet for both.
 
-Curve offers various ways for protocols or asset issuers to sustainably grow liquidity and asset proliferation. Options include CRV emissions through gauge weight votes, direct gauge rewards and Merkl campaigns.
+The factory allows one gauge per pool, and the wallet that deploys it becomes the gauge manager. See [Incentivize Liquidity](../gauge/overview.md).
 
-<GuideCardGrid guideKeys={['GaugesAndIncentives', 'IncentivizingAPool']} />
+## Add Refuels to an FXSwap Pool {#add-refuels-fxswap-pools}
+
+Skip this section for Stableswap and Cryptoswap pools.
+
+1. Open the pool's **Manage pool** page from its Advanced Details.
+2. Fund a refuel in **Refuel setup**, or schedule refuels with [Automate FXSwap Refuels](./guides/donation-streamer.md).
+
+[Understanding FXSwap](./understanding-fxswap.md#refuels) explains how refuels are spent.
+
+## Monitor the Pool {#monitor-performance-and-update-parameters}
+
+Watch volume, [TVL](/protocol/glossary#tvl) (total value locked) and token balances. Heavily skewed balances can mean a parameter is off, such as an [amplification factor](/protocol/glossary#amplification) (`A`, how tightly liquidity concentrates around the balanced price) that is too high. Compare your pool with [Pool Parameter Presets](./presets.md), and use [Troubleshooting Curve Pools](./troubleshooting.md) for skewed or stale pools. Parameter changes need a Curve DAO vote.
+
+## Check It Worked
+
+- The pool appears in the Curve app's pool list with your token's logo.
+- Connected with the gauge manager's wallet, the pool page shows a **Gauge** tab with **Add Reward**.
+- The Curve Prices API returns the pool at `https://prices.curve.finance/v1/pools/<network>/<pool address>`.
+
+## Next Step {#grow-liquidity-using-incentives}
+
+[Incentivize a Pool or Lending Market](../gauge/incentive-routes.md) compares every way to fund liquidity, from rewards in your own token to CRV emissions.
+
+Questions go to the Curve team in [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).

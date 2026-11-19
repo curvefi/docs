@@ -1,20 +1,32 @@
 ---
 id: enable-big-blocks-hyperevm
-title: "Enabling Big Blocks on HyperEVM"
-sidebar_label: "Enabling Big Blocks on HyperEVM"
+title: "Enable Big Blocks on HyperEVM"
+sidebar_label: "Enable Big Blocks on HyperEVM"
+description: How to enable large blocks for your wallet on HyperEVM, which is required to deploy Curve pools and gauges there.
 ---
 
-[HyperEVM](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm) uses a [dual-block architecture](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm/dual-block-architecture) where throughput is split between small blocks produced at a fast rate and large blocks produced at a slower rate.
 
-Because deploying Curve pools and gauges can only be done in large blocks, the deployer needs to enable large blocks for their wallet.
 
-## Step 1: Bridging HYPE
+When you finish, your wallet sends transactions in HyperEVM's large blocks, so it can deploy Curve pools and gauges there.
 
-Bridge HYPE (native gas token on HyperEVM) from hyperCORE to hyperEVM. This can be done directly from the [Portfolio Section](https://app.hyperliquid.xyz/portfolio) on the Hyperliquid App.
+It takes two transactions: one bridge and one signature to switch block size.
 
-:::warning Important
-The deployer actually needs to bridge the HYPE from CORE to EVM. Simply transferring HYPE from one EVM address to another won't allow for enabling Big Blocks.
-:::
+## Before You Start
+
+You need HYPE on HyperCore, Hyperliquid's native layer, in the wallet you will deploy from.
+
+It costs a small amount of HYPE for gas.
+
+It takes two transactions.
+
+Nobody approves it.
+
+[HyperEVM](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm) produces [small fast blocks and large slow blocks](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm/dual-block-architecture). Deploying Curve pools and gauges only fits in large blocks.
+
+## Bridge HYPE to HyperEVM {#step-1-bridging-hype}
+
+1. Open the [Portfolio](https://app.hyperliquid.xyz/portfolio) page in the Hyperliquid app.
+2. Bridge HYPE from HyperCore to HyperEVM, to the wallet you will deploy from. A transfer from another HyperEVM address doesn't work; the HYPE has to come over the bridge.
 
 <figure>
   <img
@@ -25,14 +37,17 @@ The deployer actually needs to bridge the HYPE from CORE to EVM. Simply transfer
   <figcaption></figcaption>
 </figure>
 
-## Step 2: Enabling Big Blocks
+## Enable Big Blocks {#step-2-enabling-big-blocks}
 
-After bridging, Big Blocks can be enabled in the following interface: [https://hyperevm-block-toggle.vercel.app/](https://hyperevm-block-toggle.vercel.app/)
+1. Open the [HyperEVM block toggle](https://hyperevm-block-toggle.vercel.app/) and connect your wallet.
+2. Sign the transaction to enable big blocks.
 
-Simply connect your wallet and sign the transaction to enable Big Blocks.
+To do it from a script instead, use [`hyperevm_enable_big_blocks.py`](https://github.com/curvefi/curve-core/blob/main/scripts/utils/hyperevm_enable_big_blocks.py) in curve-core.
 
-Alternatively, a Python script for enabling big blocks can be found here: [GitHub](https://github.com/curvefi/curve-core/blob/main/scripts/utils/hyperevm_enable_big_blocks.py).
+## Check It Worked
 
-## Step 3: Deploy Pool or Gauge
+Deploy from [Pool Creation](https://www.curve.finance/dex/hyperliquid/create-pool/) on HyperEVM with the same wallet. If the deployment doesn't confirm, check that big blocks are enabled for that wallet.
 
-After enabling Big Blocks, one can simply deploy pools and gauges on HyperEVM via the Curve [Pool Creation UI](https://www.curve.finance/dex/hyperliquid/create-pool/).
+## Next Step {#step-3-deploy-pool-or-gauge}
+
+[Deploy a Stableswap Pool](./deploy-stableswap.md) walks through the deployment. The other pool types follow the same flow.

@@ -1,206 +1,97 @@
 ---
 id: deploy-fxswap
-title: Deploying an FXSwap Pool
-sidebar_label: Deploying an FXSwap Pool
+title: "Deploy an FXSwap Pool"
+sidebar_label: "Deploy an FXSwap Pool"
+description: Step-by-step guide to deploying a Curve FXSwap pool for two low-volatility assets priced on an external price source, such as FX pairs.
 ---
 
 import ThemedImage from '@theme/ThemedImage';
 import ButtonGrid from '@site/src/components/ButtonGrid';
 
-FXSwap pools are appropriate for **two uncorrelated but low-volatility assets** — such as Forex pairs like `crvUSD/EURC` or other stable foreign exchange pairs. The creation wizard will guide you through the process, but if you have questions at any point, feel free to reach out to the Curve team in the [**Telegram**](https://t.me/curvefi) or [**Discord**](https://discord.gg/rgrfS7W).
+When you finish, an FXSwap pool for two low-volatility assets is live onchain, holds its first liquidity and can take refuels.
 
-For a basic explanation of FXSwap mechanics, see: [**Understanding FXSwap**](../understanding-fxswap.md).
+Deploying the pool is one transaction, and seeding it is another. Refuels and CRV emissions come after; CRV emissions add a 7-day Curve DAO vote.
 
 <ButtonGrid buttonKeys={['gotoPoolDeployment']} />
 
----
+## Before You Start
 
-## Step 1: Choose Pool Type
+You need a wallet on a chain where FXSwap is available, two token addresses, a starting price, and a pair whose price is set on a deeper external trading venue. FXSwap is not meant for a token's primary price discovery; use [Cryptoswap](./deploy-cryptoswap.md) for that.
 
-Make sure your wallet is connected (top right corner) and your network is set to the chain where you want to deploy the pool. 
+It costs gas, the tokens you deposit as initial liquidity and, over time, a refuel budget to keep the pool centered. Curve charges no fee to deploy a pool.
 
-:::warning
-    The FXSwap pool algorithm is still fairly new. Although fully audited, it's still undergoing a "testing" phase to gather as much data as possible. Due to this, the chains where FXSwap pools can be deployed may be limited.
-:::
+It takes two transactions to deploy and seed the pool.
 
-Select **FXSwap** as the pool type.
+Nobody approves it. Only CRV emissions need a Curve DAO vote, after you deploy a gauge.
+
+## Choose the Pool Type
+
+1. Open [Pool Creation](https://www.curve.finance/dex/ethereum/create-pool) in the Curve app and connect your wallet.
+2. Switch your wallet to the chain where the pool will live. FXSwap isn't available on every chain Curve supports.
+3. Under **POOL TYPE**, select **FXSwap**.
+4. Select **Next**.
 
 <figure>
   <ThemedImage
-    alt="Select Pool Type"
+    alt="Pool type selection with FXSwap selected"
     sources={{
       light: require('@site/static/img/protocol/deploy-fxswap/pool_type_light.png').default,
       dark: require('@site/static/img/protocol/deploy-fxswap/pool_type_dark.png').default,
     }}
-    style={{ 
-      width: "500px",
-      display: "block",
-      margin: "0 auto"
-    }}
+    style={{ width: "500px", display: "block", margin: "0 auto" }}
   />
-  <figcaption></figcaption>
 </figure>
 
-## Step 2: Select Tokens
+## Add the Tokens
 
-In this step, you'll define which assets your pool will support. FXSwap pools support **two tokens only**.
+1. Under **TOKENS IN POOL**, choose the two tokens. FXSwap pools hold exactly two.
+2. Select **Next**.
 
-:::info
-FXSwap pools are best suited for **highly liquid assets with lower relative volatility**. It is generally not recommended to use FXSwap for primary price discovery — use Cryptoswap pools for volatile assets instead.
-:::
+## Set the Starting Price and Parameters
+
+1. Under **PARAMETERS**, check the **Initial Liquidity Concentration Price**. The app fills in dollar prices from CoinGecko. Enter a price yourself if one is missing, and select **Update Quote** to refresh.
+2. Choose a preset in **Pool Parameters Presets**: **FXSwap V3** or **FXSwap V1 & V2**. Use a preset unless the Curve team has helped you choose other values.
+3. Select **Next**.
+
+[Pool Parameter Presets](../presets.md) lists both presets' values, and [Curve Pool Parameters](../pool-parameters.md#fxswap-parameters) explains each parameter. [Understanding FXSwap](../understanding-fxswap.md) explains how the pool recenters.
 
 <figure>
   <ThemedImage
-    alt="Tokens in Pool"
-    sources={{
-      light: require('@site/static/img/protocol/deploy-fxswap/tokens_light.png').default,
-      dark: require('@site/static/img/protocol/deploy-fxswap/tokens_dark.png').default,
-    }}
-    style={{ 
-      width: "600px",
-      display: "block",
-      margin: "0 auto"
-    }}
-  />
-  <figcaption></figcaption>
-</figure>
-
-## Step 3: Set Pool Parameters
-
-You can choose a preset configuration or switch to advanced mode to fine-tune the pool's behavior.
-
-> 💡 Initial price bounds are fetched automatically from [CoinGecko](https://www.coingecko.com/). If unavailable, you will need to input them manually.
-
-### Preset Options
-
-The UI provides preset parameters. It's highly recommended to use these presets. If custom parameters are desired, please reach out via Telegram first to determine suitable parameters for your pool.
-
-<figure>
-  <ThemedImage
-    alt="Presets"
+    alt="FXSwap parameter presets"
     sources={{
       light: require('@site/static/img/protocol/deploy-fxswap/preset_light.png').default,
       dark: require('@site/static/img/protocol/deploy-fxswap/preset_dark.png').default,
     }}
-    style={{ 
-      width: "500px",
-      display: "block",
-      margin: "0 auto"
-    }}
+    style={{ width: "500px", display: "block", margin: "0 auto" }}
   />
-  <figcaption></figcaption>
 </figure>
 
-The preset also automatically sets suitable fee parameters:
+## Name the Pool
 
-<figure>
-  <ThemedImage
-    alt="Parameters"
-    sources={{
-      light: require('@site/static/img/protocol/deploy-fxswap/fees_light.png').default,
-      dark: require('@site/static/img/protocol/deploy-fxswap/fees_dark.png').default,
-    }}
-    style={{ 
-      width: "500px",
-      display: "block",
-      margin: "0 auto"
-    }}
-  />
-  <figcaption></figcaption>
-</figure>
+1. Under **POOL INFO**, enter a name, such as `crvUSD/EURC`, and a symbol, such as `crvUSDEURC`.
+2. Check both for typos. They become the name and symbol of the [LP token](/protocol/glossary#lp-token) (the token that represents a share of the pool) and can't be changed after deployment.
 
-You can use these as-is or switch to **Advanced** mode to adjust parameters manually.
+## Deploy the Pool {#create-the-pool}
 
-### Advanced Parameters
+1. Review the **Pool Summary**: the tokens, the starting price, the parameters, and the name and symbol.
+2. Select **Create Pool** and confirm the transaction in your wallet.
+3. When **Pool Creation Complete** appears, select **Go to pool**.
 
-To fine-tune the pool, enable the **Advanced** toggle. However, before experimenting with parameters here, it is best to consult with someone from the team to ensure everything works smoothly. 
+## Seed the Pool
 
-<figure>
-  <ThemedImage
-    alt="Advanced Parameters"
-    sources={{
-      light: require('@site/static/img/protocol/deploy-fxswap/parameters_advanced_light.png').default,
-      dark: require('@site/static/img/protocol/deploy-fxswap/parameters_advanced_dark.png').default,
-    }}
-    style={{ 
-      width: "500px",
-      display: "block",
-      margin: "0 auto"
-    }}
-  />
-  <figcaption></figcaption>
-</figure>
+1. On the new pool's page, open the **Seed pool** tab.
+2. Deposit the first liquidity at the starting price. A pool can't process trades until it holds liquidity.
 
-| Parameter | Description |
-|----------|-------------|
-| **Mid Fee / Out Fee** | The base and maximum fee range, charged depending on pool imbalance. More here: [FXSwap Dynamic Fees](../understanding-fxswap.md#dynamic-fees).|
-| **Fee Gamma** | Controls how fee ramps up with imbalance. Lower gamma results in a sharper rise from Mid Fee to Out Fee as imbalance grows. More here: [FXSwap Dynamic Fees](../understanding-fxswap.md#dynamic-fees).|
-| **Amplification (A)** | Higher = flatter curve = tighter prices near balance. More here: [FXSwap Parameters](../understanding-fxswap.md#amplification-factor-a).|
-| **Gamma** | **Unused** in FXSwap logic. Retained solely for backward compatibility. |
-| **Allowed Extra Profit** | Sets profit-taking buffer for rebalancing. |
-| **Adjustment Step** | Step size for rebalancing operations. |
-| **Moving Average Time** | Smooths price changes over time using an EMA (in seconds). |
-| **Refuel Duration** | Duration (in seconds) over which refuel shares unlock linearly. The deployed parameter is `donation_duration`. Default is 7 days. More here: [FXSwap Refuels](../understanding-fxswap.md#refuels).|
+## Check It Worked
 
-> 📖 **Further reading**: [Understanding FXSwap](../understanding-fxswap.md)
+- The pool page opens on curve.finance at `https://www.curve.finance/dex/<network>/pools/<pool address>`.
+- Its Advanced Details link to a **Manage pool** page, where you set up refuels.
+- Once the pool holds liquidity and is indexed, the Curve Prices API returns it at `https://prices.curve.finance/v1/pools/<network>/<pool address>`.
 
-## Step 4: Enter Pool Info
+If the pool drifts from the external price, see [Troubleshooting Curve Pools](../troubleshooting.md#an-fxswap-pool-drifts-from-the-market-price).
 
-After configuring your parameters, you’ll be prompted to set the **Pool Name** and **Pool Symbol**.
+## Next Step
 
-These values will be used as the ERC‑20 metadata for the pool’s LP token and will appear in block explorers and in the Curve UI.
+Fund refuels on the pool's **Manage pool** page, or schedule them with [Automate FXSwap Refuels](./donation-streamer.md).
 
-- **Pool Name** – A human-readable label for the pool (e.g. `crvUSD/EURC FX`)
-- **Pool Symbol** – The LP token symbol (e.g. `crvUSDEURC`, `fxcrvUSDEURC`)
-
-<figure>
-  <ThemedImage
-    alt="Pool Info"
-    sources={{
-      light: require('@site/static/img/protocol/deploy-fxswap/pool_info_light.png').default,
-      dark: require('@site/static/img/protocol/deploy-fxswap/pool_info_dark.png').default,
-    }}
-    style={{ 
-      width: "500px",
-      display: "block",
-      margin: "0 auto"
-    }}
-  />
-  <figcaption></figcaption>
-</figure>
-
-> 💡 **Tip:** Use short, clear names that reflect the assets in the pool. These fields are immutable after deployment — double-check for typos.
-
-## Step 5: Deploy the Pool
-
-Before deploying, review all your settings in the **Summary panel** on the right. This includes:
-
-- Selected tokens
-- Pool parameters (A, fees, refuel duration, etc.)
-- Pool name and symbol
-
-Once everything looks correct, click the blue **Create Pool** button at the bottom of the page. Your wallet will prompt you to approve the transaction.
-
-<figure>
-  <ThemedImage
-    alt="Pool Summary"
-    sources={{
-      light: require('@site/static/img/protocol/deploy-fxswap/pool_summary_light.png').default,
-      dark: require('@site/static/img/protocol/deploy-fxswap/pool_summary_dark.png').default,
-    }}
-    style={{ 
-      width: "500px",
-      display: "block",
-      margin: "0 auto"
-    }}
-  />
-  <figcaption></figcaption>
-</figure>
-
----
-
-## What to do after deployment
-
-✅ **Seed initial liquidity** — a pool with zero balance cannot process trades.  
-✅ (Optional) **Add Refuels** — Refuels help maintain pool efficiency by subsidizing rebalancing costs. You can add them manually via [crvhub.com/refuel](https://crvhub.com/refuel), or set up recurring automated refuels with the [`DonationStreamer`](./donation-streamer.md) contract. More here: [FXSwap Refuels](../understanding-fxswap.md#refuels)
-✅ (Optional) **[Create a gauge](/protocol/gauge/overview)** to distribute CRV or other incentives to LPs.
+Questions go to the Curve team in [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85).
