@@ -98,6 +98,7 @@
       "gauge-controller": "0x2F50D538606Fa9EDD2B11E2446BEb18C9D5846bB",
       "gauge-factory": "0x64e1a69732fAC63F6790b3d8a34C5D713cC623E6",
       "gauge-implementation": "0x19FeB8099eD22B18A7eF8386c507216874748aE5",
+      "gauge-implementation-v6.2.0": "0x9A09eF62C5a38Ad86b7721f616D6Ab433EBC2f9c",
       "root-gauge-factory": "0x306A45a1478A000dC701A6e1f7a569afb8D9DCD6"
     },
     "fees": {
@@ -105,6 +106,9 @@
       "fee-collector": "0xa2Bcd1a4Efbd04B63cd03f5aFf2561106ebCCE00",
       "hooker": "0x9A9DF35cd8E88565694CA6AD5093c236C7f6f69D",
       "cowswap-burner": "0xC0fC3dDfec95ca45A0D2393F518D3EA1ccF44f8b",
+      "dutch-auction-burner": "0xc014A92C76709D6c7f7c7841823b7164D6D2AbD4",
+      "adapter-registry": "0xea982B86c6b8a4DFB10eA128522567F02794B9B3",
+      "cow-adapter": "0xbC80ef170705232A82752d87334429218d988996",
       "fee-distributor-crvusd": "0xD16d5eC345Dd86Fb63C6a9C43c517210F1027914",
       "fee-distributor-3crv": "0xA464e6DCda8AC41e03616F95f4BC98a13b8922Dc",
       "fee-splitter": "0x2dFd89449faff8a532790667baB21cF733C064f2"
@@ -122,14 +126,16 @@
         "factory": "0x6A8cbed756804B16E05E741eDaBd5cB544AE21bf",
         "plain-amm-implementation": "0xDCc91f930b42619377C200BA05b7513f2958b202",
         "meta-amm-implementation": "0xede71F77d7c900dCA5892720E76316C6E575F0F7",
-        "gauge-implementation": "0x38D9BdA812da2C68dFC6aDE85A7F7a54E77F8325"
+        "gauge-implementation": "0x38D9BdA812da2C68dFC6aDE85A7F7a54E77F8325",
+        "gauge-implementation-v6.2.0": "0x9a09ea6277483c54447A85D49431886218803c09"
       },
       "twocrypto": {
         "math": "0x1Fd8Af16DC4BEBd950521308D55d0543b6cDF4A1",
         "views": "0x07CdEBF81977E111B08C126DEFA07818d0045b80",
         "factory": "0x98EE851a00abeE0d95D08cF4CA2BdCE32aeaAF7F",
         "amm-implementation": "0x934791f7F391727db92BFF94cd789c4623d14c52",
-        "gauge-implementation": "0x38D9BdA812da2C68dFC6aDE85A7F7a54E77F8325"
+        "gauge-implementation": "0x38D9BdA812da2C68dFC6aDE85A7F7a54E77F8325",
+        "gauge-implementation-v6.2.0": "0x9a09ea6277483c54447A85D49431886218803c09"
       },
       "fxswap": {
         "math": "0xBfDdF58Cb6ef84e115fF47c10e49A80B2653EA13",
@@ -144,7 +150,8 @@
         "views": "0x064253915b8449fdEFac2c4A74aA9fdF56691a31",
         "factory": "0x0c0e5f2ff0ff18a3be9b835635039256dc4b4963",
         "amm-implementation": "0x66442B0C5260B92cAa9c234ECf2408CBf6b19a6f",
-        "gauge-implementation": "0x5fC124a161d888893529f67580ef94C2784e9233"
+        "gauge-implementation": "0x5fC124a161d888893529f67580ef94C2784e9233",
+        "gauge-implementation-v6.2.0": "0x9a09ea6277483c54447A85D49431886218803c09"
       },
       "router & zap": {
         "router-v1": "0x16C6521Dff6baB339122a0FE25a9116693265353",
@@ -239,7 +246,8 @@
       }
     },
     "gauges": {
-      "child-gauge-factory": "0x988d1037e9608B21050A8EFba0c6C45e01A3Bce7"
+      "child-gauge-factory": "0x988d1037e9608B21050A8EFba0c6C45e01A3Bce7",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0x4D1AF9911e4c19f64Be36c36EF39Fd026Bc9bb61",
@@ -251,6 +259,9 @@
       "fee-collector": "0x68E7F1e30E0BC195B19C0441Cdb34c0eD513F8Dd",
       "hooker": "0x7DFA49E4F5A6dEB21B1964Bf520Eeaaf1D965c24",
       "cowswap-burner": "0xd48503022B2fBBa4ADF5A78F56B988Be57d84C91",
+      "dutch-auction-burner": "0x66a81a7f703C8306b425C397E8E85965cdf71698",
+      "adapter-registry": "0x02D5F6a7c021C17224e2cc772eCDFf5F06FF3cE2",
+      "cow-adapter": "0xc9c4EFd63DD4175B55d24F352eB6e71B79D06b15",
       "arbitrum-fee-bridger": "0x8A5a5299f35614Ac558AA290C2d5856EDeC1B5Ad"
     },
     "integrations": {
@@ -414,7 +425,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0x97aDC08FA1D849D2C48C5dcC1DaB568B169b0267"
+      "child-gauge-factory": "0x97aDC08FA1D849D2C48C5dcC1DaB568B169b0267",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0x1Db36DD6eB571CEdF0743582745EF1A333742155",
@@ -490,7 +502,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0xe35A879E5EfB4F1Bb7F70dCF3250f2e19f096bd8"
+      "child-gauge-factory": "0xe35A879E5EfB4F1Bb7F70dCF3250f2e19f096bd8",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0xeB896fB7D1AaE921d586B0E5a037496aFd3E2412",
@@ -502,6 +515,9 @@
       "fee-collector": "0x56Ba5C600db7524c5Ec253567f8821AaadfCdbEA",
       "hooker": "0x7150ba598bA7341b7232AD6A13Fd90D759407cC8",
       "cowswap-burner": "0x9c0f9f476b50CF07e704c070366C1aDBF39F264E",
+      "dutch-auction-burner": "0x275cABb174d5962B5e532e49bcC7e546Da570a31",
+      "adapter-registry": "0xc10ddf15512462f02156f2a3F4898BfF6002699c",
+      "cow-adapter": "0x3Ab83b1D20315C751dE9a5d7328A2d74c4659B74",
       "base-fee-bridger": "0x2Fb9ef510f1c52fdfDf84dfa8EEa72E431B7651D"
     },
     "integrations": {
@@ -583,7 +599,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0xe35A879E5EfB4F1Bb7F70dCF3250f2e19f096bd8"
+      "child-gauge-factory": "0xe35A879E5EfB4F1Bb7F70dCF3250f2e19f096bd8",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0xA3ea433509F7941df3e33857D9c9f212Ad4A4e64",
@@ -659,7 +676,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0xe35A879E5EfB4F1Bb7F70dCF3250f2e19f096bd8"
+      "child-gauge-factory": "0xe35A879E5EfB4F1Bb7F70dCF3250f2e19f096bd8",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0x070A5C8a99002F50C18B52B90e938BC477611b16",
@@ -727,7 +745,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0x41D2c5128A7241EC1f7CE346B162C347C19548B7"
+      "child-gauge-factory": "0x41D2c5128A7241EC1f7CE346B162C347C19548B7",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0x5De4EF4879F4fe3bBADF2227D2aC5d0E2D76C895",
@@ -876,7 +895,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0x0B8D6B6CeFC7Aa1C2852442e518443B1b22e1C52"
+      "child-gauge-factory": "0x0B8D6B6CeFC7Aa1C2852442e518443B1b22e1C52",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0xF3daD3Ca2eF135b248128Ab1Ed984FB6F2185CBf",
@@ -963,7 +983,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0x06471ED238306a427241B3eA81352244E77B004F"
+      "child-gauge-factory": "0x06471ED238306a427241B3eA81352244E77B004F",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0x2Fa3cbAc10f1Ec7618a383a005862D900b470334",
@@ -975,6 +996,9 @@
       "fee-collector": "0xBb7404F9965487a9DdE721B3A5F0F3CcfA9aa4C5",
       "hooker": "0xE898893ebAe7b75dc4cAB0fb16e24137309ff178",
       "cowswap-burner": "0x566b9F24200A9B51b76792D4e81B569AF27eda83",
+      "dutch-auction-burner": "0xCfAaAf26C60Ba300F95220b8c3D99D23F962A2A3",
+      "adapter-registry": "0xF072011852521D27543e44B19eFc32868eD09ebE",
+      "cow-adapter": "0x2F810660d6C81F3d710d966aFb55e0E75549D4fa",
       "gnosis-fee-bridger": "0xc4AA2fB0A8837a06d296b1c0DE1990E401659449"
     },
     "integrations": {
@@ -1041,7 +1065,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0x8b3EFBEfa6eD222077455d6f0DCdA3bF4f3F57A6"
+      "child-gauge-factory": "0x8b3EFBEfa6eD222077455d6f0DCdA3bF4f3F57A6",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {},
     "fees": {
@@ -1105,7 +1130,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0xe61Fb97Ef6eBFBa12B36Ffd7be785c1F5A2DE66b"
+      "child-gauge-factory": "0xe61Fb97Ef6eBFBa12B36Ffd7be785c1F5A2DE66b",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0x6a2691068C7CbdA03292Ba0f9c77A25F658bAeF5",
@@ -1182,7 +1208,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0xe35A879E5EfB4F1Bb7F70dCF3250f2e19f096bd8"
+      "child-gauge-factory": "0xe35A879E5EfB4F1Bb7F70dCF3250f2e19f096bd8",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {},
     "fees": {},
@@ -1245,7 +1272,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0x0B8D6B6CeFC7Aa1C2852442e518443B1b22e1C52"
+      "child-gauge-factory": "0x0B8D6B6CeFC7Aa1C2852442e518443B1b22e1C52",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0x852F32c22C5035EA12566EDFB4415625776D75d5",
@@ -1310,7 +1338,8 @@
       "lz-block-relay": "0xfacefeed69e0eb9dB6Ad8Cb0883fC45Df7561Dc2"
     },
     "gauges": {
-      "child-gauge-factory": "0x41D2c5128A7241EC1f7CE346B162C347C19548B7"
+      "child-gauge-factory": "0x41D2c5128A7241EC1f7CE346B162C347C19548B7",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {},
     "fees": {},
@@ -1405,7 +1434,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0x871fBD4E01012e2E8457346059e8C189d664DbA4"
+      "child-gauge-factory": "0x871fBD4E01012e2E8457346059e8C189d664DbA4",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0xf1946d4879646e0fcd8f5bb32a5636ed8055176d",
@@ -1500,7 +1530,8 @@
     },
     "gauges": {
       "child-gauge-factory": "0x41D2c5128A7241EC1f7CE346B162C347C19548B7",
-      "gauge-implementation": "0xbb8A5E91295131Ce07B6Bfe301C49bcD925A2902"
+      "gauge-implementation": "0xbb8A5E91295131Ce07B6Bfe301C49bcD925A2902",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0x3d8EADb739D1Ef95dd53D718e4810721837c69c1",
@@ -1565,7 +1596,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0x95cB855840342bE0F023A6A7e6f0A9202BFEfE1b"
+      "child-gauge-factory": "0x95cB855840342bE0F023A6A7e6f0A9202BFEfE1b",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0x3d8EADb739D1Ef95dd53D718e4810721837c69c1",
@@ -1642,7 +1674,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0x55a1C26CE60490A15Bdd6bD73De4F6346525e01e"
+      "child-gauge-factory": "0x55a1C26CE60490A15Bdd6bD73De4F6346525e01e",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0x5Af79133999f7908953E94b7A5CF367740Ebee35",
@@ -1650,7 +1683,13 @@
       "delegation-verifier": "0x3195A313F409714e1f173ca095Dba7BfBb5767F7"
     },
     "fees": {
-      "fee-receiver": "0x774D1Dba98cfBD1F2Bc3A1F59c494125e07C48F9"
+      "fee-receiver": "0x774D1Dba98cfBD1F2Bc3A1F59c494125e07C48F9",
+      "fee-collector": "0xf03591c62A57F71f5EbD774453db57ADCC299a6a",
+      "hooker": "0xF890AD1dDCE3F8e8b467217405DA2a54a0782e52",
+      "dutch-auction-burner": "0x3Fe661204F04ce0793D40FeC90aEEd6539dfa788",
+      "adapter-registry": "0xEb4b6A015AB06aad3C9EEDd3b8cf6116bF484961",
+      "cow-adapter": "0x54322A6d2D1c96e847c22b2e519BbF90Cc8e8f98",
+      "polygon-fee-bridger": "0x8DA3f8048fc9Ec2A929786256B39642240BD456a"
     },
     "integrations": {
       "address-provider": "0x5ffe7FB82894076ECB99A30D6A32e969e6e35E98",
@@ -1731,7 +1770,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0xf3A431008396df8A8b2DF492C913706BDB0874ef"
+      "child-gauge-factory": "0xf3A431008396df8A8b2DF492C913706BDB0874ef",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0x361aa6D20fbf6185490eB2ddf1DD1D3F301C201d",
@@ -1797,7 +1837,8 @@
     "curve-block-oracle": {},
     "gauges": {
       "child-gauge-factory": "0x41D2c5128A7241EC1f7CE346B162C347C19548B7",
-      "child-gauge-implementation": "0xbb8A5E91295131Ce07B6Bfe301C49bcD925A2902"
+      "child-gauge-implementation": "0xbb8A5E91295131Ce07B6Bfe301C49bcD925A2902",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {},
     "fees": {},
@@ -1857,7 +1898,8 @@
     },
     "gauges": {
       "child-gauge-factory": "0x95cB855840342bE0F023A6A7e6f0A9202BFEfE1b",
-      "child-gauge-implementation": "0xc0038FAE184591F21738abF574AC1BFfB5E6C734"
+      "child-gauge-implementation": "0xc0038FAE184591F21738abF574AC1BFfB5E6C734",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0x6a2691068C7CbdA03292Ba0f9c77A25F658bAeF5",
@@ -1925,7 +1967,8 @@
     },
     "gauges": {
       "child-gauge-factory": "0xf3A431008396df8A8b2DF492C913706BDB0874ef",
-      "child-gauge-implementation": "0x3E3B5F27bbf5CC967E074b70E9f4046e31663181"
+      "child-gauge-implementation": "0x3E3B5F27bbf5CC967E074b70E9f4046e31663181",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0x5C57BdcFF69B4F1D894EA70c0470D39C8FA0ee30",
@@ -1987,7 +2030,8 @@
     },
     "gauges": {
       "child-gauge-factory": "0x8b3EFBEfa6eD222077455d6f0DCdA3bF4f3F57A6",
-      "child-gauge-implementation": "0x506F594ceb4E33F5161139bAe3Ee911014df9f7f"
+      "child-gauge-implementation": "0x506F594ceb4E33F5161139bAe3Ee911014df9f7f",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {},
     "fees": {},
@@ -2047,7 +2091,8 @@
       "mainnet-block-view": "0xb10cface00696B1390875DB2a0113B3ab99752a4"
     },
     "gauges": {
-      "child-gauge-factory": "0xD5C3e070E121488806AaA5565283A164ACEB94Df"
+      "child-gauge-factory": "0xD5C3e070E121488806AaA5565283A164ACEB94Df",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0xe35A879E5EfB4F1Bb7F70dCF3250f2e19f096bd8",
@@ -2120,7 +2165,8 @@
     },
     "gauges": {
       "child-gauge-factory": "0x95cB855840342bE0F023A6A7e6f0A9202BFEfE1b",
-      "child-gauge-implementation": "0xc0038FAE184591F21738abF574AC1BFfB5E6C734"
+      "child-gauge-implementation": "0xc0038FAE184591F21738abF574AC1BFfB5E6C734",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {
       "oracle": "0x47ca04Ee05f167583122833abfb0f14aC5677Ee4",
@@ -2172,7 +2218,8 @@
     "curve-block-oracle": {},
     "gauges": {
       "child-gauge-factory": "0x41D2c5128A7241EC1f7CE346B162C347C19548B7",
-      "child-gauge-implementation": "0xbb8A5E91295131Ce07B6Bfe301C49bcD925A2902"
+      "child-gauge-implementation": "0xbb8A5E91295131Ce07B6Bfe301C49bcD925A2902",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {},
     "fees": {
@@ -2226,7 +2273,8 @@
     "curve-block-oracle": {},
     "gauges": {
       "child-gauge-factory": "0x41D2c5128A7241EC1f7CE346B162C347C19548B7",
-      "child-gauge-implementation": "0xbb8A5E91295131Ce07B6Bfe301C49bcD925A2902"
+      "child-gauge-implementation": "0xbb8A5E91295131Ce07B6Bfe301C49bcD925A2902",
+      "child-gauge-implementation-v1.2.0": "0x9a09EC1205bF6c4B1C853e849cd7ec23dFea842e"
     },
     "vecrv": {},
     "fees": {
