@@ -10,10 +10,13 @@ The source code for the `CowAdapter.vy` contract can be found on [GitHub](https:
 
 The contract is deployed and active in the registry on:
 
+- :logos-ethereum: Ethereum: [`0xbC80ef170705232A82752d87334429218d988996`](https://etherscan.io/address/0xbC80ef170705232A82752d87334429218d988996)
 - :logos-gnosis: Gnosis: [`0x2F810660d6C81F3d710d966aFb55e0E75549D4fa`](https://gnosisscan.io/address/0x2F810660d6C81F3d710d966aFb55e0E75549D4fa)
 - :logos-polygon: Polygon: [`0x54322A6d2D1c96e847c22b2e519BbF90Cc8e8f98`](https://polygonscan.com/address/0x54322A6d2D1c96e847c22b2e519BbF90Cc8e8f98)
+- :logos-arbitrum: Arbitrum: [`0xc9c4EFd63DD4175B55d24F352eB6e71B79D06b15`](https://arbiscan.io/address/0xc9c4EFd63DD4175B55d24F352eB6e71B79D06b15)
+- :logos-base: Base: [`0x3Ab83b1D20315C751dE9a5d7328A2d74c4659B74`](https://basescan.org/address/0x3Ab83b1D20315C751dE9a5d7328A2d74c4659B74)
 
-On Ethereum, Fraxtal, Arbitrum and Base no adapter is registered, so the burners there can only be bought from with a native `take`.
+On Fraxtal no adapter is registered, so the burner there can only be bought from with a native `take`.
 
 <ContractABI>
 
@@ -358,10 +361,12 @@ def __init__(_settlement: address, _app_data: bytes32):
 
 <Example>
 
-```shell
->>> CowAdapter.settlement()
-'0x9008D19f58AAbD9eD0D60971565AA8510560ab41'
-```
+<ContractCall
+  address="0xbC80ef170705232A82752d87334429218d988996"
+  abi={["function settlement() view returns (address)"]}
+  method="settlement"
+  contractName="CowAdapter"
+/>
 
 </Example>
 
@@ -384,10 +389,12 @@ domain_separator: public(immutable(bytes32))
 
 <Example>
 
-```shell
->>> CowAdapter.domain_separator()   # Polygon
-'0x132e0e39721b0cb53216fc42764f69c300d4d21e0caf24e0713b1e3e11120dc2'
-```
+<ContractCall
+  address="0xbC80ef170705232A82752d87334429218d988996"
+  abi={["function domain_separator() view returns (bytes32)"]}
+  method="domain_separator"
+  contractName="CowAdapter"
+/>
 
 </Example>
 
@@ -410,10 +417,12 @@ vault_relayer: public(immutable(address))
 
 <Example>
 
-```shell
->>> CowAdapter.vault_relayer()
-'0xC92E8bdf79f0507f65a392b0ab4667716BFE0110'
-```
+<ContractCall
+  address="0xbC80ef170705232A82752d87334429218d988996"
+  abi={["function vault_relayer() view returns (address)"]}
+  method="vault_relayer"
+  contractName="CowAdapter"
+/>
 
 </Example>
 
@@ -437,10 +446,12 @@ app_data: public(immutable(bytes32))
 
 <Example>
 
-```shell
->>> CowAdapter.app_data()
-'0xcf261e14317b684444265a64b2c53556223d665a7f424a42f4511e6e3456c2cf'
-```
+<ContractCall
+  address="0xbC80ef170705232A82752d87334429218d988996"
+  abi={["function app_data() view returns (bytes32)"]}
+  method="app_data"
+  contractName="CowAdapter"
+/>
 
 </Example>
 
@@ -467,10 +478,12 @@ ADAPTER_VERSION: public(constant(String[20])) = "CowAdapter"
 
 <Example>
 
-```shell
->>> CowAdapter.ADAPTER_VERSION()
-'CowAdapter'
-```
+<ContractCall
+  address="0xbC80ef170705232A82752d87334429218d988996"
+  abi={["function ADAPTER_VERSION() view returns (string)"]}
+  method="ADAPTER_VERSION"
+  contractName="CowAdapter"
+/>
 
 </Example>
 
