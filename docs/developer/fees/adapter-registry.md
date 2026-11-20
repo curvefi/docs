@@ -122,17 +122,11 @@ struct AdapterConfig:
   address="0xea982B86c6b8a4DFB10eA128522567F02794B9B3"
   abi={["function get_adapter(address) view returns (address executor, bool active)"]}
   method="get_adapter"
-  args={["0x0000000000000000000000000000000000000000"]}
+  args={["0xbC80ef170705232A82752d87334429218d988996"]}
   labels={["_adapter"]}
   contractName="AdapterRegistry"
 />
 
-On Polygon, which has the CoW adapter registered:
-
-```shell
->>> AdapterRegistry.get_adapter("0x54322A6d2D1c96e847c22b2e519BbF90Cc8e8f98")
-('0xC92E8bdf79f0507f65a392b0ab4667716BFE0110', True)
-```
 
 </Example>
 
@@ -172,12 +166,6 @@ def get_adapters() -> DynArray[address, c.MAX_ADAPTERS]:
   contractName="AdapterRegistry"
 />
 
-On Polygon:
-
-```shell
->>> AdapterRegistry.get_adapters()
-['0x54322A6d2D1c96e847c22b2e519BbF90Cc8e8f98']
-```
 
 </Example>
 
