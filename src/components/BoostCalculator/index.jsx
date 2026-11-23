@@ -7,6 +7,8 @@ const CRV_PRICE_URL = 'https://prices.curve.finance/v1/usd_price/ethereum/0xD533
 const VECRV_LOCKERS_URL = 'https://prices.curve.finance/v1/dao/lockers/1000';
 const DEFILLAMA_HOLDERS_REVENUE_URL = 'https://api.llama.fi/summary/fees/crv-usd?dataType=dailyHoldersRevenue';
 const VECRV_ADDRESS = '0x5f3b5DfEb7B28CDbD7FAba78963EE202a494e2A2';
+// Ethereum gauges from v4 on read vote weight from this proxy, which applies veBoost delegations.
+const VEBOOST_PROXY_ADDRESS = '0x8E0c00ed546602fD9927DF742bbAbF726D5B0d16';
 const MULTICALL3_ADDRESS = '0xcA11bde05977b3631167028862bE2a173976CA11';
 
 const CHAIN_CONFIG = {
@@ -54,6 +56,10 @@ const MULTICALL3_ABI = [
 const VECRV_ABI = [
   'function totalSupply() view returns (uint256)',
   'function balanceOf(address) view returns (uint256)',
+];
+
+const VEBOOST_PROXY_ABI = [
+  'function adjusted_balance_of(address) view returns (uint256)',
 ];
 
 const GAUGE_ABI = [
@@ -526,11 +532,12 @@ export default function BoostCalculator() {
   const leaderboardMatch = addressData?.address
     ? leaderboard.find((holder) => holder.address === addressData.address.toLowerCase())
     : null;
-  const estimatedLeaderboardRank = userVecrv > 0 && leaderboard.length
-    ? leaderboard.filter((holder) => holder.vecrv > userVecrv).length + 1
+  // The leaderboard ranks locked Ethereum veCRV, so compare it with that balance, not the gauge vote weight.
+  const estimatedLeaderboardRank = revenueUserVecrv > 0 && leaderboard.length
+    ? leaderboard.filter((holder) => holder.vecrv > revenueUserVecrv).length + 1
     : 0;
   const displayedLeaderboardRank = leaderboardMatch?.rank || estimatedLeaderboardRank;
-  const isOutsideFetchedLeaderboard = userVecrv > 0
+  const isOutsideFetchedLeaderboard = revenueUserVecrv > 0
     && leaderboard.length > 0
     && estimatedLeaderboardRank > leaderboard.length;
 
@@ -631,6 +638,7 @@ export default function BoostCalculator() {
       const multicall = new ethers.Contract(MULTICALL3_ADDRESS, MULTICALL3_ABI, provider);
       const vecrvIface = new ethers.Interface(VECRV_ABI);
       const gaugeIface = new ethers.Interface(GAUGE_ABI);
+      const veBoostIface = new ethers.Interface(VEBOOST_PROXY_ABI);
 
       const gaugeResults = await multicall.aggregate3([
         {
@@ -657,15 +665,22 @@ export default function BoostCalculator() {
         : '';
       let nextTotalVecrv = 0;
       let nextUserVecrv = 0;
+      // Revenue share follows the locked veCRV balance; delegated boost does not move it.
+      let ethereumLockedVecrv = 0;
       let oracleUnavailable = false;
 
       if (selectedGauge.chain === 'ethereum') {
         const vecrvResults = await multicall.aggregate3([
           { target: VECRV_ADDRESS, allowFailure: false, callData: vecrvIface.encodeFunctionData('totalSupply') },
           { target: VECRV_ADDRESS, allowFailure: false, callData: vecrvIface.encodeFunctionData('balanceOf', [userAddress]) },
+          { target: VEBOOST_PROXY_ADDRESS, allowFailure: true, callData: veBoostIface.encodeFunctionData('adjusted_balance_of', [userAddress]) },
         ]);
         nextTotalVecrv = Number(ethers.formatEther(decodeBigint(vecrvIface, 'totalSupply', vecrvResults[0]) || 0n));
         nextUserVecrv = Number(ethers.formatEther(decodeBigint(vecrvIface, 'balanceOf', vecrvResults[1]) || 0n));
+        ethereumLockedVecrv = nextUserVecrv;
+        // v1-v3 gauges expose voting_escrow() and read veCRV directly; later gauges use the proxy.
+        const adjustedVecrv = decodeBigint(veBoostIface, 'adjusted_balance_of', vecrvResults[2]);
+        if (!oracleAddress && adjustedVecrv !== null) nextUserVecrv = Number(ethers.formatEther(adjustedVecrv));
       } else if (ethers.isAddress(oracleAddress) && oracleAddress !== ethers.ZeroAddress) {
         const oracleResults = await multicall.aggregate3([
           { target: oracleAddress, allowFailure: true, callData: vecrvIface.encodeFunctionData('totalSupply') },
@@ -694,7 +709,7 @@ export default function BoostCalculator() {
         ? nextTotalVecrv
         : Number(ethers.formatEther(decodeBigint(vecrvIface, 'totalSupply', ethereumResults[0]) || 0n));
       const ethereumUserVecrv = selectedGauge.chain === 'ethereum'
-        ? nextUserVecrv
+        ? ethereumLockedVecrv
         : Number(ethers.formatEther(decodeBigint(vecrvIface, 'balanceOf', ethereumResults[1]) || 0n));
       const depositUsd = selectedGauge.lpTokenPrice > 0 ? gaugeBalance * selectedGauge.lpTokenPrice : 0;
       const gaugeTvl = selectedGauge.lpTokenPrice > 0 && gaugeSupply > 0
