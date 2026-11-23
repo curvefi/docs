@@ -9,7 +9,7 @@ import GaugeWeightDistribution from '@site/src/components/Charts/GaugeWeightDist
 
 When you finish, your whitelisted gauge holds gauge weight votes from [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power) and streams CRV to its stakers.
 
-Gauge weights update every Thursday at 00:00 UTC, and CRV reaches gauges on other chains about a week later.
+Gauge weights update every Thursday at 00:00 UTC, and CRV reaches gauges on other chains with a full Curve deployment about a week later. Curve Lite chains get no CRV emissions.
 
 [Gauge Weights](/user/dao/gauge-weights) explains how votes turn into CRV.
 

@@ -17,7 +17,7 @@ This page lists the steps for taking a token from no liquidity to a Curve pool w
 | Post a forum proposal for CRV emissions or a lending market | You | Before the vote; recommended |
 | Curve DAO vote to whitelist the gauge (make it eligible for CRV emissions) or set a borrow cap | Holders of [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power) | 7 days, then anyone can execute it |
 | Gauge receives CRV | veCRV holders, through gauge weight votes | From the next Thursday 00:00 UTC update after votes are cast |
-| CRV reaches a gauge on another chain | Automatic, through the root gauge | About one more week |
+| CRV reaches a gauge on another chain with a full Curve deployment (not Curve Lite) | Automatic, through the root gauge | About one more week |
 
 The diagram shows a common incentive sequence after the gauge exists.
 

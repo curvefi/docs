@@ -35,7 +35,9 @@ Skip this section if your pool or market already has a gauge. The wallet that de
 2. For a pool on Ethereum, leave the switch on **Deploy Mainnet Gauge**. Choose the pool type under **Set Pool Type** and enter the **Pool Address**.
 3. Select **Deploy Gauge** and confirm the transaction.
 
-A gauge on another chain takes two deployments from the same wallet:
+A gauge on another chain with a full Curve deployment takes two deployments from the same wallet. Curve Lite chains get no CRV emissions, so their gauges need no whitelisting.
+
+On a full-deployment chain:
 
 1. Turn on the switch so the title reads **Deploy Sidechain Gauge**, and connect to the pool's chain.
 2. Under **Step 1**, choose the pool type under **Set Pool Type**, enter the **LP Token Address** and select **Deploy Sidechain Gauge**.

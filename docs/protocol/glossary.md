@@ -45,7 +45,7 @@ The veCRV holders who govern Curve's contracts through onchain votes on Ethereum
 
 ### Curve Lite {#curve-lite}
 
-A Curve deployment for new chains with the core pool factories, a router and gauges, owned by the Curve DAO. See [Curve for Chains and L2s](./use-cases/chains.md).
+A Curve deployment for new chains with the core pool factories, a router and reward-only gauges, owned by the Curve DAO. Its gauges receive no CRV emissions. See [Curve for Chains and L2s](./use-cases/chains.md).
 
 ### Direct Rewards {#direct-rewards}
 

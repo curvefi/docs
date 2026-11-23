@@ -15,7 +15,7 @@ Find your row, then follow the two links in order.
 | A governance or protocol token issuer | [Deploy a Cryptoswap Pool](../pool/guides/deploy-cryptoswap.md) | [Incentivize a Pool or Lending Market](../gauge/incentive-routes.md) |
 | A DeFi protocol building on Curve | [Integrate Curve](../integrate/overview.md) | [Deploy and Run a Lending Market](../lending/launch-isolated-lending-market.md), for your token or LP token |
 | A DAO treasury or incentive buyer, for pools or lending markets | [Incentivize a Pool or Lending Market](../gauge/incentive-routes.md) | [What Curve Incentives Cost](../gauge/incentive-costs.md) |
-| A chain or L2 team | [Curve for Chains and L2s](./chains.md) | [Gauge Weights on L2s](/user/dao/gauge-weights#gauge-weights-on-l2s) |
+| A chain or L2 team | [Curve for Chains and L2s](./chains.md) | [curvefi/curve-core](https://github.com/curvefi/curve-core) |
 | An aggregator, wallet or data provider | [Integrate Curve](../integrate/overview.md) | [Quickstart: Read Data](../integrate/quickstart-prices-api.md) |
 
 The [Launch Timeline](../launch-playbook.md) shows how long each step takes, from deploying a pool to a lending market.
