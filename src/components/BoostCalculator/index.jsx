@@ -7,6 +7,8 @@ const CRV_PRICE_URL = 'https://prices.curve.finance/v1/usd_price/ethereum/0xD533
 const VECRV_LOCKERS_URL = 'https://prices.curve.finance/v1/dao/lockers/1000';
 const DEFILLAMA_HOLDERS_REVENUE_URL = 'https://api.llama.fi/summary/fees/crv-usd?dataType=dailyHoldersRevenue';
 const VECRV_ADDRESS = '0x5f3b5DfEb7B28CDbD7FAba78963EE202a494e2A2';
+// Ethereum gauges from v4 on read vote weight from this proxy, which applies veBoost delegations.
+const VEBOOST_PROXY_ADDRESS = '0x8E0c00ed546602fD9927DF742bbAbF726D5B0d16';
 const MULTICALL3_ADDRESS = '0xcA11bde05977b3631167028862bE2a173976CA11';
 
 const CHAIN_CONFIG = {
@@ -56,10 +58,15 @@ const VECRV_ABI = [
   'function balanceOf(address) view returns (uint256)',
 ];
 
+const VEBOOST_PROXY_ABI = [
+  'function adjusted_balance_of(address) view returns (uint256)',
+];
+
 const GAUGE_ABI = [
   'function balanceOf(address) view returns (uint256)',
   'function totalSupply() view returns (uint256)',
   'function voting_escrow() view returns (address)',
+  'function working_supply() view returns (uint256)',
 ];
 
 const DEFAULTS = {
@@ -255,17 +262,18 @@ async function fetchGaugeStakedTvls(gauges) {
 
       for (let index = 0; index < chainGauges.length; index += chunkSize) {
         const chunk = chainGauges.slice(index, index + chunkSize);
-        const results = await multicall.aggregate3(chunk.map((gauge) => ({
-          target: gauge.address,
-          allowFailure: true,
-          callData: gaugeIface.encodeFunctionData('totalSupply'),
-        })));
+        // Gauges without working_supply() pay CRV pro rata and have no veCRV boost.
+        const results = await multicall.aggregate3(chunk.flatMap((gauge) => [
+          { target: gauge.address, allowFailure: true, callData: gaugeIface.encodeFunctionData('totalSupply') },
+          { target: gauge.address, allowFailure: true, callData: gaugeIface.encodeFunctionData('working_supply') },
+        ]));
 
         enrichedGauges.push(...chunk.map((gauge, chunkIndex) => {
-          const gaugeSupply = Number(ethers.formatEther(decodeBigint(gaugeIface, 'totalSupply', results[chunkIndex]) || 0n));
+          const gaugeSupply = Number(ethers.formatEther(decodeBigint(gaugeIface, 'totalSupply', results[chunkIndex * 2]) || 0n));
           return {
             ...gauge,
             gaugeSupply,
+            hasBoost: decodeBigint(gaugeIface, 'working_supply', results[chunkIndex * 2 + 1]) !== null,
             stakedTvl: gauge.lpTokenPrice > 0 && gaugeSupply > 0 ? gaugeSupply * gauge.lpTokenPrice : 0,
           };
         }));
@@ -526,23 +534,26 @@ export default function BoostCalculator() {
   const leaderboardMatch = addressData?.address
     ? leaderboard.find((holder) => holder.address === addressData.address.toLowerCase())
     : null;
-  const estimatedLeaderboardRank = userVecrv > 0 && leaderboard.length
-    ? leaderboard.filter((holder) => holder.vecrv > userVecrv).length + 1
+  // The leaderboard ranks locked Ethereum veCRV, so compare it with that balance, not the gauge vote weight.
+  const estimatedLeaderboardRank = revenueUserVecrv > 0 && leaderboard.length
+    ? leaderboard.filter((holder) => holder.vecrv > revenueUserVecrv).length + 1
     : 0;
   const displayedLeaderboardRank = leaderboardMatch?.rank || estimatedLeaderboardRank;
-  const isOutsideFetchedLeaderboard = userVecrv > 0
+  const isOutsideFetchedLeaderboard = revenueUserVecrv > 0
     && leaderboard.length > 0
     && estimatedLeaderboardRank > leaderboard.length;
 
   const hasDeposit = depositValue > 0;
   const hasBoostInputs = hasDeposit && futureStakedGaugeTvl > 0 && totalVecrv > 0;
-  const boost = hasBoostInputs
+  const gaugeHasNoBoost = selectedGauge?.hasBoost === false;
+  const boost = hasBoostInputs && !gaugeHasNoBoost
     ? Math.min(2.5, Math.max(1, 1 + 1.5 * (vecrvShare / futureGaugeShare)))
     : 1;
   // `totalVecrv` includes an existing position's veCRV balance. To reach 2.5x,
   // the user's balance must equal their gauge share of the resulting veCRV supply.
   const otherVecrv = Math.max(totalVecrv - (mode === 'vecrv' ? userVecrv : 0), 0);
   const maxBoostIsUnreachable = hasBoostInputs && futureGaugeShare >= 1 && otherVecrv > 0;
+  const showMaxBoost = hasBoostInputs && !maxBoostIsUnreachable && !gaugeHasNoBoost;
   const minVecrv = hasBoostInputs && futureGaugeShare > 0 && futureGaugeShare < 1
     ? (futureGaugeShare * otherVecrv) / (1 - futureGaugeShare)
     : 0;
@@ -631,6 +642,7 @@ export default function BoostCalculator() {
       const multicall = new ethers.Contract(MULTICALL3_ADDRESS, MULTICALL3_ABI, provider);
       const vecrvIface = new ethers.Interface(VECRV_ABI);
       const gaugeIface = new ethers.Interface(GAUGE_ABI);
+      const veBoostIface = new ethers.Interface(VEBOOST_PROXY_ABI);
 
       const gaugeResults = await multicall.aggregate3([
         {
@@ -657,15 +669,22 @@ export default function BoostCalculator() {
         : '';
       let nextTotalVecrv = 0;
       let nextUserVecrv = 0;
+      // Revenue share follows the locked veCRV balance; delegated boost does not move it.
+      let ethereumLockedVecrv = 0;
       let oracleUnavailable = false;
 
       if (selectedGauge.chain === 'ethereum') {
         const vecrvResults = await multicall.aggregate3([
           { target: VECRV_ADDRESS, allowFailure: false, callData: vecrvIface.encodeFunctionData('totalSupply') },
           { target: VECRV_ADDRESS, allowFailure: false, callData: vecrvIface.encodeFunctionData('balanceOf', [userAddress]) },
+          { target: VEBOOST_PROXY_ADDRESS, allowFailure: true, callData: veBoostIface.encodeFunctionData('adjusted_balance_of', [userAddress]) },
         ]);
         nextTotalVecrv = Number(ethers.formatEther(decodeBigint(vecrvIface, 'totalSupply', vecrvResults[0]) || 0n));
         nextUserVecrv = Number(ethers.formatEther(decodeBigint(vecrvIface, 'balanceOf', vecrvResults[1]) || 0n));
+        ethereumLockedVecrv = nextUserVecrv;
+        // v1-v3 gauges expose voting_escrow() and read veCRV directly; later gauges use the proxy.
+        const adjustedVecrv = decodeBigint(veBoostIface, 'adjusted_balance_of', vecrvResults[2]);
+        if (!oracleAddress && adjustedVecrv !== null) nextUserVecrv = Number(ethers.formatEther(adjustedVecrv));
       } else if (ethers.isAddress(oracleAddress) && oracleAddress !== ethers.ZeroAddress) {
         const oracleResults = await multicall.aggregate3([
           { target: oracleAddress, allowFailure: true, callData: vecrvIface.encodeFunctionData('totalSupply') },
@@ -694,7 +713,7 @@ export default function BoostCalculator() {
         ? nextTotalVecrv
         : Number(ethers.formatEther(decodeBigint(vecrvIface, 'totalSupply', ethereumResults[0]) || 0n));
       const ethereumUserVecrv = selectedGauge.chain === 'ethereum'
-        ? nextUserVecrv
+        ? ethereumLockedVecrv
         : Number(ethers.formatEther(decodeBigint(vecrvIface, 'balanceOf', ethereumResults[1]) || 0n));
       const depositUsd = selectedGauge.lpTokenPrice > 0 ? gaugeBalance * selectedGauge.lpTokenPrice : 0;
       const gaugeTvl = selectedGauge.lpTokenPrice > 0 && gaugeSupply > 0
@@ -1249,7 +1268,9 @@ export default function BoostCalculator() {
             <strong>
               {!hasBoostInputs
                 ? 'Enter a deposit amount to calculate max boost'
-                : maxBoostIsUnreachable
+                : gaugeHasNoBoost
+                  ? 'This gauge does not boost CRV rewards'
+                  : maxBoostIsUnreachable
                   ? '2.5x boost cannot be reached for this position'
                   : remainingVecrv > 0
                     ? `${formatAmount(remainingVecrv)} more veCRV for 2.5x boost`
@@ -1258,7 +1279,9 @@ export default function BoostCalculator() {
             <span>
               {!hasBoostInputs
                 ? 'The required veCRV depends on the share of the gauge that your deposit represents.'
-                : maxBoostIsUnreachable
+                : gaugeHasNoBoost
+                  ? 'Its CRV rewards follow your share of staked LP tokens only, so veCRV does not change them.'
+                  : maxBoostIsUnreachable
                   ? 'This deposit would be the entire staked gauge. Because other veCRV exists, its voting share cannot reach 100%; reduce the position or use the estimated boost below.'
                   : remainingVecrv > 0 && crvPrice
                     ? `About ${formatUsd(remainingCrvForMaxBoost * crvPrice, 2)} of CRV at a ${lockYears.toFixed(2)} year lock.`
@@ -1273,7 +1296,7 @@ export default function BoostCalculator() {
             </div>
             <div>
               <span>CRV for 2.5x boost</span>
-              <strong>{hasBoostInputs && !maxBoostIsUnreachable ? formatAmount(crvForMaxBoost) : '—'}</strong>
+              <strong>{showMaxBoost ? formatAmount(crvForMaxBoost) : '—'}</strong>
             </div>
           </div>
 
@@ -1299,16 +1322,18 @@ export default function BoostCalculator() {
               </div>
               <div className={styles.metric}>
                 <span className={styles.metricLabel}>veCRV for 2.5x boost</span>
-                <strong className={styles.metricValue}>{hasBoostInputs && !maxBoostIsUnreachable ? formatAmount(minVecrv) : 'Unavailable'}</strong>
+                <strong className={styles.metricValue}>{showMaxBoost ? formatAmount(minVecrv) : 'Unavailable'}</strong>
                 <span className={styles.metricSubtext}>
-                  {hasBoostInputs && !maxBoostIsUnreachable ? `${formatAmount(remainingVecrv)} more veCRV needed` : 'Enter a supported deposit amount'}
+                  {showMaxBoost
+                    ? `${formatAmount(remainingVecrv)} more veCRV needed`
+                    : gaugeHasNoBoost ? 'This gauge has no veCRV boost' : 'Enter a supported deposit amount'}
                 </span>
               </div>
               <div className={styles.metric}>
                 <span className={styles.metricLabel}>CRV for 2.5x boost</span>
-                <strong className={styles.metricValue}>{hasBoostInputs && !maxBoostIsUnreachable ? formatAmount(crvForMaxBoost) : 'Unavailable'}</strong>
+                <strong className={styles.metricValue}>{showMaxBoost ? formatAmount(crvForMaxBoost) : 'Unavailable'}</strong>
                 <span className={styles.metricSubtext}>
-                  {hasBoostInputs && !maxBoostIsUnreachable
+                  {showMaxBoost
                     ? (crvPrice ? `${formatUsd(crvForMaxBoostCost, 2)} at ${lockYears.toFixed(2)} years` : `At ${lockYears.toFixed(2)} years`)
                     : 'Not available for this position'}
                 </span>

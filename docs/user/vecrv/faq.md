@@ -51,7 +51,7 @@ No, rewards accumulate and can be claimed at any time without forfeiting any rew
 veCRV is calculated using the formula: $veCRV = \frac{CRV_{locked} \times {locktime_{left}}}{4}$
 
 ### How does the boost formula work?
-The boost formula is: $B = \min\left(2.5, 0.4 + 2.5 \times \frac{\text{veCRV}_\text{user}}{\text{veCRV}_\text{total}} \times \frac{\text{Value}_\text{pool}}{\text{Value}_\text{user}}\right)$
+The boost formula is: $B = \min\left(2.5, 1 + 1.5 \times \frac{\text{veCRV}_\text{user}}{\text{veCRV}_\text{total}} \times \frac{\text{Value}_\text{gauge}}{\text{Value}_\text{user}}\right)$. See [Boosting CRV Rewards](./boosting.md#the-boost-formula) for details.
 
 ### Where can I find the total veCRV supply?
 You can find the current total veCRV supply on the [calculator page](https://dao-old.curve.finance/minter/calc).
