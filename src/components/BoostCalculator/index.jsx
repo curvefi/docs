@@ -66,6 +66,7 @@ const GAUGE_ABI = [
   'function balanceOf(address) view returns (uint256)',
   'function totalSupply() view returns (uint256)',
   'function voting_escrow() view returns (address)',
+  'function working_supply() view returns (uint256)',
 ];
 
 const DEFAULTS = {
@@ -261,17 +262,18 @@ async function fetchGaugeStakedTvls(gauges) {
 
       for (let index = 0; index < chainGauges.length; index += chunkSize) {
         const chunk = chainGauges.slice(index, index + chunkSize);
-        const results = await multicall.aggregate3(chunk.map((gauge) => ({
-          target: gauge.address,
-          allowFailure: true,
-          callData: gaugeIface.encodeFunctionData('totalSupply'),
-        })));
+        // Gauges without working_supply() pay CRV pro rata and have no veCRV boost.
+        const results = await multicall.aggregate3(chunk.flatMap((gauge) => [
+          { target: gauge.address, allowFailure: true, callData: gaugeIface.encodeFunctionData('totalSupply') },
+          { target: gauge.address, allowFailure: true, callData: gaugeIface.encodeFunctionData('working_supply') },
+        ]));
 
         enrichedGauges.push(...chunk.map((gauge, chunkIndex) => {
-          const gaugeSupply = Number(ethers.formatEther(decodeBigint(gaugeIface, 'totalSupply', results[chunkIndex]) || 0n));
+          const gaugeSupply = Number(ethers.formatEther(decodeBigint(gaugeIface, 'totalSupply', results[chunkIndex * 2]) || 0n));
           return {
             ...gauge,
             gaugeSupply,
+            hasBoost: decodeBigint(gaugeIface, 'working_supply', results[chunkIndex * 2 + 1]) !== null,
             stakedTvl: gauge.lpTokenPrice > 0 && gaugeSupply > 0 ? gaugeSupply * gauge.lpTokenPrice : 0,
           };
         }));
@@ -543,13 +545,15 @@ export default function BoostCalculator() {
 
   const hasDeposit = depositValue > 0;
   const hasBoostInputs = hasDeposit && futureStakedGaugeTvl > 0 && totalVecrv > 0;
-  const boost = hasBoostInputs
+  const gaugeHasNoBoost = selectedGauge?.hasBoost === false;
+  const boost = hasBoostInputs && !gaugeHasNoBoost
     ? Math.min(2.5, Math.max(1, 1 + 1.5 * (vecrvShare / futureGaugeShare)))
     : 1;
   // `totalVecrv` includes an existing position's veCRV balance. To reach 2.5x,
   // the user's balance must equal their gauge share of the resulting veCRV supply.
   const otherVecrv = Math.max(totalVecrv - (mode === 'vecrv' ? userVecrv : 0), 0);
   const maxBoostIsUnreachable = hasBoostInputs && futureGaugeShare >= 1 && otherVecrv > 0;
+  const showMaxBoost = hasBoostInputs && !maxBoostIsUnreachable && !gaugeHasNoBoost;
   const minVecrv = hasBoostInputs && futureGaugeShare > 0 && futureGaugeShare < 1
     ? (futureGaugeShare * otherVecrv) / (1 - futureGaugeShare)
     : 0;
@@ -1264,7 +1268,9 @@ export default function BoostCalculator() {
             <strong>
               {!hasBoostInputs
                 ? 'Enter a deposit amount to calculate max boost'
-                : maxBoostIsUnreachable
+                : gaugeHasNoBoost
+                  ? 'This gauge does not boost CRV rewards'
+                  : maxBoostIsUnreachable
                   ? '2.5x boost cannot be reached for this position'
                   : remainingVecrv > 0
                     ? `${formatAmount(remainingVecrv)} more veCRV for 2.5x boost`
@@ -1273,7 +1279,9 @@ export default function BoostCalculator() {
             <span>
               {!hasBoostInputs
                 ? 'The required veCRV depends on the share of the gauge that your deposit represents.'
-                : maxBoostIsUnreachable
+                : gaugeHasNoBoost
+                  ? 'Its CRV rewards follow your share of staked LP tokens only, so veCRV does not change them.'
+                  : maxBoostIsUnreachable
                   ? 'This deposit would be the entire staked gauge. Because other veCRV exists, its voting share cannot reach 100%; reduce the position or use the estimated boost below.'
                   : remainingVecrv > 0 && crvPrice
                     ? `About ${formatUsd(remainingCrvForMaxBoost * crvPrice, 2)} of CRV at a ${lockYears.toFixed(2)} year lock.`
@@ -1288,7 +1296,7 @@ export default function BoostCalculator() {
             </div>
             <div>
               <span>CRV for 2.5x boost</span>
-              <strong>{hasBoostInputs && !maxBoostIsUnreachable ? formatAmount(crvForMaxBoost) : '—'}</strong>
+              <strong>{showMaxBoost ? formatAmount(crvForMaxBoost) : '—'}</strong>
             </div>
           </div>
 
@@ -1314,16 +1322,18 @@ export default function BoostCalculator() {
               </div>
               <div className={styles.metric}>
                 <span className={styles.metricLabel}>veCRV for 2.5x boost</span>
-                <strong className={styles.metricValue}>{hasBoostInputs && !maxBoostIsUnreachable ? formatAmount(minVecrv) : 'Unavailable'}</strong>
+                <strong className={styles.metricValue}>{showMaxBoost ? formatAmount(minVecrv) : 'Unavailable'}</strong>
                 <span className={styles.metricSubtext}>
-                  {hasBoostInputs && !maxBoostIsUnreachable ? `${formatAmount(remainingVecrv)} more veCRV needed` : 'Enter a supported deposit amount'}
+                  {showMaxBoost
+                    ? `${formatAmount(remainingVecrv)} more veCRV needed`
+                    : gaugeHasNoBoost ? 'This gauge has no veCRV boost' : 'Enter a supported deposit amount'}
                 </span>
               </div>
               <div className={styles.metric}>
                 <span className={styles.metricLabel}>CRV for 2.5x boost</span>
-                <strong className={styles.metricValue}>{hasBoostInputs && !maxBoostIsUnreachable ? formatAmount(crvForMaxBoost) : 'Unavailable'}</strong>
+                <strong className={styles.metricValue}>{showMaxBoost ? formatAmount(crvForMaxBoost) : 'Unavailable'}</strong>
                 <span className={styles.metricSubtext}>
-                  {hasBoostInputs && !maxBoostIsUnreachable
+                  {showMaxBoost
                     ? (crvPrice ? `${formatUsd(crvForMaxBoostCost, 2)} at ${lockYears.toFixed(2)} years` : `At ${lockYears.toFixed(2)} years`)
                     : 'Not available for this position'}
                 </span>
