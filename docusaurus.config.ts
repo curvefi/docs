@@ -249,6 +249,7 @@ const config: Config = {
         redirects: [
           ...serverRedirects.filter(({source}) => source !== '/developer/integration/metaregistry')
             .map(({source, destination}) => ({from: source, to: destination})),
+          { from: '/protocol/lending/overview', to: '/protocol/lending/launch-isolated-lending-market' },
           // --- Directory renames ---
           // curve_dao → curve-dao
           { from: '/developer/curve_dao/crv-token', to: '/developer/curve-dao/crv-token' },

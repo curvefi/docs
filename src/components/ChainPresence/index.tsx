@@ -94,7 +94,7 @@ export default function ChainPresence(): React.ReactNode {
           if (!res.ok) throw new Error(`lending chains ${res.status} ${res.statusText}`);
           const json: any = await safeJson(res);
           const arr: string[] = json?.data ?? [];
-          const deprecatedLending = ['optimism', 'sonic'];
+          const deprecatedLending = ['sonic'];
           lendingLocal = arr
             .map((n) => (n || '').toString())
             .filter((n) => n && !deprecatedLending.includes(n.toLowerCase()))
@@ -148,7 +148,7 @@ export default function ChainPresence(): React.ReactNode {
                   <ul>
                     <li>Core DEX smart contracts – permissionless Stableswap and Cryptoswap pools</li>
                     <li>Frontend interface integration – networks, pools and swaps in Curve UI</li>
-                    <li>CurveDAO integration – DAO owns contracts, admin fees to DAO vault, gauges eligible for CRV emissions</li>
+                    <li>CurveDAO integration – DAO owns contracts, admin fees to DAO vault, reward-only gauges (no CRV emissions)</li>
                   </ul>
                 </span>
               </span>

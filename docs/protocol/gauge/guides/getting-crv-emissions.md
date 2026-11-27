@@ -1,31 +1,54 @@
 ---
 id: getting-crv-emissions
-title: Getting CRV Emissions
-sidebar_label: Getting CRV Emissions
+title: "Get CRV Emissions"
+sidebar_label: "Get CRV Emissions"
+description: How a whitelisted Curve gauge receives CRV through weekly veCRV gauge weight votes, and how to attract votes.
 ---
 
 import GaugeWeightDistribution from '@site/src/components/Charts/GaugeWeightDistribution';
 
-A whitelisted gauge receives CRV only when veCRV holders vote for it. Each week, Curve splits its CRV inflation across whitelisted gauges in proportion to their share of gauge weight votes. A gauge with 0% of the votes receives no CRV.
+When you finish, your whitelisted gauge holds gauge weight votes from [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power) and streams CRV to its stakers.
 
-## How Gauge Weight Voting Works
+Gauge weights update every Thursday at 00:00 UTC, and CRV reaches gauges on other chains with a full Curve deployment about a week later. Curve Lite chains get no CRV emissions.
 
-veCRV holders vote in the [Curve voting interface](https://www.curve.finance/dao/ethereum/gauges). They can split their voting power across several gauges or put it all on one.
+[Gauge Weights](/user/dao/gauge-weights) explains how votes turn into CRV.
 
-- Votes are relative: a gauge with 10% of all votes receives 10% of that week's CRV inflation.
-- Votes stay in place until the voter changes them, and their weight decays as the voter's veCRV lock runs down.
-- A voter can change their vote on a gauge once every 10 days.
+## Before You Start
 
-## Weekly Update Cycle
+You need a gauge that a Curve DAO vote has whitelisted, which makes it eligible for CRV emissions.
 
-Gauge weights, and with them CRV emissions, update every Thursday at 00:00 UTC. Votes cast before that time count from that update. Gauges on other chains receive their CRV about a week later, after it accumulates in the root gauge on Ethereum and is bridged.
+Receiving CRV costs nothing, and winning votes costs whatever your chosen route costs.
 
-## Attracting Votes
+Votes cast before Thursday 00:00 UTC count from that update.
 
-To get votes, you can hold veCRV or vlCVX yourself or pay voters through vote incentives. [Incentivizing a Pool](../incentive-routes.md) compares the options.
+veCRV holders decide each time they vote.
 
-## Where to Track Emissions
+## Vote With Your Own veCRV
 
-Live and past gauge weights are on [curve.finance/dao/ethereum/gauges](https://www.curve.finance/dao/ethereum/gauges).
+Skip this section if you hold no veCRV.
+
+1. Open the [Gauges page](https://www.curve.finance/dao/ethereum/gauges) of the Curve DAO and connect the wallet that holds your veCRV.
+2. Open the **Voting** tab.
+3. Under **Vote for new gauge**, pick your gauge.
+4. Enter the share of your voting power to give it.
+5. Select **Vote** and confirm the transaction.
+
+A vote stays in place until you change it. [Voting for Gauge Weight](/user/dao/gauge-weights#voting-for-gauge-weight) covers updates.
+
+## Attract Other Voters
+
+1. Choose a route, such as holding [vlCVX](/protocol/glossary#vlcvx) (CVX locked for Convex voting power) or paying voters through [vote incentives](/protocol/glossary#vote-incentives) (bribes). [Incentivize a Pool or Lending Market](../incentive-routes.md) compares them.
+2. Check what that route costs in [What Curve Incentives Cost](../incentive-costs.md).
+3. Fund the route early enough that the votes land before Thursday 00:00 UTC.
+
+## Check It Worked
+
+- Your gauge's page, reached from [curve.finance/dao/ethereum/gauges](https://www.curve.finance/dao/ethereum/gauges), shows a nonzero **Relative Weight** after the next Thursday update.
+- The **Emissions (CRV)** figure on that page shows the CRV your gauge receives.
+- On Etherscan, `gauge_relative_weight(<gauge address>)` on the `GaugeController` returns a nonzero value.
 
 <GaugeWeightDistribution />
+
+## Next Step
+
+[Add Direct Gauge Rewards](./adding-direct-gauge-rewards.md) pays stakers in your own token alongside CRV.

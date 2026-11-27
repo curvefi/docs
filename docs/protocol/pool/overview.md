@@ -1,80 +1,57 @@
 ---
 id: overview
-title: Overview & Pool Types
+title: "Deploy a Pool: Choose Stableswap, Cryptoswap or FXSwap"
 sidebar_label: Overview & Pool Types
+description: "How to choose and deploy a permissionless Curve liquidity pool: Stableswap for pegged assets, Cryptoswap for volatile pairs, FXSwap for externally priced pairs, plus metapools and supported token types."
 ---
 
 import GuideCardGrid from '@site/src/components/GuideCardGrid';
 import ThemedImage from '@theme/ThemedImage';
 
-Curve offers a **permissionless** system for deploying liquidity pools — no DAO vote, no approval process, and no technical barrier beyond the gas cost to deploy. A full-featured interface is available in the Curve app, so you can launch a custom pool without writing any code.
+Deploy a pool in one transaction, without permission. Major aggregators route through Curve pools, so your token becomes swappable across DeFi.
 
-To get started quickly, follow one of the deployment guides:
+![Holders can borrow against your token, earn swap fees by providing liquidity, or borrow against the LP token.](/img/protocol/pool/token-holder-options.png)
+
+It takes the tokens' addresses, a pool type that fits your pair, gas and the liquidity you seed it with. Curve charges no fee to deploy a pool.
 
 <GuideCardGrid guideKeys={['deployStableswapPool', 'deployCryptoswapPool', 'deployFXSwapPool']} />
 
-Factories make launching pools on Curve fast, flexible, and accessible to any project—whether you're a stablecoin issuer, LST protocol, synthetic-asset platform, or any other DeFi team looking to bootstrap deep, reliable liquidity.
+## Which Pool Type?
 
-## How are Pools Deployed?
+| Asset pair | Pool type | Why |
+| --- | --- | --- |
+| Two USD stablecoins, such as USDC/USDT | Stableswap | Liquidity sits at the [peg](/protocol/glossary#peg) (the shared target price), so trades near 1:1 have the lowest [slippage](/protocol/glossary#slippage) (price impact of a trade) |
+| A savings or yield-bearing stablecoin and its base, such as sfrxUSD/frxUSD | Stableswap-NG with the [ERC-4626](/protocol/glossary#erc-4626) (standard yield-bearing token) or oracle token type | The pool prices the savings token at its current rate |
+| An LST or [LRT](/protocol/glossary#lst) (liquid staking or restaking token) and ETH, such as wstETH/WETH or weETH/WETH | Stableswap-NG with the oracle or [rebasing](/protocol/glossary#rebasing) (balance grows in the wallet) token type | The pool follows the token's staking rate |
+| Two wrapped BTC tokens, such as tBTC/WBTC | Stableswap | Both track BTC |
+| Your stablecoin and a DAO-approved base pool | Stableswap metapool | Traders reach your token from every coin in the base pool |
+| A volatile token and ETH or a stablecoin, such as CVX/ETH or YB/crvUSD | Cryptoswap | The pool can be where the token mainly trades, and it re-centers as the price moves |
+| A USD stablecoin, BTC and ETH | Cryptoswap, Tricrypto preset | One pool for three volatile assets |
+| An FX pair or an asset priced on a deeper external trading venue, such as crvUSD/EURC or BTC/crvUSD | FXSwap | The pool recenters toward the external price, paid for by refuels |
 
-In the background, new liquidity pools are deployed by making use of a **Pool Factory**, which essentially is a smart contract for deploying new pools. Each factory contains the logic and configuration for a specific pool type. Factories support a few different pool types:
+If your pair fits none of these, ask the Curve team in [Telegram](https://t.me/curvefi) or [Discord](https://discord.gg/twUngQYz85). [Pool Parameter Presets](./presets.md) gives starting parameters and live pools for each case.
 
-- **Stableswap** — for pegged or correlated assets (e.g., USDC/USDT, stETH/ETH)  
-- **Cryptoswap** — for more volatile or uncorrelated assets (e.g., ETH/USDC)
-- **FXSwap** - for lower-volatility assets like Forex pairs, or lower volatility Crypto pairs like BTC/ETH.
+## How Pools Are Deployed {#how-are-pools-deployed}
 
-Once a factory is deployed, anyone can create a new pool of that type — either through the Curve UI or directly on-chain.
+Each pool type has a factory contract. Anyone can call it, from the Curve app or onchain, to deploy a pool of that type. A new pool appears in the Curve app once it holds liquidity. Aggregators such as [0x](https://docs.0x.org/evm/need-help/faq), 1inch, [CoW Swap](https://docs.cow.fi/cow-protocol), [KyberSwap](https://docs.kyberswap.com/getting-started/supported-exchanges-and-networks), Odos and ParaSwap route swaps through Curve pools and pick up new pools without a listing step.
 
-:::info
-**Pool deployment is completely free of charge** beyond standard gas costs. There are no additional fees, no protocol charges, and no hidden costs associated with deploying a new pool on Curve.
-:::
+## The Pool Types {#choosing-the-right-pool-type}
 
-Pools deployed via a factory appear automatically on the Curve frontend after a short propagation period and are picked up by aggregators such as 1inch and CowSwap. You don't need to chase integrations.
+### Stableswap {#stableswap-pool}
 
-## Choosing the Right Pool Type
-
-Curve supports multiple pool designs to fit different kinds of assets. Selecting the correct type is essential to ensure low slippage, efficient trading, and capital-efficient liquidity.
-
-Not sure which to use? Reach out in the official Curve channels.
-
-### Stableswap Pool
-
-Choose a **Stableswap pool** when your assets are expected to stay close or correlated in price — e.g., stablecoins (USDC/USDT), LSTs (wstETH/stETH), or yield-bearing stable assets like sDAI. Learn more here: [Understanding Stableswap](understanding-stableswap.md).
-
-Stableswap-NG pools support a wide variety of token types beyond standard ERC-20 tokens. This flexibility allows you to create pools with yield-bearing tokens, rebasing tokens, and oracle-enabled tokens.
-
-**Supported Asset Types:**
-
-| Type | Description | Use Cases | Examples |
-|------|-------------|-----------|----------|
-| **0** | Standard ERC-20 | Basic tokens with no special features | USDC, USDT, DAI |
-| **1** | Oracle-enabled | Tokens with rate oracles for accurate pricing | wstETH, cbETH |
-| **2** | Rebasing | Tokens that change supply over time | stETH |
-| **3** | ERC4626 Vault | Yield-bearing vault tokens | sDAI |
-
-**Technical Requirements:**
-
-- All tokens must be ERC-20 compatible (return True/revert, True/False, or None)
-- Maximum 18 decimals supported
-- Oracle tokens must have precision $\le 18$
-- ERC4626 vaults support arbitrary precision for both vault and underlying tokens
-
+For assets expected to trade near the same price. Stableswap-NG pools hold up to eight tokens and accept standard, oracle-priced, rebasing and ERC-4626 tokens. [Understanding Stableswap](./understanding-stableswap.md#supported-asset-types) explains each token type.
 
 ### Cryptoswap
-Choose a **Cryptoswap pool** when your assets are more volatile or uncorrelated—e.g., ETH/USDC or BTC/USDC. Cryptoswap pools use dynamic pricing that handles larger price swings while still retaining Curve’s efficiency advantages. Learn more about [Understanding Cryptoswap](understanding-cryptoswap.md).
 
+For volatile or uncorrelated assets, two or three per pool. Liquidity is concentrated around an internal price that follows the token's price. See [Understanding Cryptoswap](./understanding-cryptoswap.md).
 
 ### FXSwap
-**FXSwap** is designed for uncorrelated low-volatility asset pairs like Forex (e.g., crvUSD/EURC) or lower volatility crypto pairs (e.g., BTC/ETH). It combines Stableswap's mathematical efficiency with Cryptoswap's dynamic rebalancing framework, plus a "refueling" mechanism that allows projects to fast-track rebalancing with external incentives. Learn more about [Understanding FXSwap](understanding-fxswap.md).
 
----
+For two low-volatility assets whose price is set on a deeper external trading venue, such as FX pairs. The pool recenters toward that price and uses refuels to pay for it. FXSwap is not meant for primary price discovery. See [Understanding FXSwap](./understanding-fxswap.md).
 
 ## Base Pools and Metapools
 
-Stableswap pools on Curve support a powerful structure of **base pools** and **metapools**.
-
-- A **base pool** is a regular Curve pool that the DAO has specifically approved to be used in metapools.  
-- A **metapool** pairs a token against an existing base pool rather than against a single token.
+A base pool is a Stableswap pool that the Curve DAO has approved for metapools. A metapool pairs one token with a base pool's [LP token](/protocol/glossary#lp-token) (the token that represents a share of the pool), so traders can swap the token against every coin in the base pool. A new token reaches the base pool's existing liquidity without attracting all of it itself.
 
 <figure>
 <ThemedImage
@@ -87,6 +64,8 @@ Stableswap pools on Curve support a powerful structure of **base pools** and **m
 />
 </figure>
 
-For example, the USDC/USDT pool might begin as a normal Stableswap pool. If the DAO adds it as a base pool, it can then be reused in other pools. A protocol such as Inverse can create a metapool that pairs their stablecoin DOLA against the base pool, resulting in a DOLA–USDC/USDT market. Users can directly swap DOLA/USDT or DOLA/USDC through this pool.
+For example, the DOLA/3CRV metapool pairs DOLA with the DAI/USDC/USDT base pool, so traders swap DOLA for DAI, USDC or USDT in one pool. [Understanding Stableswap](./understanding-stableswap.md#basepool-list) lists the base pools.
 
-This approach gives new tokens a major advantage: they can **tap into the deep, established liquidity of the base pool** instead of needing to attract all liquidity themselves **by** pairing their token against an already existing and established pool with TVL.
+## Case Studies
+
+- [YieldBasis on Curve: What's Happened So Far](https://news.curve.finance/yieldbasis-on-curve-whats-happened-so-far/)

@@ -1,30 +1,35 @@
 ---
 id: overview
-title: Gauges & Incentives Overview
+title: "Incentivize Liquidity With Curve Gauges"
 sidebar_label: Overview
+description: How Curve gauges pay CRV emissions and direct rewards to liquidity providers, lenders and borrowers in Curve pools and Llamalend lending markets, and what each reward type requires.
 ---
 
 import GuideCardGrid from '@site/src/components/GuideCardGrid';
 
-A **gauge** is a contract that pays rewards to LPs who stake their LP or vault tokens in it. A pool or lending vault works without one. LPs who don't stake in the gauge earn trading fees or interest, but not the gauge's rewards.
+Pay incentives to every [liquidity provider](/protocol/glossary#liquidity-provider) (LP) in your pool or lending vault. Deploying a gauge is one transaction with no approval; CRV emissions add a 7-day Curve DAO vote.
+
+A **gauge** is a contract that pays rewards to LPs who stake their LP tokens (tokens that represent a share of the pool) or vault tokens in it. A pool or lending vault works without one. LPs who don't stake in the gauge earn trading fees or interest, but not the gauge's rewards.
 
 Rewards reach a gauge in two ways:
 
-- **CRV emissions:** a share of Curve's weekly CRV inflation, set by veCRV [gauge weight](/user/dao/gauge-weights) votes. The gauge must first be whitelisted by the Curve DAO.
-- **Direct gauge rewards:** tokens you deposit into the gauge yourself. No vote is needed.
+- **CRV emissions:** a share of Curve's weekly CRV inflation, set by [gauge weight](/user/dao/gauge-weights) votes from [veCRV](/protocol/glossary#vecrv) (CRV locked for voting power). The gauge must first be whitelisted, which makes it eligible for CRV emissions.
+- **Direct rewards:** tokens you deposit into the gauge yourself. No vote is needed.
 
-For every way to fund LP yield, including vote incentives and Merkl, and when each fits, see [Incentivizing a Pool](./incentive-routes.md).
+Lending markets can also pay borrowers, through Merkl campaigns or, on Ethereum, CRV on their collateral.
+
+For every way to fund LP, lender or borrower yield, including [vote incentives](/protocol/glossary#vote-incentives) (bribes paid to veCRV voters) and Merkl, and when each fits, see [Incentivize a Pool or Lending Market](./incentive-routes.md). [What Curve Incentives Cost](./incentive-costs.md) compares their costs, and the [Launch Timeline](../launch-playbook.md) shows how long each Curve DAO step takes.
 
 <GuideCardGrid guideKeys={['IncentivizingAPool', 'HowToGetAGauge']} />
 
 ## Why Use a Gauge
 
-Rewards give LPs a reason to deposit. More liquidity means lower slippage for anyone trading your token.
+Incentives give LPs a reason to deposit. More liquidity means lower [slippage](/protocol/glossary#slippage) (price impact of a trade) for anyone trading your token.
 
 Gauges also connect three groups:
 
-- Protocols get deeper liquidity for their token.
-- LPs earn CRV, direct gauge rewards or both.
+- Issuers get deeper liquidity for their token.
+- LPs earn CRV, direct rewards or both.
 - veCRV holders decide where CRV goes and can earn vote incentives for it.
 
 ## Types of Rewards Through a Gauge
@@ -43,6 +48,6 @@ Gauges also connect three groups:
 
 ## Deploying Gauges and Receiving CRV Emissions
 
-Anyone can deploy a gauge for a Curve pool or lending vault. Once deployed, it can pay direct gauge rewards, such as your project's token or a stablecoin.
+Anyone can deploy a gauge for a Curve pool or lending vault. Once deployed, it can pay direct rewards, such as your own token or a stablecoin.
 
-To receive CRV emissions, the gauge must first be whitelisted by a Curve DAO vote. After that, its share of CRV depends on [veCRV gauge weight votes](/user/dao/gauge-weights), which update weekly. A gauge on another chain gets CRV through a root gauge on Ethereum, which is what the DAO whitelists and veCRV votes on. CRV reaches LPs there about a week later, after it accumulates in the root gauge and is bridged. See [Gauge Weights on L2s](/user/dao/gauge-weights#gauge-weights-on-l2s).
+To receive CRV emissions, the gauge must first be whitelisted by a DAO vote. After that, its share of CRV depends on [veCRV gauge weight votes](/user/dao/gauge-weights), which update weekly. A gauge on another chain with a full Curve deployment gets CRV through a root gauge on Ethereum, which is what the DAO whitelists and veCRV votes on. CRV reaches LPs there about a week later, after it accumulates in the root gauge and is bridged. See [Gauge Weights on L2s](/user/dao/gauge-weights#gauge-weights-on-l2s). Gauges on [Curve Lite](/protocol/glossary#curve-lite) chains pay direct rewards only.

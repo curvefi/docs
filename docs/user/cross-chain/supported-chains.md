@@ -21,7 +21,7 @@ The Curve ecosystem consists of five key components with varying cross-chain ava
 
 ## Curve's Chain Presence
 
-Curve runs on dozens of networks to meet users and builders where they are. Full DEX deployments deliver the complete Curve experience (gauges, CRV emissions and frontend analytics). Curve Lite exists so new rollups have the possibility to launch with production‑grade swapping from day one — automatically rolling out Curve’s core DEX stack (permissionless Stableswap/Cryptoswap factories), direct frontend integration and CurveDAO ownership/fees/CRV emissions. Llamalend adds credit markets on selected networks.
+Curve runs on dozens of networks to meet users and builders where they are. Full DEX deployments deliver the complete Curve experience (gauges, CRV emissions and frontend analytics). Curve Lite exists so new rollups have the possibility to launch with production‑grade swapping from day one — automatically rolling out Curve’s core DEX stack (permissionless Stableswap/Cryptoswap factories), direct frontend integration and CurveDAO ownership and fees. Curve Lite gauges pay direct rewards only and receive no CRV emissions. Llamalend adds credit markets on selected networks.
 
 <ChainPresence />
 
