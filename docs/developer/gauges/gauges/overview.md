@@ -38,7 +38,12 @@ Unlike native CRV rewards, these kinds of rewards cannot be boosted.
 
 ## Versions
 
-Over time, several improvements and enhancements were made to the liquidity gauges. This documentation will mainly cover the most recent one, `LiquidityGaugeV6`. Source code for all other gauges can be found on [ GitHub](https://github.com/curvefi/curve-dao-contracts/tree/master/contracts/gauges).
+Over time, several improvements and enhancements were made to the liquidity gauges. This documentation covers the two most recent versions:
+
+- [`LiquidityGaugeV6`](./liquidity-gauge-v6.md)
+- [`LiquidityGauge` v6.2.0](./liquidity-gauge-v6-2-0.md): adds claiming of selected reward tokens, reward token invalidation, precise reward accounting with recovery of leftover reward dust, and ERC-1271 `permit` support. It is deployed as two implementations on Ethereum, one for the Stableswap-NG, Twocrypto-NG and Tricrypto-NG pool factories and one for the [`GaugeFactory`](./gauge-factory.md).
+
+Source code for all other gauges can be found on [ GitHub](https://github.com/curvefi/curve-dao-contracts/tree/master/contracts/gauges).
 
 
 ---
